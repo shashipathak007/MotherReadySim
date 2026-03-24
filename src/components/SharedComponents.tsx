@@ -6,9 +6,8 @@ import {
   LayoutAnimation,
   Platform,
   UIManager,
-  ToastAndroid,
 } from 'react-native';
-import * as Clipboard from 'expo-clipboard';
+
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -179,22 +178,8 @@ export const PhaseReminderBanner: React.FC = () => {
   );
 };
 
-// Copy to Clipboard Utility
-export const ShareButton: React.FC<{ content: string; color?: string }> = ({ content, color = '#F48B9E' }) => {
-  const handleCopy = async () => {
-    await Clipboard.setStringAsync(content);
-    if (Platform.OS === 'android') {
-      ToastAndroid.show('Copied to clipboard', ToastAndroid.SHORT);
-    }
-  };
-  return (
-    <TouchableOpacity onPress={handleCopy} className="p-2 -mr-2" activeOpacity={0.7}>
-      <Text className="text-[14px]" style={{ color }}>◎ Copy</Text>
-    </TouchableOpacity>
-  );
-};
 
-// Generic Info Card with Expand/Collapse and Share
+// Generic Info Card with Expand/Collapse
 interface InfoCardProps {
   title: string;
   detail: string;
@@ -266,7 +251,6 @@ export const InfoCard: React.FC<InfoCardProps> = ({
         <View className="px-3.5 pt-3 pb-2.5 border-t-[0.5px] border-t-themeBorder" style={{ backgroundColor: (plain || isCheckable) && !showChecked ? '#FAF5F6' : (showChecked ? '#D9F0E2' : bgColor) }}>
           <View className="flex-row justify-between items-start mb-1">
             <Text className="text-[12px] font-bold uppercase tracking-[0.5px] mb-1.5" style={{ color: showChecked ? '#1D5C38' : (plain || isCheckable ? '#5A5254' : borderColor) }}>Details</Text>
-            <ShareButton content={`${title}\n\n${detail}`} color={showChecked ? '#1D5C38' : (plain || isCheckable ? '#5A5254' : borderColor)} />
           </View>
           <Text className="text-[14px] leading-[21px] pb-1.5" style={{ color: textColor }}>
             {detail}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, LayoutAnimation, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { PHASE2_ITEMS, DECISION_TREE, RESULTS, RIDE_GUIDE, BREATHING_GUIDE } from '../data/phase2';
-import { PhaseReminderBanner, Checkbox, InfoCard, ShareButton, SegmentedControl } from '../components/SharedComponents';
+import { PhaseReminderBanner, Checkbox, InfoCard, SegmentedControl } from '../components/SharedComponents';
 import { useChecklist } from '../hooks/useChecklist';
 import { useTranslation } from 'react-i18next';
 
@@ -140,7 +140,6 @@ const DecisionTreeTab = () => {
         <View className="mt-5 bg-themeWhite border-[1px] border-[#EAE2E3] rounded-xl p-4 shadow-sm relative">
           <View className="flex-row justify-between items-center mb-2">
             <Text className="text-[12px] font-bold text-[#1C6B9E] uppercase tracking-[0.5px]">{t('phase2.what_to_say')}</Text>
-            <ShareButton content={i18n.language === 'ne' ? res.scriptNe : res.script} color="#1C6B9E" />
           </View>
           <Text className="text-[15px] font-medium leading-[22px] italic text-textPrimary">"{i18n.language === 'ne' ? res.scriptNe : res.script}"</Text>
         </View>
