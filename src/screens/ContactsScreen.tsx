@@ -74,12 +74,12 @@ export default function ContactsScreen({ isEmbedded }: { isEmbedded?: boolean })
             </Text>
             <Text className="text-[12px] text-themePrimary font-bold">{pct}%</Text>
           </View>
-          <View className="h-1.5 bg-[#EAE2E3] rounded-full overflow-hidden">
-            <View className="h-1.5 bg-themePrimary rounded-full" style={{ width: `${pct}%` }} />
+          <View className="h-2.5 bg-themeBorder rounded-full overflow-hidden">
+            <View className="h-2.5 bg-themePrimary rounded-full" style={{ width: `${pct}%` }} />
           </View>
           {checkedCount === totalContacts && totalContacts > 0 && (
-            <View className="mt-2.5 bg-greenBg py-2.5 px-3.5 rounded-lg items-center">
-              <Text className="text-[14px] text-greenText font-semibold">✓ All contacts saved!</Text>
+            <View className="mt-3 bg-greenBg border-[1px] border-greenBorder py-3 px-4 rounded-xl items-center">
+              <Text className="text-[14px] text-greenText font-bold">✓ All contacts saved!</Text>
             </View>
           )}
         </View>
@@ -95,7 +95,7 @@ export default function ContactsScreen({ isEmbedded }: { isEmbedded?: boolean })
             <View
               key={contact.id}
               className={`bg-themeWhite mx-4 mt-2 rounded-xl border-[0.5px] border-themeBorder overflow-hidden ${
-                isChecked ? 'border-l-[3px] border-l-greenBorder' : ''
+                isChecked ? 'border-l-[4px] border-l-greenBorder' : ''
               }`}
             >
               <TouchableOpacity
@@ -147,9 +147,9 @@ export default function ContactsScreen({ isEmbedded }: { isEmbedded?: boolean })
               </TouchableOpacity>
 
               {isExpanded && (
-                <View className="bg-[#FEF7F9] px-3.5 py-3 border-t-[0.5px] border-t-themeBorder">
+                <View className="bg-themePrimaryLight px-3.5 py-3 border-t-[0.5px] border-t-themeBorder">
                   <Text className="text-[14px] text-textSecondary leading-[21px]">
-                    {contact.fullDetail}
+                    {contact.fullDetail}x2
                   </Text>
                 </View>
               )}

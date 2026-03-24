@@ -32,20 +32,18 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1 bg-themeBg">
-      <View className="bg-themeWhite px-5 pt-8 pb-4 border-b-[0.5px] border-themeBorder flex-row justify-between items-center">
-        <View>
-          <Text className="text-[28px] font-extrabold text-textPrimary tracking-[-0.5px]">Aama Ready</Text>
-          <Text className="text-[14px] text-textSecondary mt-1">Your pregnancy preparation guide</Text>
-        </View>
+      <View style={{ backgroundColor: '#FFFFFF', paddingHorizontal: 20, paddingTop: 52, paddingBottom: 18, borderBottomWidth: 1, borderBottomColor: '#E2D6D8' }}>
+        <Text style={{ fontSize: 30, fontWeight: '900', color: '#1E1517', letterSpacing: -0.8, marginBottom: 2 }}>Aama Ready</Text>
+        <Text style={{ fontSize: 14, color: '#5A5254', fontWeight: '500' }}>Your pregnancy preparation guide 🌸</Text>
       </View>
-      <ScrollView className="flex-1 px-4 pt-6 pb-20" showsVerticalScrollIndicator={false}>
+      <ScrollView className="flex-1 px-4 pt-5 pb-20" showsVerticalScrollIndicator={false}>
         {/* PHASE 1 Card */}
         <PhaseCard
           number={1}
           title="Hospital Bag & Prep"
           desc="Pack your bags and save important contacts"
           progressText={`${phase1Progress}% completed`}
-          color="#F48B9E"
+          color="#E8637B"
           onPress={() => navigation.navigate('Phase1Stack')}
           isLocked={false}
           completedMsg="Hospital bag ready. You are prepared."
@@ -58,7 +56,7 @@ export default function HomeScreen() {
           title="Labour has started"
           desc="Decision tree, breathing guide, ride to hospital"
           progressText="Wait until time comes"
-          color="#F77F6E"
+          color="#E05C44"
           onPress={() => navigation.navigate('Phase2Screen')}
           isLocked={false}
           completedMsg="You made it to the hospital. Well done."
@@ -71,7 +69,7 @@ export default function HomeScreen() {
           title="Post-Delivery"
           desc="Recovery in the hospital and baby basics"
           progressText="Review while resting"
-          color="#48AD8F"
+          color="#2F9E72"
           onPress={() => navigation.navigate('Phase3Screen')}
           isLocked={false}
           completedMsg="Ready to go home with your baby."
@@ -84,7 +82,7 @@ export default function HomeScreen() {
           title="Home Care"
           desc="Mother's routine, baby tracker, warning signs"
           progressText="Your essential guide at home"
-          color="#E69E45"
+          color="#C97B20"
           onPress={() => navigation.navigate('Phase4Screen')}
           isLocked={false}
           completedMsg="You are doing an incredible job."
@@ -103,41 +101,54 @@ const PhaseCard = ({
   return (
     <View className="mb-4">
       <TouchableOpacity
-        className="bg-themeWhite rounded-2xl border-[0.5px] border-themeBorder border-l-[6px] p-5 shadow-sm"
-        style={{ borderLeftColor: color, opacity: isLocked ? 0.6 : 1 }}
+        style={{
+          backgroundColor: '#FFFFFF',
+          borderRadius: 16,
+          borderWidth: 1,
+          borderColor: '#E2D6D8',
+          borderLeftWidth: 5,
+          borderLeftColor: color,
+          padding: 18,
+          shadowColor: color,
+          shadowOffset: { width: 0, height: 3 },
+          shadowOpacity: 0.12,
+          shadowRadius: 8,
+          elevation: 4,
+          opacity: isLocked ? 0.6 : 1,
+        }}
         onPress={isLocked ? undefined : onPress}
         activeOpacity={0.8}
       >
         <View className="flex-row justify-between items-start mb-2">
-          <View className="bg-themeBg px-2.5 py-[3px] rounded-full flex-row items-center border-[0.5px] border-themeBorder" style={{ borderColor: color + '40' }}>
-            <Text className="text-[11px] font-extrabold uppercase tracking-[0.5px]" style={{ color }}>
-              Phase {number}
+          <View style={{ backgroundColor: color + '18', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 20, borderWidth: 1, borderColor: color + '50' }}>
+            <Text style={{ fontSize: 11, fontWeight: '800', color, letterSpacing: 0.5 }}>
+              PHASE {number}
             </Text>
           </View>
           {isLocked && <Text className="text-[16px]">🔒</Text>}
         </View>
 
-        <Text className="text-[20px] font-bold text-textPrimary tracking-[-0.3px] mb-1.5 leading-6">
+        <Text style={{ fontSize: 20, fontWeight: '800', color: '#1E1517', letterSpacing: -0.4, marginBottom: 6, lineHeight: 26 }}>
           {title}
         </Text>
         
-        <Text className="text-[14px] text-textSecondary leading-[21px] mb-5">
+        <Text style={{ fontSize: 14, color: '#5A5254', lineHeight: 21, marginBottom: 14 }}>
           {desc}
         </Text>
 
-        <View className="flex-row justify-between items-center rounded-lg bg-themeBg p-3">
-          <Text className="text-[12px] font-semibold text-textSecondary">
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#FAF5F6', borderRadius: 10, padding: 12 }}>
+          <Text style={{ fontSize: 12, fontWeight: '600', color: '#5A5254' }}>
             {isLocked ? '🔒 Complete Phase 1 first' : progressText}
           </Text>
           {!isLocked && (
-            <View className="w-6 h-6 rounded-full items-center justify-center" style={{ backgroundColor: color + '20' }}>
-              <Text className="text-[14px] leading-5" style={{ color }}>›</Text>
+            <View style={{ width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center', backgroundColor: color + '25' }}>
+              <Text style={{ fontSize: 16, lineHeight: 22, color, fontWeight: '700' }}>›</Text>
             </View>
           )}
         </View>
       </TouchableOpacity>
       {isComplete && (
-        <Text className="text-center text-[12px] font-bold text-greenText mt-3 ml-1 tracking-[0.2px]">
+        <Text style={{ textAlign: 'center', fontSize: 12, fontWeight: '700', color: '#1D5C38', marginTop: 10, letterSpacing: 0.2 }}>
           ✨ {completedMsg}
         </Text>
       )}

@@ -41,7 +41,7 @@ export default function Phase3Screen() {
                 LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
                 setActiveTab(idx);
               }}
-              className={`px-4 py-2 mr-2 rounded-full border-[0.5px] ${activeTab === idx ? 'bg-[#48AD8F] border-[#48AD8F]' : 'bg-themeWhite border-[#EAE2E3]'}`}
+              className={`px-4 py-2 mr-2 rounded-full border-[0.5px] ${activeTab === idx ? 'bg-[#2F9E72] border-[#2F9E72]' : 'bg-themeWhite border-[#E2D6D8]'}`}
             >
               <Text className={`text-[13px] font-bold ${activeTab === idx ? 'text-themeWhite' : 'text-textSecondary'}`}>
                 {tab}
@@ -67,19 +67,19 @@ const NewItemsTab = () => {
   const renderSection = (title: string, data: any[]) => (
     <View className="mb-6">
       <Text className="text-[14px] font-bold text-textSecondary uppercase tracking-[1px] px-4 mb-2 mt-2">{title}</Text>
-      {data.map((item) => {
-        const isChecked = checked.has(item.id);
-        return (
-          <View key={item.id} className="flex-row">
-            <View className="mt-[22px] ml-4">
-               <Checkbox checked={isChecked} onToggle={() => toggle(item.id)} />
-            </View>
-            <View className="flex-1">
-               <InfoCard title={item.name} detail={item.why} borderColor={isChecked ? '#6EB88B' : '#48AD8F'} bgColor={isChecked ? '#EBF5ED' : '#E8FAF4'} />
-            </View>
-          </View>
-        );
-      })}
+    {data.map((item) => {
+      const isChecked = checked.has(item.id);
+      return (
+        <InfoCard
+          key={item.id}
+          title={item.name}
+          detail={item.why}
+          checked={isChecked}
+          onCheck={() => toggle(item.id)}
+          borderColor="#2F9E72"
+        />
+      );
+    })}
     </View>
   );
   
@@ -137,7 +137,7 @@ const DischargeTab = () => {
             activeOpacity={0.7}
           >
             <Checkbox checked={isChecked} onToggle={() => toggle(item.id)} />
-            <Text className={`text-[15px] flex-1 ml-3 leading-6 ${isChecked ? 'text-textMuted line-through' : 'text-textPrimary font-semibold'}`}>{item.name}</Text>
+            <Text className={`text-[15px] flex-1 ml-3 leading-6 ${isChecked ? 'text-textMuted' : 'text-textPrimary font-semibold'}`}>{item.name}</Text>
           </TouchableOpacity>
         );
       })}

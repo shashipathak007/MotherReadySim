@@ -41,7 +41,7 @@ export default function Phase2Screen() {
                 LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
                 setActiveTab(idx);
               }}
-              className={`px-4 py-2 mr-2 rounded-full border-[0.5px] ${activeTab === idx ? 'bg-[#F77F6E] border-[#F77F6E]' : 'bg-themeWhite border-[#EAE2E3]'}`}
+              className={`px-4 py-2 mr-2 rounded-full border-[0.5px] ${activeTab === idx ? 'bg-[#E05C44] border-[#E05C44]' : 'bg-themeWhite border-[#E2D6D8]'}`}
             >
               <Text className={`text-[13px] font-bold ${activeTab === idx ? 'text-themeWhite' : 'text-textSecondary'}`}>
                 {tab}
@@ -69,25 +69,20 @@ const NewItemsTab = () => {
     <ScrollView className="flex-1 pt-4" contentContainerStyle={{ paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
       <View className="px-4 mb-3 flex-row justify-between items-center">
         <Text className="text-[14px] font-bold text-textSecondary uppercase tracking-[1px]">Phase 2 Items</Text>
-        <Text className="text-[14px] font-bold text-[#F77F6E]">{checkedCount} / 3 ready</Text>
+        <Text className="text-[14px] font-bold text-[#E05C44]">{checkedCount} / 3 ready</Text>
       </View>
 
       {PHASE2_ITEMS.map((item) => {
         const isChecked = checked.has(item.id);
         return (
-          <View key={item.id} className="flex-row">
-            <View className="mt-[22px] ml-4">
-               <Checkbox checked={isChecked} onToggle={() => toggle(item.id)} />
-            </View>
-            <View className="flex-1">
-              <InfoCard
-                title={item.name}
-                detail={item.why}
-                borderColor={isChecked ? '#6EB88B' : '#F77F6E'}
-                bgColor={isChecked ? '#EBF5ED' : '#FFF5F0'}
-              />
-            </View>
-          </View>
+          <InfoCard
+            key={item.id}
+            title={item.name}
+            detail={item.why}
+            checked={isChecked}
+            onCheck={() => toggle(item.id)}
+            borderColor="#E05C44"
+          />
         );
       })}
     </ScrollView>

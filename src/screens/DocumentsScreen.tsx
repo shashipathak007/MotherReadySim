@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import { DOCUMENTS, DOC_CATEGORY_COLORS, DocCategory } from '../data/documents';
-import { Checkbox, CategoryBadge, ResetButton } from '../components/SharedComponents';
+import { Checkbox, ResetButton } from '../components/SharedComponents';
 import { useChecklist } from '../hooks/useChecklist';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -70,12 +70,12 @@ export default function DocumentsScreen({ isEmbedded }: { isEmbedded?: boolean }
           </Text>
           <Text className="text-[12px] text-themePrimary font-bold">{pct}%</Text>
         </View>
-        <View className="h-1.5 bg-[#EAE2E3] rounded-full overflow-hidden">
-          <View className="h-1.5 bg-themePrimary rounded-full" style={{ width: `${pct}%` }} />
+        <View className="h-2.5 bg-themeBorder rounded-full overflow-hidden">
+          <View className="h-2.5 bg-themePrimary rounded-full" style={{ width: `${pct}%` }} />
         </View>
         {checkedCount === totalDocs && totalDocs > 0 && (
-          <View className="mt-2.5 bg-greenBg py-2.5 px-3.5 rounded-lg items-center">
-            <Text className="text-[14px] text-greenText font-semibold">✓ All documents ready!</Text>
+          <View className="mt-3 bg-greenBg border-[1px] border-greenBorder py-3 px-4 rounded-xl items-center">
+            <Text className="text-[14px] text-greenText font-bold">✓ All documents ready!</Text>
           </View>
         )}
       </View>
@@ -116,17 +116,12 @@ export default function DocumentsScreen({ isEmbedded }: { isEmbedded?: boolean }
                         onPress={() => toggleExpand(doc.id)}
                       >
                         <Text
-                          className={`text-[14px] font-medium mb-1.5 leading-5 ${
-                            isChecked ? 'line-through text-textMuted' : 'text-textPrimary'
+                          className={`text-[14px] font-semibold leading-5 ${
+                            isChecked ? 'text-textMuted' : 'text-textPrimary'
                           }`}
                         >
                           {doc.name}
                         </Text>
-                        <CategoryBadge
-                          label={doc.category}
-                          textColor={colors.text}
-                          bgColor={colors.bg}
-                        />
                       </TouchableOpacity>
                       <TouchableOpacity onPress={() => toggleExpand(doc.id)} className="p-2 ml-1">
                         <Text className="text-[16px] text-textMuted">{isExpanded ? '▲' : '›'}</Text>

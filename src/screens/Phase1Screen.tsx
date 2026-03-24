@@ -41,7 +41,7 @@ export default function Phase1Screen() {
                 LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
                 setActiveTab(idx);
               }}
-              className={`px-4 py-2 mr-2 rounded-full border-[0.5px] ${activeTab === idx ? 'bg-[#F48B9E] border-[#F48B9E]' : 'bg-themeWhite border-[#EAE2E3]'}`}
+              className={`px-4 py-2 mr-2 rounded-full border-[0.5px] ${activeTab === idx ? 'bg-[#E8637B] border-[#E8637B]' : 'bg-themeWhite border-[#E2D6D8]'}`}
             >
               <Text className={`text-[13px] font-bold ${activeTab === idx ? 'text-themeWhite' : 'text-textSecondary'}`}>
                 {tab}

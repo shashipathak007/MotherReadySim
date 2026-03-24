@@ -43,7 +43,7 @@ export default function Phase4Screen() {
                 LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
                 setActiveTab(idx);
               }}
-              className={`px-4 py-2 mr-2 rounded-full border-[0.5px] ${activeTab === idx ? 'bg-[#E69E45] border-[#E69E45]' : 'bg-themeWhite border-[#EAE2E3]'}`}
+              className={`px-4 py-2 mr-2 rounded-full border-[0.5px] ${activeTab === idx ? 'bg-[#C97B20] border-[#C97B20]' : 'bg-themeWhite border-[#E2D6D8]'}`}
             >
               <Text className={`text-[13px] font-bold ${activeTab === idx ? 'text-themeWhite' : 'text-textSecondary'}`}>
                 {tab}
@@ -69,19 +69,19 @@ const NewItemsTab = () => {
   const renderSection = (title: string, data: any[]) => (
     <View className="mb-6">
       <Text className="text-[14px] font-bold text-textSecondary uppercase tracking-[1px] px-4 mb-2 mt-2">{title}</Text>
-      {data.map((item) => {
-        const isChecked = checked.has(item.id);
-        return (
-          <View key={item.id} className="flex-row">
-            <View className="mt-[22px] ml-4">
-               <Checkbox checked={isChecked} onToggle={() => toggle(item.id)} />
-            </View>
-            <View className="flex-1">
-               <InfoCard title={item.name} detail={item.why} borderColor={isChecked ? '#6EB88B' : '#E69E45'} bgColor={isChecked ? '#EBF5ED' : '#FBF2E1'} />
-            </View>
-          </View>
-        );
-      })}
+    {data.map((item) => {
+      const isChecked = checked.has(item.id);
+      return (
+        <InfoCard
+          key={item.id}
+          title={item.name}
+          detail={item.why}
+          checked={isChecked}
+          onCheck={() => toggle(item.id)}
+          borderColor="#C97B20"
+        />
+      );
+    })}
     </View>
   );
   

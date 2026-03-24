@@ -8,32 +8,32 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        themeBg: '#FDFBFB',
+        themeBg: '#FAF5F6',
         themeWhite: '#FFFFFF',
-        themeBorder: '#EAE2E3',
-        themePrimary: '#F48B9E',
-        themePrimaryLight: '#FDF2F4',
-        
-        greenText: '#2B6D45',
-        greenBg: '#EBF5ED',
-        greenBorder: '#6EB88B',
+        themeBorder: '#E2D6D8',
+        themePrimary: '#E8637B',
+        themePrimaryLight: '#FCEEF1',
 
-        redText: '#A73C44',
-        redBg: '#FCEDED',
-        redBorder: '#DE8E94',
+        greenText: '#1D5C38',
+        greenBg: '#D9F0E2',
+        greenBorder: '#3E9E68',
 
-        amberText: '#9A5A17',
-        amberBg: '#FBF2E1',
+        redText: '#8B2530',
+        redBg: '#FADDDD',
+        redBorder: '#C85D65',
 
-        blueText: '#1C6B9E',
-        blueBg: '#EAF3FA',
+        amberText: '#7A4010',
+        amberBg: '#F5E8CF',
 
-        tealText: '#127163',
-        tealBg: '#E1F5F2',
+        blueText: '#14527A',
+        blueBg: '#D6EAF8',
 
-        textPrimary: '#2D2325',
-        textSecondary: '#6E6264',
-        textMuted: '#A69B9D',
+        tealText: '#0C5249',
+        tealBg: '#C8EDE8',
+
+        textPrimary: '#1E1517',
+        textSecondary: '#5A5254',
+        textMuted: '#9A8F91',
       }
     },
   },

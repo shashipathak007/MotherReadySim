@@ -18,7 +18,6 @@ import {
 } from '../data/bagItems';
 import {
   Checkbox,
-  CategoryBadge,
   SegmentedControl,
   ResetButton,
 } from '../components/SharedComponents';
@@ -171,15 +170,15 @@ export default function HospitalBagScreen({ isEmbedded }: { isEmbedded?: boolean
                 {totalItems > 0 ? Math.round((checkedCount / totalItems) * 100) : 0}%
               </Text>
             </View>
-            <View className="h-1.5 bg-[#EAE2E3] rounded-full overflow-hidden">
+            <View className="h-2.5 bg-themeBorder rounded-full overflow-hidden">
               <View
-                className="h-1.5 bg-themePrimary rounded-full"
+                className="h-2.5 bg-themePrimary rounded-full"
                 style={{ width: `${totalItems > 0 ? (checkedCount / totalItems) * 100 : 0}%` }}
               />
             </View>
             {checkedCount === totalItems && totalItems > 0 && (
-              <View className="mt-2.5 bg-greenBg py-2.5 px-3.5 rounded-lg items-center">
-                <Text className="text-[14px] text-greenText font-semibold">✓ All packed! You are ready.</Text>
+              <View className="mt-3 bg-greenBg border-[1px] border-greenBorder py-3 px-4 rounded-xl items-center">
+                <Text className="text-[14px] text-greenText font-bold">✓ All packed! You are ready.</Text>
               </View>
             )}
           </View>
@@ -224,17 +223,12 @@ const PackItemCard: React.FC<PackItemCardProps> = React.memo(
             onPress={onExpand}
           >
             <Text
-              className={`text-[14px] font-medium mb-1.5 leading-5 ${
-                isChecked ? 'line-through text-textMuted' : 'text-textPrimary'
+              className={`text-[14px] font-semibold leading-5 ${
+                isChecked ? 'text-textMuted' : 'text-textPrimary'
               }`}
             >
               {item.name}
             </Text>
-            <CategoryBadge
-              label={item.category}
-              textColor={colors.text}
-              bgColor={colors.bg}
-            />
           </TouchableOpacity>
           <TouchableOpacity onPress={onExpand} className="p-2 ml-1">
             <Text className="text-[16px] text-textMuted">{isExpanded ? '▲' : '›'}</Text>
