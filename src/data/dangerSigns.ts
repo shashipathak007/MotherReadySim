@@ -11,7 +11,7 @@ export interface DangerSign {
 
 export const TIER_CONFIG: Record<DangerTier, { label: string; labelNe: string; text: string; bg: string; border: string }> = {
   go_now: { label: 'Go NOW', labelNe: 'तुरुन्तै अस्पताल जानुहोस्', text: '#A73C44', bg: '#FCEDED', border: '#DE8E94' },
-  call_doctor: { label: 'Call Doctor', labelNe: 'डाक्टरलाई फोन गर्नुहोस्', text: '#9A5A17', bg: '#FBF2E1', border: '#D69E58' },
+  call_doctor: { label: 'Call Doctor', labelNe: 'डक्टरलाई फोन गर्नुहोस्', text: '#9A5A17', bg: '#FBF2E1', border: '#D69E58' },
   wait_home: { label: 'Wait at Home', labelNe: 'घरमै आराम गर्नुहोस्', text: '#2B6D45', bg: '#EBF5ED', border: '#6EB88B' },
 };
 
@@ -57,13 +57,13 @@ export const DANGER_SIGNS: DangerSign[] = [
     title: 'High fever above 38°C with chills and shivering', 
     titleNe: 'कम्पनसहित ३८°C (१००.४°F) भन्दा बढी ज्वरो आउनु',
     explanation: 'Suggests chorioamnionitis (infection of the amniotic sac) or kidney infection. Untreated infection can trigger premature labour or sepsis in both mother and baby.',
-    explanationNe: 'यसले पाठेघरभित्रको पानी वा मिर्गौलाको संक्रमण भएको संकेत गर्छ। समयमै उपचार नभएमा यसले रगतमा संक्रमण (सेप्सिस) गराउन सक्छ, जुन आमा र बच्चा दुवैका लागि घातक हुन सक्छ।'
+    explanationNe: 'यसले पाठेघरभित्रको पानी वा मिर्गौलाको संक्रमण भएको संकेत गर्छ। समयमै उपचार नभएमा यसले रगतमा संक्रमण (सेप्सिस) गराउन सक्छ, जुन आमा र बच्चा दुवैको ज्यान जोखिममा पार्न सक्छ।'
   },
   { id: 8, tier: 'go_now', 
     title: 'Sudden difficulty breathing or chest pain', 
     titleNe: 'अचानक सास फेर्न गाह्रो हुनु वा छाती दुख्नु',
     explanation: 'Can indicate pulmonary embolism — a blood clot in the lungs, which is more common during pregnancy and is immediately life-threatening.',
-    explanationNe: 'यसले फोक्सोमा रगत जमेको (पल्मोनरी एम्बोलिज्म) संकेत गर्न सक्छ। यो गर्भावस्था र सुत्केरीपछिको समयमा बढी देखिने ज्यान लिने खतरा हो।'
+    explanationNe: 'यसले फोक्सोमा रगत जमेको (पल्मोनरी एम्बोलिज्म) संकेत गर्न सक्छ। यो गर्भावस्था र सुत्केरीपछिको समयमा बढी देखिने ज्यान जोखिममा पार्ने खतरा हो।'
   },
 
   // CALL DOCTOR FIRST
@@ -71,7 +71,7 @@ export const DANGER_SIGNS: DangerSign[] = [
     title: 'Water broke but no contractions yet', 
     titleNe: 'योनीबाट पानी बग्यो तर व्यथा सुरु भएको छैन',
     explanation: 'Membranes have ruptured but labour has not started. Go to hospital within 1 hour. After waters break, infection risk increases every hour. Call your doctor first to alert the labour ward.',
-    explanationNe: 'पाठेघरको पानीको थैली फुटेको छ तर व्यथा सुरु भएको छैन। यस्तो अवस्थामा १ घण्टाभित्र अस्पताल पुग्नुपर्छ किनकि पानी बगेपछि संक्रमणको जोखिम बढ्दै जान्छ। अस्पताल जानुअघि आफ्नो डाक्टरलाई जानकारी दिनुहोस्।'
+    explanationNe: 'पाठेघरको पानीको थैली फुटेको छ तर व्यथा सुरु भएको छैन। यस्तो अवस्थामा १ घण्टाभित्र अस्पताल पुग्नुपर्छ किनकि पानी बगेपछि संक्रमणको जोखिम बढ्दै जान्छ। अस्पताल जानुअघि आफ्नो डक्टरलाई जानकारी दिनुहोस्।'
   },
   { id: 10, tier: 'call_doctor', 
     title: 'Contractions 5 minutes apart, lasting 50–60 seconds, for 1 hour (first baby)', 
@@ -83,13 +83,13 @@ export const DANGER_SIGNS: DangerSign[] = [
     title: 'Second or third pregnancy with any regular contractions', 
     titleNe: 'दोस्रो वा तेस्रो पटक गर्भवती भएकोमा नियमित व्यथा लाग्नु',
     explanation: 'Labour moves much faster with each birth. What took 12 hours the first time may take 2–3 hours the second. Call the moment contractions start to pattern.',
-    explanationNe: 'अघिल्लो पटकको तुलनामा यसपटक प्रसूति छिटो हुन सक्छ। पहिलो पटक १२ घण्टा लागेको थियो भने दोस्रो/तेस्रो पटक २-३ घण्टामा बच्चा जन्मिन सक्छ। व्यथा नियमित हुनेबित्तिकै डाक्टरलाई सम्पर्क गर्नुहोस्।'
+    explanationNe: 'अघिल्लो पटकको तुलनामा यसपटक प्रसूति छिटो हुन सक्छ। पहिलो पटक १२ घण्टा लागेको थियो भने दोस्रो/तेस्रो पटक २-३ घण्टामा बच्चा जन्मिन सक्छ। व्यथा नियमित हुनेबित्तिकै डक्टरलाई सम्पर्क गर्नुहोस्।'
   },
   { id: 12, tier: 'call_doctor', 
     title: 'Light spotting — small amount of pink or brown discharge', 
     titleNe: 'हल्का रगत देखा पर्नु (गुलाबी वा खैरो स्राव)',
     explanation: 'May be the "bloody show" — the mucus plug releasing as the cervix dilates. Describe the amount and colour to your doctor so they can advise whether to come in.',
-    explanationNe: 'यो पाठेघरको मुख खुल्न थालेको संकेत (Show) हुन सक्छ। रगतको मात्रा र रङ आफ्नो डाक्टरलाई बताउनुहोस् र अस्पताल आउनुपर्ने/नपर्ने सल्लाह लिनुहोस्।'
+    explanationNe: 'यो पाठेघरको मुख खुल्न थालेको संकेत (Show) हुन सक्छ। रगतको मात्रा र रङ आफ्नो डक्टरलाई बताउनुहोस् र अस्पताल आउनुपर्ने/नपर्ने सल्लाह लिनुहोस्।'
   },
   { id: 13, tier: 'call_doctor', 
     title: 'Baby moving noticeably less than usual (not stopped, just reduced)', 
@@ -103,7 +103,7 @@ export const DANGER_SIGNS: DangerSign[] = [
     title: 'Irregular contractions more than 20 minutes apart', 
     titleNe: 'अनियमित व्यथा जुन २० मिनेटभन्दा बढीको फरकमा आउँछ',
     explanation: 'Very early or latent labour, or Braxton Hicks. Rest at home, drink water, eat lightly, and keep timing. Going to hospital too early often results in being sent back home, which is exhausting.',
-    explanationNe: 'यो सुत्केरी व्यथाको सुरुवाती चरण मात्र हुन सक्छ। घरमै आराम गर्नुहोस्, प्रशस्त पानी पिउनुहोस् र समय हेरिरहनुहोस्। धेरै चाँडै अस्पताल जाँदा घर फिर्ता पठाइन सक्छ, जसले गर्दा तपाईंलाई झन् थकाई लाग्छ।'
+    explanationNe: 'यो सुत्केरी व्यथाको सुरुवाती चरण हुन सक्छ। घरमै आराम गर्नुहोस्, प्रशस्त पानी पिउनुहोस् र समय हेरिरहनुहोस्। धेरै चाँडै अस्पताल जाँदा घर फिर्ता पठाइन सक्छ, जसले गर्दा तपाईंलाई झन् कठिनाई हुन्छ।'
   },
   { id: 16, tier: 'wait_home', 
     title: 'Braxton Hicks — tightening that stops when you move or change position', 
@@ -115,7 +115,7 @@ export const DANGER_SIGNS: DangerSign[] = [
     title: 'Mild ankle or foot swelling by end of day', 
     titleNe: 'साँझपख गोलीगाँठो वा खुट्टा हल्का सुन्निनु',
     explanation: 'Very common in late pregnancy due to increased blood volume and gravity. Normal as long as it goes away overnight and does not affect the face or hands (which would be preeclampsia).',
-    explanationNe: 'गर्भावस्थाको अन्त्यतिर यो सामान्य हो। रातभर सुतेपछि बिहान यो हराउँछ भने आत्तिनु पर्दैन। तर यदि अनुहार र हात पनि सुन्निएको छ भने तुरुन्तै जँचाउनुपर्छ।'
+    explanationNe: 'गर्भावस्थाको अन्त्यतिर यो सामान्य हुन्छ। रातभर सुतेपछि बिहान यो हराउँछ भने आत्तिनु पर्दैन। तर यदि अनुहार र हात पनि सुन्निएको छ भने तुरुन्तै जँचाउनुपर्छ।'
   },
   { id: 18, tier: 'wait_home', 
     title: 'Nesting instinct — strong urge to clean and prepare the home', 
@@ -125,8 +125,8 @@ export const DANGER_SIGNS: DangerSign[] = [
   },
   { id: 19, tier: 'wait_home', 
     title: 'Mild backache without a regular pattern', 
-    titleNe: 'समयको निश्चित ढाँचाबिना हल्का ढाड दुख्नु',
+    titleNe: 'अनिमिता ढाड दुखाइ',
     explanation: "Common in the third trimester due to the baby's weight. Use a pillow between your knees and a warm compress. If it becomes rhythmic and patterned, call your doctor.",
-    explanationNe: 'बच्चाको तौलका कारण तेस्रो त्रैमासिकमा ढाड दुख्नु सामान्य हो। सुत्दा घुँडाको बीचमा सिरानी राख्नुहोस्। यदि यो दुखाइ नियमित रूपमा आउने र जाने हुन थाल्यो भने डाक्टरलाई खबर गर्नुहोस्।'
+    explanationNe: 'बच्चाको तौलका कारण तेस्रो त्रैमासिकमा ढाड दुख्नु सामान्य हो। सुत्दा घुँडाको बीचमा सिरानी राख्नुहोस्। यदि यो दुखाइ नियमित रूपमा आउने र जाने हुन थाल्यो भने डक्टरलाई खबर गर्नुहोस्।'
   },
 ];

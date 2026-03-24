@@ -54,7 +54,7 @@ export const CONTACTS: ContactItem[] = [
     shortDesc: 'Call ahead before arriving',
     shortDescNe: 'अस्पताल पुग्नुअघि अग्रिम जानकारी दिनुहोस्',
     fullDetail: 'Call ahead so they can prepare a bed, ward, and staff. Reduces waiting time significantly. Ask for the direct number of the maternity or labour ward specifically.',
-    fullDetailNe: 'अस्पताल जानुअघि फोन गर्नाले शय्या (बेड), वार्ड र स्वास्थ्यकर्मीको पूर्व-तयारी गर्न सजिलो हुन्छ। यसले अस्पतालमा कुर्नुपर्ने समय घटाउँछ। सम्भव भएसम्म प्रसूति वा लेबर वार्डको सिधा फोन नम्बर माग्नुहोस्।'
+    fullDetailNe: 'अस्पताल जानुअघि फोन गर्नाले सैया/खाट , वार्ड र स्वास्थ्यकर्मीको पूर्व-तयारी गर्न सजिलो हुन्छ। यसले अस्पतालमा कुर्नुपर्ने समय घटाउँछ। सम्भव भएसम्म प्रसूति वा लेबर वार्डको सिधा फोन नम्बर माग्नुहोस्।'
   },
   {
     id: 4,
@@ -76,7 +76,7 @@ export const CONTACTS: ContactItem[] = [
     urgency: 'IMPORTANT',
     phone: '',
     shortDesc: 'Must be reachable 24 hours a day',
-    shortDescNe: '२४ सै घण्टा सम्पर्कमा रहनुपर्ने व्यक्ति',
+    shortDescNe: '२४सै घण्टा सम्पर्कमा रहनुपर्ने व्यक्ति',
     fullDetail: 'Must be reachable 24 hours in the last 4 weeks of pregnancy. Responsible for transport, carrying the hospital bag, staying with the mother, and informing the family.',
     fullDetailNe: 'गर्भावस्थाको अन्तिम ४ हप्तामा यी व्यक्ति २४ सै घण्टा सम्पर्कमा रहनुपर्छ। सवारीसाधनको व्यवस्था गर्ने, अस्पतालको झोला बोक्ने र परिवारलाई खबर गर्ने मुख्य जिम्मेवारी उहाँकै हुन्छ।'
   },

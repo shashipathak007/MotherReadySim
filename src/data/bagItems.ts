@@ -53,7 +53,7 @@ export const BAG_ITEMS: BagItem[] = [
     id: 4, 
     category: 'Clothing', 
     name: 'Rubber slippers or flat sandals', 
-    nameNe: 'रबरका चप्पल वा फ्ल्याट जुत्ता/चप्पल', 
+    nameNe: 'रबरका चप्पल वा समतल जुत्ता/चप्पल', 
     why: 'Non-slip and easy to slide on when bending down is painful after delivery. Hospital floors are often wet.', 
     whyNe: 'चिप्लिने डर हुँदैन र सुत्केरीपछि निहुरिन गाह्रो हुँदा सजिलै लगाउन सकिन्छ। अस्पतालका भुइँहरू प्रायः भिजिरहेका हुन्छन्।' 
   },
@@ -61,7 +61,7 @@ export const BAG_ITEMS: BagItem[] = [
     id: 5, 
     category: 'Clothing', 
     name: 'Warm socks (2 pairs)', 
-    nameNe: 'न्यानो मोजा (२ जोर)', 
+    nameNe: 'न्यानो मोजा (२ जोडी)', 
     why: 'Feet get very cold during long labour, especially when an IV drip is running.', 
     whyNe: 'व्यथा लागेको बेला र सलाइन पानी दिइरहेको अवस्थामा खुट्टा धेरै चिसो हुने भएकाले मोजा आवश्यक हुन्छ।' 
   },
@@ -186,7 +186,7 @@ export const BAG_ITEMS: BagItem[] = [
     name: 'Notebook and pen', 
     nameNe: 'कापी र कलम', 
     why: 'Write down everything the doctor says. Stress causes people to forget instructions immediately. Record medication names, doses, and follow-up dates.', 
-    whyNe: 'डाक्टरको निर्देशन, औषधिको नाम र समय तथा अर्को पटक आउनुपर्ने मिति लेखेर राख्न सजिलो हुन्छ।' 
+    whyNe: 'डक्टरको निर्देशन, औषधिको नाम र समय तथा अर्को पटक आउनुपर्ने मिति लेखेर राख्न सजिलो हुन्छ।' 
   },
   // BABY
   { 
@@ -227,7 +227,7 @@ export const BAG_ITEMS: BagItem[] = [
     name: 'Soft baby blanket or swaddle wrap (2 pcs)', 
     nameNe: 'नरम ब्ल्याङ्केट वा बेर्ने कपडा (२ वटा)', 
     why: 'Swaddling mimics the womb and helps newborns feel secure and sleep better.', 
-    whyNe: 'कपडामा बेर्दा बच्चाले सुरक्षित महसुस गर्ने र राम्रोसँग निदाउन मद्दत पुग्छ।' 
+    whyNe: 'बच्चालाई कपडामा बेर्दा उसले सुरक्षित महसुस गर्छ र राम्रोसँग निदाउन सहयोग हुन्छ।' 
   },
   { 
     id: 26, 

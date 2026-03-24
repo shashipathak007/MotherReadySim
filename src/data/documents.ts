@@ -22,7 +22,7 @@ export const DOCUMENTS: DocumentItem[] = [
     name: "Mother's citizenship card (Nagarikta)", 
     nameNe: 'आमाको नागरिकताको प्रमाणपत्र',
     whyNeeded: 'Required for hospital registration without exception. Without it, admission is delayed and you cannot access the Aama Programme free delivery scheme.',
-    whyNeededNe: 'अस्पतालमा भर्ना हुन यो अनिवार्य कागजात हो। यो बिना भर्ना प्रक्रियामा ढिलाइ हुनुका साथै "आमा सुरक्षा कार्यक्रम" अन्तर्गत पाइने निःशुल्क सेवा र भत्ताबाट वञ्चित हुनुपर्नेछ।'
+    whyNeededNe: 'अस्पतालमा भर्ना हुन यो अनिवार्य कागजात हो। यो बिना भर्ना प्रक्रियामा ढिलाइ हुनुका साथै "आमा सुरक्षा कार्यक्रम" अन्तर्गत पाइने निःशुल्क सेवा र भत्ताबाट वञ्चित भइन्छ'
   },
   { id: 2, category: 'Identity', 
     name: "Husband's citizenship card", 
@@ -51,10 +51,10 @@ export const DOCUMENTS: DocumentItem[] = [
     whyNeededNe: 'यो सबैभन्दा महत्त्वपूर्ण कागजात हो। यसमा गर्भावस्थाका सबै जाँचहरूको विवरण हुन्छ। डाक्टरहरूले तपाईंको स्वास्थ्य अवस्था, जोखिम र रक्तसमूह बुझ्न तुरुन्तै यो कार्ड हेर्नेछन्।'
   },
   { id: 6, category: 'Aama Programme', 
-    name: 'Minimum 4 ANC checkup stamps', 
-    nameNe: 'कम्तीमा ४ पटकको जाँच र सरकारी छाप',
-    whyNeeded: 'The Aama Programme requires at least 4 ANC visits to be eligible for the full cash incentive of NPR 1,000–3,000. Missing stamps means reduced or no payment.',
-    whyNeededNe: 'सरकारले तोकेअनुसार कम्तीमा ४ पटक गर्भजाँच गराएको प्रमाण (छाप) भएमा मात्र रु. १,००० देखि ३,००० सम्मको यातायात खर्च र प्रोत्साहन भत्ता पूर्ण रूपमा पाइन्छ।'
+    name: 'Minimum 8 ANC checkup stamps', 
+    nameNe: 'कम्तीमा ८ पटकको जाँच र सरकारी छाप',
+    whyNeeded: 'The Aama Programme requires at least 8 ANC visits to be eligible for the full cash incentive of NPR 1,000–3,000. Missing stamps means reduced or no payment.',
+    whyNeededNe: 'सरकारले तोकेअनुसार कम्तीमा ८ पटक गर्भजाँच गराएको प्रमाण (छाप) भएमा मात्र रु. १,००० देखि ३,००० सम्मको यातायात खर्च र प्रोत्साहन भत्ता पूर्ण रूपमा पाइन्छ।'
   },
   { id: 7, category: 'Aama Programme', 
     name: 'Referral letter from health post or PHC', 
@@ -74,7 +74,7 @@ export const DOCUMENTS: DocumentItem[] = [
     name: 'All ultrasound reports, especially latest scan', 
     nameNe: 'सबै भिडियो एक्स-रे (Ultrasound) रिपोर्टहरू',
     whyNeeded: "The latest ultrasound (32–36 weeks) shows baby's position, weight, placenta location, and fluid. Doctors need this to decide the delivery plan.",
-    whyNeededNe: 'विशेषगरी अन्तिम पटकको रिपोर्टले बच्चाको अवस्था, तौल, सालको स्थान र पानीको मात्रा देखाउँछ। सुरक्षित प्रसूति गराउन डाक्टरलाई यो जानकारी चाहिन्छ।'
+    whyNeededNe: 'विशेषगरी अन्तिम पटकको रिपोर्टले बच्चाको अवस्था, तौल, सालको स्थान र पानीको मात्रा देखाउँछ। सुरक्षित प्रसूति गराउन डक्टरलाई यो जानकारी चाहिन्छ।'
   },
   { id: 10, category: 'Medical', 
     name: 'Blood group card', 
