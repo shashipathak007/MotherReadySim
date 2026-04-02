@@ -187,9 +187,9 @@ export default function WelcomeScreen({ navigation }: any) {
             </Animated.View>
 
             <View style={{ alignItems: 'center', marginTop: 25 }}>
-              <Text style={{ color: 'rgba(0,0,0,0.4)', fontSize: 11, fontWeight: '800', letterSpacing: 2, textTransform: 'uppercase' }}>
+              {/* <Text style={{ color: 'rgba(0,0,0,0.4)', fontSize: 11, fontWeight: '800', letterSpacing: 2, textTransform: 'uppercase' }}>
                 {isNepali ? 'आपतकालीन शिक्षा' : 'Education for Emergencies'}
-              </Text>
+              </Text> */}
             </View>
           </Animated.View>
 

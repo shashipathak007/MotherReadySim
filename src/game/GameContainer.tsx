@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function GameContainer() {
   const {
-    currentStep, setStep, isReady, resetCurrentStep,
+    currentStep, setStep, isReady, resetCurrentStep, resetStepData,
     packedBagItems, collectedDocuments, savedContacts, feedback, clearFeedback, currentWave, quizProgress
   } = useGame();
   const { i18n } = useTranslation();
@@ -101,60 +101,7 @@ export default function GameContainer() {
       <View className="flex-1">
         {renderStep()}
 
-        {/* Feedback toast — styled like reference image */}
-        {feedback && (
-          <Animated.View
-            entering={FadeInUp.duration(300)}
-            exiting={FadeOutDown.duration(200)}
-            className="absolute top-[140px] left-4 right-4 z-[200]"
-          >
-            <View className={`flex-row rounded-[18px] overflow-hidden border shadow-black shadow-opacity-10 shadow-radius-10 elevation-8 ${feedback.type === 'error'
-              ? 'bg-[#FFF8F8] border-[#FECACA]'
-              : feedback.type === 'info'
-                ? 'bg-white border-[#F0DDE8]'
-                : 'bg-[#F0FDF4] border-[#BBF7D0]'
-              }`}>
-              {/* Icon strip */}
-              <View className={`w-[52px] justify-center items-center ${feedback.type === 'error'
-                ? 'bg-[#FEE2E2]'
-                : feedback.type === 'info'
-                  ? 'bg-[#FDF2F8]'
-                  : 'bg-[#DCFCE7]'
-                }`}>
-                <View className={`w-8 h-8 rounded-lg justify-center items-center ${feedback.type === 'error'
-                  ? 'bg-[#FCA5A5]'
-                  : feedback.type === 'info'
-                    ? 'bg-[#F0C6DB]'
-                    : 'bg-[#86EFAC]'
-                  }`}>
-                  <Text className="text-white text-[16px] font-[900]">
-                    {feedback.type === 'success' ? '✓' : feedback.type === 'error' ? '✗' : '💡'}
-                  </Text>
-                </View>
-              </View>
-
-              {/* Content */}
-              <View className="flex-1 py-3.5 px-4 pr-10">
-                <Text className={`text-[14px] font-[800] mb-1 ${feedback.type === 'error' ? 'text-[#B91C1C]' : feedback.type === 'info' ? 'text-[#9B5983]' : 'text-[#166534]'
-                  }`}>
-                  {feedback.message}
-                </Text>
-                {feedback.detail ? (
-                  <Text className="text-[12.5px] text-[#555] leading-[18px] font-[500]">{feedback.detail}</Text>
-                ) : null}
-              </View>
-
-              {/* Close button */}
-              <TouchableOpacity
-                onPress={clearFeedback}
-                className="absolute top-2.5 right-2.5 w-7 h-7 bg-black/5 rounded-full justify-center items-center"
-                activeOpacity={0.6}
-              >
-                <Text className="text-[12px] text-[#999] font-[700]">✕</Text>
-              </TouchableOpacity>
-            </View>
-          </Animated.View>
-        )}
+        {/* Feedback toast is rendered inside the header block below */}
       </View>
 
       {/* Floating Header — matching reference images */}
@@ -165,7 +112,12 @@ export default function GameContainer() {
             {/* Prev button — same style as Next */}
             <TouchableOpacity
               className={`px-5 py-2 rounded-full bg-[#C06898] ${currentStep === 1 ? 'opacity-30' : ''}`}
-              onPress={() => setStep(Math.max(1, currentStep - 1) as any)}
+              onPress={() => {
+                const prevStep = Math.max(1, currentStep - 1) as any;
+                // Reset completed step data so it replays fresh (no popup)
+                resetStepData(prevStep);
+                setStep(prevStep);
+              }}
               disabled={currentStep === 1}
               activeOpacity={0.7}
             >
@@ -196,7 +148,7 @@ export default function GameContainer() {
           {/* Sub-bar: wave info + language toggle + reset */}
           {currentStep < 5 && (
             <View className="mx-5 mt-0.5 flex-row justify-between items-center px-4 py-1.5 bg-white/85 rounded-full border border-[#F5E1EC]">
-              <Text className="text-[10px] font-[800] text-[#9B5983] tracking-[0.3px]">{getWaveLabel()}</Text>
+              <Text className="text-[10px] font-[800] text-[#9B5983] tracking-[0.3px]" numberOfLines={1}>{getWaveLabel()}</Text>
               <View className="flex-row items-center gap-2">
                 <TouchableOpacity className="w-7 h-7 bg-[#F9F0F5] rounded-full justify-center items-center" onPress={toggleLanguage}>
                   <Text className="text-[10px] font-[800] text-[#9B5983]">{isNepali ? 'EN' : 'ने'}</Text>
@@ -206,6 +158,60 @@ export default function GameContainer() {
                 </TouchableOpacity>
               </View>
             </View>
+          )}
+
+          {/* Feedback toast — flows after sub-bar, consistent in both languages */}
+          {feedback && (
+            <Animated.View
+              entering={FadeInUp.duration(300)}
+              exiting={FadeOutDown.duration(200)}
+              className="mx-4 mt-2.5"
+            >
+              <View className={`flex-row rounded-[18px] overflow-hidden border shadow-black shadow-opacity-10 shadow-radius-10 elevation-8 ${feedback.type === 'error'
+                ? 'bg-[#FFF8F8] border-[#FECACA]'
+                : feedback.type === 'info'
+                  ? 'bg-white border-[#F0DDE8]'
+                  : 'bg-[#F0FDF4] border-[#BBF7D0]'
+              }`}>
+                {/* Icon strip */}
+                <View className={`w-[52px] justify-center items-center ${feedback.type === 'error'
+                  ? 'bg-[#FEE2E2]'
+                  : feedback.type === 'info'
+                    ? 'bg-[#FDF2F8]'
+                    : 'bg-[#DCFCE7]'
+                }`}>
+                  <View className={`w-8 h-8 rounded-lg justify-center items-center ${feedback.type === 'error'
+                    ? 'bg-[#FCA5A5]'
+                    : feedback.type === 'info'
+                      ? 'bg-[#F0C6DB]'
+                      : 'bg-[#86EFAC]'
+                  }`}>
+                    <Text className="text-white text-[16px] font-[900]">
+                      {feedback.type === 'success' ? '✓' : feedback.type === 'error' ? '✗' : '💡'}
+                    </Text>
+                  </View>
+                </View>
+
+                {/* Content */}
+                <View className="flex-1 py-3.5 px-4 pr-10">
+                  <Text className={`text-[14px] font-[800] mb-1 ${feedback.type === 'error' ? 'text-[#B91C1C]' : feedback.type === 'info' ? 'text-[#9B5983]' : 'text-[#166534]'}`}>
+                    {feedback.message}
+                  </Text>
+                  {feedback.detail ? (
+                    <Text className="text-[12.5px] text-[#555] leading-[18px] font-[500]">{feedback.detail}</Text>
+                  ) : null}
+                </View>
+
+                {/* Close button */}
+                <TouchableOpacity
+                  onPress={clearFeedback}
+                  className="absolute top-2.5 right-2.5 w-7 h-7 bg-black/5 rounded-full justify-center items-center"
+                  activeOpacity={0.6}
+                >
+                  <Text className="text-[12px] text-[#999] font-[700]">✕</Text>
+                </TouchableOpacity>
+              </View>
+            </Animated.View>
           )}
         </SafeAreaView>
       </View>
