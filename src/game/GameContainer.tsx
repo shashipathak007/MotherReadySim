@@ -11,12 +11,19 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeInUp, FadeOutDown, SlideInDown, SlideOutDown } from 'react-native-reanimated';
 import { TutorialOverlay } from './components/TutorialOverlay';
+import { useTranslation } from 'react-i18next';
 
 export default function GameContainer() {
   const { 
     currentStep, setStep, isReady, resetCurrentStep,
     packedBagItems, collectedDocuments, savedContacts, feedback, clearFeedback, currentWave
   } = useGame();
+  const { i18n } = useTranslation();
+
+  const isNepali = i18n.language === 'ne';
+  const toggleLanguage = () => {
+    i18n.changeLanguage(isNepali ? 'en' : 'ne');
+  };
 
   useEffect(() => {
     clearFeedback();
@@ -53,6 +60,16 @@ export default function GameContainer() {
 
 
   const getStepName = (step: number) => {
+    if (isNepali) {
+      switch(step) {
+        case 1: return "अस्पतालको झोला";
+        case 2: return "कागजातहरू";
+        case 3: return "आपतकालीन सम्पर्क";
+        case 4: return "खतराका संकेत";
+        case 5: return "नतिजा";
+        default: return "";
+      }
+    }
     switch(step) {
       case 1: return "Hospital Bag";
       case 2: return "Important Documents";
@@ -77,11 +94,11 @@ export default function GameContainer() {
             onPress={() => setStep(Math.max(1, currentStep - 1) as any)}
             disabled={currentStep === 1}
           >
-            <Text style={[styles.navBtnText, currentStep === 1 && styles.navBtnDisabled]}>Prev</Text>
+            <Text style={[styles.navBtnText, currentStep === 1 && styles.navBtnDisabled]}>{isNepali ? 'अघि' : 'Prev'}</Text>
           </TouchableOpacity>
 
           <View style={styles.stepTitleContainer}>
-            <Text style={styles.stepLabel}>Step {currentStep}</Text>
+            <Text style={styles.stepLabel}>{isNepali ? `चरण ${currentStep}` : `Step ${currentStep}`}</Text>
             <Text style={styles.stepName}>{getStepName(currentStep)}</Text>
           </View>
 
@@ -90,21 +107,26 @@ export default function GameContainer() {
             onPress={() => setStep(Math.min(5, currentStep + 1) as any)}
             disabled={currentStep === 5}
           >
-            <Text style={[styles.navBtnText, currentStep === 5 && styles.navBtnDisabled]}>Next</Text>
+            <Text style={[styles.navBtnText, currentStep === 5 && styles.navBtnDisabled]}>{isNepali ? 'अर्को' : 'Next'}</Text>
           </TouchableOpacity>
         </LinearGradient>
 
         {currentStep < 5 && (
            <View style={styles.statusSubHeader}>
              <View style={styles.statusInfoGroup}>
-                {currentStep === 1 && <Text style={styles.statusText}>🎒 {packedBagItems.length}/24 • {currentWave}</Text>}
-                {currentStep === 2 && <Text style={styles.statusText}>📁 {collectedDocuments.length}/10 • {currentWave}</Text>}
+                {currentStep === 1 && <Text style={styles.statusText}>🎒 {packedBagItems.length}/28 • {currentWave}</Text>}
+                {currentStep === 2 && <Text style={styles.statusText}>📁 {collectedDocuments.length}/15 • {currentWave}</Text>}
                 {currentStep === 3 && <Text style={styles.statusText}>📞 {savedContacts.length}/8 • {currentWave}</Text>}
-                {currentStep === 4 && <Text style={styles.statusText}>⚠️ Danger Signs Quiz</Text>}
+                {currentStep === 4 && <Text style={styles.statusText}>⚠️ {isNepali ? 'खतराका संकेत' : 'Danger Signs Quiz'}</Text>}
              </View>
-             <TouchableOpacity style={styles.resetBadge} onPress={() => { resetCurrentStep(); clearFeedback(); }}>
-                <Text style={styles.resetBadgeText}>Reset</Text>
-             </TouchableOpacity>
+             <View style={styles.headerActions}>
+               <TouchableOpacity style={styles.langToggle} onPress={toggleLanguage}>
+                 <Text style={styles.langToggleText}>{isNepali ? 'EN' : 'ने'}</Text>
+               </TouchableOpacity>
+               <TouchableOpacity style={styles.resetBadge} onPress={() => { resetCurrentStep(); clearFeedback(); }}>
+                  <Text style={styles.resetBadgeText}>{isNepali ? 'रिसेट' : 'Reset'}</Text>
+               </TouchableOpacity>
+             </View>
            </View>
         )}
       </View>
@@ -263,6 +285,22 @@ const styles = StyleSheet.create({
     color: '#333',
     lineHeight: 22,
     fontWeight: '600',
+  },
+  headerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  langToggle: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    backgroundColor: '#B04C8A',
+    borderRadius: 20,
+  },
+  langToggleText: {
+    fontSize: 12,
+    fontWeight: '900',
+    color: '#FFF',
   },
   resetBadge: {
     paddingHorizontal: 12,

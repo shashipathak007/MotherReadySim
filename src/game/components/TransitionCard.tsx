@@ -5,11 +5,11 @@ import Animated, {
   useAnimatedStyle, 
   withSpring, 
   withTiming, 
+  withSequence,
+  withDelay,
   runOnJS 
 } from 'react-native-reanimated';
-import { OpenFolder } from './GameSVGs';
-import Svg, { Polygon, Rect, Circle, Path } from 'react-native-svg';
-import { LinearGradient } from 'expo-linear-gradient';
+import { useTranslation } from 'react-i18next';
 
 interface TransitionCardProps {
   step: 1 | 2 | 3 | 4;
@@ -19,153 +19,221 @@ interface TransitionCardProps {
 
 const TRANSITION_CONTENT = {
   1: {
-    text: "Bag packed. Now find your documents.",
-    illustration: () => <View style={styles.svgContainer}><OpenFolder filled={3} /></View>
+    emoji: '📁',
+    title: 'Bag Packed!',
+    titleNe: 'झोला तयार भयो!',
+    subtitle: 'Now find your important documents.',
+    subtitleNe: 'अब आवश्यक कागजातहरू जम्मा गर्नुहोस्।',
+    accent: '#3B82F6',
+    bgColor: 'rgba(239, 246, 255, 0.97)',
+    badge: '✅ Step 1 Complete',
   },
   2: {
-    text: "Documents ready. Now save your emergency contacts.",
-    illustration: () => (
-      <View style={styles.svgContainer}>
-        <Svg width="100" height="100" viewBox="0 0 100 100">
-          <Rect x="20" y="10" width="60" height="80" rx="10" fill="#333" />
-          <Rect x="25" y="15" width="50" height="60" rx="5" fill="#FFF" />
-          <Circle cx="50" cy="80" r="4" fill="#666" />
-        </Svg>
-      </View>
-    )
+    emoji: '📱',
+    title: 'Documents Ready!',
+    titleNe: 'कागजात तयार!',
+    subtitle: 'Now save your emergency contacts.',
+    subtitleNe: 'अब आपतकालीन सम्पर्कहरू सुरक्षित गर्नुहोस्।',
+    accent: '#10B981',
+    bgColor: 'rgba(236, 253, 245, 0.97)',
+    badge: '✅ Step 2 Complete',
   },
   3: {
-    text: "Contacts saved. Now — do you know the danger signs?",
-    illustration: () => (
-      <View style={styles.svgContainer}>
-        <Svg width="100" height="100" viewBox="0 0 100 100">
-          <Polygon points="50,10 90,90 10,90" fill="#FADDEB" stroke="#F33A6A" strokeWidth="5" strokeLinejoin="round" />
-          <Rect x="45" y="30" width="10" height="30" fill="#F33A6A" rx="5" />
-          <Rect x="45" y="68" width="10" height="10" fill="#F33A6A" rx="5" />
-        </Svg>
-      </View>
-    )
+    emoji: '⚠️',
+    title: 'Contacts Saved!',
+    titleNe: 'सम्पर्क सुरक्षित!',
+    subtitle: 'Do you know the danger signs?',
+    subtitleNe: 'के तपाईंलाई खतराका संकेतहरू थाहा छ?',
+    accent: '#F59E0B',
+    bgColor: 'rgba(255, 251, 235, 0.97)',
+    badge: '✅ Step 3 Complete',
   },
   4: {
-    text: "You know what to watch for. Let's see if you're ready.",
-    illustration: () => (
-      <View style={styles.svgContainer}>
-        <Svg width="100" height="100" viewBox="0 0 100 100">
-          <Path d="M10,80 L90,80 L90,40 L10,40 Z" fill="#FADDEB" />
-          <Path d="M30,40 L30,20 L70,20 L70,40" fill="none" stroke="#B04C8A" strokeWidth="5" />
-          <Rect x="45" y="50" width="10" height="20" fill="#F33A6A" />
-          <Rect x="40" y="55" width="20" height="10" fill="#F33A6A" />
-        </Svg>
-      </View>
-    )
+    emoji: '🏆',
+    title: 'Quiz Done!',
+    titleNe: 'प्रश्नोत्तरी सकियो!',
+    subtitle: "Let's see your final results.",
+    subtitleNe: 'अब तपाईंको नतिजा हेरौं।',
+    accent: '#B04C8A',
+    bgColor: 'rgba(253, 242, 248, 0.97)',
+    badge: '✅ Step 4 Complete',
   }
 };
 
 export const TransitionCard: React.FC<TransitionCardProps> = ({ step, onComplete, visible }) => {
-  const translateX = useSharedValue(500); // Start off-screen right
+  const { i18n } = useTranslation();
+  const isNe = i18n.language === 'ne';
+  const scale = useSharedValue(0.6);
+  const opacity = useSharedValue(0);
+  const emojiScale = useSharedValue(0);
+  const overlayOpacity = useSharedValue(0);
 
   useEffect(() => {
     if (visible) {
-      translateX.value = withSpring(0, { damping: 15 });
+      overlayOpacity.value = withTiming(1, { duration: 250 });
+      scale.value = withSpring(1, { damping: 12, stiffness: 120 });
+      opacity.value = withTiming(1, { duration: 300 });
+      emojiScale.value = withDelay(200, withSequence(
+        withSpring(1.3, { damping: 8 }),
+        withSpring(1, { damping: 10 })
+      ));
+
       const timer = setTimeout(() => {
         handleDismiss();
-      }, 3000);
+      }, 3500);
       return () => clearTimeout(timer);
     } else {
-      translateX.value = withTiming(500);
+      scale.value = withTiming(0.6, { duration: 200 });
+      opacity.value = withTiming(0, { duration: 200 });
+      overlayOpacity.value = withTiming(0, { duration: 200 });
+      emojiScale.value = 0;
     }
   }, [visible]);
 
   const handleDismiss = () => {
-    translateX.value = withTiming(-500, { duration: 300 }, () => {
+    overlayOpacity.value = withTiming(0, { duration: 250 });
+    scale.value = withTiming(0.8, { duration: 250 });
+    opacity.value = withTiming(0, { duration: 250 }, () => {
       runOnJS(onComplete)();
     });
   };
 
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateX: translateX.value }],
-    };
-  });
+  const cardStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+    opacity: opacity.value,
+  }));
+
+  const emojiStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: emojiScale.value }],
+  }));
+
+  const overlayStyle = useAnimatedStyle(() => ({
+    opacity: overlayOpacity.value,
+  }));
 
   if (!visible) return null;
 
   const content = TRANSITION_CONTENT[step];
 
   return (
-    <View style={styles.overlay}>
-      <Animated.View style={[styles.cardContainer, animatedStyle]}>
-        <LinearGradient 
-          colors={['#F33A6A', '#B04C8A']}
-          style={styles.card}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-        >
-          <Pressable style={styles.content} onPress={handleDismiss}>
-            {content.illustration()}
-            <Text style={styles.text}>{content.text}</Text>
-            <Text style={styles.hint}>(Tap to continue)</Text>
-          </Pressable>
-        </LinearGradient>
-      </Animated.View>
-    </View>
+    <Animated.View style={[styles.overlay, overlayStyle]}>
+      <Pressable style={styles.overlayPress} onPress={handleDismiss}>
+        <Animated.View style={[styles.card, cardStyle, { backgroundColor: content.bgColor }]}>
+          {/* Accent line at top */}
+          <View style={[styles.accentBar, { backgroundColor: content.accent }]} />
+          
+          {/* Badge */}
+          <View style={[styles.badge, { backgroundColor: content.accent + '18' }]}>
+            <Text style={[styles.badgeText, { color: content.accent }]}>{content.badge}</Text>
+          </View>
+
+          {/* Big Emoji */}
+          <Animated.View style={emojiStyle}>
+            <Text style={styles.emoji}>{content.emoji}</Text>
+          </Animated.View>
+
+          {/* Title */}
+          <Text style={[styles.title, { color: content.accent }]}>{isNe ? content.titleNe : content.title}</Text>
+
+          {/* Subtitle */}
+          <Text style={styles.subtitle}>{isNe ? content.subtitleNe : content.subtitle}</Text>
+
+          {/* Divider */}
+          <View style={[styles.divider, { backgroundColor: content.accent + '25' }]} />
+
+          {/* Tap hint */}
+          <View style={[styles.tapHint, { backgroundColor: content.accent + '12' }]}>
+            <Text style={[styles.hintText, { color: content.accent }]}>{isNe ? 'अगाडि बढ्न ट्याप गर्नुहोस् →' : 'Tap to continue →'}</Text>
+          </View>
+        </Animated.View>
+      </Pressable>
+    </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.4)',
+    backgroundColor: 'rgba(0,0,0,0.45)',
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1000,
   },
-  cardContainer: {
-    width: '85%',
-    height: 400,
-    borderRadius: 30,
-    shadowColor: '#F33A6A',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.4,
-    shadowRadius: 20,
-    elevation: 15,
+  overlayPress: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
   },
   card: {
-    flex: 1,
-    borderRadius: 30,
-    padding: 30,
+    width: '82%',
+    borderRadius: 28,
+    paddingHorizontal: 30,
+    paddingTop: 36,
+    paddingBottom: 28,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.15,
+    shadowRadius: 24,
+    elevation: 20,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.3)',
+    borderColor: 'rgba(255,255,255,0.8)',
     overflow: 'hidden',
   },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  accentBar: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 4,
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
   },
-  svgContainer: {
-    width: 180,
-    height: 180,
-    marginBottom: 40,
-    borderRadius: 25,
-    overflow: 'hidden',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.95)'
+  badge: {
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 20,
+    marginBottom: 24,
   },
-  text: {
-    fontSize: 24,
+  badgeText: {
+    fontSize: 12,
+    fontWeight: '800',
+    letterSpacing: 0.5,
+  },
+  emoji: {
+    fontSize: 72,
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 28,
     fontWeight: '900',
-    color: '#FFFFFF',
     textAlign: 'center',
-    lineHeight: 34,
+    marginBottom: 10,
   },
-  hint: {
-    marginTop: 25,
+  subtitle: {
+    fontSize: 17,
+    fontWeight: '600',
+    color: '#555',
+    textAlign: 'center',
+    lineHeight: 26,
+    marginBottom: 24,
+    paddingHorizontal: 10,
+  },
+  divider: {
+    width: 60,
+    height: 2,
+    borderRadius: 1,
+    marginBottom: 20,
+  },
+  tapHint: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 20,
+  },
+  hintText: {
     fontSize: 13,
     fontWeight: '700',
-    color: 'rgba(255,255,255,0.8)',
-    textTransform: 'uppercase',
-    letterSpacing: 2
-  }
+    letterSpacing: 0.5,
+  },
 });

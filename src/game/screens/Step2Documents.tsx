@@ -6,6 +6,7 @@ import { OpenFolder } from '../components/GameSVGs';
 import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
 import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useTranslation } from 'react-i18next';
 
 const { width, height } = Dimensions.get('window');
 
@@ -13,17 +14,18 @@ const WRONG_DOCS = [
   { id: 91, name: 'Old expired ID', whyNot: 'This is expired — bring your current Nagarikta' },
   { id: 92, name: "Child's report card", whyNot: 'This is not needed at the hospital' },
   { id: 93, name: 'A random receipt', whyNot: 'Leave household papers at home' },
-  { id: 94, name: 'Ration card', whyNot: 'Ration card is not accepted as identity at the maternity ward' },
 ];
 
 const WRONG_DISTRIBUTION: Record<string, number[]> = {
-  Identity: [91, 94],
+  Identity: [91],
   'Aama Programme': [93],
   Medical: [92],
 };
 
 export default function Step2Documents({ onNextStep }: { onNextStep: () => void }) {
   const { collectedDocuments, collectDocument, showFeedback, setCurrentWave } = useGame();
+  const { i18n } = useTranslation();
+  const isNe = i18n.language === 'ne';
 
   const [wrongAttempts, setWrongAttempts] = useState(0);
 
@@ -100,10 +102,12 @@ export default function Step2Documents({ onNextStep }: { onNextStep: () => void 
       if (!isWrong) {
         collectDocument(id);
         ref?.animatePack(dropZone.x + dropZone.w/2 - 30, dropZone.y + dropZone.h/2 - 30);
-        showFeedback(`Good choice: ${item.name}`, item.why, 'success');
+        const docName = isNe && 'nameNe' in item ? (item as any).nameNe : item.name;
+        const docWhy = isNe && 'whyNeededNe' in item ? (item as any).whyNeededNe : item.why;
+        showFeedback(isNe ? `राम्रो छनोट: ${docName}` : `Good choice: ${docName}`, docWhy, 'success');
       } else {
         ref?.shakeAndSnapBack();
-        showFeedback(`Not needed: ${item.name}`, item.why, 'error');
+        showFeedback(isNe ? `चाहिँदैन: ${item.name}` : `Not needed: ${item.name}`, item.why, 'error');
       }
     } else {
       ref?.snapBack();
@@ -119,10 +123,10 @@ export default function Step2Documents({ onNextStep }: { onNextStep: () => void 
 
   const getDocEmoji = (category: string) => {
     switch(category) {
-      case 'Identity': return '🆔';
-      case 'Aama Programme': return '📜';
-      case 'Medical': return '🏥';
-      case 'Payment': return '💳';
+      case 'Identity': return '🪪';
+      case 'Aama Programme': return '📋';
+      case 'Medical': return '🩺';
+      case 'Payment': return '🏦';
       default: return '📄';
     }
   };
@@ -155,8 +159,9 @@ export default function Step2Documents({ onNextStep }: { onNextStep: () => void 
             key={`doc-${currentWave}-${uniqueId}`}
             ref={(el) => { if (el) itemRefs.current[uniqueId] = el; }}
             id={item.id}
-            name={item.name}
+            name={isNe && 'nameNe' in item && (item as any).nameNe ? (item as any).nameNe : item.name}
             emoji={getDocEmoji(item.category)}
+            category={item.category}
             isWrong={item.isWrong}
             initialPos={item.initialPos}
             onDrop={handleDrop}

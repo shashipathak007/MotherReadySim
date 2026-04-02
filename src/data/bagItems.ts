@@ -79,7 +79,7 @@ export const BAG_ITEMS: BagItem[] = [
     nameNe: 'सुत्केरीका लागि विशेष म्याटरनिटी प्याड (२ प्याकेट)', 
     why: 'Postpartum bleeding (lochia) is much heavier than a normal period and lasts 4–6 weeks. Regular thin pads will not absorb enough.', 
     whyNe: 'सुत्केरीपछिको रक्तस्राव सामान्य महिनावारीको तुलनामा धेरै हुने र ४–६ हप्तासम्म रहने हुनाले साधारण पातलो प्याडले सोस्न सक्दैन।',
-    emoji: '🩸'
+    emoji: '🩹'
   },
   { 
     id: 7, 
@@ -88,7 +88,7 @@ export const BAG_ITEMS: BagItem[] = [
     nameNe: 'सफाइका लागि सानो पानीको बोतल (पेरी बोटल)', 
     why: 'For gently rinsing the stitched area after using the toilet. Wiping causes pain and infection risk — rinsing with warm water is much safer.', 
     whyNe: 'शौचालय प्रयोग गरेपछि टाँका लगाइएको भागलाई सफा गर्न। कपडाले पुछ्दा दुख्ने र संक्रमणको जोखिम हुने भएकाले मनतातो पानीले पखाल्नु सुरक्षित हुन्छ।',
-    emoji: '🧴'
+    emoji: '🚿'
   },
   { 
     id: 8, 
@@ -142,7 +142,7 @@ export const BAG_ITEMS: BagItem[] = [
     nameNe: 'नरिवल वा तोरीको तेल (सानो सिसी)', 
     why: 'Used for perineal massage, body care after delivery, and dryness relief. Trusted in Nepali postpartum tradition.', 
     whyNe: 'सुत्केरीपछि शरीरको मालिस गर्न र छालाको सुख्खापन हटाउन प्रयोग गरिन्छ। यो नेपाली परम्परामा निकै प्रचलित छ।',
-    emoji: '🛢️'
+    emoji: '🥥'
   },
 
   // COMFORT
@@ -253,7 +253,7 @@ export const BAG_ITEMS: BagItem[] = [
     nameNe: 'नरम ब्ल्याङ्केट वा बेर्ने कपडा (२ वटा)', 
     why: 'Swaddling mimics the womb and helps newborns feel secure and sleep better.', 
     whyNe: 'बच्चालाई कपडामा बेर्दा उसले सुरक्षित महसुस गर्छ र राम्रोसँग निदाउन सहयोग हुन्छ।',
-    emoji: '🧸'
+    emoji: '🛏️'
   },
   { 
     id: 26, 
@@ -262,7 +262,7 @@ export const BAG_ITEMS: BagItem[] = [
     nameNe: 'नवजात शिशुका लागि डाइपर (१ सानो प्याकेट)', 
     why: 'Newborns urinate and pass meconium frequently in the first hours — diapers are needed immediately.', 
     whyNe: 'जन्मिएका सुरुका घण्टाहरूमा बच्चाले बारम्बार पिसाब र दिसा गर्ने भएकाले डाइपर तुरुन्तै आवश्यक हुन्छ।',
-    emoji: '🧷'
+    emoji: '👶'
   },
   { 
     id: 27, 
@@ -280,7 +280,7 @@ export const BAG_ITEMS: BagItem[] = [
     nameNe: 'कपासका डल्लाहरू', 
     why: 'For cleaning the umbilical cord stump, eyes, and other delicate areas. Softer and safer than cloth.', 
     whyNe: 'नाइँटो, आँखा र अन्य संवेदनशील भागहरू सफा गर्न यो कपडाभन्दा नरम र सुरक्षित हुन्छ।',
-    emoji: '☁️'
+    emoji: '🫧'
   },
 ];
 
@@ -300,7 +300,7 @@ export const DO_NOT_PACK_ITEMS: DoNotPackItem[] = [
     nameNe: 'कडा अत्तर वा बास्नादार सामग्रीहरू', 
     whyNot: 'Newborn airways are extremely sensitive. Strong scents can irritate their developing lungs and cause respiratory distress in the first hours of life.', 
     whyNotNe: 'नवजात शिशुको श्वासप्रश्वास प्रणाली संवेदनशील हुन्छ। कडा बास्नाले उनीहरूको फोक्सोमा असर पुर्याउन सक्छ।',
-    emoji: '🧴'
+    emoji: '🌸'
   },
   { 
     id: 2, 
@@ -316,7 +316,7 @@ export const DO_NOT_PACK_ITEMS: DoNotPackItem[] = [
     nameNe: 'साधारण पातलो स्यानिटरी प्याड', 
     whyNot: 'Postpartum bleeding is far heavier than a normal period. Regular pads soak through in minutes. Only thick maternity-specific pads are safe.', 
     whyNotNe: 'सुत्केरीपछिको रक्तस्राव धेरै हुने भएकाले साधारण प्याड तुरुन्तै भिज्छ। बाक्लो म्याटरनिटी प्याड मात्र प्रयोग गर्नुहोस्।',
-    emoji: '🩸'
+    emoji: '🚫'
   },
   { 
     id: 4, 

@@ -5,6 +5,7 @@ import { BAG_ITEMS, DO_NOT_PACK_ITEMS } from '../../data/bagItems';
 import { HospitalBag } from '../components/GameSVGs';
 import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useTranslation } from 'react-i18next';
 
 const { width, height } = Dimensions.get('window');
 
@@ -17,6 +18,8 @@ const WRONG_DISTRIBUTION: Record<string, number[]> = {
 
 export default function Step1Bag({ onNextStep }: { onNextStep: () => void }) {
   const { packedBagItems, packItem, showFeedback, setCurrentWave } = useGame();
+  const { i18n } = useTranslation();
+  const isNe = i18n.language === 'ne';
   
   const [currentWaveIdx, setCurrentWaveIdx] = useState(0);
   const [containerLayout, setContainerLayout] = useState({ width: width, height: height });
@@ -89,10 +92,14 @@ export default function Step1Bag({ onNextStep }: { onNextStep: () => void }) {
       if (!isWrong) {
         packItem(id);
         ref?.animatePack(dropZone.x + dropZone.w/2 - 30, dropZone.y + dropZone.h/2 - 30);
-        showFeedback(`Good choice: ${item.name}`, item.why, 'success');
+        const itemName = isNe && 'nameNe' in item ? (item as any).nameNe : item.name;
+        const itemWhy = isNe && 'whyNe' in item ? (item as any).whyNe : item.why;
+        showFeedback(isNe ? `राम्रो छनोट: ${itemName}` : `Good choice: ${itemName}`, itemWhy, 'success');
       } else {
         ref?.shakeAndSnapBack();
-        showFeedback(`Not needed: ${item.name}`, item.why, 'error');
+        const itemName = isNe && 'nameNe' in item ? (item as any).nameNe : item.name;
+        const itemWhy = isNe && 'whyNotNe' in item ? (item as any).whyNotNe : item.why;
+        showFeedback(isNe ? `चाहिँदैन: ${itemName}` : `Not needed: ${itemName}`, itemWhy, 'error');
       }
     } else {
       ref?.snapBack();
@@ -136,8 +143,9 @@ export default function Step1Bag({ onNextStep }: { onNextStep: () => void }) {
             key={`bag-${currentWave}-${uniqueId}`}
             ref={(el) => { if (el) itemRefs.current[uniqueId] = el; }}
             id={item.id}
-            name={item.name}
+            name={isNe && 'nameNe' in item ? (item as any).nameNe : item.name}
             emoji={item.emoji || '📦'}
+            category={'category' in item ? item.category : undefined}
             isWrong={item.isWrong}
             initialPos={item.initialPos}
             onDrop={handleDrop}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Modal } from 'react-native';
 import Animated, { FadeIn, FadeOut, ZoomIn, ZoomOut } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useTranslation } from 'react-i18next';
 
 const { width, height } = Dimensions.get('window');
 
@@ -12,21 +13,29 @@ interface TutorialOverlayProps {
 
 export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClose }) => {
   const [step, setStep] = useState(0);
+  const { i18n } = useTranslation();
+  const isNe = i18n.language === 'ne';
 
   const tutorialSteps = [
     {
-      title: "Welcome to Aama Ready!",
-      description: "This simulator will help you prepare for your hospital trip. Let's learn how to interact with the items.",
+      title: isNe ? "आमा रेडी मा स्वागत छ!" : "Welcome to Aama Ready!",
+      description: isNe 
+        ? "यो सिमुलेटरले तपाईंलाई अस्पताल जाने तयारी गर्न मद्दत गर्छ। सामानहरूसँग कसरी अन्तरक्रिया गर्ने सिकौं।" 
+        : "This simulator will help you prepare for your hospital trip. Let's learn how to interact with the items.",
       icon: "👋"
     },
     {
-      title: "Drag and Drop",
-      description: "Gently drag items into the bag or folder to pack them. Use your finger to move them around.",
+      title: isNe ? "तानेर राख्नुहोस्" : "Drag and Drop",
+      description: isNe 
+        ? "सामानहरूलाई बिस्तारै तानेर झोला वा फोल्डरमा राख्नुहोस्। औंलाले छोएर सार्नुहोस्।" 
+        : "Gently drag items into the bag or folder to pack them. Use your finger to move them around.",
       icon: "👆"
     },
     {
-      title: "Learn Details",
-      description: "Hold down (long tap) on any item to see why it is important for your pregnancy journey.",
+      title: isNe ? "विवरण हेर्नुहोस्" : "Learn Details",
+      description: isNe 
+        ? "कुनै पनि सामानमा लामो समय थिच्नुहोस् (लङ ट्याप) — यो तपाईंको गर्भावस्थाको यात्रामा किन महत्त्वपूर्ण छ भनेर हेर्न सक्नुहुन्छ।" 
+        : "Hold down (long tap) on any item to see why it is important for your pregnancy journey.",
       icon: "💡"
     }
   ];
@@ -71,7 +80,7 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClo
             <TouchableOpacity onPress={handleNext} style={styles.nextBtn}>
               <LinearGradient colors={['#F33A6A', '#B04C8A']} style={styles.btnGradient}>
                 <Text style={styles.btnText}>
-                  {step === tutorialSteps.length - 1 ? "Got it!" : "Next"}
+                  {step === tutorialSteps.length - 1 ? (isNe ? "बुझें!" : "Got it!") : (isNe ? "अर्को" : "Next")}
                 </Text>
               </LinearGradient>
             </TouchableOpacity>

@@ -22,6 +22,7 @@ interface DraggableItemProps {
   id: number;
   name: string;
   emoji?: string;
+  category?: string;
   isWrong?: boolean;
   initialPos: { x: number, y: number };
   onDrop: (id: number, x: number, y: number, isWrong: boolean) => void;
@@ -31,7 +32,7 @@ interface DraggableItemProps {
 }
 
 export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({ 
-  id, name, emoji, isWrong = false, initialPos, onDrop, onLongPress, packed, color = '#FFF'
+  id, name, emoji, category, isWrong = false, initialPos, onDrop, onLongPress, packed, color = '#FFF'
 }, ref) => {
   const translateX = useSharedValue(initialPos.x);
   const translateY = useSharedValue(initialPos.y);
@@ -131,7 +132,7 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
           <Text style={styles.emoji}>{emoji}</Text>
         </View>
         <View style={styles.labelWrapper}>
-            <Text style={styles.label} numberOfLines={2}>{name}</Text>
+          <Text style={styles.label} numberOfLines={2}>{name}</Text>
         </View>
       </Animated.View>
     </GestureDetector>
@@ -154,26 +155,31 @@ const styles = StyleSheet.create({
     borderColor: '#FCC2D7',
   },
   iconCircle: {
-    width: 45,
-    height: 45,
-    borderRadius: 23,
-    backgroundColor: 'rgba(255,255,255,0.8)',
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: 'rgba(255,255,255,0.9)',
     justifyContent: 'center',
     alignItems: 'center',
   },
   emoji: {
-    fontSize: 24,
+    fontSize: 26,
   },
   labelWrapper: {
     position: 'absolute',
-    bottom: -32,
-    width: 90,
+    bottom: -36,
+    width: 96,
     backgroundColor: 'rgba(255,255,255,1)',
     borderRadius: 12,
     paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderWidth: 1,
+    paddingVertical: 4,
+    borderWidth: 1.5,
     borderColor: '#FADDEB',
+    shadowColor: '#B04C8A',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
   },
   label: {
     fontSize: 11,
