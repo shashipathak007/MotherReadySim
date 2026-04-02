@@ -24,6 +24,8 @@ interface GameContextType extends GameState {
   clearFeedback: () => void;
   currentWave: string;
   setCurrentWave: (wave: string) => void;
+  quizProgress: { current: number; total: number };
+  setQuizProgress: (current: number, total: number) => void;
 }
 
 const defaultState: GameState = {
@@ -41,6 +43,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isReady] = useState(true);
   const [feedback, setFeedback] = useState<{ message: string, detail?: string, type: 'success' | 'error' | 'info' } | null>(null);
   const [currentWave, setCurrentWave] = useState('');
+  const [quizProgress, setQuizProgressState] = useState({ current: 0, total: 0 });
 
   const updateState = (updates: Partial<GameState>) => {
     setState((prev) => ({ ...prev, ...updates }));
@@ -85,6 +88,9 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       return { ...prev, ...updates };
     });
+    if (state.currentStep === 4) {
+      setQuizProgressState({ current: 0, total: quizProgress.total });
+    }
   };
 
   const showFeedback = (message: string, detail: string, type: 'success' | 'error' | 'info') => {
@@ -93,8 +99,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const clearFeedback = () => setFeedback(null);
 
+  const setQuizProgress = (current: number, total: number) => {
+    setQuizProgressState({ current, total });
+  };
+
   return (
-    <GameContext.Provider value={{ ...state, setStep, packItem, collectDocument, saveContact, addQuizStar, resetGame, resetCurrentStep, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave }}>
+    <GameContext.Provider value={{ ...state, setStep, packItem, collectDocument, saveContact, addQuizStar, resetGame, resetCurrentStep, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress }}>
       {children}
     </GameContext.Provider>
   );

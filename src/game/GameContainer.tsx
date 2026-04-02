@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useGame } from './context/GameContext';
 import Step1Bag from './screens/Step1Bag';
 import Step2Documents from './screens/Step2Documents';
@@ -9,14 +9,14 @@ import Step5Summary from './screens/Step5Summary';
 import { TransitionCard } from './components/TransitionCard';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import Animated, { FadeInUp, FadeOutDown, SlideInDown, SlideOutDown } from 'react-native-reanimated';
+import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import { TutorialOverlay } from './components/TutorialOverlay';
 import { useTranslation } from 'react-i18next';
 
 export default function GameContainer() {
-  const { 
+  const {
     currentStep, setStep, isReady, resetCurrentStep,
-    packedBagItems, collectedDocuments, savedContacts, feedback, clearFeedback, currentWave
+    packedBagItems, collectedDocuments, savedContacts, feedback, clearFeedback, currentWave, quizProgress
   } = useGame();
   const { i18n } = useTranslation();
 
@@ -30,14 +30,14 @@ export default function GameContainer() {
   }, [currentStep]);
 
   const [showTransition, setShowTransition] = useState(false);
-  const [transitionStep, setTransitionStep] = useState<1|2|3|4>(1);
+  const [transitionStep, setTransitionStep] = useState<1 | 2 | 3 | 4>(1);
   const [showTutorial, setShowTutorial] = useState(true);
 
   if (!isReady) {
-    return <View style={styles.container} />; // Loading state
+    return <View className="flex-1 bg-[#FFF9FB]" />;
   }
 
-  const handleNextStep = (stepFinished: 1|2|3|4) => {
+  const handleNextStep = (stepFinished: 1 | 2 | 3 | 4) => {
     setTransitionStep(stepFinished);
     setShowTransition(true);
   };
@@ -58,293 +58,168 @@ export default function GameContainer() {
     }
   };
 
-
   const getStepName = (step: number) => {
     if (isNepali) {
-      switch(step) {
+      switch (step) {
         case 1: return "अस्पतालको झोला";
-        case 2: return "कागजातहरू";
+        case 2: return "महत्त्वपूर्ण कागजातहरू";
         case 3: return "आपतकालीन सम्पर्क";
         case 4: return "खतराका संकेत";
         case 5: return "नतिजा";
         default: return "";
       }
     }
-    switch(step) {
+    switch (step) {
       case 1: return "Hospital Bag";
       case 2: return "Important Documents";
       case 3: return "Emergency Contacts";
-      case 4: return "Danger Signs Quiz";
-      case 5: return "Simulation Summary";
+      case 4: return "Danger Signs";
+      case 5: return "Summary";
       default: return "";
     }
   };
 
+  const getWaveLabel = () => {
+    if (currentStep === 1) {
+      const waveNe: Record<string, string> = { Clothing: 'लत्ताकपडा', Hygiene: 'सरसफाइ', Comfort: 'सुविधा', Baby: 'शिशु' };
+      return `🎒 ${packedBagItems.length}/28 · ${isNepali ? (waveNe[currentWave] || currentWave) : currentWave.toUpperCase()}`;
+    }
+    if (currentStep === 2) {
+      const waveNe: Record<string, string> = { Identity: 'परिचय', 'Aama Programme': 'आमा कार्यक्रम', Medical: 'स्वास्थ्य' };
+      return `📋 ${collectedDocuments.length}/15 · ${isNepali ? (waveNe[currentWave] || currentWave) : currentWave.toUpperCase()}`;
+    }
+    if (currentStep === 3) {
+      const waveNe: Record<string, string> = { CRITICAL: 'अत्यन्त जरुरी', IMPORTANT: 'महत्त्वपूर्ण', INFO: 'जानकारी' };
+      return `📱 ${savedContacts.length}/8 · ${isNepali ? (waveNe[currentWave] || currentWave) : currentWave}`;
+    }
+    if (currentStep === 4) return `🩺 ${quizProgress.current}/${quizProgress.total} · ${isNepali ? 'प्रश्नोत्तरी' : 'QUIZ'}`;
+    return '';
+  };
+
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
-      <View style={styles.headerArea}>
-        <LinearGradient
-          colors={['#FFF5F8', '#FFFFFF']}
-          style={styles.headerContainer}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-        >
-          <TouchableOpacity 
-            style={styles.navBtn} 
-            onPress={() => setStep(Math.max(1, currentStep - 1) as any)}
-            disabled={currentStep === 1}
-          >
-            <Text style={[styles.navBtnText, currentStep === 1 && styles.navBtnDisabled]}>{isNepali ? 'अघि' : 'Prev'}</Text>
-          </TouchableOpacity>
-
-          <View style={styles.stepTitleContainer}>
-            <Text style={styles.stepLabel}>{isNepali ? `चरण ${currentStep}` : `Step ${currentStep}`}</Text>
-            <Text style={styles.stepName}>{getStepName(currentStep)}</Text>
-          </View>
-
-          <TouchableOpacity 
-            style={styles.navBtn} 
-            onPress={() => setStep(Math.min(5, currentStep + 1) as any)}
-            disabled={currentStep === 5}
-          >
-            <Text style={[styles.navBtnText, currentStep === 5 && styles.navBtnDisabled]}>{isNepali ? 'अर्को' : 'Next'}</Text>
-          </TouchableOpacity>
-        </LinearGradient>
-
-        {currentStep < 5 && (
-           <View style={styles.statusSubHeader}>
-             <View style={styles.statusInfoGroup}>
-                {currentStep === 1 && <Text style={styles.statusText}>🎒 {packedBagItems.length}/28 • {currentWave}</Text>}
-                {currentStep === 2 && <Text style={styles.statusText}>📁 {collectedDocuments.length}/15 • {currentWave}</Text>}
-                {currentStep === 3 && <Text style={styles.statusText}>📞 {savedContacts.length}/8 • {currentWave}</Text>}
-                {currentStep === 4 && <Text style={styles.statusText}>⚠️ {isNepali ? 'खतराका संकेत' : 'Danger Signs Quiz'}</Text>}
-             </View>
-             <View style={styles.headerActions}>
-               <TouchableOpacity style={styles.langToggle} onPress={toggleLanguage}>
-                 <Text style={styles.langToggleText}>{isNepali ? 'EN' : 'ने'}</Text>
-               </TouchableOpacity>
-               <TouchableOpacity style={styles.resetBadge} onPress={() => { resetCurrentStep(); clearFeedback(); }}>
-                  <Text style={styles.resetBadgeText}>{isNepali ? 'रिसेट' : 'Reset'}</Text>
-               </TouchableOpacity>
-             </View>
-           </View>
-        )}
-      </View>
-
-      <View style={styles.content}>
+    <View className="flex-1 bg-[#FFF9FB]">
+      <View className="flex-1">
         {renderStep()}
-        
+
+        {/* Feedback toast — styled like reference image */}
         {feedback && (
-          <Animated.View 
-            entering={FadeInUp} 
-            exiting={FadeOutDown} 
-            style={[
-              styles.feedbackBar, 
-              styles.feedbackOverlay,
-              feedback.type === 'error' ? styles.feedbackError : (feedback.type === 'info' ? styles.feedbackInfo : styles.feedbackSuccess)
-            ]}
+          <Animated.View
+            entering={FadeInUp.duration(300)}
+            exiting={FadeOutDown.duration(200)}
+            className="absolute top-[140px] left-4 right-4 z-[200]"
           >
-             <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
-               <View style={{ flex: 1, paddingRight: 35 }}>
-                 <Text style={[styles.feedbackTitle, feedback.type === 'info' && styles.infoText]}>
-                    {feedback.type === 'success' ? '✅' : (feedback.type === 'error' ? '❌' : '💡')} {feedback.message}
-                 </Text>
-                 {feedback.detail ? <Text style={styles.feedbackDetail}>{feedback.detail}</Text> : null}
-               </View>
-               <TouchableOpacity 
-                 onPress={clearFeedback} 
-                 style={styles.closeFeedbackBtn}
-                 activeOpacity={0.7}
-               >
-                 <Text style={styles.closeX}>✕</Text>
-               </TouchableOpacity>
-             </View>
+            <View className={`flex-row rounded-[18px] overflow-hidden border shadow-black shadow-opacity-10 shadow-radius-10 elevation-8 ${feedback.type === 'error'
+              ? 'bg-[#FFF8F8] border-[#FECACA]'
+              : feedback.type === 'info'
+                ? 'bg-white border-[#F0DDE8]'
+                : 'bg-[#F0FDF4] border-[#BBF7D0]'
+              }`}>
+              {/* Icon strip */}
+              <View className={`w-[52px] justify-center items-center ${feedback.type === 'error'
+                ? 'bg-[#FEE2E2]'
+                : feedback.type === 'info'
+                  ? 'bg-[#FDF2F8]'
+                  : 'bg-[#DCFCE7]'
+                }`}>
+                <View className={`w-8 h-8 rounded-lg justify-center items-center ${feedback.type === 'error'
+                  ? 'bg-[#FCA5A5]'
+                  : feedback.type === 'info'
+                    ? 'bg-[#F0C6DB]'
+                    : 'bg-[#86EFAC]'
+                  }`}>
+                  <Text className="text-white text-[16px] font-[900]">
+                    {feedback.type === 'success' ? '✓' : feedback.type === 'error' ? '✗' : '💡'}
+                  </Text>
+                </View>
+              </View>
+
+              {/* Content */}
+              <View className="flex-1 py-3.5 px-4 pr-10">
+                <Text className={`text-[14px] font-[800] mb-1 ${feedback.type === 'error' ? 'text-[#B91C1C]' : feedback.type === 'info' ? 'text-[#9B5983]' : 'text-[#166534]'
+                  }`}>
+                  {feedback.message}
+                </Text>
+                {feedback.detail ? (
+                  <Text className="text-[12.5px] text-[#555] leading-[18px] font-[500]">{feedback.detail}</Text>
+                ) : null}
+              </View>
+
+              {/* Close button */}
+              <TouchableOpacity
+                onPress={clearFeedback}
+                className="absolute top-2.5 right-2.5 w-7 h-7 bg-black/5 rounded-full justify-center items-center"
+                activeOpacity={0.6}
+              >
+                <Text className="text-[12px] text-[#999] font-[700]">✕</Text>
+              </TouchableOpacity>
+            </View>
           </Animated.View>
         )}
       </View>
 
+      {/* Floating Header — matching reference images */}
+      <View className="absolute top-0 left-0 right-0 z-[100]">
+        <SafeAreaView edges={['top']}>
+          {/* Top bar: Prev | Step title | Next */}
+          <View className="flex-row items-center justify-between mx-4 mt-1.5 px-1.5 py-2">
+            {/* Prev button — same style as Next */}
+            <TouchableOpacity
+              className={`px-5 py-2 rounded-full bg-[#C06898] ${currentStep === 1 ? 'opacity-30' : ''}`}
+              onPress={() => setStep(Math.max(1, currentStep - 1) as any)}
+              disabled={currentStep === 1}
+              activeOpacity={0.7}
+            >
+              <Text className="text-[13px] font-[700] text-white">{isNepali ? 'पछिल्लो' : 'Prev'}</Text>
+            </TouchableOpacity>
 
-      <TransitionCard 
-        visible={showTransition} 
-        step={transitionStep} 
-        onComplete={handleTransitionComplete} 
+            {/* Center: Step label + name */}
+            <View className="items-center flex-1 mx-3">
+              <Text className="text-[10px] font-[800] text-[#C06898] tracking-[1px] uppercase mb-0.5">
+                {isNepali ? `चरण ${currentStep}` : `STEP ${currentStep}`}
+              </Text>
+              <Text className="text-[15px] font-[800] text-[#333]">
+                {getStepName(currentStep)}
+              </Text>
+            </View>
+
+            {/* Next button — filled pill */}
+            <TouchableOpacity
+              className={`px-5 py-2 rounded-full bg-[#C06898] ${currentStep === 5 ? 'opacity-30' : ''}`}
+              onPress={() => setStep(Math.min(5, currentStep + 1) as any)}
+              disabled={currentStep === 5}
+              activeOpacity={0.7}
+            >
+              <Text className="text-[13px] font-[700] text-white">{isNepali ? 'अर्को' : 'Next'}</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Sub-bar: wave info + language toggle + reset */}
+          {currentStep < 5 && (
+            <View className="mx-5 mt-0.5 flex-row justify-between items-center px-4 py-1.5 bg-white/85 rounded-full border border-[#F5E1EC]">
+              <Text className="text-[10px] font-[800] text-[#9B5983] tracking-[0.3px]">{getWaveLabel()}</Text>
+              <View className="flex-row items-center gap-2">
+                <TouchableOpacity className="w-7 h-7 bg-[#F9F0F5] rounded-full justify-center items-center" onPress={toggleLanguage}>
+                  <Text className="text-[10px] font-[800] text-[#9B5983]">{isNepali ? 'EN' : 'ने'}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity className="px-3 py-1 bg-white rounded-full border border-[#F5E1EC]" onPress={() => { resetCurrentStep(); clearFeedback(); }}>
+                  <Text className="text-[10px] font-[800] text-[#D4849B]">{isNepali ? 'रिसेट' : 'Reset'}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
+        </SafeAreaView>
+      </View>
+
+      <TransitionCard
+        visible={showTransition}
+        step={transitionStep}
+        onComplete={handleTransitionComplete}
       />
 
-      <TutorialOverlay 
-        visible={showTutorial} 
-        onClose={() => setShowTutorial(false)} 
+      <TutorialOverlay
+        visible={showTutorial}
+        onClose={() => setShowTutorial(false)}
       />
-    </SafeAreaView>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFF9FB',
-  },
-  headerArea: {
-    backgroundColor: '#FFF',
-    zIndex: 100,
-    shadowColor: '#B04C8A',
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 5,
-  },
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#FADDEB',
-  },
-  statusSubHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    backgroundColor: '#FFF5F8',
-    borderBottomWidth: 1,
-    borderBottomColor: '#FADDEB',
-  },
-  statusInfoGroup: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  statusText: {
-    fontSize: 13,
-    fontWeight: '900',
-    color: '#B04C8A',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  feedbackBar: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#FADDEB',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    width: '100%',
-    zIndex: 200,
-  },
-  feedbackOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    borderBottomWidth: 2,
-    borderBottomColor: 'rgba(176, 76, 138, 0.2)',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 10,
-  },
-  feedbackSuccess: {
-    backgroundColor: '#F0FDF4',
-  },
-  feedbackError: {
-    backgroundColor: '#FEF2F2',
-  },
-  feedbackInfo: {
-    backgroundColor: '#F0F9FF',
-    borderLeftWidth: 4,
-    borderLeftColor: '#0EA5E9',
-  },
-  infoText: {
-    color: '#0369A1',
-  },
-  closeFeedbackBtn: {
-    position: 'absolute',
-    right: 0,
-    top: -5,
-    width: 32,
-    height: 32,
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  closeX: {
-    fontSize: 16,
-    color: '#666',
-    fontWeight: '900',
-  },
-  feedbackTitle: {
-    fontSize: 16,
-    fontWeight: '900',
-    color: '#111',
-    marginBottom: 6,
-  },
-  feedbackDetail: {
-    fontSize: 14,
-    color: '#333',
-    lineHeight: 22,
-    fontWeight: '600',
-  },
-  headerActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  langToggle: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    backgroundColor: '#B04C8A',
-    borderRadius: 20,
-  },
-  langToggleText: {
-    fontSize: 12,
-    fontWeight: '900',
-    color: '#FFF',
-  },
-  resetBadge: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    backgroundColor: '#FFF',
-    borderRadius: 20,
-    borderWidth: 1.5,
-    borderColor: '#F33A6A',
-  },
-  resetBadgeText: {
-    fontSize: 12,
-    fontWeight: '900',
-    color: '#F33A6A',
-  },
-  stepTitleContainer: {
-    alignItems: 'center',
-  },
-  stepLabel: {
-    fontSize: 11,
-    fontWeight: '900',
-    color: '#B04C8A',
-    textTransform: 'uppercase',
-    letterSpacing: 2,
-  },
-  stepName: {
-    fontSize: 16,
-    fontWeight: '900',
-    color: '#333',
-  },
-  navBtn: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    backgroundColor: '#B04C8A',
-    borderRadius: 12,
-  },
-  navBtnText: {
-    fontSize: 14,
-    fontWeight: '900',
-    color: '#FFF',
-  },
-  navBtnDisabled: {
-    opacity: 0.3,
-  },
-  content: {
-    flex: 1,
-  }
-});

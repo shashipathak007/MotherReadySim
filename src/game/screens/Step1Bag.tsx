@@ -1,5 +1,5 @@
 import React, { useRef, useState, useMemo, useEffect } from 'react';
-import { View, StyleSheet, Dimensions, ImageBackground } from 'react-native';
+import { View, Dimensions, ImageBackground } from 'react-native';
 import { useGame } from '../context/GameContext';
 import { BAG_ITEMS, DO_NOT_PACK_ITEMS } from '../../data/bagItems';
 import { HospitalBag } from '../components/GameSVGs';
@@ -25,6 +25,12 @@ export default function Step1Bag({ onNextStep }: { onNextStep: () => void }) {
   const [containerLayout, setContainerLayout] = useState({ width: width, height: height });
   const waveCategories = ['Clothing', 'Hygiene', 'Comfort', 'Baby'];
   const currentWave = waveCategories[currentWaveIdx];
+
+  const checkCompletion = (newPackCount: number) => {
+    if (newPackCount >= BAG_ITEMS.length) {
+      setTimeout(() => onNextStep(), 1500);
+    }
+  };
 
   useEffect(() => {
     if (currentWave) setCurrentWave(currentWave);
@@ -63,21 +69,15 @@ export default function Step1Bag({ onNextStep }: { onNextStep: () => void }) {
         y: containerLayout.height * 0.25 + (Math.random() * (containerLayout.height * 0.25)) 
       } 
     }));
-  }, [currentWave, packedBagItems.length === 0]); // Re-randomize when reset to 0
+  }, [currentWave, packedBagItems.length === 0]); 
 
   const dropZone = { 
     x: containerLayout.width / 2 - 110, 
-    y: containerLayout.height - 240, // Increased bottom margin
+    y: containerLayout.height - 240, 
     w: 220, 
     h: 180 
   };
   const itemRefs = useRef<Record<number, DraggableItemRef>>({});
-
-  const checkCompletion = (newPackCount: number) => {
-    if (newPackCount >= BAG_ITEMS.length) {
-      setTimeout(() => onNextStep(), 1500);
-    }
-  };
 
   const handleDrop = (id: number, x: number, y: number, isWrong: boolean) => {
     const item = activeWaveItems.find(i => i.id === id && i.isWrong === isWrong);
@@ -109,7 +109,14 @@ export default function Step1Bag({ onNextStep }: { onNextStep: () => void }) {
   const handleLongPress = (id: number, isWrong: boolean) => {
     const item = activeWaveItems.find(i => i.id === id && i.isWrong === isWrong);
     if (item) {
-      showFeedback(item.name, item.why, 'info');
+      const itemName = isNe && 'nameNe' in item && (item as any).nameNe ? (item as any).nameNe : item.name;
+      let itemWhy: string;
+      if (item.isWrong) {
+        itemWhy = isNe && 'whyNotNe' in item && (item as any).whyNotNe ? (item as any).whyNotNe : item.why;
+      } else {
+        itemWhy = isNe && 'whyNe' in item && (item as any).whyNe ? (item as any).whyNe : item.why;
+      }
+      showFeedback(itemName, itemWhy, 'info');
     }
   };
 
@@ -117,21 +124,31 @@ export default function Step1Bag({ onNextStep }: { onNextStep: () => void }) {
 
   return (
     <View 
-      style={styles.container} 
+      className="flex-1"
       onLayout={(e) => {
         const { width, height } = e.nativeEvent.layout;
         setContainerLayout({ width, height });
       }}
     >
-      <ImageBackground 
-        source={require('../../../assets/images/bedroom_bg.png')} 
-        style={StyleSheet.absoluteFill}
-        resizeMode="cover"
-      >
-        <LinearGradient colors={['rgba(255,255,255,0.4)', 'rgba(255,255,255,0.7)']} style={StyleSheet.absoluteFill} />
-      </ImageBackground>
+      {/* Background with subtle blur */}
+      <View className="absolute inset-0">
+        <ImageBackground 
+          source={require('../../../assets/images/bedroom_bg.png')} 
+          className="flex-1"
+          resizeMode="cover"
+          blurRadius={3}
+        >
+          <LinearGradient 
+            colors={['rgba(255,249,251,0.25)', 'rgba(255,245,248,0.45)', 'rgba(255,249,251,0.55)']} 
+            className="absolute inset-0" 
+          />
+        </ImageBackground>
+      </View>
 
-      <View style={[styles.dropZone, { left: dropZone.x, top: dropZone.y, width: dropZone.w, height: dropZone.h }]}>
+      <View 
+        className="absolute justify-center items-center"
+        style={{ left: dropZone.x, top: dropZone.y, width: dropZone.w, height: dropZone.h }}
+      >
         <HospitalBag filled={bagFilledPhase} isZipped={packedBagItems.length >= BAG_ITEMS.length} glow />
       </View>
 
@@ -151,15 +168,10 @@ export default function Step1Bag({ onNextStep }: { onNextStep: () => void }) {
             onDrop={handleDrop}
             onLongPress={handleLongPress}
             packed={packed}
-            color={item.isWrong ? '#F0F0F0' : '#FFF'}
+            color={item.isWrong ? '#F5F0F0' : '#FFFBFD'}
           />
         );
       })}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FFF9FB' },
-  dropZone: { position: 'absolute', justifyContent: 'center', alignItems: 'center' },
-});

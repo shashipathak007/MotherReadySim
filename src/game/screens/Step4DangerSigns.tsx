@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ImageBackground } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions, ImageBackground } from 'react-native';
 import { useGame } from '../context/GameContext';
 import Animated, { FadeInUp, FadeOutDown, useSharedValue, useAnimatedStyle, withSequence, withTiming, withRepeat } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -311,11 +311,16 @@ const SCENARIOS = [
 ];
 
 export default function Step4DangerSigns({ onNextStep }: { onNextStep: () => void }) {
-  const { addQuizStar, showFeedback } = useGame();
+  const { addQuizStar, showFeedback, setQuizProgress } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
   const [currentScenarioIdx, setCurrentScenarioIdx] = useState(0);
   const [selectedResult, setSelectedResult] = useState<{ isCorrect: boolean, explanation: string } | null>(null);
+
+  // Report quiz progress to context so the sub-bar can show it
+  React.useEffect(() => {
+    setQuizProgress(currentScenarioIdx + 1, SCENARIOS.length);
+  }, [currentScenarioIdx]);
 
   const scenario = SCENARIOS[currentScenarioIdx];
   const shakeOffset = useSharedValue(0);
@@ -351,35 +356,47 @@ export default function Step4DangerSigns({ onNextStep }: { onNextStep: () => voi
   }));
 
   return (
-    <Animated.View style={[styles.container, animatedStyle]}>
-      {/* Background image only — no SVG character */}
-      <ImageBackground source={require('../../../assets/images/bedroom_bg.png')} style={StyleSheet.absoluteFill} resizeMode="cover">
-        <LinearGradient colors={['rgba(255,240,248,0.2)', 'rgba(255,255,255,0.55)']} style={StyleSheet.absoluteFill} />
-      </ImageBackground>
+    <Animated.View className="flex-1" style={animatedStyle}>
+      {/* Background with subtle blur */}
+      <View className="absolute inset-0">
+        <ImageBackground 
+          source={require('../../../assets/images/bedroom_bg.png')} 
+          className="flex-1"
+          resizeMode="cover"
+          blurRadius={3}
+        >
+          <LinearGradient 
+            colors={['rgba(255,249,251,0.25)', 'rgba(255,245,248,0.45)', 'rgba(255,249,251,0.55)']} 
+            className="absolute inset-0" 
+          />
+        </ImageBackground>
+      </View>
 
       {/* Scenario card at the bottom */}
-      <View style={styles.scenarioCard}>
-        <Text style={styles.scenarioTitle}>{isNe ? scenario.titleNe : scenario.title}</Text>
-        <Text style={styles.scenarioDesc}>{isNe ? scenario.descriptionNe : scenario.description}</Text>
+      <View className="absolute bottom-10 left-4 right-4 bg-white/95 rounded-[22px] p-6 shadow-black shadow-opacity-8 shadow-radius-16 elevation-10 border border-[#F5E1EC]">
+        <Text className="text-[12px] font-[800] text-[#9B5983] tracking-[1.5px] uppercase mb-2">{isNe ? scenario.titleNe : scenario.title}</Text>
+        <Text className="text-[16px] font-[700] text-[#333] mb-[20px] leading-[24px]">{isNe ? scenario.descriptionNe : scenario.description}</Text>
         
-        <View style={styles.optionsContainer}>
+        <View className="gap-2.5">
           {!selectedResult ? (
             scenario.options.map((opt, i) => (
               <TouchableOpacity 
                 key={i} 
-                style={styles.optionBtn} 
+                className="p-4 bg-[#FFFBFD] rounded-[14px] border-[1.5px] border-[#F5E1EC] shadow-[#F5E1EC] shadow-opacity-10 shadow-radius-4 elevation-2"
                 onPress={() => handleSelect(opt)}
                 disabled={selectedResult !== null}
+                activeOpacity={0.7}
               >
-                <Text style={styles.optionText}>{isNe ? opt.textNe : opt.text}</Text>
+                <Text className="text-[15px] text-[#444] font-[600]">{isNe ? opt.textNe : opt.text}</Text>
               </TouchableOpacity>
             ))
           ) : (
             <TouchableOpacity 
-              style={[styles.btn, selectedResult.isCorrect ? styles.btnCorrect : styles.btnWrong]} 
+              className={`py-[16px] rounded-[14px] items-center ${selectedResult.isCorrect ? 'bg-[#C06898]' : 'bg-[#C4636E]'}`}
               onPress={handleNext}
+              activeOpacity={0.8}
             >
-              <Text style={styles.btnText}>
+              <Text className="text-white text-[16px] font-[800]">
                 {currentScenarioIdx === SCENARIOS.length - 1 
                   ? (isNe ? "सिमुलेसन सकियो" : "Finish Simulation") 
                   : (isNe ? "अर्को परिदृश्य" : "Next Scenario")}
@@ -389,38 +406,10 @@ export default function Step4DangerSigns({ onNextStep }: { onNextStep: () => voi
         </View>
       </View>
 
-      {/* Progress indicator */}
-      <View style={styles.progressBadge}>
-        <Text style={styles.progressText}>{currentScenarioIdx + 1} / {SCENARIOS.length}</Text>
-      </View>
+      {/* Progress is now shown in the GameContainer sub-bar */}
     </Animated.View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FFF9FB' },
-  progressBadge: { 
-    position: 'absolute', top: 60, alignSelf: 'center',
-    backgroundColor: 'rgba(176,76,138,0.9)', paddingHorizontal: 18, paddingVertical: 8, borderRadius: 20,
-  },
-  progressText: { fontWeight: '900', fontSize: 13, color: '#FFF' },
-  scenarioCard: { 
-    position: 'absolute', bottom: 40, left: 16, right: 16, 
-    backgroundColor: 'rgba(255,255,255,0.97)', borderRadius: 24, padding: 24, 
-    shadowColor: '#000', shadowOpacity: 0.12, shadowRadius: 16, elevation: 12,
-    borderWidth: 1, borderColor: 'rgba(255,255,255,0.8)',
-  },
-  scenarioTitle: { fontSize: 12, fontWeight: '900', color: '#B04C8A', letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 8 },
-  scenarioDesc: { fontSize: 17, fontWeight: '700', color: '#222', marginBottom: 22, lineHeight: 26 },
-  optionsContainer: { gap: 10 },
-  optionBtn: { 
-    padding: 16, backgroundColor: '#FEFEFE', borderRadius: 14, 
-    borderWidth: 1.5, borderColor: '#F0D0E0',
-    shadowColor: '#FADDEB', shadowOpacity: 0.08, shadowRadius: 4, elevation: 2,
-  },
-  optionText: { fontSize: 15, color: '#333', fontWeight: '700' },
-  btn: { paddingVertical: 18, borderRadius: 14, alignItems: 'center' },
-  btnCorrect: { backgroundColor: '#B04C8A' },
-  btnWrong: { backgroundColor: '#A73C44' },
-  btnText: { color: '#FFF', fontSize: 17, fontWeight: '900' }
-});
+
+

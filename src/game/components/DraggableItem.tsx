@@ -1,5 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { 
   useAnimatedStyle, 
@@ -32,7 +32,7 @@ interface DraggableItemProps {
 }
 
 export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({ 
-  id, name, emoji, category, isWrong = false, initialPos, onDrop, onLongPress, packed, color = '#FFF'
+  id, name, emoji, category, isWrong = false, initialPos, onDrop, onLongPress, packed, color = '#FFFBFD'
 }, ref) => {
   const translateX = useSharedValue(initialPos.x);
   const translateY = useSharedValue(initialPos.y);
@@ -88,9 +88,9 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
     .onStart(() => {
       startX.value = translateX.value;
       startY.value = translateY.value;
-      scale.value = withSpring(1.15);
+      scale.value = withSpring(1.12);
       zIndex.value = 100;
-      rotation.value = withSpring(5);
+      rotation.value = withSpring(3);
     })
     .onUpdate((event) => {
       translateX.value = startX.value + event.translationX;
@@ -127,64 +127,17 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
 
   return (
     <GestureDetector gesture={composedGesture}>
-      <Animated.View style={[animatedStyle, styles.container, { backgroundColor: color }]}>
-        <View style={styles.iconCircle}>
-          <Text style={styles.emoji}>{emoji}</Text>
+      <Animated.View 
+        style={[animatedStyle, { backgroundColor: color }]}
+        className={`w-[72px] h-[72px] rounded-full justify-center items-center shadow shadow-black shadow-opacity-15 shadow-radius-5 elevation-6 border-[1.5px] ${isWrong ? 'border-[#E8D5D5]' : 'border-[#F5E1EC]'}`}
+      >
+        <View className={`w-[48px] h-[48px] rounded-full justify-center items-center ${isWrong ? 'bg-[#F5F0F0]' : 'bg-white/90'}`}>
+          <Text className="text-[24px]">{emoji}</Text>
         </View>
-        <View style={styles.labelWrapper}>
-          <Text style={styles.label} numberOfLines={2}>{name}</Text>
+        <View className={`absolute bottom-[-34px] w-[92px] rounded-xl px-1.5 py-1 border-[1.5px] shadow-opacity-8 shadow-radius-2 elevation-2 ${isWrong ? 'bg-[#F9F5F5] border-[#E8D5D5]' : 'bg-white border-[#F5E1EC]'}`}>
+          <Text className={`text-[10px] font-[700] text-center ${isWrong ? 'text-[#888]' : 'text-[#333]'}`} numberOfLines={2}>{name}</Text>
         </View>
       </Animated.View>
     </GestureDetector>
   );
-});
-
-const styles = StyleSheet.create({
-  container: {
-    width: 75,
-    height: 75,
-    borderRadius: 38,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
-    elevation: 8,
-    borderWidth: 1.5,
-    borderColor: '#FCC2D7',
-  },
-  iconCircle: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: 'rgba(255,255,255,0.9)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  emoji: {
-    fontSize: 26,
-  },
-  labelWrapper: {
-    position: 'absolute',
-    bottom: -36,
-    width: 96,
-    backgroundColor: 'rgba(255,255,255,1)',
-    borderRadius: 12,
-    paddingHorizontal: 6,
-    paddingVertical: 4,
-    borderWidth: 1.5,
-    borderColor: '#FADDEB',
-    shadowColor: '#B04C8A',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
-  },
-  label: {
-    fontSize: 11,
-    fontWeight: '900',
-    color: '#1A1A1A',
-    textAlign: 'center',
-  }
 });

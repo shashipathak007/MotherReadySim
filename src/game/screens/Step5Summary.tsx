@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Share, ImageBackground, ScrollView, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Share, ImageBackground, ScrollView } from 'react-native';
 import { useGame } from '../context/GameContext';
 import Animated, { FadeInUp, ZoomIn, FadeInDown } from 'react-native-reanimated';
 import { BAG_ITEMS } from '../../data/bagItems';
@@ -7,8 +7,6 @@ import { DOCUMENTS } from '../../data/documents';
 import { CONTACTS } from '../../data/contacts';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
-
-const { width } = Dimensions.get('window');
 
 export default function Step5Summary({ onReplay }: { onReplay: () => void }) {
   const { packedBagItems, collectedDocuments, savedContacts, quizStars, resetGame } = useGame();
@@ -64,45 +62,61 @@ export default function Step5Summary({ onReplay }: { onReplay: () => void }) {
   };
 
   const ProgressBar = ({ ratio, label, icon, count, total }: { ratio: number, label: string, icon: string, count: number, total: number }) => (
-    <View style={styles.progressItem}>
-      <View style={styles.progressLabelRow}>
-        <Text style={styles.progressIcon}>{icon}</Text>
-        <Text style={styles.progressLabel}>{label}</Text>
-        <Text style={styles.progressCount}>{count}/{total}</Text>
+    <View className="mb-4">
+      <View className="flex-row items-center mb-1.5">
+        <Text className="text-base mr-2">{icon}</Text>
+        <Text className="text-sm font-[700] text-[#444] flex-1">{label}</Text>
+        <Text className="text-sm font-[800] text-[#9B5983]">{count}/{total}</Text>
       </View>
-      <View style={styles.progressBarBg}>
-        <View style={[styles.progressBarFill, { width: `${Math.max(ratio * 100, 3)}%`, backgroundColor: getProgressColor(ratio) }]} />
+      <View className="h-2.5 bg-[#F3F4F6] rounded-[5px] overflow-hidden">
+        <View 
+          className="h-2.5 rounded-[5px]" 
+          style={{ width: `${Math.max(ratio * 100, 3)}%`, backgroundColor: getProgressColor(ratio) }} 
+        />
       </View>
     </View>
   );
 
   return (
-    <View style={styles.container}>
-      {/* Background */}
-      <ImageBackground source={require('../../../assets/images/aama_ready_main_bg.png')} style={StyleSheet.absoluteFill} resizeMode="cover">
-        <LinearGradient colors={['rgba(255,240,248,0.5)', 'rgba(255,255,255,0.75)']} style={StyleSheet.absoluteFill} />
-      </ImageBackground>
+    <View className="flex-1">
+      {/* Background with subtle blur */}
+      <View className="absolute inset-0">
+        <ImageBackground 
+          source={require('../../../assets/images/aama_ready_main_bg.png')} 
+          className="flex-1"
+          resizeMode="cover"
+          blurRadius={3}
+        >
+          <LinearGradient 
+            colors={['rgba(255,249,251,0.25)', 'rgba(255,245,248,0.45)', 'rgba(255,249,251,0.55)']} 
+            className="absolute inset-0" 
+          />
+        </ImageBackground>
+      </View>
 
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{ paddingTop: 80, paddingBottom: 50, paddingHorizontal: 24, alignItems: 'center' }} showsVerticalScrollIndicator={false}>
         {/* Badge */}
-        <Animated.View entering={ZoomIn.delay(200)} style={styles.badgeContainer}>
-          <Text style={styles.badgeEmoji}>{badgeEmoji}</Text>
-          <Text style={styles.badgeMsg}>{badgeMsg}</Text>
-          <Text style={styles.stars}>{'⭐'.repeat(quizStars)}{'☆'.repeat(5 - quizStars)}</Text>
+        <Animated.View entering={ZoomIn.delay(200)} className="items-center mb-7">
+          <Text className="text-[64px] mb-2">{badgeEmoji}</Text>
+          <Text className="text-[28px] font-[800] text-[#9B5983] text-center mb-2">{badgeMsg}</Text>
+          <Text className="text-[28px] color-[#F59E0B]">{'⭐'.repeat(quizStars)}{'☆'.repeat(5 - quizStars)}</Text>
         </Animated.View>
 
         {/* Stats Card */}
-        <Animated.View entering={FadeInUp.delay(400)} style={styles.statsCard}>
-          <Text style={styles.statsTitle}>{isNe ? 'तपाईंको नतिजा' : 'Your Results'}</Text>
+        <Animated.View entering={FadeInUp.delay(400)} className="w-full bg-white/95 rounded-[22px] p-6 mb-6 shadow-black shadow-opacity-8 shadow-radius-16 elevation-8 border border-[#F5E1EC]">
+          <Text className="text-lg font-[900] text-[#333] mb-5 text-center">{isNe ? 'तपाईंको नतिजा' : 'Your Results'}</Text>
           
           <ProgressBar icon="🎒" label={isNe ? 'अस्पतालको झोला' : 'Hospital Bag'} ratio={baggedRatio} count={packedBagItems.length} total={BAG_ITEMS.length} />
-          <ProgressBar icon="📁" label={isNe ? 'कागजातहरू' : 'Documents'} ratio={docsRatio} count={collectedDocuments.length} total={DOCUMENTS.length} />
-          <ProgressBar icon="📞" label={isNe ? 'सम्पर्कहरू' : 'Contacts'} ratio={contactsRatio} count={savedContacts.length} total={CONTACTS.length} />
-          <ProgressBar icon="⚠️" label={isNe ? 'खतरा प्रश्नोत्तरी' : 'Danger Quiz'} ratio={quizRatio} count={quizStars} total={totalPossibleStars} />
+          <ProgressBar icon="📋" label={isNe ? 'कागजातहरू' : 'Documents'} ratio={docsRatio} count={collectedDocuments.length} total={DOCUMENTS.length} />
+          <ProgressBar icon="📱" label={isNe ? 'सम्पर्कहरू' : 'Contacts'} ratio={contactsRatio} count={savedContacts.length} total={CONTACTS.length} />
+          <ProgressBar icon="🩺" label={isNe ? 'खतरा प्रश्नोत्तरी' : 'Danger Quiz'} ratio={quizRatio} count={quizStars} total={totalPossibleStars} />
 
-          <View style={styles.scoreSummary}>
-            <Text style={styles.scoreLabel}>{isNe ? 'कुल स्कोर' : 'Overall Score'}</Text>
-            <Text style={[styles.scoreValue, { color: getProgressColor(scorePercentage) }]}>
+          <View className="flex-row items-center justify-between mt-5 pt-4 border-t border-[#F0E0E8]">
+            <Text className="text-lg font-[900] text-[#333]">{isNe ? 'कुल स्कोर' : 'Overall Score'}</Text>
+            <Text 
+              className="text-[32px] font-[900]" 
+              style={{ color: getProgressColor(scorePercentage) }}
+            >
               {Math.round(scorePercentage * 100)}%
             </Text>
           </View>
@@ -110,88 +124,33 @@ export default function Step5Summary({ onReplay }: { onReplay: () => void }) {
 
         {/* Message */}
         <Animated.View entering={FadeInUp.delay(600)}>
-          <Text style={styles.subMsg}>{subMsg}</Text>
+          <Text className="text-[15px] color-[#555] text-center mb-7 italic leading-6 px-2">{subMsg}</Text>
         </Animated.View>
 
-        {/* Action Buttons */}
-        <Animated.View entering={FadeInDown.delay(800)} style={styles.btnRow}>
-          <TouchableOpacity style={styles.replayBtn} onPress={handleReplay}>
-            <Text style={styles.replayBtnText}>{isNe ? '🔄 फेरि खेल्नुहोस्' : '🔄 Play Again'}</Text>
+        {/* Action Buttons — stacked for better tap targets */}
+        <Animated.View entering={FadeInDown.delay(800)} className="w-full gap-3">
+          {/* Share button — primary, full width */}
+          <TouchableOpacity 
+            className="w-full rounded-full overflow-hidden shadow-[#C06898] shadow-opacity-20 shadow-radius-12 elevation-6" 
+            onPress={handleShare} 
+            activeOpacity={0.8}
+          >
+            <View className="bg-[#C06898] py-4 flex-row items-center justify-center gap-2">
+              <Text className="text-[22px]">📤</Text>
+              <Text className="text-white text-[16px] font-[800]">{isNe ? 'स्कोर शेयर गर्नुहोस्' : 'Share My Score'}</Text>
+            </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.shareBtnWrap} onPress={handleShare}>
-            <LinearGradient 
-              colors={['#B04C8A', '#E84393']} 
-              start={{ x: 0, y: 0 }} 
-              end={{ x: 1, y: 1 }} 
-              style={styles.shareBtn}
-            >
-              <Text style={styles.shareBtnText}>{isNe ? '📤 शेयर गर्नुहोस्' : '📤 Share Score'}</Text>
-            </LinearGradient>
+
+          {/* Play again — secondary, outlined */}
+          <TouchableOpacity 
+            className="w-full py-3.5 rounded-full items-center justify-center bg-white/90 border-[1.5px] border-[#E8B4D0]" 
+            onPress={handleReplay}
+            activeOpacity={0.7}
+          >
+            <Text className="text-[#9B5983] text-[15px] font-[700]">{isNe ? 'फेरि खेल्नुहोस्' : 'Play Again'}</Text>
           </TouchableOpacity>
         </Animated.View>
       </ScrollView>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FFF9FB' },
-  scrollContent: { 
-    paddingTop: 80, paddingBottom: 50, paddingHorizontal: 24, 
-    alignItems: 'center',
-  },
-  badgeContainer: { 
-    alignItems: 'center', marginBottom: 28,
-  },
-  badgeEmoji: { fontSize: 64, marginBottom: 8 },
-  badgeMsg: { 
-    fontSize: 30, fontWeight: '900', color: '#B04C8A', textAlign: 'center', marginBottom: 8,
-  },
-  stars: { fontSize: 28, color: '#F59E0B' },
-
-  statsCard: { 
-    width: '100%', backgroundColor: 'rgba(255,255,255,0.95)', borderRadius: 24, padding: 24, 
-    marginBottom: 24,
-    shadowColor: '#000', shadowOpacity: 0.08, shadowRadius: 16, elevation: 8,
-    borderWidth: 1, borderColor: 'rgba(255,255,255,0.9)',
-  },
-  statsTitle: { 
-    fontSize: 18, fontWeight: '900', color: '#333', marginBottom: 20, textAlign: 'center',
-  },
-  progressItem: { marginBottom: 16 },
-  progressLabelRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 6 },
-  progressIcon: { fontSize: 16, marginRight: 8 },
-  progressLabel: { fontSize: 14, fontWeight: '700', color: '#444', flex: 1 },
-  progressCount: { fontSize: 14, fontWeight: '900', color: '#B04C8A' },
-  progressBarBg: { 
-    height: 10, backgroundColor: '#F3F4F6', borderRadius: 5, overflow: 'hidden',
-  },
-  progressBarFill: { 
-    height: 10, borderRadius: 5,
-  },
-  scoreSummary: { 
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    marginTop: 20, paddingTop: 16, borderTopWidth: 1, borderTopColor: '#F0E0E8',
-  },
-  scoreLabel: { fontSize: 18, fontWeight: '900', color: '#333' },
-  scoreValue: { fontSize: 32, fontWeight: '900' },
-
-  subMsg: { 
-    fontSize: 15, color: '#555', textAlign: 'center', marginBottom: 28, 
-    fontStyle: 'italic', lineHeight: 24, paddingHorizontal: 8,
-  },
-
-  btnRow: { flexDirection: 'row', gap: 14, width: '100%' },
-  replayBtn: { 
-    flex: 1, paddingVertical: 16, borderRadius: 14, alignItems: 'center', justifyContent: 'center', 
-    backgroundColor: '#FFF', borderWidth: 1.5, borderColor: '#F0D0E0',
-    shadowColor: '#000', shadowOpacity: 0.05, shadowRadius: 8, elevation: 3,
-  },
-  replayBtnText: { color: '#B04C8A', fontSize: 15, fontWeight: '900' },
-  shareBtnWrap: { 
-    flex: 1, borderRadius: 14, overflow: 'hidden', 
-    shadowColor: '#B04C8A', shadowOpacity: 0.25, shadowRadius: 12, elevation: 6,
-  },
-  shareBtn: { paddingVertical: 16, alignItems: 'center', justifyContent: 'center' },
-  shareBtnText: { color: '#FFF', fontSize: 15, fontWeight: '900' },
-});

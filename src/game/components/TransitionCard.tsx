@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import Animated, { 
   useSharedValue, 
   useAnimatedStyle, 
@@ -19,14 +19,15 @@ interface TransitionCardProps {
 
 const TRANSITION_CONTENT = {
   1: {
-    emoji: '📁',
+    emoji: '📋',
     title: 'Bag Packed!',
     titleNe: 'झोला तयार भयो!',
     subtitle: 'Now find your important documents.',
     subtitleNe: 'अब आवश्यक कागजातहरू जम्मा गर्नुहोस्।',
-    accent: '#3B82F6',
-    bgColor: 'rgba(239, 246, 255, 0.97)',
-    badge: '✅ Step 1 Complete',
+    accent: '#5B8DB8',
+    bgColor: 'rgba(240, 247, 255, 0.97)',
+    badge: 'Step 1 Complete',
+    badgeNe: 'चरण १ पूरा',
   },
   2: {
     emoji: '📱',
@@ -34,29 +35,32 @@ const TRANSITION_CONTENT = {
     titleNe: 'कागजात तयार!',
     subtitle: 'Now save your emergency contacts.',
     subtitleNe: 'अब आपतकालीन सम्पर्कहरू सुरक्षित गर्नुहोस्।',
-    accent: '#10B981',
-    bgColor: 'rgba(236, 253, 245, 0.97)',
-    badge: '✅ Step 2 Complete',
+    accent: '#5BA88C',
+    bgColor: 'rgba(240, 253, 248, 0.97)',
+    badge: 'Step 2 Complete',
+    badgeNe: 'चरण २ पूरा',
   },
   3: {
-    emoji: '⚠️',
+    emoji: '🩺',
     title: 'Contacts Saved!',
     titleNe: 'सम्पर्क सुरक्षित!',
     subtitle: 'Do you know the danger signs?',
     subtitleNe: 'के तपाईंलाई खतराका संकेतहरू थाहा छ?',
-    accent: '#F59E0B',
-    bgColor: 'rgba(255, 251, 235, 0.97)',
-    badge: '✅ Step 3 Complete',
+    accent: '#C49A3C',
+    bgColor: 'rgba(255, 252, 240, 0.97)',
+    badge: 'Step 3 Complete',
+    badgeNe: 'चरण ३ पूरा',
   },
   4: {
-    emoji: '🏆',
+    emoji: '🌟',
     title: 'Quiz Done!',
     titleNe: 'प्रश्नोत्तरी सकियो!',
     subtitle: "Let's see your final results.",
     subtitleNe: 'अब तपाईंको नतिजा हेरौं।',
-    accent: '#B04C8A',
-    bgColor: 'rgba(253, 242, 248, 0.97)',
-    badge: '✅ Step 4 Complete',
+    accent: '#C06898',
+    bgColor: 'rgba(253, 245, 250, 0.97)',
+    badge: 'Step 4 Complete',
+    badgeNe: 'चरण ४ पूरा',
   }
 };
 
@@ -116,124 +120,72 @@ export const TransitionCard: React.FC<TransitionCardProps> = ({ step, onComplete
   const content = TRANSITION_CONTENT[step];
 
   return (
-    <Animated.View style={[styles.overlay, overlayStyle]}>
-      <Pressable style={styles.overlayPress} onPress={handleDismiss}>
-        <Animated.View style={[styles.card, cardStyle, { backgroundColor: content.bgColor }]}>
+    <Animated.View 
+      className="absolute inset-0 bg-black/35 justify-center items-center z-[1000]" 
+      style={overlayStyle}
+    >
+      <Pressable className="flex-1 justify-center items-center w-full" onPress={handleDismiss}>
+        <Animated.View 
+          className="w-[82%] rounded-[26px] px-[28px] pt-[32px] pb-[26px] items-center shadow shadow-black shadow-opacity-10 shadow-radius-20 elevation-16 border border-white/80 overflow-hidden" 
+          style={[cardStyle, { backgroundColor: content.bgColor }]}
+        >
           {/* Accent line at top */}
-          <View style={[styles.accentBar, { backgroundColor: content.accent }]} />
+          <View 
+            className="absolute top-0 left-0 right-0 h-1 rounded-t-[26px]" 
+            style={{ backgroundColor: content.accent }} 
+          />
           
           {/* Badge */}
-          <View style={[styles.badge, { backgroundColor: content.accent + '18' }]}>
-            <Text style={[styles.badgeText, { color: content.accent }]}>{content.badge}</Text>
+          <View 
+            className="px-4 py-1.5 rounded-[20px] mb-5" 
+            style={{ backgroundColor: content.accent + '15' }}
+          >
+            <Text 
+              className="text-[12px] font-[700] tracking-[0.5px]" 
+              style={{ color: content.accent }}
+            >
+              {isNe ? content.badgeNe : content.badge}
+            </Text>
           </View>
 
           {/* Big Emoji */}
           <Animated.View style={emojiStyle}>
-            <Text style={styles.emoji}>{content.emoji}</Text>
+            <Text className="text-[64px] mb-4">{content.emoji}</Text>
           </Animated.View>
 
           {/* Title */}
-          <Text style={[styles.title, { color: content.accent }]}>{isNe ? content.titleNe : content.title}</Text>
+          <Text 
+            className="text-[26px] font-[800] text-center mb-2" 
+            style={{ color: content.accent }}
+          >
+            {isNe ? content.titleNe : content.title}
+          </Text>
 
           {/* Subtitle */}
-          <Text style={styles.subtitle}>{isNe ? content.subtitleNe : content.subtitle}</Text>
+          <Text className="text-[16px] font-[500] text-[#666] text-center leading-[24px] mb-5 px-2">
+            {isNe ? content.subtitleNe : content.subtitle}
+          </Text>
 
           {/* Divider */}
-          <View style={[styles.divider, { backgroundColor: content.accent + '25' }]} />
+          <View 
+            className="w-[50px] h-0.5 rounded-sm mb-4" 
+            style={{ backgroundColor: content.accent + '20' }} 
+          />
 
           {/* Tap hint */}
-          <View style={[styles.tapHint, { backgroundColor: content.accent + '12' }]}>
-            <Text style={[styles.hintText, { color: content.accent }]}>{isNe ? 'अगाडि बढ्न ट्याप गर्नुहोस् →' : 'Tap to continue →'}</Text>
+          <View 
+            className="px-5 py-2.5 rounded-[20px]" 
+            style={{ backgroundColor: content.accent + '10' }}
+          >
+            <Text 
+              className="text-[13px] font-[600] tracking-[0.3px]" 
+              style={{ color: content.accent }}
+            >
+              {isNe ? 'अगाडि बढ्न ट्याप गर्नुहोस्' : 'Tap to continue'}
+            </Text>
           </View>
         </Animated.View>
       </Pressable>
     </Animated.View>
   );
 };
-
-const styles = StyleSheet.create({
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.45)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1000,
-  },
-  overlayPress: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-  },
-  card: {
-    width: '82%',
-    borderRadius: 28,
-    paddingHorizontal: 30,
-    paddingTop: 36,
-    paddingBottom: 28,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 12 },
-    shadowOpacity: 0.15,
-    shadowRadius: 24,
-    elevation: 20,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.8)',
-    overflow: 'hidden',
-  },
-  accentBar: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 4,
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
-  },
-  badge: {
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    borderRadius: 20,
-    marginBottom: 24,
-  },
-  badgeText: {
-    fontSize: 12,
-    fontWeight: '800',
-    letterSpacing: 0.5,
-  },
-  emoji: {
-    fontSize: 72,
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: '900',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 17,
-    fontWeight: '600',
-    color: '#555',
-    textAlign: 'center',
-    lineHeight: 26,
-    marginBottom: 24,
-    paddingHorizontal: 10,
-  },
-  divider: {
-    width: 60,
-    height: 2,
-    borderRadius: 1,
-    marginBottom: 20,
-  },
-  tapHint: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 20,
-  },
-  hintText: {
-    fontSize: 13,
-    fontWeight: '700',
-    letterSpacing: 0.5,
-  },
-});

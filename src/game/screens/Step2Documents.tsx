@@ -1,19 +1,18 @@
 import React, { useRef, useState, useMemo } from 'react';
-import { View, StyleSheet, Dimensions, Text, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Dimensions, Text, TouchableOpacity, ImageBackground } from 'react-native';
 import { useGame } from '../context/GameContext';
 import { DOCUMENTS } from '../../data/documents';
 import { OpenFolder } from '../components/GameSVGs';
 import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
-import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 
 const { width, height } = Dimensions.get('window');
 
 const WRONG_DOCS = [
-  { id: 91, name: 'Old expired ID', whyNot: 'This is expired — bring your current Nagarikta' },
-  { id: 92, name: "Child's report card", whyNot: 'This is not needed at the hospital' },
-  { id: 93, name: 'A random receipt', whyNot: 'Leave household papers at home' },
+  { id: 91, name: 'Old expired ID', nameNe: 'म्याद सकिएको पुरानो परिचयपत्र', whyNot: 'This is expired — bring your current Nagarikta', whyNotNe: 'यो म्याद सकिएको छ — हालको नागरिकता लिएर जानुहोस्' },
+  { id: 92, name: "Child's report card", nameNe: 'बच्चाको विद्यालयको रिपोर्ट कार्ड', whyNot: 'This is not needed at the hospital', whyNotNe: 'यो अस्पतालमा चाहिँदैन' },
+  { id: 93, name: 'A random receipt', nameNe: 'कुनै पुरानो रसिद', whyNot: 'Leave household papers at home', whyNotNe: 'घरायसी कागजातहरू घरमै छाड्नुहोस्' },
 ];
 
 const WRONG_DISTRIBUTION: Record<string, number[]> = {
@@ -27,18 +26,21 @@ export default function Step2Documents({ onNextStep }: { onNextStep: () => void 
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
 
-  const [wrongAttempts, setWrongAttempts] = useState(0);
-
   const waveCategories = ['Identity', 'Aama Programme', 'Medical'];
   const [currentWaveIdx, setCurrentWaveIdx] = useState(0);
   const [containerLayout, setContainerLayout] = useState({ width: width, height: height });
   const currentWave = waveCategories[currentWaveIdx];
 
+  const checkCompletion = (newCount: number) => {
+    if (newCount >= DOCUMENTS.length) {
+      setTimeout(() => onNextStep(), 1500);
+    }
+  };
+
   React.useEffect(() => {
     if (currentWave) setCurrentWave(currentWave);
   }, [currentWave, setCurrentWave]);
 
-  // Derive the current wave from collected items
   React.useEffect(() => {
     let nextWaveIdx = 0;
     for (let i = 0; i < waveCategories.length; i++) {
@@ -83,12 +85,6 @@ export default function Step2Documents({ onNextStep }: { onNextStep: () => void 
   };
   const itemRefs = useRef<Record<number, DraggableItemRef>>({});
 
-  const checkCompletion = (newCount: number) => {
-    if (newCount >= DOCUMENTS.length) {
-      setTimeout(() => onNextStep(), 1500);
-    }
-  };
-
   const handleDrop = (id: number, x: number, y: number, isWrong: boolean) => {
     const item = activeWaveDocs.find(i => i.id === id && i.isWrong === isWrong);
     if (!item) return;
@@ -107,7 +103,9 @@ export default function Step2Documents({ onNextStep }: { onNextStep: () => void 
         showFeedback(isNe ? `राम्रो छनोट: ${docName}` : `Good choice: ${docName}`, docWhy, 'success');
       } else {
         ref?.shakeAndSnapBack();
-        showFeedback(isNe ? `चाहिँदैन: ${item.name}` : `Not needed: ${item.name}`, item.why, 'error');
+        const wrongName = isNe && 'nameNe' in item && (item as any).nameNe ? (item as any).nameNe : item.name;
+        const wrongWhy = isNe && 'whyNotNe' in item && (item as any).whyNotNe ? (item as any).whyNotNe : item.why;
+        showFeedback(isNe ? `चाहिँदैन: ${wrongName}` : `Not needed: ${item.name}`, wrongWhy, 'error');
       }
     } else {
       ref?.snapBack();
@@ -117,37 +115,44 @@ export default function Step2Documents({ onNextStep }: { onNextStep: () => void 
   const handleLongPress = (id: number, isWrong: boolean) => {
     const item = activeWaveDocs.find(i => i.id === id && i.isWrong === isWrong);
     if (item) {
-      showFeedback(item.name, item.why, 'info');
-    }
-  };
-
-  const getDocEmoji = (category: string) => {
-    switch(category) {
-      case 'Identity': return '🪪';
-      case 'Aama Programme': return '📋';
-      case 'Medical': return '🩺';
-      case 'Payment': return '🏦';
-      default: return '📄';
+      const itemName = isNe && 'nameNe' in item && (item as any).nameNe ? (item as any).nameNe : item.name;
+      let itemWhy: string;
+      if (item.isWrong) {
+        itemWhy = isNe && 'whyNotNe' in item && (item as any).whyNotNe ? (item as any).whyNotNe : item.why;
+      } else {
+        itemWhy = isNe && 'whyNeededNe' in item && (item as any).whyNeededNe ? (item as any).whyNeededNe : item.why;
+      }
+      showFeedback(itemName, itemWhy, 'info');
     }
   };
 
   return (
     <View 
-      style={styles.container}
+      className="flex-1"
       onLayout={(e) => {
         const { width, height } = e.nativeEvent.layout;
         setContainerLayout({ width, height });
       }}
     >
-      <ImageBackground 
-        source={require('../../../assets/images/desk_bg.png')} 
-        style={StyleSheet.absoluteFill}
-        resizeMode="cover"
-      >
-        <LinearGradient colors={['rgba(255,255,255,0.4)', 'rgba(255,255,255,0.7)']} style={StyleSheet.absoluteFill} />
-      </ImageBackground>
+      {/* Background with subtle blur */}
+      <View className="absolute inset-0">
+        <ImageBackground 
+          source={require('../../../assets/images/desk_bg.png')} 
+          className="flex-1"
+          resizeMode="cover"
+          blurRadius={3}
+        >
+          <LinearGradient 
+            colors={['rgba(255,249,251,0.25)', 'rgba(255,245,248,0.45)', 'rgba(255,249,251,0.55)']} 
+            className="absolute inset-0" 
+          />
+        </ImageBackground>
+      </View>
 
-      <View style={[styles.dropZone, { left: dropZone.x, top: dropZone.y, width: dropZone.w, height: dropZone.h }]}>
+      <View 
+        className="absolute justify-center items-center"
+        style={{ left: dropZone.x, top: dropZone.y, width: dropZone.w, height: dropZone.h }}
+      >
         <OpenFolder filled={Math.floor((collectedDocuments.length / DOCUMENTS.length) * 4)} glow />
       </View>
 
@@ -160,42 +165,17 @@ export default function Step2Documents({ onNextStep }: { onNextStep: () => void 
             ref={(el) => { if (el) itemRefs.current[uniqueId] = el; }}
             id={item.id}
             name={isNe && 'nameNe' in item && (item as any).nameNe ? (item as any).nameNe : item.name}
-            emoji={getDocEmoji(item.category)}
+            emoji={'emoji' in item ? (item as any).emoji : '📄'}
             category={item.category}
             isWrong={item.isWrong}
             initialPos={item.initialPos}
             onDrop={handleDrop}
             onLongPress={handleLongPress}
             packed={packed}
-            color={item.isWrong ? '#F0F0F0' : '#FFF'}
+            color={item.isWrong ? '#F5F0F0' : '#FFFBFD'}
           />
         );
       })}
-
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FFF9FB' },
-  progressTop: { position: 'absolute', top: 20, left: 20, backgroundColor: 'rgba(255,255,255,0.9)', paddingHorizontal: 15, paddingVertical: 8, borderRadius: 15, shadowColor: '#3498DB', shadowOpacity: 0.1, shadowRadius: 5, zIndex: 10 },
-  progressText: { fontWeight: '800', fontSize: 13, color: '#3498DB', textTransform: 'uppercase' },
-  waveBanner: { position: 'absolute', top: 20, right: 20, backgroundColor: '#3498DB', paddingHorizontal: 15, paddingVertical: 8, borderRadius: 15, shadowColor: '#000', shadowOpacity: 0.1, shadowRadius: 5, zIndex: 10 },
-  waveText: { fontWeight: '900', fontSize: 13, color: '#FFF', textTransform: 'uppercase' },
-  dropZone: { position: 'absolute', justifyContent: 'center', alignItems: 'center' },
-  infoCard: { position: 'absolute', bottom: 0, left: 0, right: 0, padding: 30, paddingBottom: 50, borderTopLeftRadius: 35, borderTopRightRadius: 35, shadowColor: '#3498DB', shadowOpacity: 0.15, shadowRadius: 15, elevation: 20 },
-  infoCardRight: { backgroundColor: '#F7FBFF' },
-  infoCardWrong: { backgroundColor: '#FEF9F9' },
-  infoCardHint: { backgroundColor: '#F9F9F9' },
-  infoTitle: { fontSize: 22, fontWeight: '900', marginBottom: 5 },
-  infoTitleSub: { fontSize: 18, fontWeight: '800', color: '#111', marginBottom: 12 },
-  infoDesc: { fontSize: 16, color: '#444', lineHeight: 26, marginBottom: 25 },
-  textRight: { color: '#3498DB' },
-  textWrong: { color: '#A73C44' },
-  textHint: { color: '#2980B9' },
-  btn: { paddingVertical: 18, borderRadius: 15, alignItems: 'center' },
-  btnRight: { backgroundColor: '#3498DB' },
-  btnWrong: { backgroundColor: '#A73C44' },
-  btnHint: { backgroundColor: '#2980B9' },
-  btnText: { color: '#FFF', fontSize: 18, fontWeight: '900' }
-});
