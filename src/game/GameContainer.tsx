@@ -107,21 +107,19 @@ export default function GameContainer() {
       {/* Floating Header — matching reference images */}
       <View className="absolute top-0 left-0 right-0 z-[100]">
         <SafeAreaView edges={['top']}>
-          {/* Top bar: Prev | Step title | Next */}
+          {/* Top bar: Back | Step title | Next */}
           <View className="flex-row items-center justify-between mx-4 mt-1.5 px-1.5 py-2">
-            {/* Prev button — same style as Next */}
+            {/* Back button — same style as Next */}
             <TouchableOpacity
               className={`px-5 py-2 rounded-full bg-[#C06898] ${currentStep === 1 ? 'opacity-30' : ''}`}
               onPress={() => {
                 const prevStep = Math.max(1, currentStep - 1) as any;
-                // Reset completed step data so it replays fresh (no popup)
-                resetStepData(prevStep);
                 setStep(prevStep);
               }}
               disabled={currentStep === 1}
               activeOpacity={0.7}
             >
-              <Text className="text-[13px] font-[700] text-white">{isNepali ? 'पछिल्लो' : 'Prev'}</Text>
+              <Text className="text-[13px] font-[700] text-white">{isNepali ? 'पछिल्लो' : 'Back'}</Text>
             </TouchableOpacity>
 
             {/* Center: Step label + name */}

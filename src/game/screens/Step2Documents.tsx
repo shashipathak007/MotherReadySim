@@ -1,9 +1,10 @@
 import React, { useRef, useState, useMemo } from 'react';
-import { View, Dimensions, ImageBackground } from 'react-native';
+import { View, Dimensions, ImageBackground, Image } from 'react-native';
 import { useGame } from '../context/GameContext';
 import { DOCUMENTS } from '../../data/documents';
-import { OpenFolder } from '../components/GameSVGs';
+// Import removed for OpenFolder
 import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
+import { StepCompletionModal } from '../components/StepCompletionModal';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 
@@ -22,18 +23,29 @@ const WRONG_DISTRIBUTION: Record<string, number[]> = {
 };
 
 export default function Step2Documents({ onNextStep }: { onNextStep: () => void }) {
-  const { collectedDocuments, collectDocument, showFeedback, setCurrentWave } = useGame();
+  const { collectedDocuments, collectDocument, showFeedback, setCurrentWave, resetCurrentStep } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
-
+  
+  const [showCompletionModal, setShowCompletionModal] = useState(false);
   const waveCategories = ['Identity', 'Aama Programme', 'Medical'];
   const [currentWaveIdx, setCurrentWaveIdx] = useState(0);
   const [containerLayout, setContainerLayout] = useState({ width: width, height: height });
   const currentWave = waveCategories[currentWaveIdx];
 
+  const hasCompletedInitially = useRef(collectedDocuments.length >= DOCUMENTS.length);
+  const [hasShownCompletionFeedback, setHasShownCompletionFeedback] = useState(false);
+
   const checkCompletion = (newCount: number) => {
     if (newCount >= DOCUMENTS.length) {
-      setTimeout(() => onNextStep(), 1500);
+      if (hasCompletedInitially.current) {
+        if (!hasShownCompletionFeedback) {
+          setHasShownCompletionFeedback(true);
+          setShowCompletionModal(true);
+        }
+      } else {
+        setTimeout(() => onNextStep(), 1500);
+      }
     }
   };
 
@@ -151,9 +163,17 @@ export default function Step2Documents({ onNextStep }: { onNextStep: () => void 
 
       <View 
         className="absolute justify-center items-center"
-        style={{ left: dropZone.x, top: dropZone.y, width: dropZone.w, height: dropZone.h }}
+        style={{ left: dropZone.x - 20, top: dropZone.y - 20, width: dropZone.w + 40, height: dropZone.h + 40 }}
       >
-        <OpenFolder filled={Math.floor((collectedDocuments.length / DOCUMENTS.length) * 4)} glow />
+        <Image
+          source={
+            collectedDocuments.length >= DOCUMENTS.length
+              ? require('../../../assets/images/folder_full.png')
+              : require('../../../assets/images/folder_empty.png')
+          }
+          style={{ width: '100%', height: '100%' }}
+          resizeMode="contain"
+        />
       </View>
 
       {activeWaveDocs.map((item) => {
@@ -175,6 +195,15 @@ export default function Step2Documents({ onNextStep }: { onNextStep: () => void 
           />
         );
       })}
+
+      <StepCompletionModal
+        visible={showCompletionModal}
+        onClose={() => setShowCompletionModal(false)}
+        onReset={() => {
+          resetCurrentStep();
+          setShowCompletionModal(false);
+        }}
+      />
     </View>
   );
 }

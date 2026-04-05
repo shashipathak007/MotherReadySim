@@ -1,9 +1,10 @@
 import React, { useRef, useState, useMemo } from 'react';
-import { View, Dimensions, Text, ImageBackground, ScrollView } from 'react-native';
+import { View, Dimensions, Text, ImageBackground, ScrollView, Image } from 'react-native';
 import Svg, { Rect, Circle, Path, Defs, LinearGradient as SvgLinearGradient, Stop, G } from 'react-native-svg';
 import { useGame } from '../context/GameContext';
 import { CONTACTS } from '../../data/contacts';
 import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
+import { StepCompletionModal } from '../components/StepCompletionModal';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 
@@ -21,18 +22,29 @@ const WRONG_DISTRIBUTION: Record<string, number[]> = {
 };
 
 export default function Step3Contacts({ onNextStep }: { onNextStep: () => void }) {
-  const { savedContacts, saveContact, showFeedback, setCurrentWave } = useGame();
+  const { savedContacts, saveContact, showFeedback, setCurrentWave, resetCurrentStep } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
 
+  const [showCompletionModal, setShowCompletionModal] = useState(false);
   const [currentWaveIdx, setCurrentWaveIdx] = useState(0);
   const [containerLayout, setContainerLayout] = useState({ width: width, height: height });
   const waveCategories = ['CRITICAL', 'IMPORTANT', 'INFO'];
   const currentWave = waveCategories[currentWaveIdx];
 
+  const hasCompletedInitially = useRef(savedContacts.length >= CONTACTS.length);
+  const [hasShownCompletionFeedback, setHasShownCompletionFeedback] = useState(false);
+
   const checkCompletion = (newCount: number) => {
     if (newCount >= CONTACTS.length) {
-      setTimeout(() => onNextStep(), 1500);
+      if (hasCompletedInitially.current) {
+        if (!hasShownCompletionFeedback) {
+          setHasShownCompletionFeedback(true);
+          setShowCompletionModal(true);
+        }
+      } else {
+        setTimeout(() => onNextStep(), 1500);
+      }
     }
   };
 
@@ -94,10 +106,10 @@ export default function Step3Contacts({ onNextStep }: { onNextStep: () => void }
   }, [currentWave, savedContacts, containerLayout]);
 
   const dropZone = { 
-    x: containerLayout.width / 2 - 80, 
-    y: containerLayout.height - 290, 
-    w: 160, 
-    h: 260 
+    x: containerLayout.width / 2 - 120, 
+    y: containerLayout.height - 490, 
+    w: 240, 
+    h: 480 
   };
   const itemRefs = useRef<Record<number, DraggableItemRef>>({});
 
@@ -183,41 +195,26 @@ export default function Step3Contacts({ onNextStep }: { onNextStep: () => void }
         className="absolute" 
         style={{ left: dropZone.x, top: dropZone.y, width: dropZone.w, height: dropZone.h }}
       >
-        <Svg width={dropZone.w} height={dropZone.h} viewBox={`0 0 ${dropZone.w} ${dropZone.h}`} className="absolute top-0 left-0">
-          <Defs>
-            <SvgLinearGradient id="phoneBg" x1="0" y1="0" x2="0" y2="1">
-              <Stop offset="0%" stopColor="#1C1C2E" />
-              <Stop offset="100%" stopColor="#0D0D1A" />
-            </SvgLinearGradient>
-            <SvgLinearGradient id="screen" x1="0" y1="0" x2="0" y2="1">
-              <Stop offset="0%" stopColor="#1E3A5F" />
-              <Stop offset="100%" stopColor="#0F2040" />
-            </SvgLinearGradient>
-            <SvgLinearGradient id="headerBar" x1="0" y1="0" x2="0" y2="1">
-              <Stop offset="0%" stopColor="#C06898" />
-              <Stop offset="100%" stopColor="#9B5983" />
-            </SvgLinearGradient>
-          </Defs>
-          <Rect x="6" y="2" width={dropZone.w - 12} height={dropZone.h - 4} rx="22" fill="url(#phoneBg)" />
-          <Rect x="12" y="20" width={dropZone.w - 24} height={dropZone.h - 42} rx="14" fill="url(#screen)" />
-          <Rect x={dropZone.w / 2 - 20} y="2" width="40" height="14" rx="7" fill="#0D0D1A" />
-          <Rect x={dropZone.w / 2 - 22} y={dropZone.h - 14} width="44" height="5" rx="2.5" fill="#333355" />
-          <Rect x="12" y="20" width={dropZone.w - 24} height="38" rx="0" fill="url(#headerBar)" />
-          <Rect x="12" y="20" width={dropZone.w - 24} height="14" rx="14" fill="url(#headerBar)" />
-          <Circle cx="32" cy="39" r="10" fill="rgba(255,255,255,0.15)" />
-          <Path d="M27,35 C27,33 32,33 35,35 L35,40 C33,41 31,41 29,40 L27,35 Z" fill="#FFF" opacity="0.8" />
-          {[0,1,2,3,4].map(i => (
-            <G key={i} transform={`translate(12, ${62 + i * 34})`}>
-              <Rect width={dropZone.w - 24} height="28" rx="6" fill={i % 2 === 0 ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.03)'} />
-              <Circle cx="18" cy="14" r="10" fill="rgba(192,104,152,0.5)" />
-              <Rect x="34" y="8" width={dropZone.w - 80} height="5" rx="2.5" fill="rgba(255,255,255,0.25)" />
-              <Rect x="34" y="17" width={(dropZone.w - 80) * 0.6} height="3" rx="1.5" fill="rgba(255,255,255,0.12)" />
-            </G>
-          ))}
-        </Svg>
+        <Image 
+          source={require('../../../assets/images/phone_frame.png')}
+          style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
+          resizeMode="contain"
+        />
         
-        <View className="absolute top-[60px] left-[18px] right-[18px] bottom-[20px] pt-1 px-1 overflow-hidden">
-          <Text className="text-[10px] font-[800] text-white text-center mb-[3px] opacity-90">{isNe ? 'मेरो टोली' : 'My Care Team'}</Text>
+        {/* Screen Content Area — aligned strictly within the mockup bezel */}
+        <View style={{ 
+          position: 'absolute', 
+          top: '12.5%', 
+          bottom: '12.5%', 
+          left: '11%', 
+          right: '11%', 
+          overflow: 'hidden', 
+          backgroundColor: '#0D0D1A',
+          paddingTop: 8, 
+          paddingHorizontal: 6,
+          borderRadius: 2
+        }}>
+          <Text className="text-[11px] font-[800] text-white text-center mb-[4px] opacity-90">{isNe ? 'मेरो टोली' : 'My Care Team'}</Text>
           <ScrollView 
             className="flex-1" 
             showsVerticalScrollIndicator={false}
@@ -255,6 +252,15 @@ export default function Step3Contacts({ onNextStep }: { onNextStep: () => void }
           />
         );
       })}
+
+      <StepCompletionModal
+        visible={showCompletionModal}
+        onClose={() => setShowCompletionModal(false)}
+        onReset={() => {
+          resetCurrentStep();
+          setShowCompletionModal(false);
+        }}
+      />
     </View>
   );
 }

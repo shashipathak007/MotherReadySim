@@ -1,9 +1,10 @@
 import React, { useRef, useState, useMemo, useEffect } from 'react';
-import { View, Dimensions, ImageBackground } from 'react-native';
+import { View, Dimensions, ImageBackground, Image } from 'react-native';
 import { useGame } from '../context/GameContext';
 import { BAG_ITEMS, DO_NOT_PACK_ITEMS } from '../../data/bagItems';
-import { HospitalBag } from '../components/GameSVGs';
+// Import removed for HospitalBag
 import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
+import { StepCompletionModal } from '../components/StepCompletionModal';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 
@@ -17,18 +18,29 @@ const WRONG_DISTRIBUTION: Record<string, number[]> = {
 };
 
 export default function Step1Bag({ onNextStep }: { onNextStep: () => void }) {
-  const { packedBagItems, packItem, showFeedback, setCurrentWave } = useGame();
+  const { packedBagItems, packItem, showFeedback, setCurrentWave, resetCurrentStep } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
   
+  const [showCompletionModal, setShowCompletionModal] = useState(false);
   const [currentWaveIdx, setCurrentWaveIdx] = useState(0);
   const [containerLayout, setContainerLayout] = useState({ width: width, height: height });
   const waveCategories = ['Clothing', 'Hygiene', 'Comfort', 'Baby'];
   const currentWave = waveCategories[currentWaveIdx];
 
+  const hasCompletedInitially = useRef(packedBagItems.length >= BAG_ITEMS.length);
+  const [hasShownCompletionFeedback, setHasShownCompletionFeedback] = useState(false);
+
   const checkCompletion = (newPackCount: number) => {
     if (newPackCount >= BAG_ITEMS.length) {
-      setTimeout(() => onNextStep(), 1500);
+      if (hasCompletedInitially.current) {
+        if (!hasShownCompletionFeedback) {
+          setHasShownCompletionFeedback(true);
+          setShowCompletionModal(true);
+        }
+      } else {
+        setTimeout(() => onNextStep(), 1500);
+      }
     }
   };
 
@@ -147,9 +159,17 @@ export default function Step1Bag({ onNextStep }: { onNextStep: () => void }) {
 
       <View 
         className="absolute justify-center items-center"
-        style={{ left: dropZone.x, top: dropZone.y, width: dropZone.w, height: dropZone.h }}
+        style={{ left: dropZone.x - 15, top: dropZone.y - 30, width: dropZone.w + 30, height: dropZone.h + 60 }}
       >
-        <HospitalBag filled={bagFilledPhase} isZipped={packedBagItems.length >= BAG_ITEMS.length} glow />
+        <Image
+          source={
+            packedBagItems.length >= BAG_ITEMS.length
+              ? require('../../../assets/images/hospital_bag_closed.png')
+              : require('../../../assets/images/hospital_bag_open.png')
+          }
+          style={{ width: '100%', height: '100%' }}
+          resizeMode="contain"
+        />
       </View>
 
       {activeWaveItems.map((item) => {
@@ -171,6 +191,15 @@ export default function Step1Bag({ onNextStep }: { onNextStep: () => void }) {
           />
         );
       })}
+
+      <StepCompletionModal
+        visible={showCompletionModal}
+        onClose={() => setShowCompletionModal(false)}
+        onReset={() => {
+          resetCurrentStep();
+          setShowCompletionModal(false);
+        }}
+      />
     </View>
   );
 }
