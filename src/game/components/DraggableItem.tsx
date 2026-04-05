@@ -1,10 +1,10 @@
 import React, { forwardRef, useImperativeHandle, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated, { 
-  useAnimatedStyle, 
-  useSharedValue, 
-  withSpring, 
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
   withTiming,
   runOnJS,
   withSequence,
@@ -22,7 +22,6 @@ interface DraggableItemProps {
   id: number;
   name: string;
   emoji?: string;
-  category?: string;
   isWrong?: boolean;
   initialPos: { x: number, y: number };
   onDrop: (id: number, x: number, y: number, isWrong: boolean) => void;
@@ -31,8 +30,8 @@ interface DraggableItemProps {
   color?: string;
 }
 
-export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({ 
-  id, name, emoji, category, isWrong = false, initialPos, onDrop, onLongPress, packed, color = '#FFFBFD'
+export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
+  id, name, emoji, isWrong = false, initialPos, onDrop, onLongPress, packed, color = '#FFFBFD'
 }, ref) => {
   const translateX = useSharedValue(initialPos.x);
   const translateY = useSharedValue(initialPos.y);
@@ -69,10 +68,10 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
       zIndex.value = 1;
     },
     snapBack: () => {
-        'worklet';
-        scale.value = withSpring(1);
-        rotation.value = withSpring(0);
-        zIndex.value = 1;
+      'worklet';
+      scale.value = withSpring(1);
+      rotation.value = withSpring(0);
+      zIndex.value = 1;
     },
     animatePack: (targetX: number, targetY: number) => {
       'worklet';
@@ -121,18 +120,18 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
         { rotate: `${rotation.value}deg` }
       ],
       zIndex: zIndex.value,
-      opacity: packed ? 0 : 1, 
+      opacity: packed ? 0 : 1,
     };
   });
 
   return (
     <GestureDetector gesture={composedGesture}>
-      <Animated.View 
+      <Animated.View
         style={[animatedStyle, { backgroundColor: color }]}
-        className={`w-[72px] h-[72px] rounded-full justify-center items-center shadow shadow-black shadow-opacity-15 shadow-radius-5 elevation-6 border-[1.5px] ${isWrong ? 'border-[#E8D5D5]' : 'border-[#F5E1EC]'}`}
+        className="w-[72px] h-[72px] rounded-full justify-center items-center shadow shadow-black shadow-opacity-15 shadow-radius-5 elevation-6 border-[3px] border-[#F48B9E]"
       >
         <View className={`w-[48px] h-[48px] rounded-full justify-center items-center ${isWrong ? 'bg-[#F5F0F0]' : 'bg-white/90'}`}>
-          <Text className="text-[24px]">{emoji}</Text>
+          <Text className="text-[42px]">{emoji}</Text>
         </View>
         <View className={`absolute bottom-[-34px] w-[92px] rounded-xl px-1.5 py-1 border-[1.5px] shadow-opacity-8 shadow-radius-2 elevation-2 ${isWrong ? 'bg-[#F9F5F5] border-[#E8D5D5]' : 'bg-white border-[#F5E1EC]'}`}>
           <Text className={`text-[10px] font-[700] text-center ${isWrong ? 'text-[#888]' : 'text-[#333]'}`} numberOfLines={2}>{name}</Text>

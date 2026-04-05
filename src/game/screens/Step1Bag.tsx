@@ -162,7 +162,6 @@ export default function Step1Bag({ onNextStep }: { onNextStep: () => void }) {
             id={item.id}
             name={isNe && 'nameNe' in item ? (item as any).nameNe : item.name}
             emoji={item.emoji || '📦'}
-            category={'category' in item ? item.category : undefined}
             isWrong={item.isWrong}
             initialPos={item.initialPos}
             onDrop={handleDrop}

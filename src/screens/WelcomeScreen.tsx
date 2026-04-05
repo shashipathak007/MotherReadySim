@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image, ImageBackground, Dimensions, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ImageBackground, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Animated, { 
   FadeInDown, 

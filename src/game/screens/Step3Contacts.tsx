@@ -1,5 +1,5 @@
 import React, { useRef, useState, useMemo } from 'react';
-import { View, Dimensions, Text, TouchableOpacity, Linking, ImageBackground, ScrollView } from 'react-native';
+import { View, Dimensions, Text, ImageBackground, ScrollView } from 'react-native';
 import Svg, { Rect, Circle, Path, Defs, LinearGradient as SvgLinearGradient, Stop, G } from 'react-native-svg';
 import { useGame } from '../context/GameContext';
 import { CONTACTS } from '../../data/contacts';

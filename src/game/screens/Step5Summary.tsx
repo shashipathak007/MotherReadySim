@@ -27,7 +27,7 @@ export default function Step5Summary({ onReplay }: { onReplay: () => void }) {
   if (scorePercentage >= 1) {
     badgeMsg = isNe ? 'पूर्ण तयार' : 'Fully Prepared';
     badgeEmoji = '🏆';
-    subMsg = isNe ? 'शाबास! तपाईं पूर्ण तयार हुनुहुन्छ!' : 'Shabash! You are completely prepared.';
+    subMsg = isNe ? 'शाबास! तपाईं पूर्ण तयार हुनुहुन्छ!' : 'Great Job! You are completely prepared.';
   } else if (scorePercentage > 0.7) {
     badgeMsg = isNe ? 'लगभग तयार' : 'Almost Ready';
     badgeEmoji = '💪';

@@ -8,7 +8,7 @@ import Step4DangerSigns from './screens/Step4DangerSigns';
 import Step5Summary from './screens/Step5Summary';
 import { TransitionCard } from './components/TransitionCard';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { LinearGradient } from 'expo-linear-gradient';
+
 import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import { TutorialOverlay } from './components/TutorialOverlay';
 import { useTranslation } from 'react-i18next';

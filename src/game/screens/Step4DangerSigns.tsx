@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Dimensions, ImageBackground } from 'react-native';
+import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
 import { useGame } from '../context/GameContext';
-import Animated, { FadeInUp, FadeOutDown, useSharedValue, useAnimatedStyle, withSequence, withTiming, withRepeat } from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, withSequence, withTiming, withRepeat } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 
-const { width } = Dimensions.get('window');
+
 
 const SCENARIOS = [
   {
     id: 1,
     title: "Scenario 1 — Heavy bleeding",
-    titleNe: "परिदृश्य १ — अत्यधिक रक्तस्राव",
+    titleNe: "परिस्थिति १ — अत्यधिक रक्तस्राव",
     description: "You are soaking through more than one thick pad in an hour. What do you do?",
     descriptionNe: "एक घण्टामा एकभन्दा बढी बाक्लो प्याड भिज्दैछ। तपाईं के गर्नुहुन्छ?",
     options: [
@@ -26,7 +26,7 @@ const SCENARIOS = [
   {
     id: 2,
     title: "Scenario 2 — Baby not moving",
-    titleNe: "परिदृश्य २ — बच्चा चलेको छैन",
+    titleNe: "परिस्थिति २ — बच्चा चलेको छैन",
     description: "You have not felt the baby move for 4 hours. What do you do?",
     descriptionNe: "४ घण्टादेखि बच्चा चलेको महसुस भएको छैन। तपाईं के गर्नुहुन्छ?",
     options: [
@@ -41,7 +41,7 @@ const SCENARIOS = [
   {
     id: 3,
     title: "Scenario 3 — Water broke, green fluid",
-    titleNe: "परिदृश्य ३ — पानी फुट्यो, हरियो पानी",
+    titleNe: "परिस्थिति ३ — पानी फुट्यो, हरियो पानी",
     description: "Your water just broke and the fluid is green and has a bad smell. What do you do?",
     descriptionNe: "तपाईंको पानी भर्खर फुट्यो र पानी हरियो छ र गन्हाउँछ। तपाईं के गर्नुहुन्छ?",
     options: [
@@ -56,7 +56,7 @@ const SCENARIOS = [
   {
     id: 4,
     title: "Scenario 4 — Severe headache & swelling",
-    titleNe: "परिदृश्य ४ — कडा टाउको दुखाइ र सुन्निनु",
+    titleNe: "परिस्थिति ४ — कडा टाउको दुखाइ र सुन्निनु",
     description: "You have a severe headache, blurry vision, and sudden swelling of hands and face.",
     descriptionNe: "कडा टाउको दुखेको छ, धमिलो देखिन्छ, र अचानक हात र अनुहार सुन्निएको छ।",
     options: [
@@ -71,7 +71,7 @@ const SCENARIOS = [
   {
     id: 5,
     title: "Scenario 5 — Contractions timing",
-    titleNe: "परिदृश्य ५ — व्यथाको समय",
+    titleNe: "परिस्थिति ५ — व्यथाको समय",
     description: "First baby. Contractions are 5 mins apart, lasting 55s, for an hour.",
     descriptionNe: "पहिलो बच्चा। व्यथा ५ मिनेटको फरकमा, ५५ सेकेन्ड रहने, लगातार १ घण्टा।",
     options: [
@@ -86,7 +86,7 @@ const SCENARIOS = [
   {
     id: 6,
     title: "Scenario 6 — Constant vomiting",
-    titleNe: "परिदृश्य ६ — लगातार बान्ता",
+    titleNe: "परिस्थिति ६ — लगातार बान्ता",
     description: "You have been vomiting constantly for a day and cannot keep any fluids down.",
     descriptionNe: "एक दिनदेखि लगातार बान्ता भइरहेको छ र कुनै पनि तरल पदार्थ पेटमा बस्दैन।",
     options: [
@@ -101,7 +101,7 @@ const SCENARIOS = [
   {
     id: 7,
     title: "Scenario 7 — High fever",
-    titleNe: "परिदृश्य ७ — उच्च ज्वरो",
+    titleNe: "परिस्थिति ७ — उच्च ज्वरो",
     description: "You suddenly develop a high fever (above 38°C / 100.4°F) with chills.",
     descriptionNe: "अचानक कम्पनसहित उच्च ज्वरो (३८°C / १००.४°F भन्दा माथि) आयो।",
     options: [
@@ -116,7 +116,7 @@ const SCENARIOS = [
   {
     id: 8,
     title: "Scenario 8 — Pain during urination",
-    titleNe: "परिदृश्य ८ — पिसाब गर्दा दुखाइ",
+    titleNe: "परिस्थिति ८ — पिसाब गर्दा दुखाइ",
     description: "You feel a sharp, burning pain when urinating, and need to go constantly.",
     descriptionNe: "पिसाब गर्दा तीव्र पोल्ने दुखाइ हुन्छ र बारम्बार जानुपर्छ।",
     options: [
@@ -131,7 +131,7 @@ const SCENARIOS = [
   {
     id: 9,
     title: "Scenario 9 — Preterm backache",
-    titleNe: "परिदृश्य ९ — समयपूर्व ढाड दुखाइ",
+    titleNe: "परिस्थिति ९ — समयपूर्व ढाड दुखाइ",
     description: "You are 30 weeks pregnant and feel a constant, dull, rhythmic backache.",
     descriptionNe: "तपाईं ३० हप्ताको गर्भवती हुनुहुन्छ र लगातार, मन्द, नियमित ढाड दुखाइ महसुस हुँदैछ।",
     options: [
@@ -146,7 +146,7 @@ const SCENARIOS = [
   {
     id: 10,
     title: "Scenario 10 — Extreme fatigue & paleness",
-    titleNe: "परिदृश्य १० — अत्यधिक थकान र फ्याक्कै पर्नु",
+    titleNe: "परिस्थिति १० — अत्यधिक थकान र फ्याक्कै पर्नु",
     description: "You feel extremely dizzy, your skin is unusually pale, and you are constantly exhausted.",
     descriptionNe: "अत्यधिक रिंगटा लाग्छ, छाला असामान्य रूपमा फ्याक्कै छ, र सधैं थकित हुनुहुन्छ।",
     options: [
@@ -161,7 +161,7 @@ const SCENARIOS = [
   {
     id: 11,
     title: "Scenario 11 — Flashing lights in vision",
-    titleNe: "परिदृश्य ११ — आँखामा चम्किने बत्ती देखिनु",
+    titleNe: "परिस्थिति ११ — आँखामा चम्किने बत्ती देखिनु",
     description: "You suddenly start seeing spots, auras, or flashing lights that won't go away.",
     descriptionNe: "अचानक आँखामा थोप्ला, प्रकाश वा चम्किने बत्ती देखिन्छ जुन हट्दैन।",
     options: [
@@ -176,7 +176,7 @@ const SCENARIOS = [
   {
     id: 12,
     title: "Scenario 12 — Continuous severe abdominal pain",
-    titleNe: "परिदृश्य १२ — लगातार कडा पेट दुखाइ",
+    titleNe: "परिस्थिति १२ — लगातार कडा पेट दुखाइ",
     description: "You have a constant, severe cutting pain in your belly that does not come and go like a contraction.",
     descriptionNe: "पेटमा लगातार, कडा काट्ने जस्तो दुखाइ छ जुन व्यथाजस्तो आउने जाने होइन।",
     options: [
@@ -191,7 +191,7 @@ const SCENARIOS = [
   {
     id: 13,
     title: "Scenario 13 — Difficulty breathing",
-    titleNe: "परिदृश्य १३ — सास फेर्न गाह्रो",
+    titleNe: "परिस्थिति १३ — सास फेर्न गाह्रो",
     description: "You are struggling to catch your breath even while resting or lying down.",
     descriptionNe: "आराम गर्दा वा सुत्दा पनि सास फेर्न गाह्रो भइरहेको छ।",
     options: [
@@ -206,7 +206,7 @@ const SCENARIOS = [
   {
     id: 14,
     title: "Scenario 14 — Severe itching",
-    titleNe: "परिदृश्य १४ — कडा चिलाउने",
+    titleNe: "परिस्थिति १४ — कडा चिलाउने",
     description: "You have intense itching, especially prominently on your palms and the soles of your feet.",
     descriptionNe: "हत्केलो र पैतालामा विशेष गरी कडा चिलाउँछ।",
     options: [
@@ -221,7 +221,7 @@ const SCENARIOS = [
   {
     id: 15,
     title: "Scenario 15 — Swollen, red, painful calf",
-    titleNe: "परिदृश्य १५ — सुन्निएको, रातो, दुख्ने पिँडुला",
+    titleNe: "परिस्थिति १५ — सुन्निएको, रातो, दुख्ने पिँडुला",
     description: "One of your calves is swollen, red, and feels hot and painful to the touch.",
     descriptionNe: "एउटा पिँडुला सुन्निएको, रातो र छुँदा तातो र दुख्ने छ।",
     options: [
@@ -236,7 +236,7 @@ const SCENARIOS = [
   {
     id: 16,
     title: "Scenario 16 — Sudden extreme anxiety",
-    titleNe: "परिदृश्य १६ — अचानक अत्यधिक चिन्ता",
+    titleNe: "परिस्थिति १६ — अचानक अत्यधिक चिन्ता",
     description: "You suddenly feel completely confused, restless, or have a feeling of impending doom.",
     descriptionNe: "अचानक पूर्ण रूपमा अल्मलिनु, बेचैनी, वा केही नराम्रो हुनेछ जस्तो महसुस।",
     options: [
@@ -251,7 +251,7 @@ const SCENARIOS = [
   {
     id: 17,
     title: "Scenario 17 — Early clear fluid leak",
-    titleNe: "परिदृश्य १७ — समयपूर्व पानी बग्नु",
+    titleNe: "परिस्थिति १७ — समयपूर्व पानी बग्नु",
     description: "You feel a constant trickle or a gush of clear fluid from the vagina, but you are only 32 weeks pregnant.",
     descriptionNe: "योनीबाट लगातार थोपा-थोपा वा एकैचोटि स्पष्ट पानी बग्यो, तर तपाईं ३२ हप्ताको गर्भवती मात्र हुनुहुन्छ।",
     options: [
@@ -266,7 +266,7 @@ const SCENARIOS = [
   {
     id: 18,
     title: "Scenario 18 — Foul-smelling discharge",
-    titleNe: "परिदृश्य १८ — गन्हाउने स्राव",
+    titleNe: "परिस्थिति १८ — गन्हाउने स्राव",
     description: "Your vaginal discharge suddenly changes color, looks like pus, and smells very bad.",
     descriptionNe: "योनीबाट बग्ने स्रावको रङ अचानक बदलियो, पिपजस्तो देखिन्छ र कडा गन्हाउँछ।",
     options: [
@@ -281,7 +281,7 @@ const SCENARIOS = [
   {
     id: 19,
     title: "Scenario 19 — Seizures or fits",
-    titleNe: "परिदृश्य १९ — कम्पन (छारे रोग जस्तो)",
+    titleNe: "परिस्थिति १९ — कम्पन (छारे रोग जस्तो)",
     description: "You experience a seizure, losing consciousness and convulsing.",
     descriptionNe: "तपाईंलाई कम्पन (फिट) आयो, होस हरायो र जीउ काम्यो।",
     options: [
@@ -296,7 +296,7 @@ const SCENARIOS = [
   {
     id: 20,
     title: "Scenario 20 — Severe persistent heartburn",
-    titleNe: "परिदृश्य २० — कडा लगातार छातीमा जलन",
+    titleNe: "परिस्थिति २० — कडा लगातार छातीमा जलन",
     description: "You have severe pain high in your stomach (right side) that doesn't go away with antacids.",
     descriptionNe: "पेटको माथिल्लो भागमा (दाहिने तिर) कडा दुखाइ छ जुन एसिडिटीको औषधिले पनि हट्दैन।",
     options: [

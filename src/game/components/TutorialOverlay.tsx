@@ -32,7 +32,7 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClo
       title: isNe ? "विवरण हेर्नुहोस्" : "Learn More",
       description: isNe 
         ? "कुनै पनि सामानमा लामो समय थिच्नुहोस् — यो तपाईंको गर्भावस्थाको यात्रामा किन महत्त्वपूर्ण छ भनेर हेर्न सक्नुहुन्छ।" 
-        : "Hold down on any item to see why it is important for your pregnancy journey.",
+        : "Long press on any item to see why it is important for your pregnancy journey.",
       icon: "💡"
     }
   ];

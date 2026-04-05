@@ -1,5 +1,5 @@
 import React, { useRef, useState, useMemo } from 'react';
-import { View, Dimensions, Text, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Dimensions, ImageBackground } from 'react-native';
 import { useGame } from '../context/GameContext';
 import { DOCUMENTS } from '../../data/documents';
 import { OpenFolder } from '../components/GameSVGs';
@@ -166,7 +166,6 @@ export default function Step2Documents({ onNextStep }: { onNextStep: () => void 
             id={item.id}
             name={isNe && 'nameNe' in item && (item as any).nameNe ? (item as any).nameNe : item.name}
             emoji={'emoji' in item ? (item as any).emoji : '📄'}
-            category={item.category}
             isWrong={item.isWrong}
             initialPos={item.initialPos}
             onDrop={handleDrop}
