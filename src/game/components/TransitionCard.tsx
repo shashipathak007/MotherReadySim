@@ -23,44 +23,44 @@ const TRANSITION_CONTENT = {
     title: 'Bag Packed!',
     titleNe: 'झोला तयार भयो!',
     subtitle: 'Now find your important documents.',
-    subtitleNe: 'अब आवश्यक कागजातहरू जम्मा गर्नुहोस्।',
+    subtitleNe: 'अब जरुरी कागजातहरू जम्मा गरौं।',
     accent: '#5B8DB8',
     bgColor: 'rgba(240, 247, 255, 0.97)',
     badge: 'Step 1 Complete',
-    badgeNe: 'चरण १ पूरा',
+    badgeNe: 'चरण १ सकियो',
   },
   2: {
     emoji: '📱',
     title: 'Documents Ready!',
-    titleNe: 'कागजात तयार!',
+    titleNe: 'कागजात तयार भयो!',
     subtitle: 'Now save your emergency contacts.',
-    subtitleNe: 'अब आपतकालीन सम्पर्कहरू सुरक्षित गर्नुहोस्।',
+    subtitleNe: 'अब सम्पर्क नम्बरहरू सेभ गरौं।',
     accent: '#5BA88C',
     bgColor: 'rgba(240, 253, 248, 0.97)',
     badge: 'Step 2 Complete',
-    badgeNe: 'चरण २ पूरा',
+    badgeNe: 'चरण २ सकियो',
   },
   3: {
     emoji: '🩺',
     title: 'Contacts Saved!',
-    titleNe: 'सम्पर्क सुरक्षित!',
+    titleNe: 'सम्पर्क सेभ भयो!',
     subtitle: 'Do you know the danger signs?',
-    subtitleNe: 'के तपाईंलाई खतराका संकेतहरू थाहा छ?',
+    subtitleNe: 'के तपाईंलाई खतराका चिन्हहरू थाहा छ?',
     accent: '#C49A3C',
     bgColor: 'rgba(255, 252, 240, 0.97)',
     badge: 'Step 3 Complete',
-    badgeNe: 'चरण ३ पूरा',
+    badgeNe: 'चरण ३ सकियो',
   },
   4: {
     emoji: '🌟',
     title: 'Quiz Done!',
-    titleNe: 'प्रश्नोत्तरी सकियो!',
+    titleNe: 'प्रश्न सकियो!',
     subtitle: "Let's see your final results.",
-    subtitleNe: 'अब तपाईंको नतिजा हेरौं।',
+    subtitleNe: 'अब नतिजा हेरौं!',
     accent: '#C06898',
     bgColor: 'rgba(253, 245, 250, 0.97)',
     badge: 'Step 4 Complete',
-    badgeNe: 'चरण ४ पूरा',
+    badgeNe: 'चरण ४ सकियो',
   }
 };
 
@@ -181,7 +181,7 @@ export const TransitionCard: React.FC<TransitionCardProps> = ({ step, onComplete
               className="text-[13px] font-[600] tracking-[0.3px]" 
               style={{ color: content.accent }}
             >
-              {isNe ? 'अगाडि बढ्न ट्याप गर्नुहोस्' : 'Tap to continue'}
+              {isNe ? 'अगाडि बढ्न छुनुहोस्' : 'Tap to continue'}
             </Text>
           </View>
         </Animated.View>

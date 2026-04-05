@@ -7,6 +7,7 @@ import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
 import { StepCompletionModal } from '../components/StepCompletionModal';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
+import { useGameAudio } from '../hooks/useGameAudio';
 
 const { width, height } = Dimensions.get('window');
 
@@ -25,6 +26,7 @@ export default function Step3Contacts({ onNextStep }: { onNextStep: () => void }
   const { savedContacts, saveContact, showFeedback, setCurrentWave, resetCurrentStep } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
+  const { playCorrect, playIncorrect } = useGameAudio();
 
   const [showCompletionModal, setShowCompletionModal] = useState(false);
   const [currentWaveIdx, setCurrentWaveIdx] = useState(0);
@@ -96,20 +98,32 @@ export default function Step3Contacts({ onNextStep }: { onNextStep: () => void }
     }));
     
     const combined = [...correctItems, ...wrongItems];
-    return combined.sort((a, b) => a.name.localeCompare(b.name)).map((item) => ({ 
-      ...item, 
-      initialPos: { 
-        x: containerLayout.width / 2 - 40 + (Math.random() - 0.5) * (containerLayout.width * 0.8), 
-        y: containerLayout.height * 0.25 + (Math.random() * (containerLayout.height * 0.25)) 
-      } 
-    }));
-  }, [currentWave, savedContacts, containerLayout]);
+    const itemCount = combined.length;
+    const itemSize = 85; 
+    
+    return combined.sort((a, b) => a.name.localeCompare(b.name)).map((item, index) => {
+      const cols = Math.min(itemCount, 3);
+      const row = Math.floor(index / cols);
+      const col = index % cols;
+      
+      const xPos = (containerLayout.width * 0.35) - ((cols * itemSize) / 2) + (col * itemSize) + (itemSize / 2) - 40;
+      const yPos = (containerLayout.height * 0.30) + (row * (itemSize + 30));
+
+      return { 
+        ...item, 
+        initialPos: { 
+          x: xPos + (Math.random() - 0.5) * 12, 
+          y: yPos + (Math.random() - 0.5) * 12
+        } 
+      };
+    });
+  }, [currentWave, savedContacts, containerLayout.width]);
 
   const dropZone = { 
-    x: containerLayout.width / 2 - 120, 
-    y: containerLayout.height - 490, 
-    w: 240, 
-    h: 480 
+    x: containerLayout.width * 0.35 - 90, 
+    y: containerLayout.height - 380, 
+    w: 180, 
+    h: 360 
   };
   const itemRefs = useRef<Record<number, DraggableItemRef>>({});
 
@@ -126,14 +140,16 @@ export default function Step3Contacts({ onNextStep }: { onNextStep: () => void }
       if (!isWrong) {
         saveContact(item.id);
         ref?.animatePack(dropZone.x + dropZone.w/2 - 30, dropZone.y + dropZone.h/2 - 30);
+        playCorrect();
         const cName = isNe && item.nameNe ? item.nameNe : item.name;
         const cWhy = isNe && item.whyNe ? item.whyNe : item.why;
-        showFeedback(isNe ? `सुरक्षित: ${cName}` : `Saved: ${cName}`, cWhy, 'success');
+        showFeedback(cName, cWhy, 'success');
       } else {
         ref?.shakeAndSnapBack();
+        playIncorrect();
         const wrongName = isNe && item.nameNe ? item.nameNe : item.name;
         const wrongWhy = isNe && 'whyNotNe' in item && (item as any).whyNotNe ? (item as any).whyNotNe : item.why;
-        showFeedback(isNe ? `चाहिँदैन: ${wrongName}` : `Not needed: ${item.name}`, wrongWhy, 'error');
+        showFeedback(wrongName, wrongWhy, 'error');
       }
     } else {
       ref?.snapBack();
@@ -176,21 +192,6 @@ export default function Step3Contacts({ onNextStep }: { onNextStep: () => void }
         setContainerLayout({ width, height });
       }}
     >
-      {/* Background with subtle blur */}
-      <View className="absolute inset-0">
-        <ImageBackground 
-          source={require('../../../assets/images/phone_bg.png')} 
-          className="flex-1"
-          resizeMode="cover"
-          blurRadius={3}
-        >
-          <LinearGradient 
-            colors={['rgba(255,249,251,0.25)', 'rgba(255,245,248,0.45)', 'rgba(255,249,251,0.55)']} 
-            className="absolute inset-0" 
-          />
-        </ImageBackground>
-      </View>
-
       <View 
         className="absolute" 
         style={{ left: dropZone.x, top: dropZone.y, width: dropZone.w, height: dropZone.h }}
@@ -214,7 +215,7 @@ export default function Step3Contacts({ onNextStep }: { onNextStep: () => void }
           paddingHorizontal: 6,
           borderRadius: 2
         }}>
-          <Text className="text-[11px] font-[800] text-white text-center mb-[4px] opacity-90">{isNe ? 'मेरो टोली' : 'My Care Team'}</Text>
+          <Text className="text-[11px] font-[800] text-white text-center mb-[4px] opacity-90">{isNe ? 'मेरो सम्पर्क' : 'My Care Team'}</Text>
           <ScrollView 
             className="flex-1" 
             showsVerticalScrollIndicator={false}

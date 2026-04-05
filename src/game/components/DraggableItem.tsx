@@ -99,16 +99,15 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
       runOnJS(onDrop)(id, translateX.value, translateY.value, isWrong);
     });
 
-  const longPressGesture = Gesture.LongPress()
+  const tapGesture = Gesture.Tap()
     .enabled(!packed)
-    .minDuration(400)
-    .onStart(() => {
+    .onEnd(() => {
       if (onLongPress) {
         runOnJS(onLongPress)(id, isWrong);
       }
     });
 
-  const composedGesture = Gesture.Race(panGesture, longPressGesture);
+  const composedGesture = Gesture.Simultaneous(panGesture, tapGesture);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {

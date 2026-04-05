@@ -34,13 +34,13 @@ export const StepCompletionModal: React.FC<StepCompletionModalProps> = ({ visibl
             
             {/* Title */}
             <Text className="text-[20px] font-[800] text-[#333] text-center mb-3">
-              {isNe ? "अभ्यास पूरा भयो!" : "Step Completed!"}
+              {isNe ? "यो चरण सकियो!" : "Step Completed!"}
             </Text>
             
             {/* Description */}
             <Text className="text-[14px] text-[#777] text-center leading-[22px] mb-7 font-[500] px-1">
               {isNe 
-                ? "तपाईंले यो चरण पहिले नै पूरा गरिसक्नुभएको छ। के तपाईं यसलाई फेरि अभ्यास गर्न चाहनुहुन्छ?" 
+                ? "तपाईंले यो चरण पहिले नै पूरा गर्नुभएको छ। फेरि अभ्यास गर्नुहुन्छ?" 
                 : "You have already completed this step. Would you like to practice it again?"}
             </Text>
 
@@ -52,7 +52,7 @@ export const StepCompletionModal: React.FC<StepCompletionModalProps> = ({ visibl
                 activeOpacity={0.7}
               >
                 <Text className="text-[#9B5983] font-[800] text-[13px]">
-                  {isNe ? "फेरि गर्नुहोस्" : "Reset Step"}
+                  {isNe ? "फेरि खेल्ने" : "Reset Step"}
                 </Text>
               </TouchableOpacity>
 
@@ -62,7 +62,7 @@ export const StepCompletionModal: React.FC<StepCompletionModalProps> = ({ visibl
                 activeOpacity={0.7}
               >
                 <Text className="text-white font-[800] text-[13px]">
-                  {isNe ? "जारी राख्नुहोस्" : "Continue"}
+                  {isNe ? "अगाडि बढ्ने" : "Continue"}
                 </Text>
               </TouchableOpacity>
             </View>

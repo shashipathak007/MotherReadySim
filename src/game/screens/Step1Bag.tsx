@@ -7,6 +7,7 @@ import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
 import { StepCompletionModal } from '../components/StepCompletionModal';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
+import { useGameAudio } from '../hooks/useGameAudio';
 
 const { width, height } = Dimensions.get('window');
 
@@ -21,6 +22,7 @@ export default function Step1Bag({ onNextStep }: { onNextStep: () => void }) {
   const { packedBagItems, packItem, showFeedback, setCurrentWave, resetCurrentStep } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
+  const { playCorrect, playIncorrect } = useGameAudio();
   
   const [showCompletionModal, setShowCompletionModal] = useState(false);
   const [currentWaveIdx, setCurrentWaveIdx] = useState(0);
@@ -74,17 +76,33 @@ export default function Step1Bag({ onNextStep }: { onNextStep: () => void }) {
     const wrongIds = WRONG_DISTRIBUTION[currentWave as keyof typeof WRONG_DISTRIBUTION];
     const wrongItems = DO_NOT_PACK_ITEMS.filter(i => wrongIds.includes(i.id)).map(item => ({ ...item, isWrong: true, why: item.whyNot }));
     const combined = [...correctItems, ...wrongItems];
-    return combined.sort((a, b) => a.name.localeCompare(b.name)).map((item) => ({ 
-      ...item, 
-      initialPos: { 
-        x: containerLayout.width / 2 - 35 + (Math.random() - 0.5) * (containerLayout.width * 0.8), 
-        y: containerLayout.height * 0.25 + (Math.random() * (containerLayout.height * 0.25)) 
-      } 
-    }));
-  }, [currentWave, packedBagItems.length === 0]); 
+    const itemCount = combined.length;
+    const padding = 20;
+    const itemSize = 75;
+    const areaWidth = containerLayout.width - (padding * 2);
+    
+    // Arrange items in rows/cols or an arc
+    return combined.sort((a, b) => a.name.localeCompare(b.name)).map((item, index) => {
+      // Simple grid-like logic for better arrangement
+      const cols = Math.min(itemCount, 3);
+      const row = Math.floor(index / cols);
+      const col = index % cols;
+      
+      const xPos = (containerLayout.width * 0.35) - ((cols * itemSize) / 2) + (col * itemSize) + (itemSize / 2) - 35;
+      const yPos = (containerLayout.height * 0.35) + (row * (itemSize + 30));
+
+      return { 
+        ...item, 
+        initialPos: { 
+          x: xPos + (Math.random() - 0.5) * 10, // Minimal jitter for organic feel
+          y: yPos + (Math.random() - 0.5) * 10
+        } 
+      };
+    });
+  }, [currentWave, packedBagItems.length === 0, containerLayout.width]); 
 
   const dropZone = { 
-    x: containerLayout.width / 2 - 110, 
+    x: containerLayout.width * 0.35 - 110, 
     y: containerLayout.height - 240, 
     w: 220, 
     h: 180 
@@ -104,14 +122,16 @@ export default function Step1Bag({ onNextStep }: { onNextStep: () => void }) {
       if (!isWrong) {
         packItem(id);
         ref?.animatePack(dropZone.x + dropZone.w/2 - 30, dropZone.y + dropZone.h/2 - 30);
+        playCorrect();
         const itemName = isNe && 'nameNe' in item ? (item as any).nameNe : item.name;
         const itemWhy = isNe && 'whyNe' in item ? (item as any).whyNe : item.why;
-        showFeedback(isNe ? `राम्रो छनोट: ${itemName}` : `Good choice: ${itemName}`, itemWhy, 'success');
+        showFeedback(isNe ? `शाबास! ${itemName}` : `Great job! ${itemName}`, itemWhy, 'success');
       } else {
         ref?.shakeAndSnapBack();
+        playIncorrect();
         const itemName = isNe && 'nameNe' in item ? (item as any).nameNe : item.name;
         const itemWhy = isNe && 'whyNotNe' in item ? (item as any).whyNotNe : item.why;
-        showFeedback(isNe ? `चाहिँदैन: ${itemName}` : `Not needed: ${itemName}`, itemWhy, 'error');
+        showFeedback(isNe ? `ओहो! ${itemName} चाहिँदैन` : `Oops! ${itemName} isn't needed`, itemWhy, 'error');
       }
     } else {
       ref?.snapBack();
@@ -142,21 +162,6 @@ export default function Step1Bag({ onNextStep }: { onNextStep: () => void }) {
         setContainerLayout({ width, height });
       }}
     >
-      {/* Background with subtle blur */}
-      <View className="absolute inset-0">
-        <ImageBackground 
-          source={require('../../../assets/images/bedroom_bg.png')} 
-          className="flex-1"
-          resizeMode="cover"
-          blurRadius={3}
-        >
-          <LinearGradient 
-            colors={['rgba(255,249,251,0.25)', 'rgba(255,245,248,0.45)', 'rgba(255,249,251,0.55)']} 
-            className="absolute inset-0" 
-          />
-        </ImageBackground>
-      </View>
-
       <View 
         className="absolute justify-center items-center"
         style={{ left: dropZone.x - 15, top: dropZone.y - 30, width: dropZone.w + 30, height: dropZone.h + 60 }}

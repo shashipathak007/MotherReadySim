@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Dimensions, ImageBackground } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useGame } from './context/GameContext';
 import Step1Bag from './screens/Step1Bag';
 import Step2Documents from './screens/Step2Documents';
@@ -9,16 +10,25 @@ import Step5Summary from './screens/Step5Summary';
 import { TransitionCard } from './components/TransitionCard';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
+import Animated, { FadeInUp, FadeOutDown, BounceIn, FadeInDown, ZoomIn } from 'react-native-reanimated';
+import { LinearGradient } from 'expo-linear-gradient';
 import { TutorialOverlay } from './components/TutorialOverlay';
 import { useTranslation } from 'react-i18next';
+
+const charGoodJob = require('../../assets/images/char_correct.png');
+const charOhNo = require('../../assets/images/char_incorrect.png');
+const charInfo = require('../../assets/images/char_tutorial.png');
+
+const { width: SCREEN_W } = Dimensions.get('window');
 
 export default function GameContainer() {
   const {
     currentStep, setStep, isReady, resetCurrentStep, resetStepData,
-    packedBagItems, collectedDocuments, savedContacts, feedback, clearFeedback, currentWave, quizProgress
+    packedBagItems, collectedDocuments, savedContacts, feedback, clearFeedback, currentWave, quizProgress,
+    soundEnabled, toggleSound
   } = useGame();
   const { i18n } = useTranslation();
+  const navigation = useNavigation<any>();
 
   const isNepali = i18n.language === 'ne';
   const toggleLanguage = () => {
@@ -62,9 +72,9 @@ export default function GameContainer() {
     if (isNepali) {
       switch (step) {
         case 1: return "अस्पतालको झोला";
-        case 2: return "महत्त्वपूर्ण कागजातहरू";
-        case 3: return "आपतकालीन सम्पर्क";
-        case 4: return "खतराका संकेत";
+        case 2: return "कागजातहरू";
+        case 3: return "सम्पर्क नम्बरहरू";
+        case 4: return "खतराका चिन्हहरू";
         case 5: return "नतिजा";
         default: return "";
       }
@@ -89,37 +99,113 @@ export default function GameContainer() {
       return `📋 ${collectedDocuments.length}/15 · ${isNepali ? (waveNe[currentWave] || currentWave) : currentWave.toUpperCase()}`;
     }
     if (currentStep === 3) {
-      const waveNe: Record<string, string> = { CRITICAL: 'अत्यन्त जरुरी', IMPORTANT: 'महत्त्वपूर्ण', INFO: 'जानकारी' };
+      const waveNe: Record<string, string> = { CRITICAL: 'अति जरुरी', IMPORTANT: 'महत्त्वपूर्ण', INFO: 'जानकारी' };
       return `📱 ${savedContacts.length}/8 · ${isNepali ? (waveNe[currentWave] || currentWave) : currentWave}`;
     }
-    if (currentStep === 4) return `🩺 ${quizProgress.current}/${quizProgress.total} · ${isNepali ? 'प्रश्नोत्तरी' : 'QUIZ'}`;
+    if (currentStep === 4) return `🩺 ${quizProgress.current}/${quizProgress.total} · ${isNepali ? 'प्रश्न' : 'QUIZ'}`;
     return '';
+  };
+
+  // Get the right character image and exclamation for feedback type
+  const getFeedbackCharacter = () => {
+    if (!feedback) return { image: charInfo, exclamation: '', bgColor: 'bg-white', borderColor: 'border-[#F0DDE8]', textColor: 'text-[#9B5983]' };
+
+    if (feedback.type === 'success') {
+      return {
+        image: charGoodJob,
+        exclamation: isNepali ? 'शाबास! 🎉' : 'Good Job! 🎉',
+        bgColor: 'bg-[#F0FDF4]',
+        borderColor: 'border-[#86EFAC]',
+        textColor: 'text-[#166534]',
+        accentColor: '#16A34A',
+      };
+    }
+    if (feedback.type === 'error') {
+      return {
+        image: charOhNo,
+        exclamation: isNepali ? 'ओहो! 😔' : 'Oh No! 😔',
+        bgColor: 'bg-[#FFF8F8]',
+        borderColor: 'border-[#FECACA]',
+        textColor: 'text-[#B91C1C]',
+        accentColor: '#DC2626',
+      };
+    }
+    return {
+      image: charInfo,
+      exclamation: isNepali ? 'जानकारी 💡' : 'Did you know? 💡',
+      bgColor: 'bg-white',
+      borderColor: 'border-[#F0DDE8]',
+      textColor: 'text-[#9B5983]',
+      accentColor: '#9B5983',
+    };
+  };
+
+  const getBackgroundImage = () => {
+    switch (currentStep) {
+      case 1: return require('../../assets/images/bedroom_bg.png');
+      case 2: return require('../../assets/images/desk_bg.png');
+      case 3: return require('../../assets/images/phone_bg.png');
+      case 4: return require('../../assets/images/bedroom_bg.png');
+      case 5: return require('../../assets/images/aama_ready_main_bg.png');
+      default: return require('../../assets/images/bedroom_bg.png');
+    }
   };
 
   return (
     <View className="flex-1 bg-[#FFF9FB]">
-      <View className="flex-1">
-        {renderStep()}
-
-        {/* Feedback toast is rendered inside the header block below */}
+      {/* 1. Global Background behind everything */}
+      <View className="absolute inset-0">
+        <ImageBackground
+          source={getBackgroundImage()}
+          className="flex-1"
+          resizeMode="cover"
+          blurRadius={3}
+        >
+          <LinearGradient
+            colors={['rgba(255,249,251,0.25)', 'rgba(255,245,248,0.45)', 'rgba(255,249,251,0.55)']}
+            className="absolute inset-0"
+          />
+        </ImageBackground>
       </View>
 
-      {/* Floating Header — matching reference images */}
+      {/* 2. Character Rendered below the interactive steps */}
+      {currentStep < 5 && (
+        <View
+          className="absolute pointer-events-none z-10 flex-col justify-end"
+          style={{ bottom: 40, right: -200, width: SCREEN_W * 1.1, height: Dimensions.get('window').height * 0.90 }}
+        >
+          <Image
+            source={feedback ? getFeedbackCharacter().image : charInfo}
+            style={{ width: '100%', height: '100%' }}
+            resizeMode="contain"
+          />
+        </View>
+      )}
+
+      {/* 3. Steps with transparent bg taking interactivity */}
+      <View className="flex-1" style={{ zIndex: 20 }}>
+        {renderStep()}
+      </View>
+
+      {/* Floating Header */}
       <View className="absolute top-0 left-0 right-0 z-[100]">
         <SafeAreaView edges={['top']}>
           {/* Top bar: Back | Step title | Next */}
           <View className="flex-row items-center justify-between mx-4 mt-1.5 px-1.5 py-2">
-            {/* Back button — same style as Next */}
+            {/* Back button */}
             <TouchableOpacity
-              className={`px-5 py-2 rounded-full bg-[#C06898] ${currentStep === 1 ? 'opacity-30' : ''}`}
+              className="px-5 py-2 rounded-full bg-[#C06898]"
               onPress={() => {
-                const prevStep = Math.max(1, currentStep - 1) as any;
-                setStep(prevStep);
+                if (currentStep === 1) {
+                  navigation.navigate('Welcome');
+                } else {
+                  const prevStep = Math.max(1, currentStep - 1) as any;
+                  setStep(prevStep);
+                }
               }}
-              disabled={currentStep === 1}
               activeOpacity={0.7}
             >
-              <Text className="text-[13px] font-[700] text-white">{isNepali ? 'पछिल्लो' : 'Back'}</Text>
+              <Text className="text-[13px] font-[700] text-white">{isNepali ? 'पछाडि' : 'Back'}</Text>
             </TouchableOpacity>
 
             {/* Center: Step label + name */}
@@ -132,7 +218,7 @@ export default function GameContainer() {
               </Text>
             </View>
 
-            {/* Next button — filled pill */}
+            {/* Next button */}
             <TouchableOpacity
               className={`px-5 py-2 rounded-full bg-[#C06898] ${currentStep === 5 ? 'opacity-30' : ''}`}
               onPress={() => setStep(Math.min(5, currentStep + 1) as any)}
@@ -148,6 +234,9 @@ export default function GameContainer() {
             <View className="mx-5 mt-0.5 flex-row justify-between items-center px-4 py-1.5 bg-white/85 rounded-full border border-[#F5E1EC]">
               <Text className="text-[10px] font-[800] text-[#9B5983] tracking-[0.3px]" numberOfLines={1}>{getWaveLabel()}</Text>
               <View className="flex-row items-center gap-2">
+                <TouchableOpacity className="w-7 h-7 bg-[#F9F0F5] rounded-full justify-center items-center" onPress={toggleSound}>
+                  <Text className="text-[10px]">{soundEnabled ? '🔊' : '🔇'}</Text>
+                </TouchableOpacity>
                 <TouchableOpacity className="w-7 h-7 bg-[#F9F0F5] rounded-full justify-center items-center" onPress={toggleLanguage}>
                   <Text className="text-[10px] font-[800] text-[#9B5983]">{isNepali ? 'EN' : 'ने'}</Text>
                 </TouchableOpacity>
@@ -158,59 +247,63 @@ export default function GameContainer() {
             </View>
           )}
 
-          {/* Feedback toast — flows after sub-bar, consistent in both languages */}
-          {feedback && (
-            <Animated.View
-              entering={FadeInUp.duration(300)}
-              exiting={FadeOutDown.duration(200)}
-              className="mx-4 mt-2.5"
-            >
-              <View className={`flex-row rounded-[18px] overflow-hidden border shadow-black shadow-opacity-10 shadow-radius-10 elevation-8 ${feedback.type === 'error'
-                ? 'bg-[#FFF8F8] border-[#FECACA]'
-                : feedback.type === 'info'
-                  ? 'bg-white border-[#F0DDE8]'
-                  : 'bg-[#F0FDF4] border-[#BBF7D0]'
-              }`}>
-                {/* Icon strip */}
-                <View className={`w-[52px] justify-center items-center ${feedback.type === 'error'
-                  ? 'bg-[#FEE2E2]'
-                  : feedback.type === 'info'
-                    ? 'bg-[#FDF2F8]'
-                    : 'bg-[#DCFCE7]'
-                }`}>
-                  <View className={`w-8 h-8 rounded-lg justify-center items-center ${feedback.type === 'error'
-                    ? 'bg-[#FCA5A5]'
-                    : feedback.type === 'info'
-                      ? 'bg-[#F0C6DB]'
-                      : 'bg-[#86EFAC]'
-                  }`}>
-                    <Text className="text-white text-[16px] font-[900]">
-                      {feedback.type === 'success' ? '✓' : feedback.type === 'error' ? '✗' : '💡'}
-                    </Text>
+          {/* Enhanced Feedback — speech bubble */}
+          {feedback && (() => {
+            const feedbackStyle = getFeedbackCharacter();
+            return (
+              <Animated.View
+                entering={FadeInUp.duration(350)}
+                exiting={FadeOutDown.duration(200)}
+                className="mt-2 w-full px-4 z-20"
+              >
+                <View className="flex-1">
+                  <View className={`rounded-[18px] overflow-hidden border-[1.5px] shadow-black/10 shadow-opacity-12 shadow-radius-10 elevation-8 ${feedbackStyle.bgColor} ${feedbackStyle.borderColor}`}>
+                    {/* Exclamation header — "Good Job!" or "Oh No!" */}
+                    <View className="pt-3 px-3.5 pr-9">
+                      <Text className={`text-[15px] font-[900] mb-0.5 ${feedbackStyle.textColor}`}>
+                        {feedbackStyle.exclamation}
+                      </Text>
+                    </View>
+
+                    {/* Feedback content */}
+                    <View className="pb-3 px-3.5 pr-9">
+                      <Text className={`text-[13px] font-[700] mb-0.5 ${feedback.type === 'error' ? 'text-[#991B1B]' : feedback.type === 'info' ? 'text-[#7C3E6B]' : 'text-[#14532D]'}`}>
+                        {feedback.message}
+                      </Text>
+                      {feedback.detail ? (
+                        <Text className="text-[11.5px] text-[#555] leading-[17px] font-[500] mt-0.5">{feedback.detail}</Text>
+                      ) : null}
+                    </View>
+
+                    {/* Close button */}
+                    <TouchableOpacity
+                      onPress={clearFeedback}
+                      className="absolute top-2 right-2 w-7 h-7 bg-black/8 rounded-full justify-center items-center"
+                      activeOpacity={0.6}
+                    >
+                      <Text className="text-[12px] text-[#888] font-[700]">✕</Text>
+                    </TouchableOpacity>
                   </View>
-                </View>
 
-                {/* Content */}
-                <View className="flex-1 py-3.5 px-4 pr-10">
-                  <Text className={`text-[14px] font-[800] mb-1 ${feedback.type === 'error' ? 'text-[#B91C1C]' : feedback.type === 'info' ? 'text-[#9B5983]' : 'text-[#166534]'}`}>
-                    {feedback.message}
-                  </Text>
-                  {feedback.detail ? (
-                    <Text className="text-[12.5px] text-[#555] leading-[18px] font-[500]">{feedback.detail}</Text>
-                  ) : null}
+                  {/* Bubble tail pointing to character */}
+                  <View
+                    style={{
+                      width: 0,
+                      height: 0,
+                      alignSelf: 'flex-end',
+                      marginRight: 40,
+                      borderTopWidth: 14,
+                      borderTopColor: feedback.type === 'error' ? '#FFF8F8' : feedback.type === 'info' ? 'white' : '#F0FDF4',
+                      borderLeftWidth: 14,
+                      borderLeftColor: 'transparent',
+                      borderRightWidth: 0,
+                      borderRightColor: 'transparent',
+                    }}
+                  />
                 </View>
-
-                {/* Close button */}
-                <TouchableOpacity
-                  onPress={clearFeedback}
-                  className="absolute top-2.5 right-2.5 w-7 h-7 bg-black/5 rounded-full justify-center items-center"
-                  activeOpacity={0.6}
-                >
-                  <Text className="text-[12px] text-[#999] font-[700]">✕</Text>
-                </TouchableOpacity>
-              </View>
-            </Animated.View>
-          )}
+              </Animated.View>
+            );
+          })()}
         </SafeAreaView>
       </View>
 

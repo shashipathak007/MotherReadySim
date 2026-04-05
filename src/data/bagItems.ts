@@ -300,7 +300,7 @@ export const DO_NOT_PACK_ITEMS: DoNotPackItem[] = [
     nameNe: 'कडा अत्तर वा बास्नादार सामग्रीहरू', 
     whyNot: 'Newborn airways are extremely sensitive. Strong scents can irritate their developing lungs and cause respiratory distress in the first hours of life.', 
     whyNotNe: 'नवजात शिशुको श्वासप्रश्वास प्रणाली संवेदनशील हुन्छ। कडा बास्नाले उनीहरूको फोक्सोमा असर पुर्याउन सक्छ।',
-    emoji: '🌸'
+    emoji: '⚱'
   },
   { 
     id: 2, 
@@ -316,7 +316,7 @@ export const DO_NOT_PACK_ITEMS: DoNotPackItem[] = [
     nameNe: 'साधारण पातलो स्यानिटरी प्याड', 
     whyNot: 'Postpartum bleeding is far heavier than a normal period. Regular pads soak through in minutes. Only thick maternity-specific pads are safe.', 
     whyNotNe: 'सुत्केरीपछिको रक्तस्राव धेरै हुने भएकाले साधारण प्याड तुरुन्तै भिज्छ। बाक्लो म्याटरनिटी प्याड मात्र प्रयोग गर्नुहोस्।',
-    emoji: '🚫'
+    emoji: '🩹'
   },
   { 
     id: 4, 

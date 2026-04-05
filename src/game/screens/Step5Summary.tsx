@@ -13,7 +13,7 @@ export default function Step5Summary({ onReplay }: { onReplay: () => void }) {
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
 
-  const totalPossibleStars = 5;
+  const totalPossibleStars = 20;
   const baggedRatio = packedBagItems.length / BAG_ITEMS.length;
   const docsRatio = collectedDocuments.length / DOCUMENTS.length;
   const contactsRatio = savedContacts.length / CONTACTS.length;
@@ -25,24 +25,24 @@ export default function Step5Summary({ onReplay }: { onReplay: () => void }) {
   let badgeEmoji = '';
   let subMsg = '';
   if (scorePercentage >= 1) {
-    badgeMsg = isNe ? 'पूर्ण तयार' : 'Fully Prepared';
+    badgeMsg = isNe ? 'पूरा तयार!' : 'Fully Prepared';
     badgeEmoji = '🏆';
-    subMsg = isNe ? 'शाबास! तपाईं पूर्ण तयार हुनुहुन्छ!' : 'Great Job! You are completely prepared.';
+    subMsg = isNe ? 'शाबास! तपाईं अस्पतालको लागि पूरा तयार हुनुहुन्छ!' : 'Great Job! You are completely prepared.';
   } else if (scorePercentage > 0.7) {
-    badgeMsg = isNe ? 'लगभग तयार' : 'Almost Ready';
+    badgeMsg = isNe ? 'झण्डै तयार' : 'Almost Ready';
     badgeEmoji = '💪';
-    subMsg = isNe ? 'राम्रो छ! छुटेका चरणहरू समीक्षा गर्नुहोस्।' : 'Great job! Review the steps you missed and try again.';
+    subMsg = isNe ? 'राम्रो भयो! छुटेका चरणहरू हेरेर फेरि खेल्नुहोस्।' : 'Great job! Review the steps you missed and try again.';
   } else {
     badgeMsg = isNe ? 'सिक्दै जानुहोस्' : 'Keep Learning';
     badgeEmoji = '📖';
-    subMsg = isNe ? 'तपाईं सिक्दै हुनुहुन्छ! छुटेका चरणहरू समीक्षा गरेर फेरि प्रयास गर्नुहोस्।' : 'You are getting there! Review the steps you missed and try again.';
+    subMsg = isNe ? 'राम्रो सुरुवात! छुटेका चरणहरू हेरेर फेरि प्रयास गर्नुहोस्।' : 'You are getting there! Review the steps you missed and try again.';
   }
 
   const handleShare = async () => {
     try {
       await Share.share({
         message: isNe 
-          ? `म Aama Ready खेलमा ${badgeMsg} भएँ! तपाईं पनि खेल्नुहोस्।`
+          ? `म Aama Ready खेलेर "${badgeMsg}" पाएँ! तपाईं पनि खेलेर हेर्नुहोस्।`
           : `I just completed the Aama Ready journey and I am ${badgeMsg}! Play the game to test your pregnancy preparedness in Nepal.`,
       });
     } catch (error) {
@@ -79,40 +79,25 @@ export default function Step5Summary({ onReplay }: { onReplay: () => void }) {
 
   return (
     <View className="flex-1">
-      {/* Background with subtle blur */}
-      <View className="absolute inset-0">
-        <ImageBackground 
-          source={require('../../../assets/images/aama_ready_main_bg.png')} 
-          className="flex-1"
-          resizeMode="cover"
-          blurRadius={3}
-        >
-          <LinearGradient 
-            colors={['rgba(255,249,251,0.25)', 'rgba(255,245,248,0.45)', 'rgba(255,249,251,0.55)']} 
-            className="absolute inset-0" 
-          />
-        </ImageBackground>
-      </View>
-
       <ScrollView contentContainerStyle={{ paddingTop: 80, paddingBottom: 50, paddingHorizontal: 24, alignItems: 'center' }} showsVerticalScrollIndicator={false}>
         {/* Badge */}
         <Animated.View entering={ZoomIn.delay(200)} className="items-center mb-7">
           <Text className="text-[64px] mb-2">{badgeEmoji}</Text>
           <Text className="text-[28px] font-[800] text-[#9B5983] text-center mb-2">{badgeMsg}</Text>
-          <Text className="text-[28px] color-[#F59E0B]">{'⭐'.repeat(quizStars)}{'☆'.repeat(5 - quizStars)}</Text>
+          <Text className="text-[28px] color-[#F59E0B]">{'⭐'.repeat(Math.round((quizStars / totalPossibleStars) * 5))}{'☆'.repeat(5 - Math.round((quizStars / totalPossibleStars) * 5))}</Text>
         </Animated.View>
 
         {/* Stats Card */}
         <Animated.View entering={FadeInUp.delay(400)} className="w-full bg-white/95 rounded-[22px] p-6 mb-6 shadow-black shadow-opacity-8 shadow-radius-16 elevation-8 border border-[#F5E1EC]">
-          <Text className="text-lg font-[900] text-[#333] mb-5 text-center">{isNe ? 'तपाईंको नतिजा' : 'Your Results'}</Text>
+          <Text className="text-lg font-[900] text-[#333] mb-5 text-center">{isNe ? 'नतिजा' : 'Your Results'}</Text>
           
           <ProgressBar icon="🎒" label={isNe ? 'अस्पतालको झोला' : 'Hospital Bag'} ratio={baggedRatio} count={packedBagItems.length} total={BAG_ITEMS.length} />
           <ProgressBar icon="📋" label={isNe ? 'कागजातहरू' : 'Documents'} ratio={docsRatio} count={collectedDocuments.length} total={DOCUMENTS.length} />
-          <ProgressBar icon="📱" label={isNe ? 'सम्पर्कहरू' : 'Contacts'} ratio={contactsRatio} count={savedContacts.length} total={CONTACTS.length} />
-          <ProgressBar icon="🩺" label={isNe ? 'खतरा प्रश्नोत्तरी' : 'Danger Quiz'} ratio={quizRatio} count={quizStars} total={totalPossibleStars} />
+          <ProgressBar icon="📱" label={isNe ? 'सम्पर्क नम्बरहरू' : 'Contacts'} ratio={contactsRatio} count={savedContacts.length} total={CONTACTS.length} />
+          <ProgressBar icon="🩺" label={isNe ? 'खतराका चिन्हहरू' : 'Danger Quiz'} ratio={quizRatio} count={quizStars} total={totalPossibleStars} />
 
           <View className="flex-row items-center justify-between mt-5 pt-4 border-t border-[#F0E0E8]">
-            <Text className="text-lg font-[900] text-[#333]">{isNe ? 'कुल स्कोर' : 'Overall Score'}</Text>
+            <Text className="text-lg font-[900] text-[#333]">{isNe ? 'जम्मा स्कोर' : 'Overall Score'}</Text>
             <Text 
               className="text-[32px] font-[900]" 
               style={{ color: getProgressColor(scorePercentage) }}
@@ -137,7 +122,7 @@ export default function Step5Summary({ onReplay }: { onReplay: () => void }) {
           >
             <View className="bg-[#C06898] py-4 flex-row items-center justify-center gap-2">
               <Text className="text-[22px]">📤</Text>
-              <Text className="text-white text-[16px] font-[800]">{isNe ? 'स्कोर शेयर गर्नुहोस्' : 'Share My Score'}</Text>
+              <Text className="text-white text-[16px] font-[800]">{isNe ? 'स्कोर साझा गर्नुहोस्' : 'Share My Score'}</Text>
             </View>
           </TouchableOpacity>
 

@@ -27,6 +27,8 @@ interface GameContextType extends GameState {
   setCurrentWave: (wave: string) => void;
   quizProgress: { current: number; total: number };
   setQuizProgress: (current: number, total: number) => void;
+  soundEnabled: boolean;
+  toggleSound: () => void;
 }
 
 const defaultState: GameState = {
@@ -45,6 +47,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [feedback, setFeedback] = useState<{ message: string, detail?: string, type: 'success' | 'error' | 'info' } | null>(null);
   const [currentWave, setCurrentWave] = useState('');
   const [quizProgress, setQuizProgressState] = useState({ current: 0, total: 0 });
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const toggleSound = () => setSoundEnabled(prev => !prev);
 
   const updateState = (updates: Partial<GameState>) => {
     setState((prev) => ({ ...prev, ...updates }));
@@ -73,7 +77,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }));
   };
 
-  const addQuizStar = () => updateState({ quizStars: Math.min(5, state.quizStars + 1) });
+  const addQuizStar = () => updateState({ quizStars: Math.min(20, state.quizStars + 1) });
   
   const resetGame = () => {
     setState(defaultState);
@@ -118,7 +122,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <GameContext.Provider value={{ ...state, setStep, packItem, collectDocument, saveContact, addQuizStar, resetGame, resetCurrentStep, resetStepData, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress }}>
+    <GameContext.Provider value={{ ...state, setStep, packItem, collectDocument, saveContact, addQuizStar, resetGame, resetCurrentStep, resetStepData, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound }}>
       {children}
     </GameContext.Provider>
   );
