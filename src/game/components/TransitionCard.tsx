@@ -1,3 +1,4 @@
+/// <reference types="nativewind/types" />
 import React, { useEffect } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import Animated, { 

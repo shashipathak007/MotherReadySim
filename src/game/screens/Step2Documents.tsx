@@ -1,3 +1,4 @@
+/// <reference types="nativewind/types" />
 import React, { useRef, useState, useMemo } from 'react';
 import { View, Dimensions, ImageBackground, Image } from 'react-native';
 import { useGame } from '../context/GameContext';

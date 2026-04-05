@@ -1,4 +1,5 @@
 import "./global.css";
+import "./src/lib/nativewind";
 import './src/i18n';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';

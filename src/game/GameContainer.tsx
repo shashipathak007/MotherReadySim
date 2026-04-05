@@ -1,3 +1,4 @@
+/// <reference types="nativewind/types" />
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, Dimensions, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';

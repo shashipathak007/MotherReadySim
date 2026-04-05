@@ -1,3 +1,4 @@
+/// <reference types="nativewind/types" />
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, Image, Dimensions } from 'react-native';
 import Animated, { FadeIn, FadeOut, SlideInRight, ZoomIn } from 'react-native-reanimated';

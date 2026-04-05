@@ -1,3 +1,4 @@
+/// <reference types="nativewind/types" />
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import { useGame } from '../context/GameContext';

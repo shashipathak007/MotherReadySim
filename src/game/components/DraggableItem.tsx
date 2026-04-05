@@ -1,3 +1,4 @@
+/// <reference types="nativewind/types" />
 import React, { forwardRef, useImperativeHandle, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';

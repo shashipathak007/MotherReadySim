@@ -57,73 +57,73 @@ export default function Step3Contacts({ onNextStep }: { onNextStep: () => void }
   React.useEffect(() => {
     let nextWaveIdx = 0;
     for (let i = 0; i < waveCategories.length; i++) {
-        const cat = waveCategories[i];
-        const correctItemsInWave = CONTACTS.filter(item => item.urgency === cat);
-        const collectedInWave = correctItemsInWave.filter(item => savedContacts.includes(item.id));
-        if (collectedInWave.length >= correctItemsInWave.length) {
-            nextWaveIdx = i + 1;
-        } else {
-            break; 
-        }
+      const cat = waveCategories[i];
+      const correctItemsInWave = CONTACTS.filter(item => item.urgency === cat);
+      const collectedInWave = correctItemsInWave.filter(item => savedContacts.includes(item.id));
+      if (collectedInWave.length >= correctItemsInWave.length) {
+        nextWaveIdx = i + 1;
+      } else {
+        break;
+      }
     }
-    
+
     if (nextWaveIdx >= waveCategories.length) {
-       checkCompletion(savedContacts.length);
+      checkCompletion(savedContacts.length);
     } else {
-       setCurrentWaveIdx(nextWaveIdx);
+      setCurrentWaveIdx(nextWaveIdx);
     }
   }, [savedContacts]);
 
   const activeWaveContacts = useMemo(() => {
     if (!currentWave) return [];
-    const correctItems = CONTACTS.filter(item => item.urgency === currentWave).map(item => ({ 
-      id: item.id, 
-      name: item.name, 
-      nameNe: item.nameNe, 
-      isWrong: false, 
-      why: item.fullDetail, 
-      whyNe: item.fullDetailNe, 
-      phone: item.phone || '' 
+    const correctItems = CONTACTS.filter(item => item.urgency === currentWave).map(item => ({
+      id: item.id,
+      name: item.name,
+      nameNe: item.nameNe,
+      isWrong: false,
+      why: item.fullDetail,
+      whyNe: item.fullDetailNe,
+      phone: item.phone || ''
     }));
     const wrongIds = WRONG_DISTRIBUTION[currentWave as keyof typeof WRONG_DISTRIBUTION] || [];
-    const wrongItems = WRONG_CONTACTS.filter(i => wrongIds.includes(i.id)).map(item => ({ 
-      id: item.id, 
-      name: item.name, 
-      nameNe: item.nameNe || '', 
-      isWrong: true, 
-      why: item.whyNot, 
-      whyNe: '', 
+    const wrongItems = WRONG_CONTACTS.filter(i => wrongIds.includes(i.id)).map(item => ({
+      id: item.id,
+      name: item.name,
+      nameNe: item.nameNe || '',
+      isWrong: true,
+      why: item.whyNot,
+      whyNe: '',
       whyNotNe: item.whyNotNe || '',
-      phone: '' 
+      phone: ''
     }));
-    
+
     const combined = [...correctItems, ...wrongItems];
     const itemCount = combined.length;
-    const itemSize = 85; 
-    
+    const itemSize = 85;
+
     return combined.sort((a, b) => a.name.localeCompare(b.name)).map((item, index) => {
       const cols = Math.min(itemCount, 3);
       const row = Math.floor(index / cols);
       const col = index % cols;
-      
+
       const xPos = (containerLayout.width * 0.35) - ((cols * itemSize) / 2) + (col * itemSize) + (itemSize / 2) - 40;
       const yPos = (containerLayout.height * 0.30) + (row * (itemSize + 30));
 
-      return { 
-        ...item, 
-        initialPos: { 
-          x: xPos + (Math.random() - 0.5) * 12, 
+      return {
+        ...item,
+        initialPos: {
+          x: xPos + (Math.random() - 0.5) * 12,
           y: yPos + (Math.random() - 0.5) * 12
-        } 
+        }
       };
     });
   }, [currentWave, savedContacts, containerLayout.width]);
 
-  const dropZone = { 
-    x: containerLayout.width * 0.35 - 90, 
-    y: containerLayout.height - 380, 
-    w: 180, 
-    h: 360 
+  const dropZone = {
+    x: containerLayout.width * 0.35 - 90,
+    y: containerLayout.height - 380,
+    w: 180,
+    h: 360
   };
   const itemRefs = useRef<Record<number, DraggableItemRef>>({});
 
@@ -139,7 +139,7 @@ export default function Step3Contacts({ onNextStep }: { onNextStep: () => void }
     if (inZone) {
       if (!isWrong) {
         saveContact(item.id);
-        ref?.animatePack(dropZone.x + dropZone.w/2 - 30, dropZone.y + dropZone.h/2 - 30);
+        ref?.animatePack(dropZone.x + dropZone.w / 2 - 30, dropZone.y + dropZone.h / 2 - 30);
         playCorrect();
         const cName = isNe && item.nameNe ? item.nameNe : item.name;
         const cWhy = isNe && item.whyNe ? item.whyNe : item.why;
@@ -171,53 +171,52 @@ export default function Step3Contacts({ onNextStep }: { onNextStep: () => void }
   };
 
   const getContactEmoji = (id: number) => {
-    switch(id) {
-       case 1: return '👩‍⚕️';
-       case 2: return '🚑';
-       case 3: return '🏥';
-       case 4: return '🤝';
-       case 5: return '👫';
-       case 6: return '🏠';
-       case 7: return '🩸';
-       case 8: return '📞';
-       default: return '📱';
+    switch (id) {
+      case 1: return '👩‍⚕️';
+      case 2: return '🚑';
+      case 3: return '🏥';
+      case 4: return '🤝';
+      case 5: return '👫';
+      case 6: return '🏠';
+      case 7: return '🩸';
+      case 8: return '📞';
+      default: return '📱';
     }
   };
 
   return (
-    <View 
+    <View
       className="flex-1"
       onLayout={(e) => {
         const { width, height } = e.nativeEvent.layout;
         setContainerLayout({ width, height });
       }}
     >
-      <View 
-        className="absolute" 
+      <View className="absolute"
         style={{ left: dropZone.x, top: dropZone.y, width: dropZone.w, height: dropZone.h }}
       >
-        <Image 
+        <Image
           source={require('../../../assets/images/phone_frame.png')}
           style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
           resizeMode="contain"
         />
-        
+
         {/* Screen Content Area — aligned strictly within the mockup bezel */}
-        <View style={{ 
-          position: 'absolute', 
-          top: '12.5%', 
-          bottom: '12.5%', 
-          left: '11%', 
-          right: '11%', 
-          overflow: 'hidden', 
+        <View style={{
+          position: 'absolute',
+          top: '12.5%',
+          bottom: '12.5%',
+          left: '11%',
+          right: '11%',
+          overflow: 'hidden',
           backgroundColor: '#0D0D1A',
-          paddingTop: 8, 
+          paddingTop: 8,
           paddingHorizontal: 6,
           borderRadius: 2
         }}>
           <Text className="text-[11px] font-[800] text-white text-center mb-[4px] opacity-90">{isNe ? 'मेरो सम्पर्क' : 'My Care Team'}</Text>
-          <ScrollView 
-            className="flex-1" 
+          <ScrollView
+            className="flex-1"
             showsVerticalScrollIndicator={false}
             nestedScrollEnabled
           >
