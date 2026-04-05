@@ -349,6 +349,11 @@ export default function Step4DangerSigns({ onNextStep }: { onNextStep: () => voi
         withTiming(0, { duration: 50 })
       );
       showFeedback(isNe ? scenario.titleNe : scenario.title, explanation, 'error');
+      
+      // Reset so the user can try another option if they answer wrongly
+      setTimeout(() => {
+        hasAnswered.current = false;
+      }, 500);
     }
   };
 
@@ -367,11 +372,21 @@ export default function Step4DangerSigns({ onNextStep }: { onNextStep: () => voi
   }));
 
   return (
-    <Animated.View className="flex-1" style={animatedStyle}>
+    <View className="flex-1 justify-end pb-10 px-4" pointerEvents="box-none">
       {/* Scenario card at the bottom */}
-      <View
-        className="absolute bottom-10 left-4 right-4 bg-white/95 rounded-[22px] p-6 shadow-black shadow-opacity-8 shadow-radius-16 elevation-10 border border-[#F5E1EC]"
-        style={{ zIndex: 50 }}
+      <Animated.View
+        className="bg-white/95 rounded-[22px] p-6 border border-[#F5E1EC]"
+        style={[
+          { 
+            zIndex: 50,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.08,
+            shadowRadius: 16,
+            elevation: 10,
+          },
+          animatedStyle
+        ]}
       >
         <Text className="text-[12px] font-[800] text-[#9B5983] tracking-[1.5px] uppercase mb-2">{isNe ? scenario.titleNe : scenario.title}</Text>
         <Text className="text-[16px] font-[700] text-[#333] mb-[20px] leading-[24px]">{isNe ? scenario.descriptionNe : scenario.description}</Text>
@@ -381,7 +396,14 @@ export default function Step4DangerSigns({ onNextStep }: { onNextStep: () => voi
             scenario.options.map((opt, i) => (
               <TouchableOpacity
                 key={i}
-                className="p-4 bg-[#FFFBFD] rounded-[14px] border-[1.5px] border-[#F5E1EC] shadow-[#F5E1EC] shadow-opacity-10 shadow-radius-4 elevation-2"
+                className="p-4 bg-[#FFFBFD] rounded-[14px] border-[1.5px] border-[#F5E1EC]"
+                style={{
+                  shadowColor: '#F5E1EC',
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.1,
+                  shadowRadius: 4,
+                  elevation: 2,
+                }}
                 onPress={() => handleSelect(opt)}
                 disabled={selectedResult !== null}
                 activeOpacity={0.7}
@@ -403,10 +425,8 @@ export default function Step4DangerSigns({ onNextStep }: { onNextStep: () => voi
             </TouchableOpacity>
           )}
         </View>
-      </View>
-
-      {/* Progress is now shown in the GameContainer sub-bar */}
-    </Animated.View>
+      </Animated.View>
+    </View>
   );
 }
 

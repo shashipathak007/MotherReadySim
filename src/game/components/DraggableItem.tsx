@@ -126,15 +126,57 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
 
   return (
     <GestureDetector gesture={composedGesture}>
-      <Animated.View
-        style={[animatedStyle, { backgroundColor: color }]}
-        className="w-[72px] h-[72px] rounded-full justify-center items-center shadow shadow-black shadow-opacity-15 shadow-radius-5 elevation-6 border-[3px] border-[#F48B9E]"
-      >
-        <View className={`w-[48px] h-[48px] rounded-full justify-center items-center ${isWrong ? 'bg-[#F5F0F0]' : 'bg-white/90'}`}>
-          <Text className="text-[42px]">{emoji}</Text>
+      <Animated.View style={[animatedStyle]}>
+        {/* Circle */}
+        <View
+          style={{
+            width: 72,
+            height: 72,
+            borderRadius: 36,
+            backgroundColor: '#FFFFFF',
+            borderWidth: 3,
+            borderColor: '#F48B9E',
+            justifyContent: 'center',
+            alignItems: 'center',
+            shadowColor: '#C06898',
+            shadowOffset: { width: 0, height: 3 },
+            shadowOpacity: 0.2,
+            shadowRadius: 6,
+            elevation: 6,
+          }}
+        >
+          <Text style={{ fontSize: 36, textAlign: 'center' }}>{emoji}</Text>
         </View>
-        <View className={`absolute bottom-[-34px] w-[92px] rounded-xl px-1.5 py-1 border-[1.5px] shadow-opacity-8 shadow-radius-2 elevation-2 ${isWrong ? 'bg-[#F9F5F5] border-[#E8D5D5]' : 'bg-white border-[#F5E1EC]'}`}>
-          <Text className={`text-[10px] font-[700] text-center ${isWrong ? 'text-[#888]' : 'text-[#333]'}`} numberOfLines={2}>{name}</Text>
+
+        {/* Text label — sits directly below circle, centered under it */}
+        <View
+          style={{
+            width: 92,
+            marginTop: 4,
+            marginLeft: -10, // center 92px label under 72px circle: (72-92)/2 = -10
+            backgroundColor: '#FFFFFF',
+            borderRadius: 10,
+            borderWidth: 1.5,
+            borderColor: isWrong ? '#E8D5D5' : '#F5E1EC',
+            paddingHorizontal: 6,
+            paddingVertical: 4,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.08,
+            shadowRadius: 2,
+            elevation: 2,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 10,
+              fontWeight: '700',
+              textAlign: 'center',
+              color: '#333',
+              lineHeight: 13,
+            }}
+            numberOfLines={2}
+          >{name}</Text>
         </View>
       </Animated.View>
     </GestureDetector>
