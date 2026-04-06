@@ -27,8 +27,6 @@ const TRANSITION_CONTENT = {
     subtitleNe: 'अब जरुरी कागजातहरू जम्मा गरौं।',
     accent: '#5B8DB8',
     bgColor: 'rgba(240, 247, 255, 0.97)',
-    badge: 'Step 1 Complete',
-    badgeNe: 'चरण १ सकियो',
   },
   2: {
     emoji: '📱',
@@ -38,19 +36,15 @@ const TRANSITION_CONTENT = {
     subtitleNe: 'अब सम्पर्क नम्बरहरू सेभ गरौं।',
     accent: '#5BA88C',
     bgColor: 'rgba(240, 253, 248, 0.97)',
-    badge: 'Step 2 Complete',
-    badgeNe: 'चरण २ सकियो',
   },
   3: {
-    emoji: '🩺',
+    emoji: '✅',
     title: 'Contacts Saved!',
     titleNe: 'सम्पर्क सेभ भयो!',
     subtitle: 'Do you know the danger signs?',
     subtitleNe: 'के तपाईंलाई खतराका चिन्हहरू थाहा छ?',
     accent: '#C49A3C',
     bgColor: 'rgba(255, 252, 240, 0.97)',
-    badge: 'Step 3 Complete',
-    badgeNe: 'चरण ३ सकियो',
   },
   4: {
     emoji: '🌟',
@@ -60,8 +54,6 @@ const TRANSITION_CONTENT = {
     subtitleNe: 'अब नतिजा हेरौं!',
     accent: '#C06898',
     bgColor: 'rgba(253, 245, 250, 0.97)',
-    badge: 'Step 4 Complete',
-    badgeNe: 'चरण ४ सकियो',
   }
 };
 
@@ -136,19 +128,6 @@ export const TransitionCard: React.FC<TransitionCardProps> = ({ step, onComplete
             style={{ backgroundColor: content.accent }} 
           />
           
-          {/* Badge */}
-          <View 
-            className="px-4 py-1.5 rounded-[20px] mb-5" 
-            style={{ backgroundColor: content.accent + '15' }}
-          >
-            <Text 
-              className="text-[12px] font-[700] tracking-[0.5px]" 
-              style={{ color: content.accent }}
-            >
-              {isNe ? content.badgeNe : content.badge}
-            </Text>
-          </View>
-
           {/* Big Emoji */}
           <Animated.View style={emojiStyle}>
             <Text className="text-[64px] mb-4">{content.emoji}</Text>

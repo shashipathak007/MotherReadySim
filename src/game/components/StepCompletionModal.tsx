@@ -7,62 +7,106 @@ interface StepCompletionModalProps {
   visible: boolean;
   onClose: () => void;
   onReset: () => void;
+  /** If provided, shows a "Next Step" button instead of Continue — for first-time completions */
+  onNext?: () => void;
 }
 
-export const StepCompletionModal: React.FC<StepCompletionModalProps> = ({ visible, onClose, onReset }) => {
+export const StepCompletionModal: React.FC<StepCompletionModalProps> = ({ visible, onClose, onReset, onNext }) => {
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
 
   if (!visible) return null;
 
+  const isFirstTime = !!onNext;
+
   return (
     <Modal transparent visible={visible} animationType="fade">
-      <View className="flex-1 bg-black/45 justify-center items-center px-8">
-        <Animated.View 
-          entering={ZoomIn.duration(350)} 
-          exiting={ZoomOut.duration(250)}
-          className="bg-white rounded-[28px] w-full max-w-[340px] items-center shadow-black shadow-opacity-15 shadow-radius-24 elevation-12 overflow-hidden"
+      <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 32 }}>
+        <Animated.View
+          entering={ZoomIn.springify().damping(14).stiffness(150)}
+          exiting={ZoomOut.duration(200)}
+          style={{
+            backgroundColor: 'white',
+            borderRadius: 28,
+            width: '100%',
+            maxWidth: 340,
+            alignItems: 'center',
+            overflow: 'hidden',
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 8 },
+            shadowOpacity: 0.18,
+            shadowRadius: 24,
+            elevation: 14,
+          }}
         >
-          {/* Top accent */}
-          <View className="w-full h-1 bg-[#C06898]" />
+          {/* Top accent strip */}
+          <View style={{ width: '100%', height: 5, backgroundColor: isFirstTime ? '#C06898' : '#9B5983' }} />
 
-          <View className="px-7 pt-7 pb-6 items-center w-full">
-            {/* Icon */}
-            <View className="w-[76px] h-[76px] rounded-full bg-[#FFF5F9] justify-center items-center mb-5 border-2 border-[#F5E1EC]">
-              <Text className="text-[38px]">🎖️</Text>
+          <View style={{ paddingHorizontal: 28, paddingTop: 28, paddingBottom: 24, alignItems: 'center', width: '100%' }}>
+            {/* Big celebration emoji circle */}
+            <View style={{
+              width: 88,
+              height: 88,
+              borderRadius: 44,
+              backgroundColor: '#FFF5F9',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginBottom: 16,
+              borderWidth: 2.5,
+              borderColor: '#F5E1EC',
+            }}>
+              <Text style={{ fontSize: 42 }}>{isFirstTime ? '🎉' : '🎖️'}</Text>
             </View>
-            
+
             {/* Title */}
-            <Text className="text-[20px] font-[800] text-[#333] text-center mb-3">
-              {isNe ? "यो चरण सकियो!" : "Step Completed!"}
+            <Text style={{ fontSize: 22, fontWeight: '800', color: '#222', textAlign: 'center', marginBottom: 10 }}>
+              {isFirstTime
+                ? (isNe ? 'बधाई छ! 🌟' : 'Great Job! 🌟')
+                : (isNe ? 'यो चरण सकियो!' : 'Step Completed!')}
             </Text>
-            
-            {/* Description */}
-            <Text className="text-[14px] text-[#777] text-center leading-[22px] mb-7 font-[500] px-1">
-              {isNe 
-                ? "तपाईंले यो चरण पहिले नै पूरा गर्नुभएको छ। फेरि अभ्यास गर्नुहुन्छ?" 
-                : "You have already completed this step. Would you like to practice it again?"}
+
+            {/* Sub-text */}
+            <Text style={{ fontSize: 14, color: '#777', textAlign: 'center', lineHeight: 22, marginBottom: 24, fontWeight: '500', paddingHorizontal: 4 }}>
+              {isFirstTime
+                ? (isNe
+                    ? 'तपाईंले यो चरण सफलतापूर्वक पूरा गर्नुभयो! अर्को चरणमा जाने?'
+                    : 'You completed this step successfully! Ready for the next one?')
+                : (isNe
+                    ? 'तपाईंले यो चरण पहिले नै पूरा गर्नुभएको छ। फेरि अभ्यास गर्नुहुन्छ?'
+                    : 'You have already completed this step. Would you like to practice again?')}
             </Text>
 
             {/* Buttons */}
-            <View className="flex-row gap-3 w-full">
-              <TouchableOpacity 
-                onPress={onReset} 
-                className="flex-1 rounded-xl py-3 bg-[#F0DDE8] items-center"
+            <View style={{ flexDirection: 'row', gap: 12, width: '100%' }}>
+              <TouchableOpacity
+                onPress={onReset}
+                style={{
+                  flex: 1,
+                  borderRadius: 14,
+                  paddingVertical: 13,
+                  backgroundColor: '#F0DDE8',
+                  alignItems: 'center',
+                }}
                 activeOpacity={0.7}
               >
-                <Text className="text-[#9B5983] font-[800] text-[13px]">
-                  {isNe ? "फेरि खेल्ने" : "Reset Step"}
+                <Text style={{ color: '#9B5983', fontWeight: '800', fontSize: 13 }}>
+                  {isNe ? 'फेरि खेल्ने' : isFirstTime ? 'Stay & Practice' : 'Reset Step'}
                 </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity 
-                onPress={onClose} 
-                className="flex-1 rounded-xl py-3 bg-[#C06898] items-center"
+              <TouchableOpacity
+                onPress={isFirstTime ? onNext : onClose}
+                style={{
+                  flex: 1,
+                  borderRadius: 14,
+                  paddingVertical: 13,
+                  backgroundColor: '#C06898',
+                  alignItems: 'center',
+                }}
                 activeOpacity={0.7}
               >
-                <Text className="text-white font-[800] text-[13px]">
-                  {isNe ? "अगाडि बढ्ने" : "Continue"}
+                <Text style={{ color: 'white', fontWeight: '800', fontSize: 13 }}>
+                  {isNe ? 'अगाडि बढ्ने' : isFirstTime ? 'Next Step →' : 'Continue'}
                 </Text>
               </TouchableOpacity>
             </View>

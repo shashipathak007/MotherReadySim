@@ -49,8 +49,7 @@ export default function GameContainer() {
   }
 
   const handleNextStep = (stepFinished: 1 | 2 | 3 | 4) => {
-    setTransitionStep(stepFinished);
-    setShowTransition(true);
+    setStep((stepFinished + 1) as any);
   };
 
   const handleTransitionComplete = () => {
@@ -103,7 +102,7 @@ export default function GameContainer() {
       const waveNe: Record<string, string> = { CRITICAL: 'अति जरुरी', IMPORTANT: 'महत्त्वपूर्ण', INFO: 'जानकारी' };
       return `📱 ${savedContacts.length}/8 · ${isNepali ? (waveNe[currentWave] || currentWave) : currentWave}`;
     }
-    if (currentStep === 4) return `🩺 ${quizProgress.current}/${quizProgress.total} · ${isNepali ? 'प्रश्न' : 'QUIZ'}`;
+    if (currentStep === 4) return `⚠️ ${quizProgress.current}/${quizProgress.total} · ${isNepali ? 'प्रश्न' : 'QUIZ'}`;
     return '';
   };
 

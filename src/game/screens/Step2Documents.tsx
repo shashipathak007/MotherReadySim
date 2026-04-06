@@ -37,18 +37,12 @@ export default function Step2Documents({ onNextStep }: { onNextStep: () => void 
   const currentWave = waveCategories[currentWaveIdx];
 
   const hasCompletedInitially = useRef(collectedDocuments.length >= DOCUMENTS.length);
-  const [hasShownCompletionFeedback, setHasShownCompletionFeedback] = useState(false);
+  const isFirstCompletion = useRef(false);
 
   const checkCompletion = (newCount: number) => {
     if (newCount >= DOCUMENTS.length) {
-      if (hasCompletedInitially.current) {
-        if (!hasShownCompletionFeedback) {
-          setHasShownCompletionFeedback(true);
-          setShowCompletionModal(true);
-        }
-      } else {
-        setTimeout(() => onNextStep(), 1500);
-      }
+      isFirstCompletion.current = !hasCompletedInitially.current;
+      setShowCompletionModal(true);
     }
   };
 
@@ -201,6 +195,7 @@ export default function Step2Documents({ onNextStep }: { onNextStep: () => void 
       <StepCompletionModal
         visible={showCompletionModal}
         onClose={() => setShowCompletionModal(false)}
+        onNext={isFirstCompletion.current ? () => { setShowCompletionModal(false); onNextStep(); } : undefined}
         onReset={() => {
           resetCurrentStep();
           setShowCompletionModal(false);

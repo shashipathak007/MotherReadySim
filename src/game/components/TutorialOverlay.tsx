@@ -20,28 +20,28 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClo
       description: isNe
         ? "म तपाईंलाई अस्पतालको लागि तयारी गर्न मद्दत गर्छु — झोला, कागजात, सम्पर्क, र खतराका चिन्हहरू सबै सिकौं!"
         : "I'll help you prepare for the hospital — we'll learn about packing your bag, documents, contacts, and danger signs!",
-      emoji: '👋',
+      emoji: '',
     },
     {
       title: isNe ? "छोएर तान्नुहोस्!" : "Drag & Drop!",
       description: isNe
         ? "सामानलाई औँलाले छोएर झोला, फोल्डर वा फोनमा तान्नुहोस्। सही छान्नुभयो भने हरियो हुन्छ, गलत भए फर्किन्छ!"
         : "Touch items and drag them to the bag, folder, or phone. Right ones glow green, wrong ones bounce back!",
-      emoji: '👆',
+      emoji: '',
     },
     {
-      title: isNe ? "अलि बेर थिच्नुहोस्!" : "Long Press to Learn!",
+      title: isNe ? "अलि बेर थिच्नुहोस्!" : "Tap to Learn!",
       description: isNe
         ? "कुनै पनि सामानमा अलि बेर थिचिराख्नुहोस् — किन चाहिन्छ भन्ने कुरा देख्नुहुन्छ। हरेक सामानको कारण छ!"
-        : "Hold any item for a moment to see why it matters. Every item has a reason!",
-      emoji: '💡',
+        : "Tap any item to see why it matters. Every item has a reason!",
+      emoji: '',
     },
     {
       title: isNe ? "भाषा र आवाज" : "Language & Sound",
       description: isNe
-        ? "माथिको पट्टीमा भाषा बटन थिचेर अंग्रेजी–नेपाली बदल्नुहोस्। 🔊 बटनले आवाज खोल्ने वा बन्द गर्ने!"
-        : "Switch between English & Nepali with the language button in the top bar. Use 🔊 to toggle sound on or off!",
-      emoji: '🌐',
+        ? "माथिको पट्टीमा भाषा बटन थिचेर अंग्रेजी–नेपाली बदल्नुहोस्। बटनले आवाज खोल्ने वा बन्द गर्ने!"
+        : "Switch between English & Nepali with the language button in the top bar. Use to toggle sound on or off!",
+      emoji: '',
     },
   ];
 
@@ -140,7 +140,7 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClo
               activeOpacity={0.75}
             >
               <Text className="text-white font-[700] text-[14px]">
-                {isLast ? (isNe ? "सुरु गरौं! 🎉" : "Let's Go! 🎉") : (isNe ? "अर्को →" : "Next →")}
+                {isLast ? (isNe ? "सुरु गरौं!" : "Let's Go!") : (isNe ? "अर्को →" : "Next →")}
               </Text>
             </TouchableOpacity>
           </View>
