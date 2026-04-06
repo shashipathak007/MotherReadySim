@@ -54,6 +54,23 @@ export default function WelcomeScreen({ navigation }: any) {
     transform: [{ translateY: logoY.value }],
   }));
 
+  // Step items with navigation targets
+  const stepItems = isNepali ? [
+    { label: 'अस्पतालको झोला', emoji: '🎒', step: 1, desc: 'चरण १ मा जानुहोस्' },
+    { label: 'कागजात गाइड', emoji: '📁', step: 2, desc: 'चरण २ मा जानुहोस्' },
+    { label: 'आपतकालीन सम्पर्क', emoji: '📞', step: 3, desc: 'चरण ३ मा जानुहोस्' },
+    { label: 'गर्भावस्था परिदृश्यहरू', emoji: '🤰', step: 4, desc: 'चरण ४ मा जानुहोस्' },
+  ] : [
+    { label: 'Bag Checklist', emoji: '🎒', step: 1, desc: 'Jump to Step 1' },
+    { label: 'Document Guide', emoji: '📁', step: 2, desc: 'Jump to Step 2' },
+    { label: 'Emergency Contacts', emoji: '📞', step: 3, desc: 'Jump to Step 3' },
+    { label: 'Pregnancy Scenarios', emoji: '🤰', step: 4, desc: 'Jump to Step 4' },
+  ];
+
+  const navigateToStep = (step: number) => {
+    navigation.navigate('Game', { initialStep: step });
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: '#0A1628' }}>
       <StatusBar barStyle="light-content" />
@@ -89,71 +106,81 @@ export default function WelcomeScreen({ navigation }: any) {
           <Animated.View entering={FadeInDown.delay(200).duration(1000)} style={{ alignItems: 'center' }}>
             <Animated.View style={[logoFloat]}>
               <View style={{ 
-                width: 140, height: 140, borderRadius: 80, 
+                width: 130, height: 130, borderRadius: 70, 
                 overflow: 'hidden',
-                borderWidth: 7, borderColor: '#F33A6A',
+                borderWidth: 6, borderColor: '#F33A6A',
                 shadowColor: '#F33A6A', shadowOffset: { width: 0, height: 10 },
                 shadowOpacity: 0.6, shadowRadius: 20, elevation: 20,
-                marginBottom: 25,
+                marginBottom: 18,
                 backgroundColor: '#FFF'
               }}>
                 <Image 
                   source={require('../../assets/images/aama_ready_logo.png')} 
-                  style={{ width: 130, height: 130 }} 
+                  style={{ width: 120, height: 120 }} 
                   resizeMode="contain" 
                 />
               </View>
             </Animated.View>
             
             <Text style={{ 
-              fontSize: 48, fontWeight: '900', color: '#B04C8A' , 
+              fontSize: 42, fontWeight: '900', color: '#B04C8A', 
               letterSpacing: -1,
             }}>
               Aama<Text style={{ color: '#F33A6A' }}>Ready</Text>
             </Text>
-            <View style={{ height: 2, width: 80, backgroundColor: '#F33A6A', marginTop: 8, borderRadius: 1 }} />
+            <View style={{ height: 2, width: 70, backgroundColor: '#F33A6A', marginTop: 6, borderRadius: 1 }} />
             <Text style={{ 
-              fontSize: 14, fontWeight: '800', color: '#444', 
-              letterSpacing: 6, textTransform: 'uppercase', marginTop: 12,
+              fontSize: 12, fontWeight: '800', color: '#444', 
+              letterSpacing: 6, textTransform: 'uppercase', marginTop: 10,
               opacity: 0.9
             }}>
               Simulator
             </Text>
           </Animated.View>
 
-          {/* MIDDLE — Key Features */}
-          <Animated.View entering={FadeInDown.delay(600).duration(800)} style={{ paddingHorizontal: 32 }}>
+          {/* MIDDLE — Quick Navigation Cards */}
+          <Animated.View entering={FadeInDown.delay(600).duration(800)} style={{ paddingHorizontal: 24 }}>
             <View style={{
-              backgroundColor: 'rgba(255,255,255,0.6)',
-              borderRadius: 30, padding: 25,
+              backgroundColor: 'rgba(255,255,255,0.65)',
+              borderRadius: 28, padding: 20, paddingBottom: 14,
               borderWidth: 1, borderColor: 'rgba(255,255,255,1)'
             }}>
               <Text style={{ 
-                fontSize: 13, fontWeight: '900', color: '#B04C8A', 
-                textAlign: 'center', letterSpacing: 4, textTransform: 'uppercase',
-                marginBottom: 20, opacity: 0.8
+                fontSize: 12, fontWeight: '900', color: '#B04C8A', 
+                textAlign: 'center', letterSpacing: 3, textTransform: 'uppercase',
+                marginBottom: 16, opacity: 0.85
               }}>
-                {isNepali ? 'मातृत्व तयारी' : 'Maternal Readiness'}
+                {isNepali ? 'चरण छान्नुहोस्' : 'Pick a Step to Practice'}
               </Text>
               
-              <View style={{ gap: 14 }}>
-               {(isNepali ? [
-                  { label: 'अस्पतालको झोला', emoji: '🎒' },
-                  { label: 'कागजात गाइड', emoji: '📁' },
-                  { label: 'आपतकालीन सम्पर्क', emoji: '📞' },
-                  { label: 'खतराका संकेत', emoji: '⚠️' },
-                ] : [
-                  { label: 'Bag Checklist', emoji: '🎒' },
-                  { label: 'Document Guide', emoji: '📁' },
-                  { label: 'Emergency Contacts', emoji: '📞' },
-                  { label: 'Danger Sign Quiz', emoji: '⚠️' },
-                ]).map((item, i) => (
-                  <View key={i} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(255,255,255,0.8)', alignItems: 'center', justifyContent: 'center', marginRight: 15, borderWidth: 1, borderColor: '#FADDEB' }}>
-                       <Text style={{ fontSize: 18 }}>{item.emoji}</Text>
+              <View style={{ gap: 10 }}>
+                {stepItems.map((item, i) => (
+                  <TouchableOpacity 
+                    key={i} 
+                    onPress={() => navigateToStep(item.step)}
+                    activeOpacity={0.7}
+                    style={{ 
+                      flexDirection: 'row', alignItems: 'center',
+                      backgroundColor: 'rgba(255,255,255,0.85)',
+                      borderRadius: 16, paddingVertical: 12, paddingHorizontal: 14,
+                      borderWidth: 1.5, borderColor: '#FADDEB',
+                      shadowColor: '#B04C8A', shadowOffset: { width: 0, height: 2 },
+                      shadowOpacity: 0.08, shadowRadius: 6, elevation: 3,
+                    }}
+                  >
+                    <View style={{ 
+                      width: 38, height: 38, borderRadius: 19, 
+                      backgroundColor: '#FFF0F5', alignItems: 'center', justifyContent: 'center', 
+                      marginRight: 14, borderWidth: 1.5, borderColor: '#F9D0E2'
+                    }}>
+                      <Text style={{ fontSize: 18 }}>{item.emoji}</Text>
                     </View>
-                    <Text style={{ color: '#333', fontWeight: '800', fontSize: 17 }}>{item.label}</Text>
-                  </View>
+                    <View style={{ flex: 1 }}>
+                      <Text style={{ color: '#333', fontWeight: '800', fontSize: 15 }}>{item.label}</Text>
+                      <Text style={{ color: '#B04C8A', fontWeight: '600', fontSize: 11, marginTop: 2, opacity: 0.75 }}>{item.desc}</Text>
+                    </View>
+                    <Text style={{ fontSize: 16, color: '#C06898', marginLeft: 8 }}>›</Text>
+                  </TouchableOpacity>
                 ))}
               </View>
             </View>
@@ -163,12 +190,12 @@ export default function WelcomeScreen({ navigation }: any) {
           <Animated.View entering={FadeInUp.delay(1000).duration(1000)} style={{ paddingHorizontal: 32 }}>
             <Animated.View style={[buttonPulse]}>
               <TouchableOpacity 
-                onPress={() => navigation.navigate('Game')}
+                onPress={() => navigation.navigate('Game', { initialStep: 1 })}
                 activeOpacity={0.9}
                 style={{
                   backgroundColor: '#F33A6A',
                   borderRadius: 24,
-                  paddingVertical: 22,
+                  paddingVertical: 20,
                   alignItems: 'center',
                   shadowColor: '#F33A6A',
                   shadowOffset: { width: 0, height: 12 },
@@ -177,20 +204,14 @@ export default function WelcomeScreen({ navigation }: any) {
                   elevation: 15,
                 }}
               >
-                <Text style={{ color: '#FFFFFF', fontSize: 22, fontWeight: '900', letterSpacing: 2 }}>
-                  {isNepali ? 'सुरु गर्नुहोस्' : 'START SIMULATION'}
+                <Text style={{ color: '#FFFFFF', fontSize: 20, fontWeight: '900', letterSpacing: 2 }}>
+                  {isNepali ? 'सुरुदेखि सुरु गर्नुहोस्' : 'START FROM BEGINNING'}
                 </Text>
-                <Text style={{ color: '#FFFFFF', fontSize: 12, fontWeight: '700', letterSpacing: 1, marginTop: 4, opacity: 0.8 }}>
-                  {isNepali ? 'यात्राको तयारी गर्नुहोस्' : 'PREPARE FOR THE JOURNEY'}
+                <Text style={{ color: '#FFFFFF', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginTop: 4, opacity: 0.8 }}>
+                  {isNepali ? 'सबै चरणहरू क्रमैसँग' : 'ALL STEPS IN ORDER'}
                 </Text>
               </TouchableOpacity>
             </Animated.View>
-
-            <View style={{ alignItems: 'center', marginTop: 25 }}>
-              {/* <Text style={{ color: 'rgba(0,0,0,0.4)', fontSize: 11, fontWeight: '800', letterSpacing: 2, textTransform: 'uppercase' }}>
-                {isNepali ? 'आपतकालीन शिक्षा' : 'Education for Emergencies'}
-              </Text> */}
-            </View>
           </Animated.View>
 
         </SafeAreaView>

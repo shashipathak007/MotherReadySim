@@ -48,8 +48,8 @@ const TRANSITION_CONTENT = {
   },
   4: {
     emoji: '🌟',
-    title: 'Quiz Done!',
-    titleNe: 'प्रश्न सकियो!',
+    title: 'Scenarios Done!',
+    titleNe: 'परिदृश्य सकियो!',
     subtitle: "Let's see your final results.",
     subtitleNe: 'अब नतिजा हेरौं!',
     accent: '#C06898',

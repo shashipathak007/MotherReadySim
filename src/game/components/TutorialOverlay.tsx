@@ -18,8 +18,8 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClo
     {
       title: isNe ? "नमस्ते! म तपाईंकी साथी!" : "Hi there! I'm your guide!",
       description: isNe
-        ? "म तपाईंलाई अस्पतालको लागि तयारी गर्न मद्दत गर्छु — झोला, कागजात, सम्पर्क, र खतराका चिन्हहरू सबै सिकौं!"
-        : "I'll help you prepare for the hospital — we'll learn about packing your bag, documents, contacts, and danger signs!",
+        ? "म तपाईंलाई अस्पतालको लागि तयारी गर्न मद्दत गर्छु — झोला, कागजात, सम्पर्क, र गर्भावस्था परिदृश्यहरू सबै सिकौं!"
+        : "I'll help you prepare for the hospital — we'll learn about packing your bag, documents, contacts, and pregnancy scenarios!",
       emoji: '',
     },
     {

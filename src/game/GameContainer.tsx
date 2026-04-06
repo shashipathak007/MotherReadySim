@@ -1,7 +1,7 @@
 /// <reference types="nativewind/types" />
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, Dimensions, ImageBackground } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useGame } from './context/GameContext';
 import Step1Bag from './screens/Step1Bag';
 import Step2Documents from './screens/Step2Documents';
@@ -30,11 +30,24 @@ export default function GameContainer() {
   } = useGame();
   const { i18n } = useTranslation();
   const navigation = useNavigation<any>();
+  const route = useRoute<any>();
 
   const isNepali = i18n.language === 'ne';
   const toggleLanguage = () => {
     i18n.changeLanguage(isNepali ? 'en' : 'ne');
   };
+
+  // Jump to the requested step if navigated with initialStep param
+  useEffect(() => {
+    const initialStep = route.params?.initialStep;
+    if (initialStep && initialStep >= 1 && initialStep <= 5) {
+      setStep(initialStep as any);
+    }
+    // Clear the param so re-navigating with same step works
+    if (route.params?.initialStep) {
+      navigation.setParams({ initialStep: undefined });
+    }
+  }, [route.params?.initialStep]);
 
   useEffect(() => {
     clearFeedback();
@@ -74,7 +87,7 @@ export default function GameContainer() {
         case 1: return "अस्पतालको झोला";
         case 2: return "कागजातहरू";
         case 3: return "सम्पर्क नम्बरहरू";
-        case 4: return "खतराका चिन्हहरू";
+        case 4: return "गर्भावस्था परिदृश्य";
         case 5: return "नतिजा";
         default: return "";
       }
@@ -83,7 +96,7 @@ export default function GameContainer() {
       case 1: return "Hospital Bag";
       case 2: return "Important Documents";
       case 3: return "Emergency Contacts";
-      case 4: return "Danger Signs";
+      case 4: return "Pregnancy Scenarios";
       case 5: return "Summary";
       default: return "";
     }
@@ -102,7 +115,12 @@ export default function GameContainer() {
       const waveNe: Record<string, string> = { CRITICAL: 'अति जरुरी', IMPORTANT: 'महत्त्वपूर्ण', INFO: 'जानकारी' };
       return `📱 ${savedContacts.length}/8 · ${isNepali ? (waveNe[currentWave] || currentWave) : currentWave}`;
     }
-    if (currentStep === 4) return `⚠️ ${quizProgress.current}/${quizProgress.total} · ${isNepali ? 'प्रश्न' : 'QUIZ'}`;
+    if (currentStep === 4) {
+      if (quizProgress.total > 0) {
+        return `🤰 ${quizProgress.current}/${quizProgress.total} · ${currentWave || (isNepali ? 'परिदृश्य' : 'SCENARIOS')}`;
+      }
+      return `🤰 ${isNepali ? 'त्रैमासिक छान्नुहोस्' : 'SELECT TRIMESTER'}`;
+    }
     return '';
   };
 

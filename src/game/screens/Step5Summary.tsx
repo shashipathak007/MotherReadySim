@@ -95,7 +95,7 @@ export default function Step5Summary({ onReplay }: { onReplay: () => void }) {
           <ProgressBar icon="🎒" label={isNe ? 'अस्पतालको झोला' : 'Hospital Bag'} ratio={baggedRatio} count={packedBagItems.length} total={BAG_ITEMS.length} />
           <ProgressBar icon="📋" label={isNe ? 'कागजातहरू' : 'Documents'} ratio={docsRatio} count={collectedDocuments.length} total={DOCUMENTS.length} />
           <ProgressBar icon="📱" label={isNe ? 'सम्पर्क नम्बरहरू' : 'Contacts'} ratio={contactsRatio} count={savedContacts.length} total={CONTACTS.length} />
-          <ProgressBar icon="⚠️" label={isNe ? 'खतराका चिन्हहरू' : 'Danger Quiz'} ratio={quizRatio} count={quizStars} total={totalPossibleStars} />
+          <ProgressBar icon="🤰" label={isNe ? 'गर्भावस्था परिदृश्य' : 'Pregnancy Scenarios'} ratio={quizRatio} count={quizStars} total={totalPossibleStars} />
 
           <View className="flex-row items-center justify-between mt-5 pt-4 border-t border-[#F0E0E8]">
             <Text className="text-lg font-[900] text-[#333]">{isNe ? 'जम्मा स्कोर' : 'Overall Score'}</Text>
