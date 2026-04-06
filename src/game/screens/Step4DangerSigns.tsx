@@ -132,7 +132,7 @@ export default function Step4DangerSigns({ onNextStep }: { onNextStep: () => voi
     if (opt.isCorrect) {
       addQuizStar();
       playCorrect();
-      showFeedback(isNe ? 'राम्रो!' : 'Good Job! 🎉', explanation, 'success');
+      showFeedback(explanation, '', 'success');
       setSelectedResult({ isCorrect: true });
     } else {
       playIncorrect();
@@ -141,7 +141,7 @@ export default function Step4DangerSigns({ onNextStep }: { onNextStep: () => voi
         withRepeat(withTiming(5, { duration: 50 }), 3, true),
         withTiming(0, { duration: 50 })
       );
-      showFeedback(isNe ? 'ओहो!' : 'Oh No! 😔', explanation, 'error');
+      showFeedback(explanation, '', 'error');
 
       // Allow retry after a brief pause
       setTimeout(() => {
