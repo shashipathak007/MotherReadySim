@@ -40,7 +40,7 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClo
       title: isNe ? "भाषा र आवाज" : "Language & Sound",
       description: isNe
         ? "माथिको पट्टीमा भाषा बटन थिचेर अंग्रेजी–नेपाली बदल्नुहोस्। बटनले आवाज खोल्ने वा बन्द गर्ने!"
-        : "Switch between English & Nepali with the language button in the top bar. Use to toggle sound on or off!",
+        : "Switch between English & Nepali with the language button in the top bar. Also toggle sound button to enable and disable audio!",
       emoji: '',
     },
   ];

@@ -159,7 +159,7 @@ export default function GameContainer() {
           source={getBackgroundImage()}
           className="flex-1"
           resizeMode="cover"
-          blurRadius={3}
+          blurRadius={1.5}
         >
           <LinearGradient
             colors={['rgba(255,249,251,0.25)', 'rgba(255,245,248,0.45)', 'rgba(255,249,251,0.55)']}
@@ -171,8 +171,14 @@ export default function GameContainer() {
       {/* 2. Character Rendered below the interactive steps */}
       {currentStep < 5 && (
         <View
-          className="absolute pointer-events-none z-10 flex-col justify-end"
-          style={{ bottom: 40, right: -200, width: SCREEN_W * 1.1, height: Dimensions.get('window').height * 0.90 }}
+          className={`absolute pointer-events-none flex-col justify-end ${showTutorial ? 'z-[210]' : 'z-10'}`}
+          style={{ 
+            bottom: 30, 
+            right: (currentStep === 4 || showTutorial) ? undefined : -200,
+            left: (currentStep === 4 || showTutorial) ? 160 : undefined,
+            width: SCREEN_W * 1.1, 
+            height: Dimensions.get('window').height * 0.90 
+          }}
         >
           <Image
             source={feedback ? getFeedbackCharacter().image : charInfo}
