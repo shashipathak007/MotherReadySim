@@ -1,11 +1,10 @@
 import React, { createContext, useContext, useState } from 'react';
 
-export type GameStep = 1 | 2 | 3 | 4 | 5;
+export type GameStep = 1 | 2 | 3 | 4;
 
 interface GameState {
   currentStep: GameStep;
   packedBagItems: number[];
-  collectedDocuments: number[];
   savedContacts: number[];
   quizStars: number;
 }
@@ -13,7 +12,6 @@ interface GameState {
 interface GameContextType extends GameState {
   setStep: (step: GameStep) => void;
   packItem: (id: number) => void;
-  collectDocument: (id: number) => void;
   saveContact: (id: number) => void;
   addQuizStar: () => void;
   resetGame: () => void;
@@ -34,7 +32,6 @@ interface GameContextType extends GameState {
 const defaultState: GameState = {
   currentStep: 1,
   packedBagItems: [],
-  collectedDocuments: [],
   savedContacts: [],
   quizStars: 0,
 };
@@ -63,13 +60,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }));
   };
 
-  const collectDocument = (id: number) => {
-    setState(prev => ({
-      ...prev,
-      collectedDocuments: [...new Set([...prev.collectedDocuments, id])]
-    }));
-  };
-
   const saveContact = (id: number) => {
     setState(prev => ({
       ...prev,
@@ -87,13 +77,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setState((prev) => {
       let updates = {};
       if (prev.currentStep === 1) updates = { packedBagItems: [] };
-      if (prev.currentStep === 2) updates = { collectedDocuments: [] };
-      if (prev.currentStep === 3) updates = { savedContacts: [] };
-      if (prev.currentStep === 4) updates = { quizStars: 0 };
+      if (prev.currentStep === 2) updates = { savedContacts: [] };
+      if (prev.currentStep === 3) updates = { quizStars: 0 };
       
       return { ...prev, ...updates };
     });
-    if (state.currentStep === 4) {
+    if (state.currentStep === 3) {
       setQuizProgressState({ current: 0, total: quizProgress.total });
     }
   };
@@ -101,12 +90,11 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const resetStepData = (step: GameStep) => {
     setState((prev) => {
       if (step === 1) return { ...prev, packedBagItems: [] };
-      if (step === 2) return { ...prev, collectedDocuments: [] };
-      if (step === 3) return { ...prev, savedContacts: [] };
-      if (step === 4) return { ...prev, quizStars: 0 };
+      if (step === 2) return { ...prev, savedContacts: [] };
+      if (step === 3) return { ...prev, quizStars: 0 };
       return prev;
     });
-    if (step === 4) {
+    if (step === 3) {
       setQuizProgressState({ current: 0, total: quizProgress.total });
     }
   };
@@ -122,7 +110,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <GameContext.Provider value={{ ...state, setStep, packItem, collectDocument, saveContact, addQuizStar, resetGame, resetCurrentStep, resetStepData, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound }}>
+    <GameContext.Provider value={{ ...state, setStep, packItem, saveContact, addQuizStar, resetGame, resetCurrentStep, resetStepData, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound }}>
       {children}
     </GameContext.Provider>
   );

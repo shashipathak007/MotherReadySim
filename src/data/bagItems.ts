@@ -1,4 +1,4 @@
-export type BagCategory = 'Clothing' | 'Hygiene' | 'Comfort' | 'Baby';
+export type BagCategory = 'Clothing' | 'Hygiene' | 'Comfort' | 'Baby' | 'LegalDocs' | 'HealthDocs' | 'ClinicalDocs';
 
 export interface BagItem {
   id: number;
@@ -15,13 +15,19 @@ export const CATEGORY_COLORS: Record<BagCategory, { text: string; bg: string }> 
   Hygiene: { text: '#1C6B9E', bg: '#EAF3FA' },
   Comfort: { text: '#6B5DD3', bg: '#FDF2F4' },
   Baby: { text: '#9A5A17', bg: '#FBF2E1' },
+  LegalDocs: { text: '#127163', bg: '#E1F5F2' },
+  HealthDocs: { text: '#127163', bg: '#E1F5F2' },
+  ClinicalDocs: { text: '#127163', bg: '#E1F5F2' },
 };
 
 export const CATEGORY_NAMES_NE: Record<BagCategory, string> = {
   Clothing: 'लत्ताकपडा',
   Hygiene: 'सरसफाइ',
   Comfort: 'सुविधा र आराम',
-  Baby: 'शिशुका सामग्री'
+  Baby: 'शिशुका सामग्री',
+  LegalDocs: 'कानुनी कागजातहरू',
+  HealthDocs: 'स्वास्थ्य कार्डहरू',
+  ClinicalDocs: 'जाँच रिपोर्टहरू'
 };
 
 export const BAG_ITEMS: BagItem[] = [
@@ -114,7 +120,7 @@ export const BAG_ITEMS: BagItem[] = [
     name: 'Toothbrush, toothpaste, mild soap, small towel', 
     nameNe: 'ब्रश, मञ्जन, साबुन र सानो तौलिया', 
     why: 'Basic hygiene is essential for the mother\'s recovery during a 2–5 day hospital stay.', 
-    whyNe: 'अस्पताल बसाईका क्रममा संक्रमणबाट बच्न र छिटो निको हुन आधारभूत सरसफाइका सामग्रीहरू आवश्यक हुन्छन्।',
+    whyNe: 'अस्पताल बसाईका क्रममा संक्रमणबाट बच्न और छिटो निको हुन आधारभूत सरसफाइका सामग्रीहरू आवश्यक हुन्छन्।',
     emoji: '🪥'
   },
   { 
@@ -282,6 +288,147 @@ export const BAG_ITEMS: BagItem[] = [
     whyNe: 'नाइँटो, आँखा र अन्य संवेदनशील भागहरू सफा गर्न यो कपडाभन्दा नरम र सुरक्षित हुन्छ।',
     emoji: '🫧'
   },
+
+  // LEGAL DOCUMENTS
+  { 
+    id: 101, 
+    category: 'LegalDocs', 
+    name: "Mother's citizenship card (Nagarikta)", 
+    nameNe: 'आमाको नागरिकताको प्रमाणपत्र', 
+    why: 'Required for hospital registration. Without it, admission is delayed and you cannot access the Aama Programme free delivery scheme.', 
+    whyNe: 'अस्पतालमा भर्ना हुन यो अनिवार्य कागजात हो। यो बिना भर्ना प्रक्रियामा ढिलाइ हुनुका साथै "आमा सुरक्षा कार्यक्रम" अन्तर्गत पाइने निःशुल्क सेवा र भत्ताबाट वञ्चित भइन्छ',
+    emoji: '🪪'
+  },
+  { 
+    id: 102, 
+    category: 'LegalDocs', 
+    name: "Husband's citizenship card", 
+    nameNe: 'श्रीमानको नागरिकताको प्रमाणपत्र', 
+    why: "Required for the baby's birth certificate registration. Some hospitals also require it for the mother's admission file.", 
+    whyNe: 'बच्चाको जन्मदर्ता प्रक्रियाका लागि यो आवश्यक पर्छ। कतिपय अस्पतालहरूले आमाको भर्ना फाइल तयार पार्न पनि श्रीमानको नागरिकता माग गर्ने गर्छन्।',
+    emoji: '🪪'
+  },
+  { 
+    id: 103, 
+    category: 'LegalDocs', 
+    name: 'Ward or Palika recommendation letter', 
+    nameNe: 'वडा वा पालिकाको सिफारिस पत्र', 
+    why: 'Required by most government hospitals to verify local residency for the Aama Programme.', 
+    whyNe: 'धेरैजसो सरकारी अस्पतालले "आमा कार्यक्रम" को सुविधा दिन स्थानीय बासिन्दा प्रमाणित गर्ने पत्र माग्छन्।',
+    emoji: '✉️'
+  },
+  { 
+    id: 104, 
+    category: 'LegalDocs', 
+    name: 'Marriage registration certificate', 
+    nameNe: 'विवाह दर्ता प्रमाणपत्र', 
+    why: "Needed when applying for the baby's birth certificate at the municipality or ward office after discharge.", 
+    whyNe: 'अस्पतालबाट डिस्चार्ज भएपछि वडा कार्यालयमा बच्चाको जन्मदर्ता गराउन यो प्रमाणपत्र अनिवार्य हुन्छ।',
+    emoji: '📝'
+  },
+  { 
+    id: 108, 
+    category: 'LegalDocs', 
+    name: "Bank account details (mother's or husband's)", 
+    nameNe: 'बैंक खाताको विवरण (आमा वा श्रीमानको)', 
+    why: 'The Aama cash incentive is transferred directly to a bank account in most districts.', 
+    whyNe: 'धेरैजसो जिल्लामा सरकारले दिने प्रोत्साहन भत्ता सीधै बैंक खातामा पठाइन्छ।',
+    emoji: '🏦'
+  },
+
+  // HEALTH CARDS & REFERRALS
+  { 
+    id: 105, 
+    category: 'HealthDocs', 
+    name: 'Antenatal card from health post (ANC card)', 
+    nameNe: 'गर्भवती जाँच कार्ड (ANC Card/ममता कार्ड)', 
+    why: 'The single most important document. Doctors use it immediately to understand your history, risk factors, and blood type.', 
+    whyNe: 'यो सबैभन्दा महत्त्वपूर्ण कागजात हो। डाक्टरहरूले तपाईंको स्वास्थ्य अवस्था, जोखिम र रक्तसमूह बुझ्न तुरुन्तै यो कार्ड हेर्नेछन्।',
+    emoji: '🏥'
+  },
+  { 
+    id: 106, 
+    category: 'HealthDocs', 
+    name: 'Minimum 8 ANC checkup stamps', 
+    nameNe: 'कम्तीमा ८ पटकको जाँच र सरकारी छाप', 
+    why: 'Required to be eligible for the full cash incentive of NPR 1,000–3,000.', 
+    whyNe: 'सरकारले तोकेअनुसार कम्तीमा ८ पटक गर्भजाँच गराएको प्रमाण भएमा मात्र यातायात खर्च र प्रोत्साहन भत्ता पूर्ण रूपमा पाइन्छ।',
+    emoji: '❂'
+  },
+  { 
+    id: 107, 
+    category: 'HealthDocs', 
+    name: 'Referral letter from health post or PHC', 
+    nameNe: 'स्वास्थ्य चौकी वा प्राथमिक स्वास्थ्य केन्द्रको सिफारिस पत्र', 
+    why: 'If being transferred from a smaller facility, this letter is required for admission at district or zonal hospitals.', 
+    whyNe: 'यदि सानो स्वास्थ्य संस्थाबाट ठूलो अस्पतालमा जानुपरेको हो भने, भर्ना हुन र सरकारी सुविधा दाबी गर्न यो सिफारिस पत्र अनिवार्य चाहिन्छ।',
+    emoji: '✉️'
+  },
+
+  // CLINICAL REPORTS
+  { 
+    id: 110, 
+    category: 'ClinicalDocs', 
+    name: 'All ultrasound reports, especially latest scan', 
+    nameNe: 'सबै भिडियो एक्स-रे (Ultrasound) रिपोर्टहरू', 
+    why: "The latest ultrasound shows baby's position, weight, placenta location, and fluid. Doctors need this to decide the delivery plan.", 
+    whyNe: 'विशेषगरी अन्तिम पटकको रिपोर्टले बच्चाको अवस्था, तौल, सालको स्थान र पानीको मात्रा देखाउँछ।',
+    emoji: '🩻'
+  },
+  { 
+    id: 111, 
+    category: 'ClinicalDocs', 
+    name: 'Blood group card', 
+    nameNe: 'रक्त समूह (Blood Group) कार्ड', 
+    why: 'Critical if emergency transfusion is needed. Knowing the blood group in advance saves precious minutes.', 
+    whyNe: 'आकस्मिक रगत दिनुपर्ने अवस्थामा यो कार्ड जीवनरक्षक हुन सक्छ।',
+    emoji: '📄'
+  },
+  { 
+    id: 112, 
+    category: 'ClinicalDocs', 
+    name: 'CBC and haemoglobin report', 
+    nameNe: 'रगत जाँच (CBC/Haemoglobin) रिपोर्ट', 
+    why: 'Anaemia is very common and significantly affects delivery planning and blood loss risk management.', 
+    whyNe: 'रक्तअल्पता (एनिमिया) बढी देखिने भएकाले, रगत बग्ने जोखिम कम गर्न र सुत्केरीको पूर्व-तयारी गर्न यो रिपोर्ट आवश्यक पर्छ।',
+    emoji: '📊'
+  },
+  { 
+    id: 113, 
+    category: 'ClinicalDocs', 
+    name: 'HIV and Hepatitis B test result', 
+    nameNe: 'एचआईभी (HIV) र हेपाटाइटिस बी परीक्षण रिपोर्ट', 
+    why: 'Mandatory before delivery at all government hospitals. Without it, delivery may be delayed.', 
+    whyNe: 'सरकारी नियमअनुसार सुत्केरी हुनुअघि यी परीक्षण अनिवार्य छन्।',
+    emoji: '🛡️'
+  },
+  { 
+    id: 114, 
+    category: 'ClinicalDocs', 
+    name: 'Urine routine and culture report', 
+    nameNe: 'पिसाब परीक्षण (Urine Routine/Culture) रिपोर्ट', 
+    why: 'UTIs are common in late pregnancy and must be treated before delivery.', 
+    whyNe: 'गर्भावस्थामा पिसाबको संक्रमणले आमा र बच्चा दुवैलाई असर गर्ने भएकाले सुत्केरी हुनुअघि नै यसको उपचार भएको थाहा पाउन यो रिपोर्ट चाहिन्छ।',
+    emoji: '📝'
+  },
+  { 
+    id: 115, 
+    category: 'ClinicalDocs', 
+    name: 'Previous C-section or surgery records', 
+    nameNe: 'पहिलेको शल्यक्रिया वा अपरेसनको रेकर्ड', 
+    why: 'If you have had a previous C-section, the doctor must know the incision type to decide if VBAC is safe.', 
+    whyNe: 'यदि पहिले शल्यक्रिया भएको थियो भने, डाक्टरले पुरानो घाउको अवस्था हेरेर मात्र यस पटकको प्रसूति योजना बनाउनुहुन्छ।',
+    emoji: '📑'
+  },
+  { 
+    id: 116, 
+    category: 'ClinicalDocs', 
+    name: 'Current medication list', 
+    nameNe: 'हाल सेवन गरिरहेका औषधिहरूको सूची', 
+    why: 'Iron tablets, calcium, thyroid medication, or any allergy history must be known to avoid dangerous drug interactions.', 
+    whyNe: 'आइरन, क्याल्सियम, थाइरोइड वा रक्तचापको औषधि र कुनै एलर्जी भएमा प्रसूति टोलीलाई जानकारी दिनुपर्छ।',
+    emoji: '💊'
+  },
 ];
 
 export interface DoNotPackItem {
@@ -357,5 +504,30 @@ export const DO_NOT_PACK_ITEMS: DoNotPackItem[] = [
     whyNot: 'Hospital floors are wet and slippery. Falls after delivery are dangerous when the body is weakened. Feet also swell after delivery making closed shoes impossible.', 
     whyNotNe: 'अस्पतालमा चिप्लिने डर हुने र सुत्केरीपछि खुट्टा सुन्निने भएकाले यस्ता जुत्ता लगाउनु असुरक्षित र कष्टकर हुन्छ।',
     emoji: '👠'
+  },
+  // Document-related wrong items (reusing IDs from Step2Documents)
+  { 
+    id: 91, 
+    name: 'Old expired ID', 
+    nameNe: 'म्याद सकिएको पुरानो परिचयपत्र', 
+    whyNot: 'This is expired — bring your current Nagarikta', 
+    whyNotNe: 'यो म्याद सकिएको छ — हालको नागरिकता लिएर जानुहोस्',
+    emoji: '🆔'
+  },
+  { 
+    id: 92, 
+    name: "Child's report card", 
+    nameNe: 'बच्चाको विद्यालयको रिपोर्ट कार्ड', 
+    whyNot: 'This is not needed at the hospital', 
+    whyNotNe: 'यो अस्पतालमा चाहिँदैन',
+    emoji: '📄'
+  },
+  { 
+    id: 93, 
+    name: 'A random receipt', 
+    nameNe: 'कुनै पुरानो रसिद', 
+    whyNot: 'Leave household papers at home', 
+    whyNotNe: 'घरायसी कागजातहरू घरमै छाड्नुहोस्',
+    emoji: '🧾'
   },
 ];

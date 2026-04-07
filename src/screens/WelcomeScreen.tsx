@@ -56,15 +56,13 @@ export default function WelcomeScreen({ navigation }: any) {
 
   // Step items with navigation targets
   const stepItems = isNepali ? [
-    { label: 'अस्पतालको झोला', emoji: '🎒', step: 1, desc: 'चरण १ मा जानुहोस्' },
-    { label: 'कागजात गाइड', emoji: '📁', step: 2, desc: 'चरण २ मा जानुहोस्' },
-    { label: 'आपतकालीन सम्पर्क', emoji: '📞', step: 3, desc: 'चरण ३ मा जानुहोस्' },
-    { label: 'गर्भावस्था परिदृश्यहरू', emoji: '🤰', step: 4, desc: 'चरण ४ मा जानुहोस्' },
+    { label: 'अस्पतालको झोला',  step: 1, desc: 'चरण १ मा जानुहोस्' },
+    { label: 'आपतकालीन सम्पर्क',  step: 2, desc: 'चरण २ मा जानुहोस्' },
+    { label: 'गर्भावस्था परिदृश्यहरू',  step: 3, desc: 'चरण ३ मा जानुहोस्' },
   ] : [
-    { label: 'Bag Checklist', emoji: '🎒', step: 1, desc: 'Jump to Step 1' },
-    { label: 'Document Guide', emoji: '📁', step: 2, desc: 'Jump to Step 2' },
-    { label: 'Emergency Contacts', emoji: '📞', step: 3, desc: 'Jump to Step 3' },
-    { label: 'Pregnancy Scenarios', emoji: '🤰', step: 4, desc: 'Jump to Step 4' },
+    { label: 'Bag Checklist',  step: 1, desc: 'Jump to Step 1' },
+    { label: 'Emergency Contacts',  step: 2, desc: 'Jump to Step 2' },
+    { label: 'Pregnancy Scenarios',  step: 3, desc: 'Jump to Step 3' },
   ];
 
   const navigateToStep = (step: number) => {
@@ -98,7 +96,7 @@ export default function WelcomeScreen({ navigation }: any) {
             }}
           >
             <Text style={{ color: '#FFF', fontSize: 13, fontWeight: '900' }}>
-              {isNepali ? '🇬🇧 English' : '🇳🇵 नेपाली'}
+              {isNepali ? 'English' : 'नेपाली'}
             </Text>
           </TouchableOpacity>
 
@@ -139,11 +137,11 @@ export default function WelcomeScreen({ navigation }: any) {
           </Animated.View>
 
           {/* MIDDLE — Quick Navigation Cards */}
-          <Animated.View entering={FadeInDown.delay(600).duration(800)} style={{ paddingHorizontal: 24 }}>
+          <Animated.View entering={FadeInDown.delay(600).duration(800)} style={{ paddingHorizontal: 24, marginTop: 130 }}>
             <View style={{
-              backgroundColor: 'rgba(255,255,255,0.65)',
-              borderRadius: 28, padding: 20, paddingBottom: 14,
-              borderWidth: 1, borderColor: 'rgba(255,255,255,1)'
+              backgroundColor: 'rgba(255, 182, 193, 0.4)', // transparent light pink
+              borderRadius: 28, padding: 10, paddingBottom: 14,
+              borderWidth: 2, borderColor: '#90EE90' // green border
             }}>
               <Text style={{ 
                 fontSize: 12, fontWeight: '900', color: '#B04C8A', 
@@ -163,18 +161,12 @@ export default function WelcomeScreen({ navigation }: any) {
                       flexDirection: 'row', alignItems: 'center',
                       backgroundColor: 'rgba(255,255,255,0.85)',
                       borderRadius: 16, paddingVertical: 12, paddingHorizontal: 14,
-                      borderWidth: 1.5, borderColor: '#FADDEB',
+                      borderWidth: 1.5, borderColor: '#90EE90', // green border for buttons
                       shadowColor: '#B04C8A', shadowOffset: { width: 0, height: 2 },
                       shadowOpacity: 0.08, shadowRadius: 6, elevation: 3,
                     }}
                   >
-                    <View style={{ 
-                      width: 38, height: 38, borderRadius: 19, 
-                      backgroundColor: '#FFF0F5', alignItems: 'center', justifyContent: 'center', 
-                      marginRight: 14, borderWidth: 1.5, borderColor: '#F9D0E2'
-                    }}>
-                      <Text style={{ fontSize: 18 }}>{item.emoji}</Text>
-                    </View>
+                    
                     <View style={{ flex: 1 }}>
                       <Text style={{ color: '#333', fontWeight: '800', fontSize: 15 }}>{item.label}</Text>
                       <Text style={{ color: '#B04C8A', fontWeight: '600', fontSize: 11, marginTop: 2, opacity: 0.75 }}>{item.desc}</Text>

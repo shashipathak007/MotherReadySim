@@ -68,7 +68,7 @@ const TRIMESTERS: TrimesterInfo[] = [
 const { width: SCREEN_W } = Dimensions.get('window');
 const OPTION_LABELS = ['A', 'B', 'C', 'D', 'E', 'F'];
 
-export default function Step4DangerSigns({ onNextStep }: { onNextStep: () => void }) {
+export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   const { addQuizStar, showFeedback, clearFeedback, setQuizProgress, setCurrentWave } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';

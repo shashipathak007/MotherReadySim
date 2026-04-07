@@ -3,11 +3,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, Image, Dimensions, ImageBackground } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useGame } from './context/GameContext';
-import Step1Bag from './screens/Step1Bag';
-import Step2Documents from './screens/Step2Documents';
-import Step3Contacts from './screens/Step3Contacts';
-import Step4DangerSigns from './screens/Step4DangerSigns';
-import Step5Summary from './screens/Step5Summary';
+import Step1 from './screens/Step1';
+import Step2 from './screens/Step2';
+import Step3 from './screens/Step3';
+import Step4 from './screens/Step4';
 import { TransitionCard } from './components/TransitionCard';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -25,7 +24,7 @@ const { width: SCREEN_W } = Dimensions.get('window');
 export default function GameContainer() {
   const {
     currentStep, setStep, isReady, resetCurrentStep, resetStepData, resetGame,
-    packedBagItems, collectedDocuments, savedContacts, feedback, clearFeedback, currentWave, quizProgress,
+    packedBagItems, savedContacts, feedback, clearFeedback, currentWave, quizProgress,
     soundEnabled, toggleSound
   } = useGame();
   const { i18n } = useTranslation();
@@ -63,7 +62,7 @@ export default function GameContainer() {
     return <View className="flex-1 bg-[#FFF9FB]" />;
   }
 
-  const handleNextStep = (stepFinished: 1 | 2 | 3 | 4) => {
+  const handleNextStep = (stepFinished: 1 | 2 | 3) => {
     setStep((stepFinished + 1) as any);
   };
 
@@ -74,11 +73,10 @@ export default function GameContainer() {
 
   const renderStep = () => {
     switch (currentStep) {
-      case 1: return <Step1Bag onNextStep={() => handleNextStep(1)} />;
-      case 2: return <Step2Documents onNextStep={() => handleNextStep(2)} />;
-      case 3: return <Step3Contacts onNextStep={() => handleNextStep(3)} />;
-      case 4: return <Step4DangerSigns onNextStep={() => handleNextStep(4)} />;
-      case 5: return <Step5Summary onReplay={() => { resetGame(); navigation.navigate('Welcome'); }} />;
+      case 1: return <Step1 onNextStep={() => handleNextStep(1)} />;
+      case 2: return <Step2 onNextStep={() => handleNextStep(2)} />;
+      case 3: return <Step3 onNextStep={() => handleNextStep(3)} />;
+      case 4: return <Step4 onReplay={() => { resetGame(); navigation.navigate('Welcome'); }} />;
       default: return null;
     }
   };
@@ -87,37 +85,39 @@ export default function GameContainer() {
     if (isNepali) {
       switch (step) {
         case 1: return "अस्पतालको झोला";
-        case 2: return "कागजातहरू";
-        case 3: return "सम्पर्क नम्बरहरू";
-        case 4: return "गर्भावस्था परिदृश्य";
-        case 5: return "नतिजा";
+        case 2: return "सम्पर्क नम्बरहरू";
+        case 3: return "गर्भावस्था परिदृश्य";
+        case 4: return "नतिजा";
         default: return "";
       }
     }
     switch (step) {
       case 1: return "Hospital Bag";
-      case 2: return "Important Documents";
-      case 3: return "Emergency Contacts";
-      case 4: return "Pregnancy Scenarios";
-      case 5: return "Summary";
+      case 2: return "Emergency Contacts";
+      case 3: return "Pregnancy Scenarios";
+      case 4: return "Summary";
       default: return "";
     }
   };
 
   const getWaveLabel = () => {
     if (currentStep === 1) {
-      const waveNe: Record<string, string> = { Clothing: 'लत्ताकपडा', Hygiene: 'सरसफाइ', Comfort: 'सुविधा', Baby: 'शिशु' };
-      return `🎒 ${packedBagItems.length}/28 · ${isNepali ? (waveNe[currentWave] || currentWave) : currentWave.toUpperCase()}`;
+      const waveNe: Record<string, string> = { 
+        Clothing: 'लत्ताकपडा', 
+        Hygiene: 'सरसफाइ', 
+        Comfort: 'सुविधा', 
+        Baby: 'शिशु', 
+        LegalDocs: 'कानुनी कागजातहरू',
+        HealthDocs: 'स्वास्थ्य कार्डहरू',
+        ClinicalDocs: 'जाँच रिपोर्टहरू'
+      };
+      return `🎒 ${packedBagItems.length}/43 · ${isNepali ? (waveNe[currentWave] || currentWave) : currentWave.replace('Docs', ' Docs').toUpperCase()}`;
     }
     if (currentStep === 2) {
-      const waveNe: Record<string, string> = { Identity: 'परिचय', 'Aama Programme': 'आमा कार्यक्रम', Medical: 'स्वास्थ्य' };
-      return `📋 ${collectedDocuments.length}/15 · ${isNepali ? (waveNe[currentWave] || currentWave) : currentWave.toUpperCase()}`;
-    }
-    if (currentStep === 3) {
       const waveNe: Record<string, string> = { CRITICAL: 'अति जरुरी', IMPORTANT: 'महत्त्वपूर्ण', INFO: 'जानकारी' };
       return `📱 ${savedContacts.length}/8 · ${isNepali ? (waveNe[currentWave] || currentWave) : currentWave}`;
     }
-    if (currentStep === 4) {
+    if (currentStep === 3) {
       if (quizProgress.total > 0) {
         return `🤰 ${quizProgress.current}/${quizProgress.total} · ${currentWave || (isNepali ? 'परिदृश्य' : 'SCENARIOS')}`;
       }
@@ -163,10 +163,9 @@ export default function GameContainer() {
   const getBackgroundImage = () => {
     switch (currentStep) {
       case 1: return require('../../assets/images/bedroom_bg.png');
-      case 2: return require('../../assets/images/desk_bg.png');
-      case 3: return require('../../assets/images/phone_bg.png');
-      case 4: return require('../../assets/images/bedroom_bg.png');
-      case 5: return require('../../assets/images/aama_ready_main_bg.png');
+      case 2: return require('../../assets/images/phone_bg.png');
+      case 3: return require('../../assets/images/bedroom_bg.png');
+      case 4: return require('../../assets/images/aama_ready_main_bg.png');
       default: return require('../../assets/images/bedroom_bg.png');
     }
   };
@@ -189,13 +188,13 @@ export default function GameContainer() {
       </View>
 
       {/* 2. Character Rendered below the interactive steps */}
-      {currentStep < 5 && (
+      {currentStep < 4 && (
         <View
           className={`absolute pointer-events-none flex-col justify-end ${showTutorial ? 'z-[210]' : 'z-10'}`}
           style={{ 
             bottom: 30, 
-            right: (currentStep === 4 || showTutorial) ? undefined : -200,
-            left: (currentStep === 4 || showTutorial) ? 160 : undefined,
+            right: (currentStep === 3 || showTutorial) ? undefined : -200,
+            left: (currentStep === 3 || showTutorial) ? 160 : undefined,
             width: SCREEN_W * 1.1, 
             height: Dimensions.get('window').height * 0.90 
           }}
@@ -246,9 +245,9 @@ export default function GameContainer() {
 
             {/* Next button */}
             <TouchableOpacity
-              className={`px-5 py-2 rounded-full bg-[#C06898] ${currentStep === 5 ? 'opacity-30' : ''}`}
-              onPress={() => setStep(Math.min(5, currentStep + 1) as any)}
-              disabled={currentStep === 5}
+              className={`px-5 py-2 rounded-full bg-[#C06898] ${currentStep === 4 ? 'opacity-30' : ''}`}
+              onPress={() => setStep(Math.min(4, currentStep + 1) as any)}
+              disabled={currentStep === 4}
               activeOpacity={0.7}
             >
               <Text className="text-[13px] font-[700] text-white">{isNepali ? 'अर्को' : 'Next'}</Text>
@@ -256,7 +255,7 @@ export default function GameContainer() {
           </View>
 
           {/* Sub-bar: wave info + language toggle + reset */}
-          {currentStep < 5 && (
+          {currentStep < 4 && (
             <View className="mx-5 mt-0.5 flex-row justify-between items-center px-4 py-1.5 bg-white/85 rounded-full border border-[#F5E1EC]">
               <Text className="text-[10px] font-[800] text-[#9B5983] tracking-[0.3px]" numberOfLines={1}>{getWaveLabel()}</Text>
               <View className="flex-row items-center gap-2">

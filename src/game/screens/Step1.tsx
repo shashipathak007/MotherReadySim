@@ -1,9 +1,9 @@
 /// <reference types="nativewind/types" />
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo, useEffect } from 'react';
 import { View, Dimensions, ImageBackground, Image } from 'react-native';
 import { useGame } from '../context/GameContext';
-import { DOCUMENTS } from '../../data/documents';
-// Import removed for OpenFolder
+import { BAG_ITEMS, DO_NOT_PACK_ITEMS } from '../../data/bagItems';
+// Import removed for HospitalBag
 import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
 import { StepCompletionModal } from '../components/StepCompletionModal';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -12,102 +12,103 @@ import { useGameAudio } from '../hooks/useGameAudio';
 
 const { width, height } = Dimensions.get('window');
 
-const WRONG_DOCS = [
-  { id: 91, name: 'Old expired ID', nameNe: 'म्याद सकिएको पुरानो परिचयपत्र', whyNot: 'This is expired — bring your current Nagarikta', whyNotNe: 'यो म्याद सकिएको छ — हालको नागरिकता लिएर जानुहोस्' },
-  { id: 92, name: "Child's report card", nameNe: 'बच्चाको विद्यालयको रिपोर्ट कार्ड', whyNot: 'This is not needed at the hospital', whyNotNe: 'यो अस्पतालमा चाहिँदैन' },
-  { id: 93, name: 'A random receipt', nameNe: 'कुनै पुरानो रसिद', whyNot: 'Leave household papers at home', whyNotNe: 'घरायसी कागजातहरू घरमै छाड्नुहोस्' },
-];
-
 const WRONG_DISTRIBUTION: Record<string, number[]> = {
-  Identity: [91],
-  'Aama Programme': [93],
-  Medical: [92],
+  Clothing: [4, 8],
+  Hygiene: [1, 2, 3],
+  Comfort: [], 
+  Baby: [5, 6, 7],
+  LegalDocs: [91],
+  HealthDocs: [92],
+  ClinicalDocs: [93]
 };
 
-export default function Step2Documents({ onNextStep }: { onNextStep: () => void }) {
-  const { collectedDocuments, collectDocument, showFeedback, setCurrentWave, resetCurrentStep } = useGame();
+export default function Step1({ onNextStep }: { onNextStep: () => void }) {
+  const { packedBagItems, packItem, showFeedback, setCurrentWave, resetCurrentStep } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
   const { playCorrect, playIncorrect } = useGameAudio();
   
   const [showCompletionModal, setShowCompletionModal] = useState(false);
-  const waveCategories = ['Identity', 'Aama Programme', 'Medical'];
   const [currentWaveIdx, setCurrentWaveIdx] = useState(0);
   const [containerLayout, setContainerLayout] = useState({ width: width, height: height });
+  const waveCategories = ['Clothing', 'Hygiene', 'Comfort', 'Baby', 'LegalDocs', 'HealthDocs', 'ClinicalDocs'];
   const currentWave = waveCategories[currentWaveIdx];
 
-  const hasCompletedInitially = useRef(collectedDocuments.length >= DOCUMENTS.length);
+  const hasCompletedInitially = useRef(packedBagItems.length >= BAG_ITEMS.length);
   const isFirstCompletion = useRef(false);
 
-  const checkCompletion = (newCount: number) => {
-    if (newCount >= DOCUMENTS.length) {
+  const checkCompletion = (newPackCount: number) => {
+    if (newPackCount >= BAG_ITEMS.length) {
       isFirstCompletion.current = !hasCompletedInitially.current;
       setShowCompletionModal(true);
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (currentWave) setCurrentWave(currentWave);
   }, [currentWave, setCurrentWave]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     let nextWaveIdx = 0;
     for (let i = 0; i < waveCategories.length; i++) {
         const cat = waveCategories[i];
-        const correctItemsInWave = DOCUMENTS.filter(item => item.category === cat);
-        const collectedInWave = correctItemsInWave.filter(item => collectedDocuments.includes(item.id));
-        if (collectedInWave.length >= correctItemsInWave.length) {
+        const correctItemsInWave = BAG_ITEMS.filter(item => item.category === cat);
+        const packedInWave = correctItemsInWave.filter(item => packedBagItems.includes(item.id));
+        if (packedInWave.length >= correctItemsInWave.length) {
             nextWaveIdx = i + 1;
         } else {
-            break; 
+            break;
         }
     }
     
     if (nextWaveIdx >= waveCategories.length) {
-       checkCompletion(collectedDocuments.length);
+       checkCompletion(packedBagItems.length);
     } else {
        setCurrentWaveIdx(nextWaveIdx);
     }
-  }, [collectedDocuments]);
+  }, [packedBagItems]);
 
-  const activeWaveDocs = useMemo(() => {
+  const activeWaveItems = useMemo(() => {
     if (!currentWave) return [];
-    const correctItems = DOCUMENTS.filter(i => i.category === currentWave).map(item => ({ ...item, isWrong: false, why: item.whyNeeded }));
-    const wrongIds = WRONG_DISTRIBUTION[currentWave as keyof typeof WRONG_DISTRIBUTION] || [];
-    const wrongItems = WRONG_DOCS.filter(i => wrongIds.includes(i.id)).map(item => ({ ...item, isWrong: true, why: item.whyNot, category: 'Other' }));
-    
+    const correctItems = BAG_ITEMS.filter(i => i.category === currentWave).map(item => ({ ...item, isWrong: false, why: item.why }));
+    const wrongIds = WRONG_DISTRIBUTION[currentWave as keyof typeof WRONG_DISTRIBUTION];
+    const wrongItems = DO_NOT_PACK_ITEMS.filter(i => wrongIds.includes(i.id)).map(item => ({ ...item, isWrong: true, why: item.whyNot }));
     const combined = [...correctItems, ...wrongItems];
     const itemCount = combined.length;
-    const itemSize = 85; 
+    const padding = 20;
+    const itemSize = 75;
+    const areaWidth = containerLayout.width - (padding * 2);
     
+    // Arrange items in rows/cols or an arc
     return combined.sort((a, b) => a.name.localeCompare(b.name)).map((item, index) => {
+      // Simple grid-like logic for better arrangement
       const cols = Math.min(itemCount, 3);
       const row = Math.floor(index / cols);
       const col = index % cols;
       
-      const xPos = (containerLayout.width * 0.35) - ((cols * itemSize) / 2) + (col * itemSize) + (itemSize / 2) - 40;
+      const xPos = (containerLayout.width * 0.35) - ((cols * itemSize) / 2) + (col * itemSize) + (itemSize / 2) - 35;
       const yPos = (containerLayout.height * 0.35) + (row * (itemSize + 30));
 
       return { 
         ...item, 
         initialPos: { 
-          x: xPos + (Math.random() - 0.5) * 12, 
-          y: yPos + (Math.random() - 0.5) * 12
+          x: xPos + (Math.random() - 0.5) * 10, // Minimal jitter for organic feel
+          y: yPos + (Math.random() - 0.5) * 10
         } 
       };
     });
-  }, [currentWave, collectedDocuments.length === 0, containerLayout.width]);
+  }, [currentWave, packedBagItems.length === 0, containerLayout.width]); 
 
   const dropZone = { 
-    x: containerLayout.width * 0.35 - 100, 
+    x: containerLayout.width * 0.35 - 110, 
     y: containerLayout.height - 240, 
-    w: 200, 
-    h: 200 
+    w: 220, 
+    h: 180 
   };
   const itemRefs = useRef<Record<number, DraggableItemRef>>({});
 
   const handleDrop = (id: number, x: number, y: number, isWrong: boolean) => {
-    const item = activeWaveDocs.find(i => i.id === id && i.isWrong === isWrong);
+    const item = activeWaveItems.find(i => i.id === id && i.isWrong === isWrong);
     if (!item) return;
 
     const cx = x + 30;
@@ -117,18 +118,18 @@ export default function Step2Documents({ onNextStep }: { onNextStep: () => void 
 
     if (inZone) {
       if (!isWrong) {
-        collectDocument(id);
+        packItem(id);
         ref?.animatePack(dropZone.x + dropZone.w/2 - 30, dropZone.y + dropZone.h/2 - 30);
         playCorrect();
-        const docName = isNe && 'nameNe' in item ? (item as any).nameNe : item.name;
-        const docWhy = isNe && 'whyNeededNe' in item ? (item as any).whyNeededNe : item.why;
-        showFeedback(isNe ? `सही! ${docName}` : `Good choice: ${docName}`, docWhy, 'success');
+        const itemName = isNe && 'nameNe' in item ? (item as any).nameNe : item.name;
+        const itemWhy = isNe && 'whyNe' in item ? (item as any).whyNe : item.why;
+        showFeedback(isNe ? `शाबास! ${itemName}` : `Great job! ${itemName}`, itemWhy, 'success');
       } else {
         ref?.shakeAndSnapBack();
         playIncorrect();
-        const wrongName = isNe && 'nameNe' in item && (item as any).nameNe ? (item as any).nameNe : item.name;
-        const wrongWhy = isNe && 'whyNotNe' in item && (item as any).whyNotNe ? (item as any).whyNotNe : item.why;
-        showFeedback(isNe ? `यो चाहिँदैन: ${wrongName}` : `Not needed: ${item.name}`, wrongWhy, 'error');
+        const itemName = isNe && 'nameNe' in item ? (item as any).nameNe : item.name;
+        const itemWhy = isNe && 'whyNotNe' in item ? (item as any).whyNotNe : item.why;
+        showFeedback(isNe ? `ओहो! ${itemName} चाहिँदैन` : `Oops! ${itemName} isn't needed`, itemWhy, 'error');
       }
     } else {
       ref?.snapBack();
@@ -136,18 +137,20 @@ export default function Step2Documents({ onNextStep }: { onNextStep: () => void 
   };
 
   const handleLongPress = (id: number, isWrong: boolean) => {
-    const item = activeWaveDocs.find(i => i.id === id && i.isWrong === isWrong);
+    const item = activeWaveItems.find(i => i.id === id && i.isWrong === isWrong);
     if (item) {
       const itemName = isNe && 'nameNe' in item && (item as any).nameNe ? (item as any).nameNe : item.name;
       let itemWhy: string;
       if (item.isWrong) {
         itemWhy = isNe && 'whyNotNe' in item && (item as any).whyNotNe ? (item as any).whyNotNe : item.why;
       } else {
-        itemWhy = isNe && 'whyNeededNe' in item && (item as any).whyNeededNe ? (item as any).whyNeededNe : item.why;
+        itemWhy = isNe && 'whyNe' in item && (item as any).whyNe ? (item as any).whyNe : item.why;
       }
       showFeedback(itemName, itemWhy, 'info');
     }
   };
+
+  const bagFilledPhase = Math.floor((packedBagItems.length / BAG_ITEMS.length) * 4);
 
   return (
     <View 
@@ -159,29 +162,29 @@ export default function Step2Documents({ onNextStep }: { onNextStep: () => void 
     >
       <View 
         className="absolute justify-center items-center"
-        style={{ left: dropZone.x - 20, top: dropZone.y - 20, width: dropZone.w + 40, height: dropZone.h + 40 }}
+        style={{ left: dropZone.x - 15, top: dropZone.y - 30, width: dropZone.w + 30, height: dropZone.h + 60 }}
       >
         <Image
           source={
-            collectedDocuments.length >= DOCUMENTS.length
-              ? require('../../../assets/images/folder_full.png')
-              : require('../../../assets/images/folder_empty.png')
+            packedBagItems.length >= BAG_ITEMS.length
+              ? require('../../../assets/images/hospital_bag_closed.png')
+              : require('../../../assets/images/hospital_bag_open.png')
           }
           style={{ width: '100%', height: '100%' }}
           resizeMode="contain"
         />
       </View>
 
-      {activeWaveDocs.map((item) => {
+      {activeWaveItems.map((item) => {
         const uniqueId = item.isWrong ? -item.id : item.id;
-        const packed = !item.isWrong && collectedDocuments.includes(item.id);
+        const packed = !item.isWrong && packedBagItems.includes(item.id);
         return (
           <DraggableItem
-            key={`doc-${currentWave}-${uniqueId}`}
+            key={`bag-${currentWave}-${uniqueId}`}
             ref={(el) => { if (el) itemRefs.current[uniqueId] = el; }}
             id={item.id}
-            name={isNe && 'nameNe' in item && (item as any).nameNe ? (item as any).nameNe : item.name}
-            emoji={'emoji' in item ? (item as any).emoji : '📄'}
+            name={isNe && 'nameNe' in item ? (item as any).nameNe : item.name}
+            emoji={item.emoji || '📦'}
             isWrong={item.isWrong}
             initialPos={item.initialPos}
             onDrop={handleDrop}

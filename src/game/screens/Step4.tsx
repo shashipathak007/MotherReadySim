@@ -4,23 +4,21 @@ import { View, Text, TouchableOpacity, Share, ImageBackground, ScrollView } from
 import { useGame } from '../context/GameContext';
 import Animated, { FadeInUp, ZoomIn, FadeInDown } from 'react-native-reanimated';
 import { BAG_ITEMS } from '../../data/bagItems';
-import { DOCUMENTS } from '../../data/documents';
 import { CONTACTS } from '../../data/contacts';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 
-export default function Step5Summary({ onReplay }: { onReplay: () => void }) {
-  const { packedBagItems, collectedDocuments, savedContacts, quizStars, resetGame } = useGame();
+export default function Step4({ onReplay }: { onReplay: () => void }) {
+  const { packedBagItems, savedContacts, quizStars, resetGame } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
 
   const totalPossibleStars = 20;
   const baggedRatio = packedBagItems.length / BAG_ITEMS.length;
-  const docsRatio = collectedDocuments.length / DOCUMENTS.length;
   const contactsRatio = savedContacts.length / CONTACTS.length;
   const quizRatio = quizStars / totalPossibleStars;
 
-  const scorePercentage = (baggedRatio + docsRatio + contactsRatio + quizRatio) / 4;
+  const scorePercentage = (baggedRatio + contactsRatio + quizRatio) / 3;
 
   let badgeMsg = '';
   let badgeEmoji = '';
@@ -92,8 +90,7 @@ export default function Step5Summary({ onReplay }: { onReplay: () => void }) {
         <Animated.View entering={FadeInUp.delay(400)} className="w-full bg-white/95 rounded-[22px] p-6 mb-6 shadow-black shadow-opacity-8 shadow-radius-16 elevation-8 border border-[#F5E1EC]">
           <Text className="text-lg font-[900] text-[#333] mb-5 text-center">{isNe ? 'नतिजा' : 'Your Results'}</Text>
           
-          <ProgressBar icon="🎒" label={isNe ? 'अस्पतालको झोला' : 'Hospital Bag'} ratio={baggedRatio} count={packedBagItems.length} total={BAG_ITEMS.length} />
-          <ProgressBar icon="📋" label={isNe ? 'कागजातहरू' : 'Documents'} ratio={docsRatio} count={collectedDocuments.length} total={DOCUMENTS.length} />
+          <ProgressBar icon="🎒" label={isNe ? 'अस्पतालको झोला (कागजात सहित)' : 'Hospital Bag (incl. Documents)'} ratio={baggedRatio} count={packedBagItems.length} total={BAG_ITEMS.length} />
           <ProgressBar icon="📱" label={isNe ? 'सम्पर्क नम्बरहरू' : 'Contacts'} ratio={contactsRatio} count={savedContacts.length} total={CONTACTS.length} />
           <ProgressBar icon="🤰" label={isNe ? 'गर्भावस्था परिदृश्य' : 'Pregnancy Scenarios'} ratio={quizRatio} count={quizStars} total={totalPossibleStars} />
 

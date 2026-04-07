@@ -22,7 +22,7 @@ const WRONG_DISTRIBUTION: Record<string, number[]> = {
   INFO: [],
 };
 
-export default function Step3Contacts({ onNextStep }: { onNextStep: () => void }) {
+export default function Step2({ onNextStep }: { onNextStep: () => void }) {
   const { savedContacts, saveContact, showFeedback, setCurrentWave, resetCurrentStep } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
