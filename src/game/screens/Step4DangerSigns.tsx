@@ -23,49 +23,50 @@ type TrimesterKey = '1st' | '2nd' | '3rd';
 
 interface TrimesterInfo {
   key: TrimesterKey;
-  emoji: string;
   label: string;
   labelNe: string;
   weeks: string;
   weeksNe: string;
   color: string;
+
   scenarios: Scenario[];
 }
 
 const TRIMESTERS: TrimesterInfo[] = [
   {
     key: '1st',
-    emoji: '🌱',
     label: 'First Trimester',
     labelNe: 'पहिलो त्रैमासिक',
     weeks: 'Weeks 1–12',
     weeksNe: 'हप्ता १–१२',
     color: '#6BBF8A',
+    
     scenarios: FIRST_TRIMESTER_SCENARIOS,
   },
   {
     key: '2nd',
-    emoji: '🌸',
     label: 'Second Trimester',
     labelNe: 'दोस्रो त्रैमासिक',
     weeks: 'Weeks 13–26',
     weeksNe: 'हप्ता १३–२६',
     color: '#E88FB4',
+
     scenarios: SECOND_TRIMESTER_SCENARIOS,
   },
   {
     key: '3rd',
-    emoji: '🍼',
     label: 'Third Trimester',
     labelNe: 'तेस्रो त्रैमासिक',
     weeks: 'Weeks 27–40',
     weeksNe: 'हप्ता २७–४०',
     color: '#7BAED6',
+    
     scenarios: THIRD_TRIMESTER_SCENARIOS,
   },
 ];
 
 const { width: SCREEN_W } = Dimensions.get('window');
+const OPTION_LABELS = ['A', 'B', 'C', 'D', 'E', 'F'];
 
 export default function Step4DangerSigns({ onNextStep }: { onNextStep: () => void }) {
   const { addQuizStar, showFeedback, clearFeedback, setQuizProgress, setCurrentWave } = useGame();
@@ -166,61 +167,63 @@ export default function Step4DangerSigns({ onNextStep }: { onNextStep: () => voi
   // ═══════════════════════════════════════════
   if (!selectedTrimester) {
     return (
-      <View className="flex-1 justify-end pb-10 px-4" pointerEvents="box-none">
+      <View className="flex-1 justify-end" pointerEvents="box-none">
         <Animated.View
           entering={FadeInUp.duration(400)}
-          className="bg-white/95 rounded-[22px] p-6 border border-[#F5E1EC]"
+          className="rounded-t-[20px] overflow-hidden"
           style={{
             zIndex: 50,
+            backgroundColor: '#FFFFFF',
             shadowColor: '#000',
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.08,
+            shadowOffset: { width: 0, height: -4 },
+            shadowOpacity: 0.1,
             shadowRadius: 16,
-            elevation: 10,
+            elevation: 14,
           }}
         >
-          {/* Heading */}
-          <Text className="text-[12px] font-[800] text-[#9B5983] tracking-[1.5px] uppercase mb-1 text-center">
-            {isNe ? 'गर्भावस्था परिदृश्य' : 'PREGNANCY SCENARIOS'}
-          </Text>
-          <Text className="text-[18px] font-[800] text-[#333] mb-1 text-center">
-            {isNe ? 'आफ्नो त्रैमासिक छान्नुहोस्' : 'Choose Your Trimester'}
-          </Text>
-          <Text className="text-[13px] font-[500] text-[#777] mb-5 text-center">
-            {isNe
-              ? 'प्रत्येक त्रैमासिकमा २० परिदृश्यहरू छन्'
-              : 'Each trimester has 20 scenarios to test your knowledge'}
-          </Text>
+          {/* Colored accent strip */}
+          <View className="h-[3px] bg-[#C06898]" />
+
+          {/* Header */}
+          <View className="px-5 pt-4 pb-3">
+            <Text className="text-[10px] font-[800] text-[#B07498] tracking-[2px] uppercase mb-1 text-center">
+              {isNe ? 'गर्भावस्था परिदृश्य' : 'PREGNANCY SCENARIOS'}
+            </Text>
+            <Text className="text-[18px] font-[800] text-[#2D2D2D] mb-0.5 text-center">
+              {isNe ? 'आफ्नो त्रैमासिक छान्नुहोस्' : 'Choose Your Trimester'}
+            </Text>
+            <Text className="text-[12px] font-[500] text-[#888] text-center">
+              {isNe
+                ? 'प्रत्येक त्रैमासिकमा २० परिदृश्यहरू छन्'
+                : 'Each trimester has 20 scenarios to test your knowledge'}
+            </Text>
+          </View>
 
           {/* Trimester cards */}
-          <View className="gap-3">
+          <View className="px-4 pb-5 gap-2.5">
             {TRIMESTERS.map((tri, idx) => (
-              <Animated.View key={tri.key} entering={FadeInDown.delay(idx * 100).duration(350)}>
+              <Animated.View key={tri.key} entering={FadeInDown.delay(idx * 80).duration(300)}>
                 <TouchableOpacity
-                  className="flex-row items-center p-4 rounded-[16px] border-[1.5px]"
+                  className="flex-row items-center px-4 py-3.5 rounded-[14px]"
                   style={{
-                    borderColor: tri.color + '60',
-                    backgroundColor: tri.color + '10',
-                    shadowColor: tri.color,
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowOpacity: 0.1,
-                    shadowRadius: 6,
-                    elevation: 3,
+                    backgroundColor: tri.color + '0D',
+                    borderWidth: 1.5,
+                    borderColor: tri.color + '30',
                   }}
                   onPress={() => handleSelectTrimester(tri.key)}
                   activeOpacity={0.7}
                 >
-                  <Text className="text-[32px] mr-3">{tri.emoji}</Text>
+                  <Text className="text-[22px] mr-3"></Text>
                   <View className="flex-1">
-                    <Text className="text-[16px] font-[700] text-[#333]">
+                    <Text className="text-[15px] font-[700] text-[#2D2D2D]">
                       {isNe ? tri.labelNe : tri.label}
                     </Text>
-                    <Text className="text-[12px] font-[600] mt-0.5" style={{ color: tri.color }}>
+                    <Text className="text-[11px] font-[600] mt-0.5" style={{ color: tri.color }}>
                       {isNe ? tri.weeksNe : tri.weeks} · {tri.scenarios.length}{' '}
                       {isNe ? 'परिदृश्य' : 'scenarios'}
                     </Text>
                   </View>
-                  <Text className="text-[20px] text-[#CCC]">›</Text>
+                  <Text className="text-[16px] font-[800]" style={{ color: tri.color }}>›</Text>
                 </TouchableOpacity>
               </Animated.View>
             ))}
@@ -235,103 +238,129 @@ export default function Step4DangerSigns({ onNextStep }: { onNextStep: () => voi
   // ═══════════════════════════════════════════
   if (!scenario) return null;
 
+  const triColor = trimesterInfo!.color;
+  const progressPct = ((currentIdx + 1) / totalScenarios) * 100;
+
   return (
-    <View className="flex-1 justify-end pb-10 px-4" pointerEvents="box-none">
-      {/* Scenario card */}
+    <View className="flex-1 justify-end" pointerEvents="box-none">
       <Animated.View
-        className="bg-white/95 rounded-[22px] p-6 border border-[#F5E1EC]"
-        style={[
-          {
-            zIndex: 50,
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.08,
-            shadowRadius: 16,
-            elevation: 10,
-            maxHeight: Dimensions.get('window').height * 0.65,
-          },
-          animatedStyle,
-        ]}
+        style={[{ zIndex: 50 }, animatedStyle]}
       >
-        <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
-          {/* Back to trimester selector */}
-          <TouchableOpacity
-            className="flex-row items-center mb-2"
-            onPress={handleBackToSelector}
-            activeOpacity={0.7}
-          >
-            <Text className="text-[11px] font-[700]" style={{ color: trimesterInfo!.color }}>
-              ‹ {isNe ? 'त्रैमासिक बदल्नुहोस्' : 'Change Trimester'}
-            </Text>
-          </TouchableOpacity>
+        {/* Full-width card flush to bottom & sides */}
+        <View
+          className="rounded-t-[20px] overflow-hidden"
+          style={{
+            backgroundColor: '#FFFFFF',
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: -4 },
+            shadowOpacity: 0.1,
+            shadowRadius: 16,
+            elevation: 14,
+          }}
+        >
+          {/* Colored accent strip */}
+          <View className="h-[3px]" style={{ backgroundColor: triColor }} />
 
-          {/* Progress indicator */}
-          <View className="flex-row items-center mb-2">
-            <View className="flex-1 h-[4px] bg-[#F5E1EC] rounded-full overflow-hidden mr-2">
-              <View
-                className="h-full rounded-full"
-                style={{
-                  width: `${((currentIdx + 1) / totalScenarios) * 100}%`,
-                  backgroundColor: trimesterInfo!.color,
-                }}
-              />
-            </View>
-            <Text className="text-[11px] font-[700] text-[#9B5983]">
-              {currentIdx + 1}/{totalScenarios}
-            </Text>
-          </View>
-
-          {/* Scenario title & description */}
-          <Text className="text-[12px] font-[800] text-[#9B5983] tracking-[1.5px] uppercase mb-2">
-            {isNe ? scenario.titleNe : scenario.title}
-          </Text>
-          <Text className="text-[16px] font-[700] text-[#333] mb-[20px] leading-[24px]">
-            {isNe ? scenario.descriptionNe : scenario.description}
-          </Text>
-
-          {/* Options / Next button */}
-          <View className="gap-2.5">
-            {!selectedResult ? (
-              scenario.options.map((opt, i) => (
-                <TouchableOpacity
-                  key={i}
-                  className="p-4 bg-[#FFFBFD] rounded-[14px] border-[1.5px] border-[#F5E1EC]"
-                  style={{
-                    shadowColor: '#F5E1EC',
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowOpacity: 0.1,
-                    shadowRadius: 4,
-                    elevation: 2,
-                  }}
-                  onPress={() => handleSelect(opt)}
-                  disabled={selectedResult !== null}
-                  activeOpacity={0.7}
-                >
-                  <Text className="text-[15px] text-[#444] font-[600]">
-                    {isNe ? opt.textNe : opt.text}
-                  </Text>
-                </TouchableOpacity>
-              ))
-            ) : (
+          {/* ── Header: trimester button + progress ── */}
+          <View className="px-4 pt-3 pb-2.5" style={{ backgroundColor: triColor + '08' }}>
+            <View className="flex-row items-center justify-between mb-2">
               <TouchableOpacity
-                className="py-[16px] rounded-[14px] items-center"
-                style={{ backgroundColor: trimesterInfo!.color }}
-                onPress={handleNext}
-                activeOpacity={0.8}
+                className="flex-row items-center pl-2.5 pr-3.5 py-1.5 rounded-full"
+                style={{ backgroundColor: triColor }}
+                onPress={handleBackToSelector}
+                activeOpacity={0.7}
               >
-                <Text className="text-white text-[16px] font-[800]">
-                  {currentIdx === totalScenarios - 1
-                    ? isNe
-                      ? 'खेल सकियो'
-                      : 'Finish Scenarios'
-                    : isNe
-                    ? 'अर्को परिदृश्य'
-                    : 'Next Scenario'}
+                <Text className="text-white text-[13px] font-[800] mr-1">‹</Text>
+                <Text className="text-white text-[11px] font-[700]">
+                  {isNe ? trimesterInfo!.labelNe : trimesterInfo!.label}
                 </Text>
               </TouchableOpacity>
-            )}
+
+              <Text className="text-[12px] font-[800]" style={{ color: triColor }}>
+                {currentIdx + 1}/{totalScenarios}
+              </Text>
+            </View>
+
+            <View className="h-[4px] rounded-full overflow-hidden" style={{ backgroundColor: triColor + '20' }}>
+              <View
+                className="h-full rounded-full"
+                style={{ width: `${progressPct}%`, backgroundColor: triColor }}
+              />
+            </View>
           </View>
-        </ScrollView>
+
+          {/* ── Question + options ── */}
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+            style={{ maxHeight: Dimensions.get('window').height * 0.42 }}
+          >
+            {/* Question */}
+            <View className="px-4 pt-3.5 pb-2.5">
+              <Text className="text-[10px] font-[800] tracking-[1.5px] uppercase mb-1" style={{ color: triColor }}>
+                {isNe ? scenario.titleNe : scenario.title}
+              </Text>
+              <Text className="text-[14px] font-[600] text-[#2D2D2D] leading-[20px]">
+                {isNe ? scenario.descriptionNe : scenario.description}
+              </Text>
+            </View>
+
+            {/* Separator */}
+            <View className="h-[1px] mx-4" style={{ backgroundColor: triColor + '15' }} />
+
+            {/* Options */}
+            <View className="px-4 pt-2.5 pb-4 gap-2">
+              {!selectedResult ? (
+                scenario.options.map((opt, i) => (
+                  <TouchableOpacity
+                    key={i}
+                    className="flex-row items-center px-3 py-2.5 rounded-[12px]"
+                    style={{
+                      backgroundColor: triColor + '08',
+                      borderWidth: 1.5,
+                      borderColor: triColor + '20',
+                    }}
+                    onPress={() => handleSelect(opt)}
+                    disabled={selectedResult !== null}
+                    activeOpacity={0.6}
+                  >
+                    <View
+                      className="w-[26px] h-[26px] rounded-[8px] items-center justify-center mr-2.5"
+                      style={{ backgroundColor: triColor + '18' }}
+                    >
+                      <Text className="text-[12px] font-[800]" style={{ color: triColor }}>
+                        {OPTION_LABELS[i]}
+                      </Text>
+                    </View>
+                    <Text className="text-[13px] text-[#3A3A3A] font-[600] leading-[18px] flex-1">
+                      {isNe ? opt.textNe : opt.text}
+                    </Text>
+                  </TouchableOpacity>
+                ))
+              ) : (
+                <TouchableOpacity
+                  className="py-[13px] rounded-[12px] items-center"
+                  style={{
+                    backgroundColor: triColor,
+                    shadowColor: triColor,
+                    shadowOffset: { width: 0, height: 3 },
+                    shadowOpacity: 0.35,
+                    shadowRadius: 6,
+                    elevation: 6,
+                  }}
+                  onPress={handleNext}
+                  activeOpacity={0.8}
+                >
+                  <Text className="text-white text-[14px] font-[800] tracking-[0.5px]">
+                    {currentIdx === totalScenarios - 1
+                      ? isNe ? 'खेल सकियो' : 'Finish Scenarios'
+                      : isNe ? 'अर्को परिदृश्य' : 'Next Scenario'}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          </ScrollView>
+        </View>
       </Animated.View>
     </View>
   );

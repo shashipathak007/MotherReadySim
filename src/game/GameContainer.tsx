@@ -1,5 +1,5 @@
 /// <reference types="nativewind/types" />
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, Image, Dimensions, ImageBackground } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useGame } from './context/GameContext';
@@ -37,11 +37,17 @@ export default function GameContainer() {
     i18n.changeLanguage(isNepali ? 'en' : 'ne');
   };
 
+  const [showTransition, setShowTransition] = useState(false);
+  const [transitionStep, setTransitionStep] = useState<1 | 2 | 3 | 4>(1);
+  const [showTutorial, setShowTutorial] = useState(true);
+  const [entryStep, setEntryStep] = useState<number>(1);
+
   // Jump to the requested step if navigated with initialStep param
   useEffect(() => {
     const initialStep = route.params?.initialStep;
     if (initialStep && initialStep >= 1 && initialStep <= 5) {
       setStep(initialStep as any);
+      setEntryStep(initialStep);
     }
     // Clear the param so re-navigating with same step works
     if (route.params?.initialStep) {
@@ -52,10 +58,6 @@ export default function GameContainer() {
   useEffect(() => {
     clearFeedback();
   }, [currentStep]);
-
-  const [showTransition, setShowTransition] = useState(false);
-  const [transitionStep, setTransitionStep] = useState<1 | 2 | 3 | 4>(1);
-  const [showTutorial, setShowTutorial] = useState(true);
 
   if (!isReady) {
     return <View className="flex-1 bg-[#FFF9FB]" />;
@@ -76,7 +78,7 @@ export default function GameContainer() {
       case 2: return <Step2Documents onNextStep={() => handleNextStep(2)} />;
       case 3: return <Step3Contacts onNextStep={() => handleNextStep(3)} />;
       case 4: return <Step4DangerSigns onNextStep={() => handleNextStep(4)} />;
-      case 5: return <Step5Summary onReplay={() => setStep(1)} />;
+      case 5: return <Step5Summary onReplay={() => { setStep(1); setEntryStep(1); }} />;
       default: return null;
     }
   };
@@ -220,7 +222,7 @@ export default function GameContainer() {
             <TouchableOpacity
               className="px-5 py-2 rounded-full bg-[#C06898]"
               onPress={() => {
-                if (currentStep === 1) {
+                if (currentStep === entryStep) {
                   navigation.navigate('Welcome');
                 } else {
                   const prevStep = Math.max(1, currentStep - 1) as any;
