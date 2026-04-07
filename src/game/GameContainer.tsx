@@ -24,7 +24,7 @@ const { width: SCREEN_W } = Dimensions.get('window');
 
 export default function GameContainer() {
   const {
-    currentStep, setStep, isReady, resetCurrentStep, resetStepData,
+    currentStep, setStep, isReady, resetCurrentStep, resetStepData, resetGame,
     packedBagItems, collectedDocuments, savedContacts, feedback, clearFeedback, currentWave, quizProgress,
     soundEnabled, toggleSound
   } = useGame();
@@ -78,7 +78,7 @@ export default function GameContainer() {
       case 2: return <Step2Documents onNextStep={() => handleNextStep(2)} />;
       case 3: return <Step3Contacts onNextStep={() => handleNextStep(3)} />;
       case 4: return <Step4DangerSigns onNextStep={() => handleNextStep(4)} />;
-      case 5: return <Step5Summary onReplay={() => { setStep(1); setEntryStep(1); }} />;
+      case 5: return <Step5Summary onReplay={() => { resetGame(); navigation.navigate('Welcome'); }} />;
       default: return null;
     }
   };
