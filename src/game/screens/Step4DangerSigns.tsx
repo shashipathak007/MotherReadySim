@@ -309,7 +309,7 @@ export default function Step4DangerSigns({ onNextStep }: { onNextStep: () => voi
             <View className="h-[1px] mx-4" style={{ backgroundColor: triColor + '15' }} />
 
             {/* Options */}
-            <View className="px-4 pt-2.5 pb-4 gap-2">
+            <View className="px-4 pt-2.5 pb-8 gap-2">
               {!selectedResult ? (
                 scenario.options.map((opt, i) => (
                   <TouchableOpacity
