@@ -14,11 +14,18 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
   const isNe = i18n.language === 'ne';
 
   const totalPossibleStars = 20;
-  const baggedRatio = packedBagItems.length / BAG_ITEMS.length;
+  const bagItemsCount = BAG_ITEMS.filter(i => ['Clothing', 'Hygiene', 'Comfort', 'Baby'].includes(i.category)).length;
+  const docItemsCount = BAG_ITEMS.filter(i => ['LegalDocs', 'HealthDocs', 'ClinicalDocs'].includes(i.category)).length;
+
+  const packedBagsCount = packedBagItems.filter(id => id < 100).length;
+  const packedDocsCount = packedBagItems.filter(id => id >= 100).length;
+
+  const bagRatio = packedBagsCount / bagItemsCount;
+  const docRatio = packedDocsCount / docItemsCount;
   const contactsRatio = savedContacts.length / CONTACTS.length;
   const quizRatio = quizStars / totalPossibleStars;
 
-  const scorePercentage = (baggedRatio + contactsRatio + quizRatio) / 3;
+  const scorePercentage = (bagRatio + docRatio + contactsRatio + quizRatio) / 4;
 
   let badgeMsg = '';
   let badgeEmoji = '';
@@ -81,7 +88,7 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
       <ScrollView contentContainerStyle={{ paddingTop: 80, paddingBottom: 50, paddingHorizontal: 24, alignItems: 'center' }} showsVerticalScrollIndicator={false}>
         {/* Badge */}
         <Animated.View entering={ZoomIn.delay(200)} className="items-center mb-7">
-          <Text className="text-[64px] mb-2">{badgeEmoji}</Text>
+          <Text className="text-[64px] pt-8">{badgeEmoji}</Text>
           <Text className="text-[28px] font-[800] text-[#9B5983] text-center mb-2">{badgeMsg}</Text>
           <Text className="text-[28px] color-[#F59E0B]">{'⭐'.repeat(Math.round((quizStars / totalPossibleStars) * 5))}{'☆'.repeat(5 - Math.round((quizStars / totalPossibleStars) * 5))}</Text>
         </Animated.View>
@@ -90,7 +97,8 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
         <Animated.View entering={FadeInUp.delay(400)} className="w-full bg-white/95 rounded-[22px] p-6 mb-6 shadow-black shadow-opacity-8 shadow-radius-16 elevation-8 border border-[#F5E1EC]">
           <Text className="text-lg font-[900] text-[#333] mb-5 text-center">{isNe ? 'नतिजा' : 'Your Results'}</Text>
           
-          <ProgressBar icon="🎒" label={isNe ? 'अस्पतालको झोला (कागजात सहित)' : 'Hospital Bag (incl. Documents)'} ratio={baggedRatio} count={packedBagItems.length} total={BAG_ITEMS.length} />
+          <ProgressBar icon="🎒" label={isNe ? 'अस्पतालको झोला' : 'Hospital Bag'} ratio={bagRatio} count={packedBagsCount} total={bagItemsCount} />
+          <ProgressBar icon="📁" label={isNe ? 'जरुरी कागजातहरू' : 'Important Documents'} ratio={docRatio} count={packedDocsCount} total={docItemsCount} />
           <ProgressBar icon="📱" label={isNe ? 'सम्पर्क नम्बरहरू' : 'Contacts'} ratio={contactsRatio} count={savedContacts.length} total={CONTACTS.length} />
           <ProgressBar icon="🤰" label={isNe ? 'गर्भावस्था परिदृश्य' : 'Pregnancy Scenarios'} ratio={quizRatio} count={quizStars} total={totalPossibleStars} />
 

@@ -1,20 +1,41 @@
 /// <reference types="nativewind/types" />
 import React, { useRef, useState, useMemo, useEffect } from 'react';
-import { View, Dimensions, ImageBackground, Image } from 'react-native';
+import { View, Dimensions, Image } from 'react-native';
 import { useGame } from '../context/GameContext';
 import { BAG_ITEMS, DO_NOT_PACK_ITEMS } from '../../data/bagItems';
 import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
 import { StepCompletionModal } from '../components/StepCompletionModal';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 import { useGameAudio } from '../hooks/useGameAudio';
 
 const { width, height } = Dimensions.get('window');
 
+/* ✅ FIXED: category keys MUST match BAG_ITEMS */
+const waveCategories = [
+  'Clothing',
+  'Hygiene',
+  'Comfort',
+  'Baby',
+  'LegalDocs',
+  'HealthDocs',
+  'ClinicalDocs'
+];
+
+/* ✅ Optional: pretty UI labels */
+const waveLabels: Record<string, string> = {
+  Clothing: 'Clothing',
+  Hygiene: 'Hygiene',
+  Comfort: 'Comfort',
+  Baby: 'Baby',
+  LegalDocs: 'Legal Documents',
+  HealthDocs: 'Health Documents',
+  ClinicalDocs: 'Clinical Documents'
+};
+
 const WRONG_DISTRIBUTION: Record<string, number[]> = {
   Clothing: [4, 8],
   Hygiene: [1, 2, 3],
-  Comfort: [], 
+  Comfort: [],
   Baby: [5, 6, 7],
   LegalDocs: [91],
   HealthDocs: [92],
@@ -26,11 +47,11 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
   const { playCorrect, playIncorrect } = useGameAudio();
-  
+
   const [showCompletionModal, setShowCompletionModal] = useState(false);
   const [currentWaveIdx, setCurrentWaveIdx] = useState(0);
-  const [containerLayout, setContainerLayout] = useState({ width: width, height: height });
-  const waveCategories = ['Clothing', 'Hygiene', 'Comfort', 'Baby', 'Legal Documents', 'Health Documents', 'Clinical Documents'];
+  const [containerLayout, setContainerLayout] = useState({ width, height });
+
   const currentWave = waveCategories[currentWaveIdx];
 
   const hasCompletedInitially = useRef(packedBagItems.length >= BAG_ITEMS.length);
@@ -43,125 +64,179 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     }
   };
 
+  /* ✅ Sync current wave globally */
   useEffect(() => {
     if (currentWave) setCurrentWave(currentWave);
-  }, [currentWave, setCurrentWave]);
+  }, [currentWave]);
 
+  /* ✅ FIXED: Proper wave progression */
   useEffect(() => {
     let nextWaveIdx = 0;
+
     for (let i = 0; i < waveCategories.length; i++) {
-        const cat = waveCategories[i];
-        const correctItemsInWave = BAG_ITEMS.filter(item => item.category === cat);
-        const packedInWave = correctItemsInWave.filter(item => packedBagItems.includes(item.id));
-        if (packedInWave.length >= correctItemsInWave.length) {
-            nextWaveIdx = i + 1;
-        } else {
-            break;
-        }
+      const cat = waveCategories[i];
+
+      const correctItemsInWave = BAG_ITEMS.filter(item => item.category === cat);
+
+      // ✅ Skip EMPTY waves safely (important fix)
+      if (correctItemsInWave.length === 0) {
+        nextWaveIdx = i + 1;
+        continue;
+      }
+
+      const packedInWave = correctItemsInWave.filter(item =>
+        packedBagItems.includes(item.id)
+      );
+
+      if (packedInWave.length >= correctItemsInWave.length) {
+        nextWaveIdx = i + 1;
+      } else {
+        break;
+      }
     }
-    
+
     if (nextWaveIdx >= waveCategories.length) {
-       checkCompletion(packedBagItems.length);
+      checkCompletion(packedBagItems.length);
     } else {
-       setCurrentWaveIdx(nextWaveIdx);
+      setCurrentWaveIdx(nextWaveIdx);
     }
   }, [packedBagItems]);
 
+  /* ✅ Active items */
   const activeWaveItems = useMemo(() => {
     if (!currentWave) return [];
-    const correctItems = BAG_ITEMS.filter(i => i.category === currentWave).map(item => ({ ...item, isWrong: false, why: item.why }));
-    const wrongIds = WRONG_DISTRIBUTION[currentWave as keyof typeof WRONG_DISTRIBUTION];
-    const wrongItems = DO_NOT_PACK_ITEMS.filter(i => wrongIds.includes(i.id)).map(item => ({ ...item, isWrong: true, why: item.whyNot }));
+
+    const correctItems = BAG_ITEMS
+      .filter(i => i.category === currentWave)
+      .map(item => ({ ...item, isWrong: false, why: item.why }));
+
+    const wrongIds = WRONG_DISTRIBUTION[currentWave] || [];
+
+    const wrongItems = DO_NOT_PACK_ITEMS
+      .filter(i => wrongIds.includes(i.id))
+      .map(item => ({ ...item, isWrong: true, why: item.whyNot }));
+
     const combined = [...correctItems, ...wrongItems];
-    const itemCount = combined.length;
-    const padding = 20;
+
     const itemSize = 75;
-    const areaWidth = containerLayout.width - (padding * 2);
-    
-    // Arrange items in rows/cols or an arc
-    return combined.sort((a, b) => a.name.localeCompare(b.name)).map((item, index) => {
-      // Simple grid-like logic for better arrangement
-      const cols = Math.min(itemCount, 3);
+
+    return combined.map((item, index) => {
+      const cols = Math.min(combined.length, 3);
       const row = Math.floor(index / cols);
       const col = index % cols;
-      
-      const xPos = (containerLayout.width * 0.35) - ((cols * itemSize) / 2) + (col * itemSize) + (itemSize / 2) - 35;
-      const yPos = (containerLayout.height * 0.35) + (row * (itemSize + 30));
 
-      return { 
-        ...item, 
-        initialPos: { 
-          x: xPos + (Math.random() - 0.5) * 10, // Minimal jitter for organic feel
+      const xPos =
+        containerLayout.width * 0.35 -
+        (cols * itemSize) / 2 +
+        col * itemSize;
+
+      const yPos =
+        containerLayout.height * 0.35 +
+        row * (itemSize + 30);
+
+      return {
+        ...item,
+        initialPos: {
+          x: xPos + (Math.random() - 0.5) * 10,
           y: yPos + (Math.random() - 0.5) * 10
-        } 
+        }
       };
     });
-  }, [currentWave, packedBagItems.length === 0, containerLayout.width]); 
+  }, [currentWave, containerLayout.width]);
 
-  const dropZone = { 
-    x: containerLayout.width * 0.35 - 110, 
-    y: containerLayout.height - 240, 
-    w: 220, 
-    h: 180 
+  const dropZone = {
+    x: containerLayout.width * 0.35 - 110,
+    y: containerLayout.height - 240,
+    w: 220,
+    h: 180
   };
+
   const itemRefs = useRef<Record<number, DraggableItemRef>>({});
 
+  /* ✅ Drop logic */
   const handleDrop = (id: number, x: number, y: number, isWrong: boolean) => {
     const item = activeWaveItems.find(i => i.id === id && i.isWrong === isWrong);
     if (!item) return;
 
     const cx = x + 30;
     const cy = y + 30;
-    const inZone = cx > dropZone.x && cx < dropZone.x + dropZone.w && cy > dropZone.y && cy < dropZone.y + dropZone.h;
+
+    const inZone =
+      cx > dropZone.x &&
+      cx < dropZone.x + dropZone.w &&
+      cy > dropZone.y &&
+      cy < dropZone.y + dropZone.h;
+
     const ref = itemRefs.current[isWrong ? -id : id];
 
     if (inZone) {
       if (!isWrong) {
         packItem(id);
-        ref?.animatePack(dropZone.x + dropZone.w/2 - 30, dropZone.y + dropZone.h/2 - 30);
+        ref?.animatePack(
+          dropZone.x + dropZone.w / 2 - 30,
+          dropZone.y + dropZone.h / 2 - 30
+        );
+
         playCorrect();
-        const itemName = isNe && 'nameNe' in item ? (item as any).nameNe : item.name;
-        const itemWhy = isNe && 'whyNe' in item ? (item as any).whyNe : item.why;
-        showFeedback(isNe ? `शाबास! ${itemName}` : `Great job! ${itemName}`, itemWhy, 'success');
+
+        const itemName = isNe && 'nameNe' in item ? item.nameNe : item.name;
+        const itemWhy = isNe && 'whyNe' in item ? item.whyNe : item.why;
+
+        showFeedback(
+          isNe ? `शाबास! ${itemName}` : `Great job! ${itemName}`,
+          itemWhy,
+          'success'
+        );
       } else {
         ref?.shakeAndSnapBack();
         playIncorrect();
-        const itemName = isNe && 'nameNe' in item ? (item as any).nameNe : item.name;
-        const itemWhy = isNe && 'whyNotNe' in item ? (item as any).whyNotNe : item.why;
-        showFeedback(isNe ? `ओहो! ${itemName} चाहिँदैन` : `Oops! ${itemName} isn't needed`, itemWhy, 'error');
+
+        const itemName = isNe && 'nameNe' in item ? item.nameNe : item.name;
+        const itemWhy = isNe && 'whyNotNe' in item ? item.whyNotNe : item.why;
+
+        showFeedback(
+          isNe ? `ओहो! ${itemName} चाहिँदैन` : `Oops! ${itemName} isn't needed`,
+          itemWhy,
+          'error'
+        );
       }
     } else {
       ref?.snapBack();
     }
   };
 
+  /* ✅ Long press info */
   const handleLongPress = (id: number, isWrong: boolean) => {
     const item = activeWaveItems.find(i => i.id === id && i.isWrong === isWrong);
-    if (item) {
-      const itemName = isNe && 'nameNe' in item && (item as any).nameNe ? (item as any).nameNe : item.name;
-      let itemWhy: string;
-      if (item.isWrong) {
-        itemWhy = isNe && 'whyNotNe' in item && (item as any).whyNotNe ? (item as any).whyNotNe : item.why;
-      } else {
-        itemWhy = isNe && 'whyNe' in item && (item as any).whyNe ? (item as any).whyNe : item.why;
-      }
-      showFeedback(itemName, itemWhy, 'info');
-    }
+    if (!item) return;
+
+    const itemName =
+      isNe && 'nameNe' in item && item.nameNe ? item.nameNe : item.name;
+
+    const itemWhy = item.isWrong
+      ? (isNe && item.whyNotNe) || item.why
+      : (isNe && item.whyNe) || item.why;
+
+    showFeedback(itemName, itemWhy, 'info');
   };
 
-  const bagFilledPhase = Math.floor((packedBagItems.length / BAG_ITEMS.length) * 4);
-
   return (
-    <View 
+    <View
       className="flex-1"
       onLayout={(e) => {
         const { width, height } = e.nativeEvent.layout;
         setContainerLayout({ width, height });
       }}
     >
-      <View 
+      {/* Bag */}
+      <View
         className="absolute justify-center items-center"
-        style={{ left: dropZone.x - 15, top: dropZone.y - 30, width: dropZone.w + 30, height: dropZone.h + 60 }}
+        style={{
+          left: dropZone.x - 15,
+          top: dropZone.y - 30,
+          width: dropZone.w + 30,
+          height: dropZone.h + 60
+        }}
       >
         <Image
           source={
@@ -174,15 +249,19 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
         />
       </View>
 
+      {/* Items */}
       {activeWaveItems.map((item) => {
         const uniqueId = item.isWrong ? -item.id : item.id;
         const packed = !item.isWrong && packedBagItems.includes(item.id);
+
         return (
           <DraggableItem
             key={`bag-${currentWave}-${uniqueId}`}
-            ref={(el) => { if (el) itemRefs.current[uniqueId] = el; }}
+            ref={(el) => {
+              if (el) itemRefs.current[uniqueId] = el;
+            }}
             id={item.id}
-            name={isNe && 'nameNe' in item ? (item as any).nameNe : item.name}
+            name={isNe && 'nameNe' in item ? item.nameNe : item.name}
             emoji={item.emoji || '📦'}
             isWrong={item.isWrong}
             initialPos={item.initialPos}
@@ -194,10 +273,18 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
         );
       })}
 
+      {/* Completion */}
       <StepCompletionModal
         visible={showCompletionModal}
         onClose={() => setShowCompletionModal(false)}
-        onNext={isFirstCompletion.current ? () => { setShowCompletionModal(false); onNextStep(); } : undefined}
+        onNext={
+          isFirstCompletion.current
+            ? () => {
+                setShowCompletionModal(false);
+                onNextStep();
+              }
+            : undefined
+        }
         onReset={() => {
           resetCurrentStep();
           setShowCompletionModal(false);
