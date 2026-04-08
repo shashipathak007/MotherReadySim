@@ -3,7 +3,6 @@ import React, { useRef, useState, useMemo, useEffect } from 'react';
 import { View, Dimensions, ImageBackground, Image } from 'react-native';
 import { useGame } from '../context/GameContext';
 import { BAG_ITEMS, DO_NOT_PACK_ITEMS } from '../../data/bagItems';
-// Import removed for HospitalBag
 import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
 import { StepCompletionModal } from '../components/StepCompletionModal';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -31,7 +30,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   const [showCompletionModal, setShowCompletionModal] = useState(false);
   const [currentWaveIdx, setCurrentWaveIdx] = useState(0);
   const [containerLayout, setContainerLayout] = useState({ width: width, height: height });
-  const waveCategories = ['Clothing', 'Hygiene', 'Comfort', 'Baby', 'LegalDocs', 'HealthDocs', 'ClinicalDocs'];
+  const waveCategories = ['Clothing', 'Hygiene', 'Comfort', 'Baby', 'Legal Documents', 'Health Documents', 'Clinical Documents'];
   const currentWave = waveCategories[currentWaveIdx];
 
   const hasCompletedInitially = useRef(packedBagItems.length >= BAG_ITEMS.length);

@@ -139,12 +139,12 @@ export default function WelcomeScreen({ navigation }: any) {
           {/* MIDDLE — Quick Navigation Cards */}
           <Animated.View entering={FadeInDown.delay(600).duration(800)} style={{ paddingHorizontal: 24, marginTop: 130 }}>
             <View style={{
-              backgroundColor: 'rgba(255, 182, 193, 0.4)', // transparent light pink
+              backgroundColor: 'rgba(243, 58, 110, 0.9)', //  light pink
               borderRadius: 28, padding: 10, paddingBottom: 14,
               borderWidth: 2, borderColor: '#90EE90' // green border
             }}>
               <Text style={{ 
-                fontSize: 12, fontWeight: '900', color: '#B04C8A', 
+                fontSize: 12, fontWeight: '900', color: 'white', 
                 textAlign: 'center', letterSpacing: 3, textTransform: 'uppercase',
                 marginBottom: 16, opacity: 0.85
               }}>

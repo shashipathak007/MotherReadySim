@@ -167,10 +167,10 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   // ═══════════════════════════════════════════
   if (!selectedTrimester) {
     return (
-      <View className="flex-1 justify-end" pointerEvents="box-none">
+      <View className="pb-3 px-2.5  flex-1 justify-end" pointerEvents="box-none">
         <Animated.View
           entering={FadeInUp.duration(400)}
-          className="rounded-t-[20px] overflow-hidden"
+          className="rounded-t-[20px] rounded-b-[20px] overflow-hidden"
           style={{
             zIndex: 50,
             backgroundColor: '#FFFFFF',
@@ -242,13 +242,13 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   const progressPct = ((currentIdx + 1) / totalScenarios) * 100;
 
   return (
-    <View className="flex-1 justify-end" pointerEvents="box-none">
+    <View className="px-2 pb-3 flex-1 justify-end" pointerEvents="box-none">
       <Animated.View
         style={[{ zIndex: 50 }, animatedStyle]}
       >
         {/* Full-width card flush to bottom & sides */}
         <View
-          className="rounded-t-[20px] overflow-hidden"
+          className="rounded-t-[20px] rounded-b-[20px] overflow-hidden"
           style={{
             backgroundColor: '#FFFFFF',
             shadowColor: '#000',

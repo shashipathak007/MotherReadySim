@@ -133,7 +133,7 @@ export default function GameContainer() {
     if (feedback.type === 'success') {
       return {
         image: charGoodJob,
-        exclamation: isNepali ? 'शाबास! 🎉' : 'Good Job! 🎉',
+        exclamation: isNepali ? 'शाबास!' : 'Good Job!',
         bgColor: 'bg-[#F0FDF4]',
         borderColor: 'border-[#86EFAC]',
         textColor: 'text-[#166534]',
@@ -143,7 +143,7 @@ export default function GameContainer() {
     if (feedback.type === 'error') {
       return {
         image: charOhNo,
-        exclamation: isNepali ? 'ओहो! 😔' : 'Oh No! 😔',
+        exclamation: isNepali ? 'ओहो!' : 'Oh No!',
         bgColor: 'bg-[#FFF8F8]',
         borderColor: 'border-[#FECACA]',
         textColor: 'text-[#B91C1C]',
@@ -321,7 +321,7 @@ export default function GameContainer() {
                       borderTopColor: feedback.type === 'error' ? '#FFF8F8' : feedback.type === 'info' ? 'white' : '#F0FDF4',
                       borderLeftWidth: 14,
                       borderLeftColor: 'transparent',
-                      borderRightWidth: 0,
+                      borderRightWidth: 0, 
                       borderRightColor: 'transparent',
                     }}
                   />
