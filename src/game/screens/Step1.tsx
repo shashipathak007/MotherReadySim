@@ -10,7 +10,6 @@ import { useGameAudio } from '../hooks/useGameAudio';
 
 const { width, height } = Dimensions.get('window');
 
-/* ✅ FIXED: category keys MUST match BAG_ITEMS */
 const waveCategories = [
   'Clothing',
   'Hygiene',
@@ -21,7 +20,7 @@ const waveCategories = [
   'ClinicalDocs'
 ];
 
-/* ✅ Optional: pretty UI labels */
+
 const waveLabels: Record<string, string> = {
   Clothing: 'Clothing',
   Hygiene: 'Hygiene',
@@ -64,12 +63,12 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     }
   };
 
-  /* ✅ Sync current wave globally */
+
   useEffect(() => {
     if (currentWave) setCurrentWave(currentWave);
   }, [currentWave]);
 
-  /* ✅ FIXED: Proper wave progression */
+  
   useEffect(() => {
     let nextWaveIdx = 0;
 
@@ -78,7 +77,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
 
       const correctItemsInWave = BAG_ITEMS.filter(item => item.category === cat);
 
-      // ✅ Skip EMPTY waves safely (important fix)
+
       if (correctItemsInWave.length === 0) {
         nextWaveIdx = i + 1;
         continue;
@@ -102,7 +101,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     }
   }, [packedBagItems]);
 
-  /* ✅ Active items */
+
   const activeWaveItems = useMemo(() => {
     if (!currentWave) return [];
 
@@ -153,7 +152,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
 
   const itemRefs = useRef<Record<number, DraggableItemRef>>({});
 
-  /* ✅ Drop logic */
+
   const handleDrop = (id: number, x: number, y: number, isWrong: boolean) => {
     const item = activeWaveItems.find(i => i.id === id && i.isWrong === isWrong);
     if (!item) return;
@@ -205,7 +204,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     }
   };
 
-  /* ✅ Long press info */
+
   const handleLongPress = (id: number, isWrong: boolean) => {
     const item = activeWaveItems.find(i => i.id === id && i.isWrong === isWrong);
     if (!item) return;
@@ -214,8 +213,8 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
       isNe && 'nameNe' in item && item.nameNe ? item.nameNe : item.name;
 
     const itemWhy = item.isWrong
-      ? (isNe && item.whyNotNe) || item.why
-      : (isNe && item.whyNe) || item.why;
+      ? (isNe && 'whyNotNe' in item && (item as any).whyNotNe) || item.why
+      : (isNe && 'whyNe' in item && (item as any).whyNe) || item.why;
 
     showFeedback(itemName, itemWhy, 'info');
   };
