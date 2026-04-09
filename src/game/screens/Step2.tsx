@@ -8,6 +8,7 @@ import { StepCompletionModal } from '../components/StepCompletionModal';
 import Animated, { FadeInDown, useSharedValue, useAnimatedStyle, withSpring, withSequence } from 'react-native-reanimated';
 import { useTranslation } from 'react-i18next';
 import { useGameAudio } from '../hooks/useGameAudio';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const { width, height } = Dimensions.get('window');
 
@@ -21,6 +22,8 @@ const WRONG_DISTRIBUTION: Record<string, number[]> = {
   IMPORTANT: [92],
   INFO: [],
 };
+
+
 
 export default function Step2({ onNextStep }: { onNextStep: () => void }) {
   const { savedContacts, saveContact, showFeedback, setCurrentWave, resetCurrentStep } = useGame();
@@ -184,7 +187,11 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
         const { width, height } = e.nativeEvent.layout;
         setContainerLayout({ width, height });
       }}
+      
     >
+      <LinearGradient colors={['rgba(255,255,255,0.9)','rgba(243,58,106,0.05)','rgba(176,76,138,0.08)']}
+                      style={{position: 'absolute', width: '100%',height: '100%',}}
+/>
       {/* Phone image — EXACTLY same pattern as bag in Step 1 */}
       <View 
         className="absolute justify-center items-center"

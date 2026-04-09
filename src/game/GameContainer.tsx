@@ -181,9 +181,17 @@ export default function GameContainer() {
           blurRadius={1.5}
         >
           <LinearGradient
-            colors={['rgba(255,249,251,0.25)', 'rgba(255,245,248,0.45)', 'rgba(255,249,251,0.55)']}
-            className="absolute inset-0"
-          />
+  colors={[
+    'rgba(255,255,255,0.92)',
+    'rgba(243,58,106,0.06)',
+    'rgba(176,76,138,0.10)'
+  ]}
+  style={{
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+  }}
+/>
         </ImageBackground>
       </View>
 

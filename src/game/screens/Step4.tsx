@@ -85,6 +85,18 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
 
   return (
     <View className="flex-1">
+      <LinearGradient
+      colors={[
+        'rgba(255,255,255,0.9)',
+        'rgba(243,58,106,0.05)',
+        'rgba(176,76,138,0.08)'
+      ]}
+      style={{
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+      }}
+    />
       <ScrollView contentContainerStyle={{ paddingTop: 80, paddingBottom: 50, paddingHorizontal: 24, alignItems: 'center' }} showsVerticalScrollIndicator={false}>
         {/* Badge */}
         <Animated.View entering={ZoomIn.delay(200)} className="items-center mb-7">

@@ -7,8 +7,17 @@ import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
 import { StepCompletionModal } from '../components/StepCompletionModal';
 import { useTranslation } from 'react-i18next';
 import { useGameAudio } from '../hooks/useGameAudio';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const { width, height } = Dimensions.get('window');
+
+const COLORS = {
+  primary: '#F33A6A',
+  secondary: '#B04C8A',
+  glass: 'rgba(255,255,255,0.85)',
+  softGlass: 'rgba(255,255,255,0.6)',
+  borderSoft: 'rgba(243,58,106,0.25)',
+};
 
 const waveCategories = [
   'Clothing',
@@ -19,17 +28,6 @@ const waveCategories = [
   'HealthDocs',
   'ClinicalDocs'
 ];
-
-
-const waveLabels: Record<string, string> = {
-  Clothing: 'Clothing',
-  Hygiene: 'Hygiene',
-  Comfort: 'Comfort',
-  Baby: 'Baby',
-  LegalDocs: 'Legal Documents',
-  HealthDocs: 'Health Documents',
-  ClinicalDocs: 'Clinical Documents'
-};
 
 const WRONG_DISTRIBUTION: Record<string, number[]> = {
   Clothing: [4, 8],
@@ -63,20 +61,16 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     }
   };
 
-
   useEffect(() => {
     if (currentWave) setCurrentWave(currentWave);
   }, [currentWave]);
 
-  
   useEffect(() => {
     let nextWaveIdx = 0;
 
     for (let i = 0; i < waveCategories.length; i++) {
       const cat = waveCategories[i];
-
       const correctItemsInWave = BAG_ITEMS.filter(item => item.category === cat);
-
 
       if (correctItemsInWave.length === 0) {
         nextWaveIdx = i + 1;
@@ -100,7 +94,6 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
       setCurrentWaveIdx(nextWaveIdx);
     }
   }, [packedBagItems]);
-
 
   const activeWaveItems = useMemo(() => {
     if (!currentWave) return [];
@@ -151,7 +144,6 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   };
 
   const itemRefs = useRef<Record<number, DraggableItemRef>>({});
-
 
   const handleDrop = (id: number, x: number, y: number, isWrong: boolean) => {
     const item = activeWaveItems.find(i => i.id === id && i.isWrong === isWrong);
@@ -204,7 +196,6 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     }
   };
 
-
   const handleLongPress = (id: number, isWrong: boolean) => {
     const item = activeWaveItems.find(i => i.id === id && i.isWrong === isWrong);
     if (!item) return;
@@ -227,6 +218,28 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
         setContainerLayout({ width, height });
       }}
     >
+      {/* 🌈 Soft background overlay */}
+      <LinearGradient
+        colors={[
+          'rgba(255,255,255,0.9)',
+          'rgba(243,58,106,0.05)',
+          'rgba(176,76,138,0.08)'
+        ]}
+        style={{ position: 'absolute', width: '100%', height: '100%' }}
+      />
+
+      {/* 🎯 Drop Zone Highlight */}
+      <View
+        style={{
+          position: 'absolute',
+          left: dropZone.x - 10,
+          top: dropZone.y - 10,
+          width: dropZone.w + 20,
+          height: dropZone.h + 20,
+          
+        }}
+      />
+
       {/* Bag */}
       <View
         className="absolute justify-center items-center"
@@ -267,7 +280,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
             onDrop={handleDrop}
             onLongPress={handleLongPress}
             packed={packed}
-            color={item.isWrong ? '#F5F0F0' : '#FFFBFD'}
+            color={item.isWrong ? '#FFF5F6' : '#FFFFFF'}
           />
         );
       })}

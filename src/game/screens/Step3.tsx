@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { useGame } from '../context/GameContext';
+import { LinearGradient } from 'expo-linear-gradient';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -167,7 +168,20 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   // ═══════════════════════════════════════════
   if (!selectedTrimester) {
     return (
-      <View className="pb-3 px-2.5  flex-1 justify-end" pointerEvents="box-none">
+      <View className="flex-1 justify-end">
+           <LinearGradient
+            colors={[
+        'rgba(255,255,255,0.9)',
+        'rgba(243,58,106,0.05)',
+        'rgba(176,76,138,0.08)'
+                    ]}
+              style={{
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+      }}
+    />
+
         <Animated.View
           entering={FadeInUp.duration(400)}
           className="rounded-t-[20px] rounded-b-[20px] overflow-hidden"
@@ -233,16 +247,29 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     );
   }
 
-  // ═══════════════════════════════════════════
+  // 
   // RENDER: Quiz flow
-  // ═══════════════════════════════════════════
+  //
   if (!scenario) return null;
 
   const triColor = trimesterInfo!.color;
   const progressPct = ((currentIdx + 1) / totalScenarios) * 100;
 
   return (
-    <View className="px-2 pb-3 flex-1 justify-end" pointerEvents="box-none">
+    <View className="flex-1 justify-end">
+      <LinearGradient
+      colors={[
+        'rgba(255,255,255,0.9)',
+        'rgba(243,58,106,0.05)',
+        'rgba(176,76,138,0.08)'
+      ]}
+      style={{
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+      }}
+    />
+
       <Animated.View
         style={[{ zIndex: 50 }, animatedStyle]}
       >
