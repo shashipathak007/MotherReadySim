@@ -1,12 +1,20 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const STORAGE_KEY = '@aamaready_game_state';
 
 export type GameStep = 1 | 2 | 3 | 4;
+export type TrimesterKey = '1st' | '2nd' | '3rd';
 
 interface GameState {
   currentStep: GameStep;
   packedBagItems: number[];
   savedContacts: number[];
   quizStars: number;
+  // Quiz resume state
+  selectedTrimester: TrimesterKey | null;
+  quizIndex: number;
+  shuffledScenarioIds: number[];   // persisted order of scenario ids
 }
 
 interface GameContextType extends GameState {
@@ -27,6 +35,9 @@ interface GameContextType extends GameState {
   setQuizProgress: (current: number, total: number) => void;
   soundEnabled: boolean;
   toggleSound: () => void;
+  // Quiz resume helpers
+  setQuizState: (trimester: TrimesterKey | null, index: number, scenarioIds: number[]) => void;
+  clearQuizState: () => void;
 }
 
 const defaultState: GameState = {
@@ -34,19 +45,65 @@ const defaultState: GameState = {
   packedBagItems: [],
   savedContacts: [],
   quizStars: 0,
+  selectedTrimester: null,
+  quizIndex: 0,
+  shuffledScenarioIds: [],
 };
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, setState] = useState<GameState>(defaultState);
-  const [isReady] = useState(true);
+  const [isReady, setIsReady] = useState(false);
   const [feedback, setFeedback] = useState<{ message: string, detail?: string, type: 'success' | 'error' | 'info' } | null>(null);
   const [currentWave, setCurrentWave] = useState('');
   const [quizProgress, setQuizProgressState] = useState({ current: 0, total: 0 });
   const [soundEnabled, setSoundEnabled] = useState(true);
   const toggleSound = () => setSoundEnabled(prev => !prev);
 
+  // Track whether initial load is done so we don't save the default state back
+  const hasLoaded = useRef(false);
+
+  // ── Load persisted state on mount ──
+  useEffect(() => {
+    (async () => {
+      try {
+        const json = await AsyncStorage.getItem(STORAGE_KEY);
+        if (json) {
+          const saved = JSON.parse(json) as Partial<GameState>;
+          setState((prev) => ({
+            ...prev,
+            currentStep: saved.currentStep ?? prev.currentStep,
+            packedBagItems: saved.packedBagItems ?? prev.packedBagItems,
+            savedContacts: saved.savedContacts ?? prev.savedContacts,
+            quizStars: saved.quizStars ?? prev.quizStars,
+            selectedTrimester: saved.selectedTrimester ?? prev.selectedTrimester,
+            quizIndex: saved.quizIndex ?? prev.quizIndex,
+            shuffledScenarioIds: saved.shuffledScenarioIds ?? prev.shuffledScenarioIds,
+          }));
+        }
+      } catch (e) {
+        console.warn('Failed to load game state:', e);
+      } finally {
+        hasLoaded.current = true;
+        setIsReady(true);
+      }
+    })();
+  }, []);
+
+  // ── Persist state whenever it changes (after initial load) ──
+  useEffect(() => {
+    if (!hasLoaded.current) return;
+    const persist = async () => {
+      try {
+        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {
+        console.warn('Failed to save game state:', e);
+      }
+    };
+    persist();
+  }, [state]);
+  
   const updateState = (updates: Partial<GameState>) => {
     setState((prev) => ({ ...prev, ...updates }));
   };
@@ -67,10 +124,38 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }));
   };
 
-  const addQuizStar = () => updateState({ quizStars: Math.min(20, state.quizStars + 1) });
+  const addQuizStar = () => {
+    setState(prev => ({
+      ...prev,
+      quizStars: Math.min(20, prev.quizStars + 1),
+    }));
+  };
   
-  const resetGame = () => {
+  const setQuizState = (trimester: TrimesterKey | null, index: number, scenarioIds: number[]) => {
+    setState(prev => ({
+      ...prev,
+      selectedTrimester: trimester,
+      quizIndex: index,
+      shuffledScenarioIds: scenarioIds,
+    }));
+  };
+
+  const clearQuizState = () => {
+    setState(prev => ({
+      ...prev,
+      selectedTrimester: null,
+      quizIndex: 0,
+      shuffledScenarioIds: [],
+    }));
+  };
+
+  const resetGame = async () => {
     setState(defaultState);
+    try {
+      await AsyncStorage.removeItem(STORAGE_KEY);
+    } catch (e) {
+      console.warn('Failed to clear saved game state:', e);
+    }
   };
 
   const resetCurrentStep = () => {
@@ -78,7 +163,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       let updates = {};
       if (prev.currentStep === 1) updates = { packedBagItems: [] };
       if (prev.currentStep === 2) updates = { savedContacts: [] };
-      if (prev.currentStep === 3) updates = { quizStars: 0 };
+      if (prev.currentStep === 3) updates = { quizStars: 0, selectedTrimester: null, quizIndex: 0, shuffledScenarioIds: [] };
       
       return { ...prev, ...updates };
     });
@@ -91,7 +176,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setState((prev) => {
       if (step === 1) return { ...prev, packedBagItems: [] };
       if (step === 2) return { ...prev, savedContacts: [] };
-      if (step === 3) return { ...prev, quizStars: 0 };
+      if (step === 3) return { ...prev, quizStars: 0, selectedTrimester: null, quizIndex: 0, shuffledScenarioIds: [] };
       return prev;
     });
     if (step === 3) {
@@ -110,7 +195,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <GameContext.Provider value={{ ...state, setStep, packItem, saveContact, addQuizStar, resetGame, resetCurrentStep, resetStepData, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound }}>
+    <GameContext.Provider value={{ ...state, setStep, packItem, saveContact, addQuizStar, resetGame, resetCurrentStep, resetStepData, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound, setQuizState, clearQuizState }}>
       {children}
     </GameContext.Provider>
   );
