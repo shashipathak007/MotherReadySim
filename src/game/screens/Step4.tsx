@@ -45,16 +45,16 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
   }
 
   const handleShare = async () => {
-    try {
-      await Share.share({
-        message: isNe 
-          ? `म Aama Ready खेलेर "${badgeMsg}" पाएँ! तपाईं पनि खेलेर हेर्नुहोस्।`
-          : `I just completed the Aama Ready journey and I am ${badgeMsg}! Play the game to test your pregnancy preparedness in Nepal.`,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  try {
+    await Share.share({
+      message: isNe 
+        ? `मैले Aama Ready खेलेर "${badgeMsg}" हासिल गरेँ! तपाईं पनि खेल्नुस् र आफ्नो तयारी जाँच्नुस्।`
+        : `I just completed the Aama Ready journey and earned "${badgeMsg}"! Try the game and test your pregnancy preparedness in Nepal.`,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   const handleReplay = () => {
     resetGame();

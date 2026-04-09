@@ -19,8 +19,34 @@ import { Scenario } from '../../data/firstTrimesterScenarios';
 import { FIRST_TRIMESTER_SCENARIOS } from '../../data/firstTrimesterScenarios';
 import { SECOND_TRIMESTER_SCENARIOS } from '../../data/secondTrimesterScenarios';
 import { THIRD_TRIMESTER_SCENARIOS } from '../../data/thirdTrimesterScenarios';
+import { TrimesterKey } from '../context/GameContext';
 
-type TrimesterKey = '1st' | '2nd' | '3rd';
+/** Fisher-Yates shuffle (returns a new array) */
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/** Shuffle scenarios AND shuffle options within each scenario */
+function shuffleScenarios(scenarios: Scenario[]): Scenario[] {
+  return shuffle(scenarios).map((s) => ({
+    ...s,
+    options: shuffle(s.options),
+  }));
+}
+
+/** Re-order scenarios by a saved list of IDs, and shuffle options within each */
+function reorderByIds(scenarios: Scenario[], ids: number[]): Scenario[] {
+  const map = new Map(scenarios.map((s) => [s.id, s]));
+  return ids
+    .map((id) => map.get(id))
+    .filter(Boolean)
+    .map((s) => ({ ...s!, options: shuffle(s!.options) }));
+}
 
 interface TrimesterInfo {
   key: TrimesterKey;
@@ -70,16 +96,37 @@ const { width: SCREEN_W } = Dimensions.get('window');
 const OPTION_LABELS = ['A', 'B', 'C', 'D', 'E', 'F'];
 
 export default function Step3({ onNextStep }: { onNextStep: () => void }) {
-  const { addQuizStar, showFeedback, clearFeedback, setQuizProgress, setCurrentWave } = useGame();
+  const {
+    addQuizStar, showFeedback, clearFeedback, setQuizProgress, setCurrentWave,
+    selectedTrimester: savedTrimester, quizIndex: savedQuizIndex, shuffledScenarioIds,
+    setQuizState, clearQuizState,
+  } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
   const { playCorrect, playIncorrect } = useGameAudio();
 
   // ── State ──
-  const [selectedTrimester, setSelectedTrimester] = useState<TrimesterKey | null>(null);
-  const [currentIdx, setCurrentIdx] = useState(0);
+  const [selectedTrimester, setSelectedTrimester] = useState<TrimesterKey | null>(savedTrimester);
+  const [currentIdx, setCurrentIdx] = useState(savedQuizIndex);
   const [selectedResult, setSelectedResult] = useState<{ isCorrect: boolean } | null>(null);
   const hasAnswered = useRef(false);
+  const [shuffledScenarios, setShuffledScenarios] = useState<Scenario[]>([]);
+  const didResume = useRef(false);
+
+  // ── Resume from saved state on mount ──
+  useEffect(() => {
+    if (didResume.current) return;
+    didResume.current = true;
+    if (savedTrimester && shuffledScenarioIds.length > 0) {
+      const tri = TRIMESTERS.find((t) => t.key === savedTrimester);
+      if (tri) {
+        setSelectedTrimester(savedTrimester);
+        setCurrentIdx(savedQuizIndex);
+        setShuffledScenarios(reorderByIds(tri.scenarios, shuffledScenarioIds));
+        setCurrentWave(isNe ? tri.labelNe : tri.label);
+      }
+    }
+  }, []);
 
   // Animation
   const shakeOffset = useSharedValue(0);
@@ -89,7 +136,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
 
   // Derived
   const trimesterInfo = TRIMESTERS.find((t) => t.key === selectedTrimester);
-  const scenarios = trimesterInfo?.scenarios ?? [];
+  const scenarios = shuffledScenarios;
   const scenario = scenarios[currentIdx];
   const totalScenarios = scenarios.length;
 
@@ -110,7 +157,14 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     hasAnswered.current = false;
     clearFeedback();
     const tri = TRIMESTERS.find((t) => t.key === key);
-    if (tri) setCurrentWave(isNe ? tri.labelNe : tri.label);
+    if (tri) {
+      setCurrentWave(isNe ? tri.labelNe : tri.label);
+      // Shuffle questions AND options each time a trimester is selected
+      const shuffled = shuffleScenarios(tri.scenarios);
+      setShuffledScenarios(shuffled);
+      // Persist the selected trimester & shuffled order
+      setQuizState(key, 0, shuffled.map((s) => s.id));
+    }
   };
 
   const handleBackToSelector = () => {
@@ -120,6 +174,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     hasAnswered.current = false;
     clearFeedback();
     setCurrentWave('');
+    clearQuizState();
   };
 
   // ── Answer handling ──
@@ -157,8 +212,15 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     hasAnswered.current = false;
     clearFeedback();
     if (currentIdx < totalScenarios - 1) {
-      setCurrentIdx((prev) => prev + 1);
+      const nextIdx = currentIdx + 1;
+      setCurrentIdx(nextIdx);
+      // Persist the progress
+      if (selectedTrimester) {
+        setQuizState(selectedTrimester, nextIdx, shuffledScenarios.map((s) => s.id));
+      }
     } else {
+      // Quiz done — clear saved quiz state
+      clearQuizState();
       onNextStep();
     }
   };
@@ -299,7 +361,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
               >
                 <Text className="text-white text-[13px] font-[800] mr-1">‹</Text>
                 <Text className="text-white text-[11px] font-[700]">
-                  {isNe ? trimesterInfo!.labelNe : trimesterInfo!.label}
+                   Change Trimester
                 </Text>
               </TouchableOpacity>
 
