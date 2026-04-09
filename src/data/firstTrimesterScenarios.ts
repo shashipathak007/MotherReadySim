@@ -18,8 +18,8 @@ export interface Scenario {
 export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   {
     id: 1,
-    title: "Scenario 1: Morning sickness at 6 weeks — what is the best thing Sita can do?",
-    titleNe: "दृश्य १: ६ हप्तामा बिहानको वाकवाकी — सीताले के गर्नु राम्रो हुन्छ?",
+    title: "Morning sickness at 6 weeks — what is the best thing Sita can do?",
+    titleNe: "६ हप्तामा बिहानको वाकवाकी — सीताले के गर्नु राम्रो हुन्छ?",
     description: "Sita is 6 weeks pregnant. Every morning she wakes up feeling very nauseous and sometimes vomits before breakfast.",
     descriptionNe: "सीता ६ हप्ताकी गर्भवती छिन्। उनी हरेक बिहान उठ्दा धेरै वाकवाकी महसुस गर्छिन् र कहिलेकाहीं नाश्ता भन्दा पहिले बान्ता गर्छिन्।",
     options: [
@@ -32,8 +32,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 2,
-    title: "Scenario 2: Why are folic acid tablets especially important in the first trimester?",
-    titleNe: "दृश्य २: पहिलो त्रैमासिकमा फोलिक एसिड चक्कीहरू किन विशेष महत्त्वपूर्ण छन्?",
+    title: "Why are folic acid tablets especially important in the first trimester?",
+    titleNe: "पहिलो त्रैमासिकमा फोलिक एसिड चक्कीहरू किन विशेष महत्त्वपूर्ण छन्?",
     description: "Puja is 8 weeks pregnant and her doctor prescribed iron and folic acid tablets. She sometimes forgets to take them.",
     descriptionNe: "पूजा ८ हप्ताकी गर्भवती छिन् र डाक्टरले उनलाई आइरन र फोलिक एसिड चक्कीहरू सिफारिस गरेका छन्। उनी कहिलेकाहीं ती खान बिर्सिन्छिन्।",
     options: [
@@ -46,8 +46,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 3,
-    title: "Scenario 3: Light spotting without pain at 10 weeks — what should Kamala do?",
-    titleNe: "दृश्य ३: १० हप्तामा दुखाइ बिना हल्का रगत देखिनु — कमलाले के गर्नुपर्छ?",
+    title: "Light spotting without pain at 10 weeks — what should Kamala do?",
+    titleNe: "१० हप्तामा दुखाइ बिना हल्का रगत देखिनु — कमलाले के गर्नुपर्छ?",
     description: "Kamala is 10 weeks pregnant. She noticed some very light pink spotting in her underwear after a long walk. She has no pain.",
     descriptionNe: "कमला १० हप्ताकी गर्भवती छिन्। लामो पैदल यात्रा पछि उनले आफ्नो भित्री लुगामा हल्का गुलाबी रगतको थोपा देखिन्। उनलाई कुनै दुखाइ छैन।",
     options: [
@@ -60,8 +60,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 4,
-    title: "Scenario 4: What is the recommendation about caffeine during pregnancy?",
-    titleNe: "दृश्य ४: गर्भावस्थामा क्याफिन (चिया/कफी) को बारेमा के सल्लाह दिइन्छ?",
+    title: "What is the recommendation about caffeine during pregnancy?",
+    titleNe: "गर्भावस्थामा क्याफिन (चिया/कफी) को बारेमा के सल्लाह दिइन्छ?",
     description: "Sunita is 7 weeks pregnant and still drinking 2 cups of tea and 1 cup of coffee every day.",
     descriptionNe: "सुनीता ७ हप्ताकी गर्भवती छिन् र अझै पनि दिनहुँ २ कप चिया र १ कप कफी पिउँछिन्।",
     options: [
@@ -74,8 +74,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 5,
-    title: "Scenario 5: Is it true that a pregnant woman needs to eat for two in the first trimester?",
-    titleNe: "दृश्य ५: के पहिलो त्रैमासिकमा गर्भवती महिलाले दुई जनाको लागि खानुपर्छ?",
+    title: "Is it true that a pregnant woman needs to eat for two in the first trimester?",
+    titleNe: "के पहिलो त्रैमासिकमा गर्भवती महिलाले दुई जनाको लागि खानुपर्छ?",
     description: "Maya is 9 weeks pregnant. Her husband suggests she should eat for two since she is now pregnant.",
     descriptionNe: "माया ९ हप्ताकी गर्भवती छिन्। उनका श्रीमानले उनलाई अब दुई जनाको लागि खानुपर्छ भन्छन्।",
     options: [
@@ -88,8 +88,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 6,
-    title: "Scenario 6: Is physical activity safe during a normal first-trimester pregnancy?",
-    titleNe: "दृश्य ६: के पहिलो त्रैमासिकमा शारीरिक क्रियाकलाप गर्नु सुरक्षित छ?",
+    title: "Is physical activity safe during a normal first-trimester pregnancy?",
+    titleNe: "के पहिलो त्रैमासिकमा शारीरिक क्रियाकलाप गर्नु सुरक्षित छ?",
     description: "Gita is 11 weeks pregnant. She is a farmer and continues doing her usual field work — walking, bending, and carrying light loads.",
     descriptionNe: "गीता ११ हप्ताकी गर्भवती छिन्। उनी किसान हुन् र आफ्नो खेतबारीको सामान्य काम जस्तै हिँड्ने, झुक्ने र हल्का भारी बोक्ने काम जारी राख्छिन्।",
     options: [
@@ -102,8 +102,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 7,
-    title: "Scenario 7: Which of these foods is genuinely unsafe during early pregnancy?",
-    titleNe: "दृश्य ७: यी मध्ये कुन खानेकुरा गर्भावस्थाको सुरुमा असुरक्षित हुन्छ?",
+    title: "Which of these foods is genuinely unsafe during early pregnancy?",
+    titleNe: "यी मध्ये कुन खानेकुरा गर्भावस्थाको सुरुमा असुरक्षित हुन्छ?",
     description: "Rina is 6 weeks pregnant and her sister advises her to stop eating papaya, pineapple, and raw eggs.",
     descriptionNe: "रिना ६ हप्ताकी गर्भवती छिन् र उनकी दिदीले उनलाई मेवा, भुइँकटहर र काँचो अण्डा खान छोड्न सल्लाह दिन्छिन्।",
     options: [
@@ -116,8 +116,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 8,
-    title: "Scenario 8: Should a healthy pregnant woman stop working in the first trimester?",
-    titleNe: "दृश्य ८: के स्वस्थ गर्भवती महिलाले पहिलो त्रैमासिकमा काम गर्न छोड्नुपर्छ?",
+    title: "Should a healthy pregnant woman stop working in the first trimester?",
+    titleNe: "के स्वस्थ गर्भवती महिलाले पहिलो त्रैमासिकमा काम गर्न छोड्नुपर्छ?",
     description: "Sarita is 8 weeks pregnant and still going to her job as a teacher every day. Her mother-in-law says she should stop working.",
     descriptionNe: "सरिता ८ हप्ताकी गर्भवती छिन् र अझै पनि हरेक दिन शिक्षिकाको रूपमा काममा जान्छिन्। उनकी सासूले उनलाई काम छोड्न भन्छिन्।",
     options: [
@@ -130,8 +130,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 9,
-    title: "Scenario 9: When should the first ANC checkup ideally happen?",
-    titleNe: "दृश्य ९: पहिलो गर्भ जाँच (ANC) आदर्श रूपमा कहिले हुनुपर्छ?",
+    title: "When should the first ANC checkup ideally happen?",
+    titleNe: "पहिलो गर्भ जाँच (ANC) आदर्श रूपमा कहिले हुनुपर्छ?",
     description: "Priya is 10 weeks pregnant and has not had her first ANC checkup yet.",
     descriptionNe: "प्रिया १० हप्ताकी गर्भवती छिन् र उनले अझैसम्म आफ्नो पहिलो गर्भ जाँच गराएकी छैनन्।",
     options: [
@@ -144,8 +144,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 10,
-    title: "Scenario 10: Why is extreme fatigue so common in the first trimester?",
-    titleNe: "दृश्य १०: पहिलो त्रैमासिकमा धेरै थकान महसुस हुनु किन सामान्य हो?",
+    title: "Why is extreme fatigue so common in the first trimester?",
+    titleNe: "पहिलो त्रैमासिकमा धेरै थकान महसुस हुनु किन सामान्य हो?",
     description: "Laxmi is 7 weeks pregnant and feeling very tired all the time, even without doing much work.",
     descriptionNe: "लक्ष्मी ७ हप्ताकी गर्भवती छिन् र धेरै काम नगर्दा पनि सधैं धेरै थकित महसुस गर्छिन्।",
     options: [
@@ -158,8 +158,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 11,
-    title: "Scenario 11: Are vivid dreams during pregnancy normal?",
-    titleNe: "दृश्य ११: के गर्भावस्थामा अनौठा र स्पष्ट सपनाहरू देख्नु सामान्य हो?",
+    title: "Are vivid dreams during pregnancy normal?",
+    titleNe: "के गर्भावस्थामा अनौठा र स्पष्ट सपनाहरू देख्नु सामान्य हो?",
     description: "Nirmala is 9 weeks pregnant. She has been having vivid and sometimes strange dreams every night.",
     descriptionNe: "निर्मला ९ हप्ताकी गर्भवती छिन्। उनले हरेक रात स्पष्ट र कहिलेकाहीं अनौठा सपनाहरू देखिरहेकी छिन्।",
     options: [
@@ -172,8 +172,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 12,
-    title: "Scenario 12: Is bleeding gums during pregnancy normal or a cause for concern?",
-    titleNe: "दृश्य १२: के गर्भावस्थामा गिजाबाट रगत बग्नु सामान्य हो कि चिन्ताको विषय हो?",
+    title: "Is bleeding gums during pregnancy normal or a cause for concern?",
+    titleNe: "के गर्भावस्थामा गिजाबाट रगत बग्नु सामान्य हो कि चिन्ताको विषय हो?",
     description: "Bindu is 11 weeks pregnant and her gums have been bleeding slightly when she brushes her teeth.",
     descriptionNe: "बिन्दु ११ हप्ताकी गर्भवती छिन् र दाँत माझ्दा उनको गिजाबाट थोरै रगत बगिरहेको छ।",
     options: [
@@ -186,8 +186,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 13,
-    title: "Scenario 13: Should Kabita continue ANC checkups if she follows traditional rituals?",
-    titleNe: "दृश्य १३: के कबिताले परम्परागत रीतिरिवाज पछ्याउँदै गर्दा पनि गर्भ जाँच (ANC) गराउनुपर्छ?",
+    title: "Should Kabita continue ANC checkups if she follows traditional rituals?",
+    titleNe: "के कबिताले परम्परागत रीतिरिवाज पछ्याउँदै गर्दा पनि गर्भ जाँच (ANC) गराउनुपर्छ?",
     description: "Kabita is 8 weeks pregnant and her family is advising her to visit a local faith healer and follow specific rituals.",
     descriptionNe: "कबिता ८ हप्ताकी गर्भवती छिन् र उनको परिवारले उनलाई स्थानीय धामीझाँक्रीकहाँ जान र विशेष अनुष्ठानहरू गर्न सल्लाह दिइरहेका छन्।",
     options: [
@@ -200,8 +200,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 14,
-    title: "Scenario 14: Are herbal teas and traditional mixtures safe during the first trimester?",
-    titleNe: "दृश्य १४: के पहिलो त्रैमासिकमा जडीबुटीका चिया र परम्परागत मिश्रणहरू सुरक्षित छन्?",
+    title: "Are herbal teas and traditional mixtures safe during the first trimester?",
+    titleNe: "के पहिलो त्रैमासिकमा जडीबुटीका चिया र परम्परागत मिश्रणहरू सुरक्षित छन्?",
     description: "Deepa is 10 weeks pregnant and has been told by her mother to drink special herbal mixtures from the village.",
     descriptionNe: "दीपा १० हप्ताकी गर्भवती छिन् र उनकी आमाले उनलाई गाउँको विशेष जडीबुटीको मिश्रण पिउन भन्नुभएको छ।",
     options: [
@@ -214,8 +214,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 15,
-    title: "Scenario 15: What is the main purpose of the first ultrasound (dating scan) at 11–13 weeks?",
-    titleNe: "दृश्य १५: ११–१३ हप्तामा गरिने पहिलो भिडियो एक्सरे (Ultrasound) को मुख्य उद्देश्य के हो?",
+    title: "What is the main purpose of the first ultrasound (dating scan) at 11–13 weeks?",
+    titleNe: "११–१३ हप्तामा गरिने पहिलो भिडियो एक्सरे (Ultrasound) को मुख्य उद्देश्य के हो?",
     description: "Suna is 12 weeks pregnant and just had her first ultrasound. The report says the baby is the right size for 12 weeks.",
     descriptionNe: "सुना १२ हप्ताकी गर्भवती छिन् र उनले भर्खरै पहिलो भिडियो एक्सरे गराएकी छिन्। रिपोर्टले बच्चा १२ हप्ताको लागि सही आकारको रहेको देखाउँछ।",
     options: [
@@ -228,8 +228,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 16,
-    title: "Scenario 16: What is the effect of smoking and secondhand smoke during the first trimester?",
-    titleNe: "दृश्य १६: पहिलो त्रैमासिकमा धुम्रपान र अरूले गरेको धुवाँ (secondhand smoke) को के असर हुन्छ?",
+    title: "What is the effect of smoking and secondhand smoke during the first trimester?",
+    titleNe: "पहिलो त्रैमासिकमा धुम्रपान र अरूले गरेको धुवाँ (secondhand smoke) को के असर हुन्छ?",
     description: "Durga is 9 weeks pregnant and still smoking occasionally. Her husband also smokes inside the house.",
     descriptionNe: "दुर्गा ९ हप्ताकी गर्भवती छिन् र अझै पनि कहिलेकाहीं धुम्रपान गर्छिन्। उनका श्रीमान पनि घर भित्रै चुरोट पिउँछन्।",
     options: [
@@ -242,8 +242,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 17,
-    title: "Scenario 17: Should iron tablets be taken every day or only when you feel tired?",
-    titleNe: "दृश्य १७: आइरन चक्कीहरू हरेक दिन खानुपर्छ कि थकित महसुस हुँदा मात्र?",
+    title: "Should iron tablets be taken every day or only when you feel tired?",
+    titleNe: "आइरन चक्कीहरू हरेक दिन खानुपर्छ कि थकित महसुस हुँदा मात्र?",
     description: "Anita is 11 weeks pregnant and is thinking about whether she needs to take her iron tablets every day or only when she feels tired.",
     descriptionNe: "अनिता ११ हप्ताकी गर्भवती छिन् र उनले आइरन चक्की हरेक दिन खानुपर्छ कि थकित महसुस हुँदा मात्र भनेर सोच्दै छिन्।",
     options: [
@@ -256,8 +256,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 18,
-    title: "Scenario 18: Why do many cultures advise waiting until after 3 months to announce a pregnancy?",
-    titleNe: "दृश्य १८: धेरै संस्कृतिहरूमा किन ३ महिना पछि मात्र गर्भवती भएको कुरा सुनाउन सल्लाह दिइन्छ?",
+    title: "Why do many cultures advise waiting until after 3 months to announce a pregnancy?",
+    titleNe: "धेरै संस्कृतिहरूमा किन ३ महिना पछि मात्र गर्भवती भएको कुरा सुनाउन सल्लाह दिइन्छ?",
     description: "Rita is 8 weeks pregnant and has been told she should not tell anyone about the pregnancy until after 3 months.",
     descriptionNe: "रीता ८ हप्ताकी गर्भवती छिन् र उनलाई ३ महिना नपुग्दासम्म कसैलाई पनि यसबारे नभन्न भनिएको छ।",
     options: [
@@ -270,8 +270,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 19,
-    title: "Scenario 19: What is the best sleeping position in the first trimester?",
-    titleNe: "दृश्य १९: पहिलो त्रैमासिकमा सुत्ने उत्तम तरिका कुन हो?",
+    title: "What is the best sleeping position in the first trimester?",
+    titleNe: "पहिलो त्रैमासिकमा सुत्ने उत्तम तरिका कुन हो?",
     description: "Mina is 10 weeks pregnant and has not been sleeping well because she cannot find a comfortable sleeping position.",
     descriptionNe: "मिना १० हप्ताकी गर्भवती छिन् र उनले सुत्ने सजिलो तरिका नपाएर राम्ररी सुत्न सकिरहेकी छैनन्।",
     options: [
@@ -284,8 +284,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 20,
-    title: "Scenario 20: Is mild weight loss in the first trimester due to morning sickness concerning?",
-    titleNe: "दृश्य २०: के बिहानको वाकवाकीका कारण सुरुमा थोरै तौल घट्नु चिन्ताको विषय हो?",
+    title: "Is mild weight loss in the first trimester due to morning sickness concerning?",
+    titleNe: "के बिहानको वाकवाकीका कारण सुरुमा थोरै तौल घट्नु चिन्ताको विषय हो?",
     description: "Sangita is 7 weeks pregnant and her husband is worried because she has lost 1kg of weight due to nausea and reduced eating.",
     descriptionNe: "संगीता ७ हप्ताकी गर्भवती छिन्। वाकवाकी र कम खानपानका कारण उनकी १ किलो तौल घटेकोले उनका श्रीमान चिन्तित हुनुहुन्छ।",
     options: [

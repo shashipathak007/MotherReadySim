@@ -3,8 +3,8 @@ import { Scenario } from './firstTrimesterScenarios';
 export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   {
     id: 1,
-    title: "Scenario 1: What is a kick count and why is it recommended from the third trimester?",
-    titleNe: "दृश्य १: किक काउन्ट के हो र तेस्रो त्रैमासिकदेखि किन सिफारिस गरिन्छ?",
+    title: "What is a kick count and why is it recommended from the third trimester?",
+    titleNe: "किक काउन्ट के हो र तेस्रो त्रैमासिकदेखि किन सिफारिस गरिन्छ?",
     description: "Sunita is 30 weeks pregnant. Her doctor says she needs to do a kick count daily.",
     descriptionNe: "सुनिता ३० हप्ताकी गर्भवती छिन्। डाक्टरले उनलाई दैनिक किक काउन्ट गर्न भन्नुभयो।",
     options: [
@@ -17,8 +17,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 2,
-    title: "Scenario 2: What is causing the burning sensation in Puja's chest and throat?",
-    titleNe: "दृश्य २: पूजाको छाती र घाँटीमा जलन किन भइरहेको छ?",
+    title: "What is causing the burning sensation in Puja's chest and throat?",
+    titleNe: "पूजाको छाती र घाँटीमा जलन किन भइरहेको छ?",
     description: "Puja is 32 weeks pregnant and feels burning in her chest and throat after eating.",
     descriptionNe: "पूजा ३२ हप्ताकी गर्भवती छिन् र खाना खाएपछि छाती र घाँटीमा जलन महसुस गर्छिन्।",
     options: [
@@ -31,8 +31,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 3,
-    title: "Scenario 3: Why is a head-down position preferred for delivery?",
-    titleNe: "दृश्य ३: प्रसूतिका लागि टाउको तल किन उत्तम हुन्छ?",
+    title: "Why is a head-down position preferred for delivery?",
+    titleNe: "प्रसूतिका लागि टाउको तल किन उत्तम हुन्छ?",
     description: "Kamala is 34 weeks pregnant and is told the baby is in a cephalic (head-down) position.",
     descriptionNe: "कमला ३४ हप्ताकी गर्भवती छिन् र बच्चा सेफालिक (टाउको तल) अवस्थामा छ भनिएको छ।",
     options: [
@@ -45,8 +45,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 4,
-    title: "Scenario 4: What is lightening and what does it mean in late pregnancy?",
-    titleNe: "दृश्य ४: लाइटनिङ के हो र गर्भावस्थाको अन्तिम समयमा यसको अर्थ के हो?",
+    title: "What is lightening and what does it mean in late pregnancy?",
+    titleNe: "लाइटनिङ के हो र गर्भावस्थाको अन्तिम समयमा यसको अर्थ के हो?",
     description: "Bindu is 36 weeks pregnant and feels the baby has dropped lower. She can breathe more easily but needs to urinate more often.",
     descriptionNe: "बिन्दु ३६ हप्ताकी गर्भवती छिन् र बच्चा तल झरेको महसुस गर्छिन्। सास फेर्न सजिलो छ तर बारम्बार पिसाब लाग्छ।",
     options: [
@@ -59,8 +59,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 5,
-    title: "Scenario 5: Do any of these methods safely and reliably induce labour?",
-    titleNe: "दृश्य ५: के यी मध्ये कुनै विधिले सुरक्षित रूपमा प्रसव पीडा ल्याउँछ?",
+    title: "Do any of these methods safely and reliably induce labour?",
+    titleNe: "के यी मध्ये कुनै विधिले सुरक्षित रूपमा प्रसव पीडा ल्याउँछ?",
     description: "Rita is 38 weeks pregnant. A family member advises her to eat spicy food, go on long walks, and drink castor oil to bring on labour faster.",
     descriptionNe: "रिता ३८ हप्ताकी गर्भवती छिन्। परिवारका सदस्यले प्रसव चाँडो ल्याउन पिरो खाना, लामो हिँडाइ, र अरण्डीको तेल पिउन सल्लाह दिनुभयो।",
     options: [
@@ -73,8 +73,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 6,
-    title: "Scenario 6: Is GBS in the vagina during pregnancy dangerous for the mother?",
-    titleNe: "दृश्य ६: के गर्भावस्थामा GBS ब्याक्टेरिया आमाको लागि खतरनाक छ?",
+    title: "Is GBS in the vagina during pregnancy dangerous for the mother?",
+    titleNe: "के गर्भावस्थामा GBS ब्याक्टेरिया आमाको लागि खतरनाक छ?",
     description: "Nirmala is 35 weeks pregnant and is told she has Group B Streptococcus (GBS) bacteria.",
     descriptionNe: "निर्मला ३५ हप्ताकी गर्भवती छिन् र उनमा ग्रुप B स्ट्रेप्टोकोकस (GBS) ब्याक्टेरिया भेटिएको छ।",
     options: [
@@ -87,8 +87,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 7,
-    title: "Scenario 7: How often should ANC visits happen in the third trimester?",
-    titleNe: "दृश्य ७: तेस्रो त्रैमासिकमा ANC भ्रमण कति पटक हुनुपर्छ?",
+    title: "How often should ANC visits happen in the third trimester?",
+    titleNe: "तेस्रो त्रैमासिकमा ANC भ्रमण कति पटक हुनुपर्छ?",
     description: "Gita is 33 weeks pregnant and asks how often she should attend ANC visits in the third trimester.",
     descriptionNe: "गीता ३३ हप्ताकी गर्भवती छिन् र तेस्रो त्रैमासिकमा कति पटक ANC जाँच गर्ने भनेर सोध्छिन्।",
     options: [
@@ -101,8 +101,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 8,
-    title: "Scenario 8: What is this discharge Anita is noticing?",
-    titleNe: "दृश्य ८: अनिताले देखिरहेको यो स्राव के हो?",
+    title: "What is this discharge Anita is noticing?",
+    titleNe: "अनिताले देखिरहेको यो स्राव के हो?",
     description: "Anita is 37 weeks pregnant. She has been losing small amounts of thick mucus with some blood streaking.",
     descriptionNe: "अनिता ३७ हप्ताकी गर्भवती छिन्। उनलाई थोरै मात्रामा बाक्लो म्यूकस र रगतको धर्को आइरहेको छ।",
     options: [
@@ -115,8 +115,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 9,
-    title: "Scenario 9: What is the most helpful way to manage anxiety about labour pain?",
-    titleNe: "दृश्य ९: प्रसव पीडाको चिन्ता व्यवस्थापन गर्ने सबैभन्दा सहयोगी तरिका के हो?",
+    title: "What is the most helpful way to manage anxiety about labour pain?",
+    titleNe: "प्रसव पीडाको चिन्ता व्यवस्थापन गर्ने सबैभन्दा सहयोगी तरिका के हो?",
     description: "Sima is 39 weeks pregnant and is feeling very anxious about the pain of labour.",
     descriptionNe: "सिमा ३९ हप्ताकी गर्भवती छिन् र प्रसव पीडाको बारेमा धेरै चिन्तित छिन्।",
     options: [
@@ -129,8 +129,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 10,
-    title: "Scenario 10: When should the hospital bag be fully packed and ready?",
-    titleNe: "दृश्य १०: अस्पतालको झोला कहिलेसम्म पूरा तयार हुनुपर्छ?",
+    title: "When should the hospital bag be fully packed and ready?",
+    titleNe: "अस्पतालको झोला कहिलेसम्म पूरा तयार हुनुपर्छ?",
     description: "Maya is 31 weeks pregnant and wants to know when she should prepare her hospital bag.",
     descriptionNe: "माया ३१ हप्ताकी गर्भवती छिन् र अस्पतालको झोला कहिले तयार गर्ने भनेर जान्न चाहन्छिन्।",
     options: [
@@ -143,8 +143,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 11,
-    title: "Scenario 11: Why does shortness of breath become more noticeable from the third trimester?",
-    titleNe: "दृश्य ११: तेस्रो त्रैमासिकदेखि सास फेर्न किन गाह्रो हुन्छ?",
+    title: "Why does shortness of breath become more noticeable from the third trimester?",
+    titleNe: "तेस्रो त्रैमासिकदेखि सास फेर्न किन गाह्रो हुन्छ?",
     description: "Devi is 28 weeks pregnant and starts to feel shortness of breath when climbing stairs.",
     descriptionNe: "देवी २८ हप्ताकी गर्भवती छिन् र भर्‍याङ चढ्दा सास फेर्न गाह्रो हुन थालेको छ।",
     options: [
@@ -157,8 +157,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 12,
-    title: "Scenario 12: Why is the Tdap or TT vaccine recommended during the third trimester?",
-    titleNe: "दृश्य १२: तेस्रो त्रैमासिकमा Tdap वा TT खोप किन सिफारिस गरिन्छ?",
+    title: "Why is the Tdap or TT vaccine recommended during the third trimester?",
+    titleNe: "तेस्रो त्रैमासिकमा Tdap वा TT खोप किन सिफारिस गरिन्छ?",
     description: "Parbati is 34 weeks pregnant. Her doctor prescribed a Tdap or TT vaccine during this visit.",
     descriptionNe: "पार्बती ३४ हप्ताकी गर्भवती छिन्। डाक्टरले यस भ्रमणमा Tdap वा TT खोप दिनुभयो।",
     options: [
@@ -171,8 +171,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 13,
-    title: "Scenario 13: Is swelling that comes and goes daily in the third trimester normal?",
-    titleNe: "दृश्य १३: तेस्रो त्रैमासिकमा दैनिक आउने-जाने सुन्निने सामान्य हो?",
+    title: "Is swelling that comes and goes daily in the third trimester normal?",
+    titleNe: "तेस्रो त्रैमासिकमा दैनिक आउने-जाने सुन्निने सामान्य हो?",
     description: "Hira is 30 weeks pregnant and her feet and ankles are visibly swollen by evening but the swelling goes away by morning.",
     descriptionNe: "हिरा ३० हप्ताकी गर्भवती छिन् र साँझसम्म खुट्टा र गोली देखिने गरी सुन्निन्छ तर बिहानसम्म हराउँछ।",
     options: [
@@ -185,8 +185,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 14,
-    title: "Scenario 14: What is the glucose tolerance test checking for?",
-    titleNe: "दृश्य १४: ग्लुकोज सहनशीलता परीक्षणले के जाँच गर्छ?",
+    title: "What is the glucose tolerance test checking for?",
+    titleNe: "ग्लुकोज सहनशीलता परीक्षणले के जाँच गर्छ?",
     description: "Laxmi is 29 weeks pregnant and has been told to have a glucose tolerance test done this week.",
     descriptionNe: "लक्ष्मी २९ हप्ताकी गर्भवती छिन् र यो हप्ता ग्लुकोज सहनशीलता परीक्षण गर्न भनिएको छ।",
     options: [
@@ -199,8 +199,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 15,
-    title: "Scenario 15: Is it safe to request early induction of labour without a medical reason?",
-    titleNe: "दृश्य १५: चिकित्सकीय कारण बिना चाँडो प्रसव प्रेरण माग्न सुरक्षित छ?",
+    title: "Is it safe to request early induction of labour without a medical reason?",
+    titleNe: "चिकित्सकीय कारण बिना चाँडो प्रसव प्रेरण माग्न सुरक्षित छ?",
     description: "Kabita is 38 weeks pregnant and asks whether she should request early induction of labour.",
     descriptionNe: "कबिता ३८ हप्ताकी गर्भवती छिन् र चाँडो प्रसव प्रेरण माग्ने कि भनेर सोध्छिन्।",
     options: [
@@ -213,8 +213,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 16,
-    title: "Scenario 16: What is the most practical preparation when the husband works away from home?",
-    titleNe: "दृश्य १६: श्रीमान घरबाट टाढा काम गर्दा सबैभन्दा व्यावहारिक तयारी के हो?",
+    title: "What is the most practical preparation when the husband works away from home?",
+    titleNe: "श्रीमान घरबाट टाढा काम गर्दा सबैभन्दा व्यावहारिक तयारी के हो?",
     description: "Sarita is 32 weeks pregnant and her husband works away from home. She is worried about being alone when labour starts.",
     descriptionNe: "सरिता ३२ हप्ताकी गर्भवती छिन् र उनका श्रीमान घरबाट टाढा काम गर्नुहुन्छ। प्रसव पीडा सुरु हुँदा एक्लै हुने कुरामा उनी चिन्तित छिन्।",
     options: [
@@ -227,8 +227,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 17,
-    title: "Scenario 17: Is it normal to still be pregnant at 40 weeks and beyond?",
-    titleNe: "दृश्य १७: ४० हप्ता र त्यसभन्दा बढीमा अझै गर्भवती हुनु सामान्य हो?",
+    title: "Is it normal to still be pregnant at 40 weeks and beyond?",
+    titleNe: "४० हप्ता र त्यसभन्दा बढीमा अझै गर्भवती हुनु सामान्य हो?",
     description: "Deepa is 40 weeks pregnant and has not gone into labour yet. Her family is pushing her to go to hospital immediately.",
     descriptionNe: "दीपा ४० हप्ताकी गर्भवती छिन् र अझै प्रसव पीडा सुरु भएको छैन। परिवारले तुरुन्तै अस्पताल जान भनिरहेको छ।",
     options: [
@@ -241,8 +241,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 18,
-    title: "Scenario 18: What is the recommended sleeping position in the third trimester?",
-    titleNe: "दृश्य १८: तेस्रो त्रैमासिकमा सिफारिस गरिएको सुत्ने स्थिति के हो?",
+    title: "What is the recommended sleeping position in the third trimester?",
+    titleNe: "तेस्रो त्रैमासिकमा सिफारिस गरिएको सुत्ने स्थिति के हो?",
     description: "Rina is 35 weeks pregnant and asks if she should still be sleeping on her back.",
     descriptionNe: "रिना ३५ हप्ताकी गर्भवती छिन् र उनी अझै ढाडमा सुत्नुपर्छ कि भनेर सोध्छिन्।",
     options: [
@@ -255,8 +255,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 19,
-    title: "Scenario 19: What is a birth plan and is it useful?",
-    titleNe: "दृश्य १९: जन्म योजना के हो र यो उपयोगी छ?",
+    title: "What is a birth plan and is it useful?",
+    titleNe: "जन्म योजना के हो र यो उपयोगी छ?",
     description: "Mina is 37 weeks pregnant and asks if she should prepare a birth plan.",
     descriptionNe: "मिना ३७ हप्ताकी गर्भवती छिन् र जन्म योजना बनाउनुपर्छ कि भनेर सोध्छिन्।",
     options: [
@@ -269,8 +269,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 20,
-    title: "Scenario 20: How do nutritional needs change in the third trimester?",
-    titleNe: "दृश्य २०: तेस्रो त्रैमासिकमा पोषणको आवश्यकता कसरी परिवर्तन हुन्छ?",
+    title: "How do nutritional needs change in the third trimester?",
+    titleNe: "तेस्रो त्रैमासिकमा पोषणको आवश्यकता कसरी परिवर्तन हुन्छ?",
     description: "Sunita is 28 weeks pregnant and asks what she should eat differently in the third trimester.",
     descriptionNe: "सुनिता २८ हप्ताकी गर्भवती छिन् र तेस्रो त्रैमासिकमा के फरक खानुपर्छ भनेर सोध्छिन्।",
     options: [

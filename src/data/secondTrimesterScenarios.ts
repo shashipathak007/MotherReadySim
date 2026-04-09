@@ -3,8 +3,8 @@ import { Scenario } from './firstTrimesterScenarios';
 export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   {
     id: 1,
-    title: "Scenario 1: What does a haemoglobin of 9.5 mean for a pregnant woman?",
-    titleNe: "दृश्य १: गर्भवती महिलाको लागि हेमोग्लोबिन ९.५ को अर्थ के हो?",
+    title: "What does a haemoglobin of 9.5 mean for a pregnant woman?",
+    titleNe: "गर्भवती महिलाको लागि हेमोग्लोबिन ९.५ को अर्थ के हो?",
     description: "Sima is 16 weeks pregnant and was told her haemoglobin is 9.5 g/dL at her ANC checkup.",
     descriptionNe: "सिमा १६ हप्ताकी गर्भवती छिन् र ANC जाँचमा उनको हेमोग्लोबिन ९.५ g/dL भेटियो।",
     options: [
@@ -17,8 +17,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 2,
-    title: "Scenario 2: What is this fluttering sensation Kamala is feeling?",
-    titleNe: "दृश्य २: कमलाले महसुस गरिरहेको यो फरफराहट के हो?",
+    title: "What is this fluttering sensation Kamala is feeling?",
+    titleNe: "कमलाले महसुस गरिरहेको यो फरफराहट के हो?",
     description: "Kamala is 18 weeks pregnant and feels something like a butterfly flutter in her belly.",
     descriptionNe: "कमला १८ हप्ताकी गर्भवती छिन् र उनको पेटमा पुतली फरफराउने जस्तो महसुस भइरहेको छ।",
     options: [
@@ -31,8 +31,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 3,
-    title: "Scenario 3: What does a low-lying placenta at 20 weeks mean?",
-    titleNe: "दृश्य ३: २० हप्तामा तल्लो प्लेसेन्टाको अर्थ के हो?",
+    title: "What does a low-lying placenta at 20 weeks mean?",
+    titleNe: "२० हप्तामा तल्लो प्लेसेन्टाको अर्थ के हो?",
     description: "Priya is 20 weeks pregnant and her anomaly scan shows the placenta is positioned low but the doctor said to recheck at 32 weeks.",
     descriptionNe: "प्रिया २० हप्ताकी गर्भवती छिन् र अल्ट्रासाउन्डमा प्लेसेन्टा तल देखियो तर डाक्टरले ३२ हप्तामा फेरि जाँच गर्न भन्नुभयो।",
     options: [
@@ -45,8 +45,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 4,
-    title: "Scenario 4: Why is lower back pain common in the second trimester and what helps?",
-    titleNe: "दृश्य ४: दोस्रो त्रैमासिकमा कम्मर दुखाइ किन सामान्य छ र के ले मद्दत गर्छ?",
+    title: "Why is lower back pain common in the second trimester and what helps?",
+    titleNe: "दोस्रो त्रैमासिकमा कम्मर दुखाइ किन सामान्य छ र के ले मद्दत गर्छ?",
     description: "Sunita is 22 weeks pregnant and has lower back pain after standing for long periods at her market stall.",
     descriptionNe: "सुनिता २२ हप्ताकी गर्भवती छिन् र बजारमा लामो समय उभिएपछि उनको कम्मर दुख्छ।",
     options: [
@@ -59,8 +59,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 5,
-    title: "Scenario 5: Does eating extra ghee make the baby's skin fairer or delivery easier?",
-    titleNe: "दृश्य ५: के धेरै घिउ खाँदा बच्चाको छाला गोरो वा प्रसूति सजिलो हुन्छ?",
+    title: "Does eating extra ghee make the baby's skin fairer or delivery easier?",
+    titleNe: "के धेरै घिउ खाँदा बच्चाको छाला गोरो वा प्रसूति सजिलो हुन्छ?",
     description: "Nisha is 24 weeks pregnant. Her mother-in-law advises her to eat a lot of ghee to make the baby's skin fair and delivery easier.",
     descriptionNe: "निशा २४ हप्ताकी गर्भवती छिन्। उनकी सासूले बच्चाको छाला गोरो र प्रसूति सजिलो बनाउन धेरै घिउ खान सल्लाह दिनुभयो।",
     options: [
@@ -73,8 +73,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 6,
-    title: "Scenario 6: Why is blood group compatibility important during pregnancy?",
-    titleNe: "दृश्य ६: गर्भावस्थामा रक्त समूह अनुकूलता किन महत्त्वपूर्ण छ?",
+    title: "Why is blood group compatibility important during pregnancy?",
+    titleNe: "गर्भावस्थामा रक्त समूह अनुकूलता किन महत्त्वपूर्ण छ?",
     description: "Mina is 19 weeks pregnant and her husband asks why they need to know the blood group of both parents.",
     descriptionNe: "मिना १९ हप्ताकी गर्भवती छिन् र उनका श्रीमानले दुबैको रक्त समूह किन चाहिन्छ भनेर सोध्नुभयो।",
     options: [
@@ -87,8 +87,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 7,
-    title: "Scenario 7: Why do pregnant women feel more emotionally sensitive?",
-    titleNe: "दृश्य ७: गर्भवती महिलाहरू भावनात्मक रूपमा किन बढी संवेदनशील हुन्छन्?",
+    title: "Why do pregnant women feel more emotionally sensitive?",
+    titleNe: "गर्भवती महिलाहरू भावनात्मक रूपमा किन बढी संवेदनशील हुन्छन्?",
     description: "Anita is 21 weeks pregnant and feels more emotional than usual — crying at small things.",
     descriptionNe: "अनिता २१ हप्ताकी गर्भवती छिन् र सानातिना कुरामा रुन्छिन् — सामान्यभन्दा बढी भावुक छिन्।",
     options: [
@@ -101,8 +101,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 8,
-    title: "Scenario 8: What does fundal height measurement tell the health worker?",
-    titleNe: "दृश्य ८: गर्भाशयको उचाइ मापनले स्वास्थ्यकर्मीलाई के बताउँछ?",
+    title: "What does fundal height measurement tell the health worker?",
+    titleNe: "गर्भाशयको उचाइ मापनले स्वास्थ्यकर्मीलाई के बताउँछ?",
     description: "Parbati is 23 weeks pregnant and the nurse measures her fundal height at 23 cm.",
     descriptionNe: "पार्बती २३ हप्ताकी गर्भवती छिन् र नर्सले उनको गर्भाशयको उचाइ २३ से.मि. नाप्नुभयो।",
     options: [
@@ -115,8 +115,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 9,
-    title: "Scenario 9: Is painting a room safe during the second trimester?",
-    titleNe: "दृश्य ९: के दोस्रो त्रैमासिकमा कोठा रंग्न सुरक्षित छ?",
+    title: "Is painting a room safe during the second trimester?",
+    titleNe: "के दोस्रो त्रैमासिकमा कोठा रंग्न सुरक्षित छ?",
     description: "Devi is 25 weeks pregnant and wants to paint the baby's room. She asks if painting is safe.",
     descriptionNe: "देवी २५ हप्ताकी गर्भवती छिन् र बच्चाको कोठा रंग्न चाहन्छिन्। उनले सोध्छिन् कि रंग लगाउन सुरक्षित छ कि छैन।",
     options: [
@@ -129,8 +129,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 10,
-    title: "Scenario 10: What commonly causes leg cramps during pregnancy?",
-    titleNe: "दृश्य १०: गर्भावस्थामा खुट्टा कमाउनुको सामान्य कारण के हो?",
+    title: "What commonly causes leg cramps during pregnancy?",
+    titleNe: "गर्भावस्थामा खुट्टा कमाउनुको सामान्य कारण के हो?",
     description: "Bindu is 17 weeks pregnant and has been getting leg cramps at night.",
     descriptionNe: "बिन्दु १७ हप्ताकी गर्भवती छिन् र रातमा उनको खुट्टा कमाउँछ।",
     options: [
@@ -143,8 +143,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 11,
-    title: "Scenario 11: What is the glucose screening test checking for?",
-    titleNe: "दृश्य ११: ग्लुकोज स्क्रिनिङ परीक्षणले के जाँच गर्छ?",
+    title: "What is the glucose screening test checking for?",
+    titleNe: "ग्लुकोज स्क्रिनिङ परीक्षणले के जाँच गर्छ?",
     description: "Gita is 20 weeks pregnant and told she needs a glucose screening test at 24–28 weeks.",
     descriptionNe: "गीता २० हप्ताकी गर्भवती छिन् र उनलाई २४–२८ हप्तामा ग्लुकोज स्क्रिनिङ टेस्ट गर्नुपर्छ भनिएको छ।",
     options: [
@@ -157,8 +157,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 12,
-    title: "Scenario 12: Is there any medical concern about a pregnant woman attending a funeral?",
-    titleNe: "दृश्य १२: गर्भवती महिलाले अन्त्येष्टिमा जानु चिकित्सकीय रूपमा चिन्ताजनक छ?",
+    title: "Is there any medical concern about a pregnant woman attending a funeral?",
+    titleNe: "गर्भवती महिलाले अन्त्येष्टिमा जानु चिकित्सकीय रूपमा चिन्ताजनक छ?",
     description: "Rita is 22 weeks pregnant and her family says she should not attend funerals during pregnancy.",
     descriptionNe: "रिता २२ हप्ताकी गर्भवती छिन् र उनको परिवारले गर्भावस्थामा अन्त्येष्टिमा नजान भन्छ।",
     options: [
@@ -171,8 +171,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 13,
-    title: "Scenario 13: Should Laxmi be worried about breech position at 26 weeks?",
-    titleNe: "दृश्य १३: के लक्ष्मीले २६ हप्तामा ब्रीच अवस्थाबारे चिन्ता लिनुपर्छ?",
+    title: "Should Laxmi be worried about breech position at 26 weeks?",
+    titleNe: "के लक्ष्मीले २६ हप्तामा ब्रीच अवस्थाबारे चिन्ता लिनुपर्छ?",
     description: "Laxmi is 26 weeks pregnant and is told the baby is in a breech position.",
     descriptionNe: "लक्ष्मी २६ हप्ताकी गर्भवती छिन् र बच्चा ब्रीच (उल्टो) अवस्थामा छ भनिएको छ।",
     options: [
@@ -185,8 +185,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 14,
-    title: "Scenario 14: What is the dark line on the belly and is it normal?",
-    titleNe: "दृश्य १४: पेटमा देखिएको कालो रेखा के हो र यो सामान्य हो?",
+    title: "What is the dark line on the belly and is it normal?",
+    titleNe: "पेटमा देखिएको कालो रेखा के हो र यो सामान्य हो?",
     description: "Sarita is 18 weeks pregnant and notices a dark vertical line appearing on her belly.",
     descriptionNe: "सरिता १८ हप्ताकी गर्भवती छिन् र उनको पेटमा ठाडो कालो रेखा देखिन थालेको छ।",
     options: [
@@ -199,8 +199,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 15,
-    title: "Scenario 15: What is perineal massage and when is it recommended?",
-    titleNe: "दृश्य १५: पेरिनियल मसाज के हो र कहिले सिफारिस गरिन्छ?",
+    title: "What is perineal massage and when is it recommended?",
+    titleNe: "पेरिनियल मसाज के हो र कहिले सिफारिस गरिन्छ?",
     description: "Deepa is 24 weeks pregnant and has been told to start doing perineal massage to prepare for delivery.",
     descriptionNe: "दीपा २४ हप्ताकी गर्भवती छिन् र प्रसूतिको तयारीका लागि पेरिनियल मसाज सुरु गर्न भनिएको छ।",
     options: [
@@ -213,8 +213,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 16,
-    title: "Scenario 16: How important is calcium during the second trimester?",
-    titleNe: "दृश्य १६: दोस्रो त्रैमासिकमा क्याल्सियम कत्तिको महत्त्वपूर्ण छ?",
+    title: "How important is calcium during the second trimester?",
+    titleNe: "दोस्रो त्रैमासिकमा क्याल्सियम कत्तिको महत्त्वपूर्ण छ?",
     description: "Kabita is 19 weeks pregnant and her neighbour says she should drink a lot of milk to ensure the baby has strong bones.",
     descriptionNe: "कबिता १९ हप्ताकी गर्भवती छिन् र छिमेकीले बच्चाको हड्डी बलियो बनाउन धेरै दूध पिउन भन्छिन्।",
     options: [
@@ -227,8 +227,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 17,
-    title: "Scenario 17: Is long-distance vehicle travel safe at 23 weeks?",
-    titleNe: "दृश्य १७: के २३ हप्तामा लामो दूरीको सवारी यात्रा सुरक्षित छ?",
+    title: "Is long-distance vehicle travel safe at 23 weeks?",
+    titleNe: "के २३ हप्तामा लामो दूरीको सवारी यात्रा सुरक्षित छ?",
     description: "Hira is 23 weeks pregnant and asks if she can travel in a vehicle for 3 hours to visit her mother.",
     descriptionNe: "हिरा २३ हप्ताकी गर्भवती छिन् र आमालाई भेट्न ३ घण्टा सवारीमा यात्रा गर्न सक्छिन् कि भनेर सोध्छिन्।",
     options: [
@@ -241,8 +241,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 18,
-    title: "Scenario 18: Is sexual intercourse safe during a normal second-trimester pregnancy?",
-    titleNe: "दृश्य १८: सामान्य दोस्रो त्रैमासिकमा शारीरिक सम्बन्ध सुरक्षित छ?",
+    title: "Is sexual intercourse safe during a normal second-trimester pregnancy?",
+    titleNe: "सामान्य दोस्रो त्रैमासिकमा शारीरिक सम्बन्ध सुरक्षित छ?",
     description: "Puja is 25 weeks pregnant and her partner wants to know if it is safe to continue having intimate relations during pregnancy.",
     descriptionNe: "पूजा २५ हप्ताकी गर्भवती छिन् र उनका साथीले गर्भावस्थामा शारीरिक सम्बन्ध सुरक्षित छ कि भनेर जान्न चाहनुहुन्छ।",
     options: [
@@ -255,8 +255,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 19,
-    title: "Scenario 19: Why do hands and feet swell during the second trimester?",
-    titleNe: "दृश्य १९: दोस्रो त्रैमासिकमा हात र खुट्टा किन सुन्निन्छ?",
+    title: "Why do hands and feet swell during the second trimester?",
+    titleNe: "दोस्रो त्रैमासिकमा हात र खुट्टा किन सुन्निन्छ?",
     description: "Maya is 21 weeks pregnant. She noticed her shoes no longer fit and her rings are tight.",
     descriptionNe: "माया २१ हप्ताकी गर्भवती छिन्। उनको जुत्ता अब लाग्दैन र औंठी कसिलो भएको छ।",
     options: [
@@ -269,8 +269,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 20,
-    title: "Scenario 20: What type of exercise is most beneficial in the second trimester?",
-    titleNe: "दृश्य २०: दोस्रो त्रैमासिकमा कुन प्रकारको व्यायाम सबैभन्दा फाइदाजनक छ?",
+    title: "What type of exercise is most beneficial in the second trimester?",
+    titleNe: "दोस्रो त्रैमासिकमा कुन प्रकारको व्यायाम सबैभन्दा फाइदाजनक छ?",
     description: "Suna is 16 weeks pregnant and asks if she should start doing special exercises to prepare for delivery.",
     descriptionNe: "सुना १६ हप्ताकी गर्भवती छिन् र प्रसूतिको तयारीका लागि विशेष व्यायाम सुरु गर्नुपर्छ कि भनेर सोध्छिन्।",
     options: [
