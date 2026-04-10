@@ -165,3 +165,4 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClo
     </View>
   );
 };
+

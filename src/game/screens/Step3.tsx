@@ -127,6 +127,20 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       }
     }
   }, []);
+  
+  // ── Sync local state when external reset clears the quiz ──
+  useEffect(() => {
+    if (!didResume.current) return;         
+    if (savedTrimester === null && selectedTrimester !== null) {
+      setSelectedTrimester(null);
+      setCurrentIdx(0);
+      setSelectedResult(null);
+      hasAnswered.current = false;
+      setShuffledScenarios([]);
+      clearFeedback();
+      setCurrentWave('');
+    }
+  }, [savedTrimester]);
 
   // Animation
   const shakeOffset = useSharedValue(0);

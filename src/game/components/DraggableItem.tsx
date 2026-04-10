@@ -88,9 +88,9 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
     .onStart(() => {
       startX.value = translateX.value;
       startY.value = translateY.value;
-      scale.value = withSpring(1.12);
+      scale.value = withSpring(1.15);
       zIndex.value = 100;
-      rotation.value = withSpring(3);
+      rotation.value = withSpring(5);
     })
     .onUpdate((event) => {
       translateX.value = startX.value + event.translationX;
@@ -134,8 +134,8 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
             height: 72,
             borderRadius: 36,
             backgroundColor: '#FFFFFF',
-            borderWidth: 3,
-            borderColor: '#F48B9E',
+            borderWidth: 3.5,
+            borderColor: '#F85797',
             justifyContent: 'center',
             alignItems: 'center',
             shadowColor: '#C06898',

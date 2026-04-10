@@ -169,3 +169,4 @@ export const TransitionCard: React.FC<TransitionCardProps> = ({ step, onComplete
     </Animated.View>
   );
 };
+

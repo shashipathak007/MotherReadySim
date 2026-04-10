@@ -400,7 +400,6 @@ export const OpenFolder = ({ glow = false, filled = 0 }) => (
         <Path d="M90,65 L95,71 L104,58" stroke="#10B981" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
       </G>
     )}
-
     {/* Front flap of folder */}
     <Path d="M8,164 L202,164 L210,112 C212,106 208,100 202,100 L36,100 C30,100 22,104 19,110 L8,164 Z" fill="url(#fFront)" />
     {/* Front flap shine */}

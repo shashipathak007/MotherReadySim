@@ -38,6 +38,7 @@ export const StepCompletionModal: React.FC<StepCompletionModalProps> = ({ visibl
             shadowRadius: 24,
             elevation: 14,
           }}
+          
         >
           {/* Top accent strip */}
           <View style={{ width: '100%', height: 5, backgroundColor: isFirstTime ? '#C06898' : '#9B5983' }} />

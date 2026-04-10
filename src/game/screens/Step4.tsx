@@ -127,7 +127,7 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
 
         {/* Message */}
         <Animated.View entering={FadeInUp.delay(600)}>
-          <Text className="text-[15px] color-[#555] text-center mb-7 italic leading-6 px-2">{subMsg}</Text>
+          <Text className="text-[15px] color-black font-extrabold text-center mb-7 italic leading-6 px-2">{subMsg}</Text>
         </Animated.View>
 
         {/* Action Buttons — stacked for better tap targets */}

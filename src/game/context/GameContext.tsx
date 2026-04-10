@@ -165,11 +165,13 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (prev.currentStep === 2) updates = { savedContacts: [] };
       if (prev.currentStep === 3) updates = { quizStars: 0, selectedTrimester: null, quizIndex: 0, shuffledScenarioIds: [] };
       
+      // Reset quiz progress counter when on the quiz step
+      if (prev.currentStep === 3) {
+        setQuizProgressState({ current: 0, total: 0 });
+      }
+
       return { ...prev, ...updates };
     });
-    if (state.currentStep === 3) {
-      setQuizProgressState({ current: 0, total: quizProgress.total });
-    }
   };
 
   const resetStepData = (step: GameStep) => {
@@ -206,3 +208,4 @@ export const useGame = () => {
   if (!context) throw new Error('useGame must be used within GameProvider');
   return context;
 };
+
