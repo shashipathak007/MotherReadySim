@@ -41,9 +41,14 @@ const WRONG_DISTRIBUTION: Record<string, number[]> = {
 
 export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   const {
-    packedBagItems, packItem, showFeedback, setCurrentWave,
+    packedBagItems, packItem, showFeedback, clearFeedback, setCurrentWave,
     resetCurrentStep, tutorialStep, showTutorial: isTutorialVisible,
+    setShowTutorial,
   } = useGame();
+  const tutorialHideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Ref mirror of isTutorialVisible so the animation effect doesn't re-run when we hide/show the tutorial
+  const isTutorialVisibleRef = useRef(isTutorialVisible);
+  useEffect(() => { isTutorialVisibleRef.current = isTutorialVisible; }, [isTutorialVisible]);
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
   const { playCorrect, playIncorrect } = useGameAudio();
@@ -52,6 +57,8 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   const [currentWaveIdx, setCurrentWaveIdx] = useState(0);
   const [itemPage, setItemPage] = useState(0);
   const [containerLayout, setContainerLayout] = useState({ width, height });
+  // Hide the real item while the ghost drags during tutorial step 2
+  const [hideTutorialItem, setHideTutorialItem] = useState(false);
 
   const itemsPerPage = 6;
   const currentWave = waveCategories[currentWaveIdx];
@@ -98,7 +105,15 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     const wrongItems = DO_NOT_PACK_ITEMS
       .filter(i => wrongIds.includes(i.id))
       .map(item => ({ ...item, isWrong: true, why: item.whyNot }));
-    return [...correctItems, ...wrongItems];
+    const combined = [...correctItems, ...wrongItems];
+    // Swap shawl (id:3, correct) and tight jeans (id:4, wrong) positions in the grid
+    // so the drag tutorial finger lands correctly above the shawl
+    const shawlIdx = combined.findIndex(i => i.id === 3 && !i.isWrong);
+    const jeansIdx = combined.findIndex(i => i.id === 4 && i.isWrong);
+    if (shawlIdx !== -1 && jeansIdx !== -1) {
+      [combined[shawlIdx], combined[jeansIdx]] = [combined[jeansIdx], combined[shawlIdx]];
+    }
+    return combined;
   }, [currentWave]);
 
   const paginatedItems = useMemo(() => {
@@ -147,6 +162,8 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   const trailOpacity  = useSharedValue(0);
   const trailX        = useSharedValue(-200);
   const trailY        = useSharedValue(-200);
+  // Ghost item (follows finger during drag tutorial)
+  const ghostOpacity  = useSharedValue(0);
 
   const fingerAnimatedStyle = useAnimatedStyle(() => ({
     opacity: fingerOpacity.value,
@@ -155,6 +172,16 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
       { translateY: fingerY.value },
       { scale: fingerScale.value },
       { rotate: `${fingerRotate.value}deg` },
+    ],
+  }));
+
+  // Ghost sits just below the finger tip (finger emoji is ~50px, item rides under it)
+  const ghostAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: ghostOpacity.value,
+    transform: [
+      // finger tip is roughly at (fingerX, fingerY+10); item center offset so it appears "held"
+      { translateX: fingerX.value - 10 },
+      { translateY: fingerY.value + 38 },
     ],
   }));
 
@@ -175,130 +202,142 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     ],
   }));
 
-  // Helper: fire a ripple from current finger position
   const fireRipple = () => {
-    'worklet';
     rippleScale.value = 0;
-    rippleOpacity.value = 0.75;
-    rippleScale.value = withTiming(3, { duration: 550, easing: Easing.out(Easing.ease) });
-    rippleOpacity.value = withTiming(0, { duration: 550 });
+    rippleOpacity.value = 0.7;
+    rippleScale.value = withTiming(3.5, { duration: 700, easing: Easing.out(Easing.ease) });
+    rippleOpacity.value = withTiming(0, { duration: 700 });
   };
 
   useEffect(() => {
     const timers: ReturnType<typeof setTimeout>[] = [];
     const t = (fn: () => void, ms: number) => { const id = setTimeout(fn, ms); timers.push(id); };
 
-    // Reset everything
     cancelAnimation(fingerX);
     cancelAnimation(fingerY);
     cancelAnimation(fingerScale);
     cancelAnimation(fingerRotate);
     fingerOpacity.value = withTiming(0, { duration: 120 });
+    ghostOpacity.value = 0;
     rippleOpacity.value = 0;
     trailOpacity.value = 0;
+    setHideTutorialItem(false);
 
-    if (!isTutorialVisible || currentWaveIdx !== 0) {
+    if (!isTutorialVisibleRef.current || currentWaveIdx !== 0) {
       return () => timers.forEach(clearTimeout);
     }
 
     const item3 = paginatedItems.find(i => i.id === 3);
     if (!item3) return () => timers.forEach(clearTimeout);
 
-    const ix = item3.initialPos.x + 18;
-    const iy = item3.initialPos.y + 32;
+    // Finger sits ON the item center
+    const ix = item3.initialPos.x + 10;
+    const iy = item3.initialPos.y - 50;
 
-    // ── TAP TO LEARN ANIMATION ──
+    // ── TAP TO LEARN — slow deliberate taps ──
     if (tutorialStep === 1) {
       fingerX.value = ix;
-      fingerY.value = iy;
+      fingerY.value = iy - 200;
       fingerScale.value = 1;
       fingerRotate.value = 0;
 
-      // Fade finger in
-      t(() => { fingerOpacity.value = withTiming(1, { duration: 350 }); }, 300);
-
-      // Tap cycle (repeat 3 times)
-      [900, 1700, 2500].forEach(delay => {
-        t(() => {
-          // Press down with natural squeeze
-          fingerScale.value = withSequence(
-            withTiming(0.6, { duration: 120, easing: Easing.in(Easing.ease) }),
-            withTiming(1.15, { duration: 140, easing: Easing.out(Easing.back(2)) }),
-            withTiming(1, { duration: 100 })
-          );
-          fireRipple();
-        }, delay);
-      });
-
-      // Trigger hint on first tap
-      t(() => handleLongPress(3, false), 900);
-
-      // Fade out
-      t(() => { fingerOpacity.value = withTiming(0, { duration: 400 }); }, 3400);
-    }
-
-    // ── DRAG & DROP ANIMATION ──
-    if (tutorialStep === 2) {
-      const tx = dropZone.x + dropZone.w / 2 + 10;
-      const ty = dropZone.y + dropZone.h / 2 - 10;
-
-      fingerX.value = ix;
-      fingerY.value = iy;
-      fingerScale.value = 1;
-      fingerRotate.value = 0;
-
-      // Fade in
-      t(() => { fingerOpacity.value = withTiming(1, { duration: 300 }); }, 200);
-
-      // Hover wobble above item
+      // Float down onto item
       t(() => {
-        fingerY.value = withSequence(
-          withTiming(iy - 12, { duration: 300, easing: Easing.inOut(Easing.ease) }),
-          withTiming(iy, { duration: 300, easing: Easing.inOut(Easing.ease) })
-        );
+        fingerOpacity.value = withTiming(1, { duration: 500 });
+        fingerY.value = withTiming(iy, { duration: 600, easing: Easing.out(Easing.ease) });
       }, 500);
 
-      // Press and grip
+      // TAP 1 — slow press, hold, lift
       t(() => {
-        fingerScale.value = withTiming(0.72, { duration: 180, easing: Easing.in(Easing.ease) });
+        fingerY.value = withTiming(iy + 16, { duration: 400, easing: Easing.in(Easing.ease) });
+        fingerScale.value = withTiming(0.82, { duration: 400 });
         fireRipple();
-      }, 1100);
-
-      // Show trail dot appearing at item
+        handleLongPress(3, false);
+      }, 1400);
       t(() => {
-        trailX.value = ix + 12;
-        trailY.value = iy + 12;
-        trailOpacity.value = withTiming(0.55, { duration: 200 });
-      }, 1300);
+        fingerY.value = withTiming(iy, { duration: 400, easing: Easing.out(Easing.ease) });
+        fingerScale.value = withTiming(1, { duration: 400 });
+      }, 2000);
 
-      // Lean finger slightly as drag starts
+      // TAP 2
       t(() => {
-        fingerRotate.value = withTiming(-18, { duration: 200 });
-      }, 1350);
+        fingerY.value = withTiming(iy + 16, { duration: 400, easing: Easing.in(Easing.ease) });
+        fingerScale.value = withTiming(0.82, { duration: 400 });
+        fireRipple();
+      }, 3000);
+      t(() => {
+        fingerY.value = withTiming(iy, { duration: 400, easing: Easing.out(Easing.ease) });
+        fingerScale.value = withTiming(1, { duration: 400 });
+      }, 3600);
 
-      // Drag toward bag with smooth cubic ease
+      // TAP 3
       t(() => {
-        const dur = 950;
-        const ease = Easing.bezier(0.25, 0.1, 0.25, 1);
+        fingerY.value = withTiming(iy + 16, { duration: 400, easing: Easing.in(Easing.ease) });
+        fingerScale.value = withTiming(0.82, { duration: 400 });
+        fireRipple();
+      }, 4600);
+      t(() => {
+        fingerY.value = withTiming(iy, { duration: 400, easing: Easing.out(Easing.ease) });
+        fingerScale.value = withTiming(1, { duration: 400 });
+      }, 5200);
+
+      // Fade out
+      t(() => { fingerOpacity.value = withTiming(0, { duration: 600 }); }, 6000);
+    }
+
+    // ── DRAG & DROP — finger ON item, both move together to bag ──
+    if (tutorialStep === 2) {
+      // Target = bag center
+      const tx = dropZone.x + dropZone.w / 2 - 28;
+      const ty = dropZone.y + dropZone.h / 2 - 28;
+
+      fingerX.value = ix;
+      fingerY.value = iy - 200;
+      fingerScale.value = 1;
+      fingerRotate.value = 0;
+      ghostOpacity.value = 0;
+
+      // Float down onto item
+      t(() => {
+        fingerOpacity.value = withTiming(1, { duration: 500 });
+        fingerY.value = withTiming(iy, { duration: 600, easing: Easing.out(Easing.ease) });
+      }, 400);
+
+      // Press down to grab — show ghost item attached to finger, hide real item
+      t(() => {
+        fingerScale.value = withTiming(0.85, { duration: 300, easing: Easing.in(Easing.ease) });
+        ghostOpacity.value = withTiming(1, { duration: 200 });
+        setHideTutorialItem(true);
+        fireRipple();
+      }, 1200);
+
+      // Lean slightly
+      t(() => { fingerRotate.value = withTiming(-12, { duration: 300 }); }, 1550);
+
+      // SLOW drag — finger + ghost move together over 2 seconds
+      // (ghost is driven by ghostAnimatedStyle which reads fingerX/fingerY directly)
+      t(() => {
+        const dur = 2000;
+        const ease = Easing.inOut(Easing.ease);
         fingerX.value = withTiming(tx, { duration: dur, easing: ease });
         fingerY.value = withTiming(ty, { duration: dur, easing: ease });
-        trailX.value  = withTiming(tx + 12, { duration: dur, easing: ease });
-        trailY.value  = withTiming(ty + 12, { duration: dur, easing: ease });
-        trailOpacity.value = withTiming(0, { duration: dur });
-      }, 1400);
+      }, 1600);
 
-      // Straighten and release on bag
+      // Straighten on arrival
+      t(() => { fingerRotate.value = withTiming(0, { duration: 250 }); }, 3650);
+
+      // Release bounce
       t(() => {
-        fingerRotate.value = withTiming(0, { duration: 180 });
         fingerScale.value = withSequence(
-          withTiming(1.25, { duration: 120, easing: Easing.out(Easing.ease) }),
-          withTiming(1, { duration: 120 })
+          withTiming(1.2, { duration: 150 }),
+          withTiming(1, { duration: 150 })
         );
         fireRipple();
-      }, 2380);
+      }, 3700);
 
-      // Pack the item
+      // Pack the item — hide ghost, animate real item into bag, hide tutorial so success tip is visible
       t(() => {
+        ghostOpacity.value = withTiming(0, { duration: 200 });
         const ref = itemRefs.current[3];
         if (ref) {
           ref.animatePack(dropZone.x + dropZone.w / 2 - 30, dropZone.y + dropZone.h / 2 - 30);
@@ -311,14 +350,22 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
             'success'
           );
         }
-      }, 2500);
+        // Hide tutorial card so the success feedback is fully visible for 2 seconds,
+        // then clear the tip and bring the tutorial back
+        if (tutorialHideTimer.current) clearTimeout(tutorialHideTimer.current);
+        setShowTutorial(false);
+        tutorialHideTimer.current = setTimeout(() => {
+          clearFeedback();
+          setShowTutorial(true);
+        }, 2000);
+      }, 3850);
 
-      // Fade finger out
-      t(() => { fingerOpacity.value = withTiming(0, { duration: 400 }); }, 3000);
+      // Fade out finger
+      t(() => { fingerOpacity.value = withTiming(0, { duration: 500 }); }, 4500);
     }
 
     return () => timers.forEach(clearTimeout);
-  }, [tutorialStep, isTutorialVisible, paginatedItems]);
+  }, [tutorialStep, paginatedItems]);
 
   const handleDrop = (id: number, x: number, y: number, isWrong: boolean) => {
     const item = activeWaveItems.find(i => i.id === id && i.isWrong === isWrong);
@@ -361,6 +408,17 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
       ? ((isNe && 'whyNotNe' in item && (item as any).whyNotNe) || item.why)
       : ((isNe && 'whyNe' in item  && (item as any).whyNe)  || item.why);
     showFeedback(itemName, itemWhy, 'info');
+
+    // During tap-tutorial step: hide tutorial so the info tip is fully visible for 2s,
+    // then clear the tip and bring the tutorial back
+    if (isTutorialVisible && tutorialStep === 1) {
+      if (tutorialHideTimer.current) clearTimeout(tutorialHideTimer.current);
+      setShowTutorial(false);
+      tutorialHideTimer.current = setTimeout(() => {
+        clearFeedback();
+        setShowTutorial(true);
+      }, 2000);
+    }
   };
 
   return (
@@ -407,7 +465,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
             initialPos={item.initialPos}
             onDrop={handleDrop}
             onLongPress={handleLongPress}
-            packed={packed}
+            packed={packed || (hideTutorialItem && item.id === 3 && !item.isWrong)}
             color={item.isWrong ? '#FFF5F6' : '#FFFFFF'}
           />
         );
@@ -420,48 +478,103 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
         onReset={() => { resetCurrentStep(); setShowCompletionModal(false); }}
       />
 
-      {/* ── RIPPLE RING ── */}
-      <Animated.View
+      {/* ── TUTORIAL ANIMATION LAYER — must be LAST child so it always paints above draggable items ── */}
+      <View
         pointerEvents="none"
-        style={[
-          {
-            position: 'absolute', zIndex: 9996,
-            width: 56, height: 56, borderRadius: 28,
-            borderWidth: 2.5, borderColor: '#C06898',
-            marginLeft: -28, marginTop: -28,
-          },
-          rippleAnimatedStyle,
-        ]}
-      />
-
-      {/* ── DRAG TRAIL DOT ── */}
-      <Animated.View
-        pointerEvents="none"
-        style={[
-          {
-            position: 'absolute', zIndex: 9997,
-            width: 12, height: 12, borderRadius: 6,
-            backgroundColor: '#C06898',
-            marginLeft: -6, marginTop: -6,
-          },
-          trailAnimatedStyle,
-        ]}
-      />
-
-      {/* ── FINGER CURSOR ── */}
-      <Animated.View
-        pointerEvents="none"
-        style={[{ position: 'absolute', zIndex: 9999 }, fingerAnimatedStyle]}
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9995, elevation: 9995 }}
       >
-        {/* Soft glow behind finger */}
-        <View style={{
-          position: 'absolute',
-          width: 58, height: 58, borderRadius: 29,
-          backgroundColor: 'rgba(192,104,152,0.22)',
-          top: -7, left: -7,
-        }} />
-        <Text style={{ fontSize: 46, lineHeight: 50 }}>👆</Text>
-      </Animated.View>
+        {/* GHOST ITEM (follows finger during drag tutorial) */}
+        {(() => {
+          const item3 = paginatedItems.find(i => i.id === 3);
+          const ghostEmoji = item3?.emoji ?? '🩴';
+          const ghostName  = item3 ? (isNe && 'nameNe' in item3 ? (item3 as any).nameNe : item3.name) : '';
+          return (
+            <Animated.View
+              pointerEvents="none"
+              style={[{ position: 'absolute', zIndex: 3 }, ghostAnimatedStyle]}
+            >
+              <View
+                style={{
+                  width: 72,
+                  height: 72,
+                  borderRadius: 36,
+                  backgroundColor: '#FFFFFF',
+                  borderWidth: 3.5,
+                  borderColor: '#F85797',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  shadowColor: '#C06898',
+                  shadowOffset: { width: 0, height: 3 },
+                  shadowOpacity: 0.35,
+                  shadowRadius: 8,
+                  elevation: 10,
+                }}
+              >
+                <Text style={{ fontSize: 36, textAlign: 'center' }}>{ghostEmoji}</Text>
+              </View>
+              <View
+                style={{
+                  width: 92,
+                  marginTop: 4,
+                  marginLeft: -10,
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: 10,
+                  borderWidth: 1.5,
+                  borderColor: '#F5E1EC',
+                  paddingHorizontal: 6,
+                  paddingVertical: 4,
+                }}
+              >
+                <Text style={{ fontSize: 10, fontWeight: '700', textAlign: 'center', color: '#333', lineHeight: 13 }} numberOfLines={2}>
+                  {ghostName}
+                </Text>
+              </View>
+            </Animated.View>
+          );
+        })()}
+
+        {/* RIPPLE RING */}
+        <Animated.View
+          pointerEvents="none"
+          style={[
+            {
+              position: 'absolute', zIndex: 1,
+              width: 56, height: 56, borderRadius: 28,
+              borderWidth: 2.5, borderColor: '#C06898',
+              marginLeft: -28, marginTop: -28,
+            },
+            rippleAnimatedStyle,
+          ]}
+        />
+
+        {/* DRAG TRAIL DOT */}
+        <Animated.View
+          pointerEvents="none"
+          style={[
+            {
+              position: 'absolute', zIndex: 2,
+              width: 12, height: 12, borderRadius: 6,
+              backgroundColor: '#C06898',
+              marginLeft: -6, marginTop: -6,
+            },
+            trailAnimatedStyle,
+          ]}
+        />
+
+        {/* FINGER CURSOR — topmost */}
+        <Animated.View
+          pointerEvents="none"
+          style={[{ position: 'absolute', zIndex: 4 }, fingerAnimatedStyle]}
+        >
+          <View style={{
+            position: 'absolute',
+            width: 58, height: 58, borderRadius: 29,
+            backgroundColor: 'rgba(192,104,152,0.22)',
+            top: -7, left: -7,
+          }} />
+          <Text style={{ fontSize: 46, lineHeight: 50 }}>👆</Text>
+        </Animated.View>
+      </View>
     </View>
   );
 }

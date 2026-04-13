@@ -40,21 +40,7 @@ export default function GameContainer() {
   const [transitionStep, setTransitionStep] = useState<1 | 2 | 3 | 4>(1);
   const [entryStep, setEntryStep] = useState<number>(1);
 
-  useEffect(() => {
-    if (showTutorial) {
-      if (tutorialStep === 3) {
-        // Step 4: Language & Sound Demo
-        const timer = setTimeout(() => {
-          toggleSound();
-          setTimeout(() => {
-            toggleLanguage();
-            // Leave it as is after toggling once
-          }, 800);
-        }, 1000);
-        return () => clearTimeout(timer);
-      }
-    }
-  }, [tutorialStep, showTutorial]);
+  // No auto-demo actions needed in GameContainer — animations handled in Step1
 
   // Jump to the requested step if navigated with initialStep param
   useEffect(() => {
@@ -363,13 +349,15 @@ export default function GameContainer() {
 
       <TutorialOverlay
         visible={showTutorial}
-        onClose={() => setShowTutorial(false)}
+        onClose={() => { setShowTutorial(false); resetCurrentStep(); }}
         onNext={(step) => {
           if (step < 3) {
             setTutorialStep(step + 1);
           } else {
             setTutorialStep(0);
             setShowTutorial(false);
+            // Reset any items packed during the tutorial demo so player starts fresh at 0/43
+            resetCurrentStep();
           }
         }}
       />

@@ -157,6 +157,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const resetGame = async () => {
     setState(defaultState);
+    setTutorialStep(0);
+    setShowTutorial(true);
     try {
       await AsyncStorage.removeItem(STORAGE_KEY);
     } catch (e) {
