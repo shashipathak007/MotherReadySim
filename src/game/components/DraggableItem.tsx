@@ -108,7 +108,7 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
       }
     });
 
-  const composedGesture = Gesture.Simultaneous(panGesture, tapGesture);
+  const composedGesture = Gesture.Exclusive(panGesture, tapGesture);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -153,7 +153,7 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
           style={{
             width: 100,
             marginTop: 4,
-            marginLeft: -10, // center 92px label under 72px circle: (72-92)/2 = -10
+            marginLeft: -10, 
             backgroundColor: '#FFFFFF',
             borderRadius: 10,
             borderWidth: 1.5,

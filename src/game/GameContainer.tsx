@@ -294,18 +294,18 @@ export default function GameContainer() {
                   <View className={`rounded-[18px] overflow-hidden border-[1.5px] shadow-black/10 shadow-opacity-12 shadow-radius-10 elevation-8 ${feedbackStyle.bgColor} ${feedbackStyle.borderColor}`}>
                     {/* Exclamation header — "Good Job!" or "Oh No!" */}
                     <View className="pt-3 px-3.5 pr-9">
-                      <Text className={`text-[18px] font-[900] mb-0.5 ${feedbackStyle.textColor}`}>
+                      <Text className={`text-[18px] font-[700] mb-0.5 ${feedbackStyle.textColor}`}>
                         {feedbackStyle.exclamation}
                       </Text>
                     </View>
 
                     {/* Feedback content */}
                     <View className="pb-3 px-3.5 pr-9">
-                      <Text className={`text-[15px] font-[700] mb-0.5 ${feedback.type === 'error' ? 'text-[#991B1B]' : feedback.type === 'info' ? 'text-[#7C3E6B]' : 'text-[#14532D]'}`}>
+                      <Text className={`text-[16px] font-[500] mb-0.2 ${feedback.type === 'error' ? 'text-[#991B1B]' : feedback.type === 'info' ? 'text-[#7C3E6B]' : 'text-[#14532D]'}`}>
                         {feedback.message}
                       </Text>
                       {feedback.detail ? (
-                        <Text className="text-[15px] text-[#555] leading-[20px] font-[500] mt-0.5">{feedback.detail}</Text>
+                        <Text className="text-[14px] text-[#555] leading-[20px] font-[500] mt-0.5">{feedback.detail}</Text>
                       ) : null}
                     </View>
 
