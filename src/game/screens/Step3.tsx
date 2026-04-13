@@ -365,10 +365,10 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
           <View className="h-[3px]" style={{ backgroundColor: triColor }} />
 
           {/* ── Header: trimester button + progress ── */}
-          <View className="px-4 pt-3 pb-2.5" style={{ backgroundColor: triColor + '08' }}>
+          <View className="px-4 pt-3 pb-2" style={{ backgroundColor: triColor + '08' }}>
             <View className="flex-row items-center justify-between mb-2">
               <TouchableOpacity
-                className="flex-row items-center pl-2.5 pr-3.5 py-1.5 rounded-full"
+                className="flex-row items-center pl-2.5 pr-3.5 py-1 rounded-full"
                 style={{ backgroundColor: triColor }}
                 onPress={handleBackToSelector}
                 activeOpacity={0.7}
@@ -399,7 +399,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
             style={{ maxHeight: Dimensions.get('window').height * 0.42 }}
           >
             {/* Question */}
-            <View className="px-4 pt-4 pb-3">
+            <View className="px-4 pt-1 pb-1">
               <Text className="text-[12px] font-[800] tracking-[1.5px] uppercase mb-1.5" style={{ color: triColor }}>
                 {isNe ? scenario.titleNe : scenario.title}
               </Text>
@@ -412,7 +412,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
             <View className="h-[1px] mx-4" style={{ backgroundColor: triColor + '15' }} />
 
             {/* Options */}
-            <View className="px-4 pt-3 pb-8 gap-2.5">
+            <View className="px-4 pt-1 pb-8 gap-2.5">
               {!selectedResult ? (
                 scenario.options.map((opt, i) => (
                   <TouchableOpacity

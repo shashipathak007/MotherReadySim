@@ -130,9 +130,9 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
         {/* Circle */}
         <View
           style={{
-            width: 72,
-            height: 72,
-            borderRadius: 36,
+            width: 82,
+            height: 82,
+            borderRadius: 41,
             backgroundColor: '#FFFFFF',
             borderWidth: 3.5,
             borderColor: '#F85797',
@@ -145,13 +145,13 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
             elevation: 6,
           }}
         >
-          <Text style={{ fontSize: 36, textAlign: 'center' }}>{emoji}</Text>
+          <Text style={{ fontSize: 45, textAlign: 'center' }}>{emoji}</Text>
         </View>
 
         {/* Text label — sits directly below circle, centered under it */}
         <View
           style={{
-            width: 92,
+            width: 100,
             marginTop: 4,
             marginLeft: -10, // center 92px label under 72px circle: (72-92)/2 = -10
             backgroundColor: '#FFFFFF',

@@ -239,12 +239,12 @@ export default function GameContainer() {
               }}
               activeOpacity={0.7}
             >
-              <Text className="text-[13px] font-[700] text-white">{isNepali ? 'पछाडि' : 'Back'}</Text>
+              <Text className="text-[15px] font-[700] text-white">{isNepali ? 'पछाडि' : 'Back'}</Text>
             </TouchableOpacity>
 
             {/* Center: Step label + name */}
             <View className="items-center flex-1 mx-3">
-              <Text className="text-[10px] font-[800] text-[#C06898] tracking-[1px] uppercase mb-0.5">
+              <Text className="text-[12px] font-[800] text-[#C06898] tracking-[1px] uppercase mb-0.5">
                 {isNepali ? `चरण ${currentStep}` : `STEP ${currentStep}`}
               </Text>
               <Text className="text-[15px] font-[800] text-[#333]">
@@ -259,23 +259,23 @@ export default function GameContainer() {
               disabled={currentStep === 4}
               activeOpacity={0.7}
             >
-              <Text className="text-[13px] font-[700] text-white">{isNepali ? 'अर्को' : 'Next'}</Text>
+              <Text className="text-[15px] font-[700] text-white">{isNepali ? 'अर्को' : 'Next'}</Text>
             </TouchableOpacity>
           </View>
 
           {/* Sub-bar: wave info + language toggle + reset */}
           {currentStep < 4 && (
             <View className="mx-5 mt-0.5 flex-row justify-between items-center px-4 py-1.5 bg-white/85 rounded-full border border-[#F5E1EC]">
-              <Text className="text-[10px] font-[800] text-[#9B5983] tracking-[0.3px]" numberOfLines={1}>{getWaveLabel()}</Text>
+              <Text className="text-[13px] font-[800] text-[#9B5983] tracking-[0.3px]" numberOfLines={1}>{getWaveLabel()}</Text>
               <View className="flex-row items-center gap-2">
                 <TouchableOpacity className="w-7 h-7 bg-[#F9F0F5] rounded-full justify-center items-center" onPress={toggleSound}>
-                  <Text className="text-[10px]">{soundEnabled ? '🔊' : '🔇'}</Text>
+                  <Text className="text-[12px]">{soundEnabled ? '🔊' : '🔇'}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity className="w-7 h-7 bg-[#F9F0F5] rounded-full justify-center items-center" onPress={toggleLanguage}>
-                  <Text className="text-[10px] font-[800] text-[#9B5983]">{isNepali ? 'EN' : 'ने'}</Text>
+                  <Text className="text-[12px] font-[800] text-[#9B5983]">{isNepali ? 'EN' : 'ने'}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity className="px-3 py-1 bg-white rounded-full border border-[#F5E1EC]" onPress={() => { resetCurrentStep(); clearFeedback(); }}>
-                  <Text className="text-[10px] font-[800] text-[#D4849B]">{isNepali ? 'रिसेट' : 'Reset'}</Text>
+                  <Text className="text-[12px] font-[800] text-[#D4849B]">{isNepali ? 'रिसेट' : 'Reset'}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -305,7 +305,7 @@ export default function GameContainer() {
                         {feedback.message}
                       </Text>
                       {feedback.detail ? (
-                        <Text className="text-[13px] text-[#555] leading-[17px] font-[500] mt-0.5">{feedback.detail}</Text>
+                        <Text className="text-[15px] text-[#555] leading-[20px] font-[500] mt-0.5">{feedback.detail}</Text>
                       ) : null}
                     </View>
 
@@ -315,7 +315,7 @@ export default function GameContainer() {
                       className="absolute top-2 right-2 w-7 h-7 bg-black/8 rounded-full justify-center items-center"
                       activeOpacity={0.6}
                     >
-                      <Text className="text-[12px] text-[#888] font-[700]">✕</Text>
+                      <Text className="text-[16px] text-[#888] font-[700]">✕</Text>
                     </TouchableOpacity>
                   </View>
 
