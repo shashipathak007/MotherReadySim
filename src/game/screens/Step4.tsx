@@ -68,15 +68,15 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
   };
 
   const ProgressBar = ({ ratio, label, icon, count, total }: { ratio: number, label: string, icon: string, count: number, total: number }) => (
-    <View className="mb-4">
-      <View className="flex-row items-center mb-1.5">
-        <Text className="text-base mr-2">{icon}</Text>
-        <Text className="text-sm font-[700] text-[#444] flex-1">{label}</Text>
-        <Text className="text-sm font-[800] text-[#9B5983]">{count}/{total}</Text>
+    <View className="mb-5">
+      <View className="flex-row items-center mb-2">
+        <Text className="text-lg mr-2">{icon}</Text>
+        <Text className="text-base font-[700] text-[#444] flex-1">{label}</Text>
+        <Text className="text-base font-[800] text-[#9B5983]">{count}/{total}</Text>
       </View>
-      <View className="h-2.5 bg-[#F3F4F6] rounded-[5px] overflow-hidden">
+      <View className="h-3.5 bg-[#F3F4F6] rounded-[7px] overflow-hidden">
         <View 
-          className="h-2.5 rounded-[5px]" 
+          className="h-3.5 rounded-[7px]" 
           style={{ width: `${Math.max(ratio * 100, 3)}%`, backgroundColor: getProgressColor(ratio) }} 
         />
       </View>
@@ -134,7 +134,8 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
         <Animated.View entering={FadeInDown.delay(800)} className="w-full gap-3">
           {/* Share button — primary, full width */}
           <TouchableOpacity 
-            className="w-full rounded-full overflow-hidden shadow-[#C06898] shadow-opacity-20 shadow-radius-12 elevation-6" 
+            className="w-full rounded-full overflow-hidden elevation-6" 
+            style={{ shadowColor: '#C06898', shadowOpacity: 0.2, shadowRadius: 12, shadowOffset: { width: 0, height: 4 } }}
             onPress={handleShare} 
             activeOpacity={0.8}
           >

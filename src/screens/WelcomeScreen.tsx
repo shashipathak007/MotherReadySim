@@ -13,6 +13,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
+import { useGame } from '../game/context/GameContext';
 
 const COLORS = {
   primary: '#F33A6A',
@@ -26,6 +27,7 @@ const COLORS = {
 export default function WelcomeScreen({ navigation }: any) {
   const { i18n } = useTranslation();
   const isNepali = i18n.language === 'ne';
+  const { resetGame } = useGame();
 
   const toggleLanguage = () => {
     i18n.changeLanguage(isNepali ? 'en' : 'ne');
@@ -97,28 +99,55 @@ export default function WelcomeScreen({ navigation }: any) {
 
         <SafeAreaView style={{ flex: 1, justifyContent: 'space-between', paddingVertical: 40 }}>
           
-          {/* Language Toggle */}
-          <TouchableOpacity 
-            onPress={toggleLanguage} 
-            style={{
-              position: 'absolute',
-              top: 55,
-              right: 20,
-              zIndex: 100,
-              backgroundColor: 'rgba(176,76,138,0.9)',
-              borderRadius: 20,
-              paddingHorizontal: 14,
-              paddingVertical: 8,
-              shadowColor: '#000',
-              shadowOpacity: 0.15,
-              shadowRadius: 6,
-              elevation: 5,
-            }}
-          >
-            <Text style={{ color: '#FFF', fontSize: 13, fontWeight: '900' }}>
-              {isNepali ? 'English' : 'नेपाली'}
-            </Text>
-          </TouchableOpacity>
+          {/* Top Actions: Reset & Language Toggle */}
+          <View style={{
+            position: 'absolute',
+            top: 55,
+            right: 20,
+            left: 20,
+            zIndex: 100,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}>
+            <TouchableOpacity 
+              onPress={resetGame} 
+              style={{
+                backgroundColor: 'rgba(255,255,255,0.9)',
+                borderRadius: 20,
+                paddingHorizontal: 14,
+                paddingVertical: 8,
+                shadowColor: '#000',
+                shadowOpacity: 0.15,
+                shadowRadius: 6,
+                elevation: 5,
+                borderWidth: 1,
+                borderColor: COLORS.borderSoft,
+              }}
+            >
+              <Text style={{ color: COLORS.secondary, fontSize: 13, fontWeight: '900' }}>
+                {isNepali ? 'पुनःसेट गर्नुहोस्' : 'Reset All'}
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              onPress={toggleLanguage} 
+              style={{
+                backgroundColor: 'rgba(176,76,138,0.9)',
+                borderRadius: 20,
+                paddingHorizontal: 14,
+                paddingVertical: 8,
+                shadowColor: '#000',
+                shadowOpacity: 0.15,
+                shadowRadius: 6,
+                elevation: 5,
+              }}
+            >
+              <Text style={{ color: '#FFF', fontSize: 13, fontWeight: '900' }}>
+                {isNepali ? 'English' : 'नेपाली'}
+              </Text>
+            </TouchableOpacity>
+          </View>
 
           {/* Logo */}
           <Animated.View entering={FadeInDown.delay(200).duration(1000)} style={{ alignItems: 'center' }}>

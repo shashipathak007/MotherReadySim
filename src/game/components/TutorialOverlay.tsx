@@ -1,16 +1,19 @@
 /// <reference types="nativewind/types" />
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import React from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import Animated, { FadeIn, FadeOut, FadeInDown } from 'react-native-reanimated';
 import { useTranslation } from 'react-i18next';
+import { useGame } from '../context/GameContext';
 
 interface TutorialOverlayProps {
   visible: boolean;
   onClose: () => void;
+  onNext: (currentStep: number) => void;
 }
 
-export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClose }) => {
-  const [step, setStep] = useState(0);
+export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClose, onNext }) => {
+  const { tutorialStep, setTutorialStep } = useGame();
+  const step = tutorialStep;
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
 
@@ -20,28 +23,28 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClo
       description: isNe
         ? "म तपाईंलाई अस्पतालको लागि तयारी गर्न मद्दत गर्छु — झोला, कागजात, सम्पर्क, र गर्भावस्था परिदृश्यहरू सबै सिकौं!"
         : "I'll help you prepare for the hospital — we'll learn about packing your bag, documents, contacts, and pregnancy scenarios!",
-      emoji: '',
-    },
-    {
-      title: isNe ? "छोएर तान्नुहोस्!" : "Drag & Drop!",
-      description: isNe
-        ? "सामानलाई औँलाले छोएर झोला, फोल्डर वा फोनमा तान्नुहोस्। सही छान्नुभयो भने हरियो हुन्छ, गलत भए फर्किन्छ!"
-        : "Touch items and drag them to the bag, folder, or phone. Right ones glow green, wrong ones bounce back!",
-      emoji: '',
+      emoji: '👋',
     },
     {
       title: isNe ? "अलि बेर थिच्नुहोस्!" : "Tap to Learn!",
       description: isNe
         ? "कुनै पनि सामानमा अलि बेर थिचिराख्नुहोस् — किन चाहिन्छ भन्ने कुरा देख्नुहुन्छ। हरेक सामानको कारण छ!"
         : "Tap any item to see why it matters. Every item has a reason!",
-      emoji: '',
+      emoji: '👆',
+    },
+    {
+      title: isNe ? "छोएर तान्नुहोस्!" : "Drag & Drop!",
+      description: isNe
+        ? "सामानलाई औँलाले छोएर झोला, फोल्डर वा फोनमा तान्नुहोस्। सही छान्नुभयो भने हरियो हुन्छ, गलत भए फर्किन्छ!"
+        : "Touch items and drag them to the bag, folder, or phone. Right ones glow green, wrong ones bounce back!",
+      emoji: '🎒',
     },
     {
       title: isNe ? "भाषा र आवाज" : "Language & Sound",
       description: isNe
         ? "माथिको पट्टीमा भाषा बटन थिचेर अंग्रेजी–नेपाली बदल्नुहोस्। बटनले आवाज खोल्ने वा बन्द गर्ने!"
         : "Switch between English & Nepali with the language button in the top bar. Also toggle sound button to enable and disable audio!",
-      emoji: '',
+      emoji: '🔊',
     },
   ];
 
@@ -51,16 +54,11 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClo
   const isLast = step === tutorialSteps.length - 1;
 
   const handleNext = () => {
-    if (!isLast) {
-      setStep(step + 1);
-    } else {
-      setStep(0);
-      onClose();
-    }
+    onNext(step);
   };
 
   const handleSkip = () => {
-    setStep(0);
+    setTutorialStep(0);
     onClose();
   };
 
@@ -84,7 +82,7 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClo
         key={step}
         entering={FadeInDown.duration(400).springify()}
         className="absolute left-4 right-4 z-30"
-        style={{ top: 50 }}
+        style={{ top: 120 }}
       >
         <View
           className="bg-white rounded-[20px] p-5 pb-4 border-[1.5px] border-[#F5E1EC]"
@@ -118,10 +116,10 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClo
           </View>
 
           {/* Title */}
-          <Text className="text-[18px] font-[800] text-[#333] mb-2">{currentTutorial.title}</Text>
+          <Text className="text-[20px] font-[800] text-[#333] mb-2">{currentTutorial.title}</Text>
 
           {/* Description */}
-          <Text className="text-[14px] text-[#555] leading-[21px] font-[500] mb-4">{currentTutorial.description}</Text>
+          <Text className="text-[16px] text-[#555] leading-[24px] font-[500] mb-4">{currentTutorial.description}</Text>
 
           {/* Progress dots + Next button */}
           <View className="flex-row justify-between items-center">
@@ -139,7 +137,7 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClo
               className="rounded-full px-6 py-3 bg-[#C06898]"
               activeOpacity={0.75}
             >
-              <Text className="text-white font-[700] text-[14px]">
+              <Text className="text-white font-[700] text-[16px]">
                 {isLast ? (isNe ? "सुरु गरौं!" : "Let's Go!") : (isNe ? "अर्को →" : "Next →")}
               </Text>
             </TouchableOpacity>
@@ -165,4 +163,3 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClo
     </View>
   );
 };
-

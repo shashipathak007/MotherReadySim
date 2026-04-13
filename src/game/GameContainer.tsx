@@ -25,7 +25,7 @@ export default function GameContainer() {
   const {
     currentStep, setStep, isReady, resetCurrentStep, resetStepData, resetGame,
     packedBagItems, savedContacts, feedback, clearFeedback, currentWave, quizProgress,
-    soundEnabled, toggleSound
+    soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial
   } = useGame();
   const { i18n } = useTranslation();
   const navigation = useNavigation<any>();
@@ -38,8 +38,23 @@ export default function GameContainer() {
 
   const [showTransition, setShowTransition] = useState(false);
   const [transitionStep, setTransitionStep] = useState<1 | 2 | 3 | 4>(1);
-  const [showTutorial, setShowTutorial] = useState(true);
   const [entryStep, setEntryStep] = useState<number>(1);
+
+  useEffect(() => {
+    if (showTutorial) {
+      if (tutorialStep === 3) {
+        // Step 4: Language & Sound Demo
+        const timer = setTimeout(() => {
+          toggleSound();
+          setTimeout(() => {
+            toggleLanguage();
+            // Leave it as is after toggling once
+          }, 800);
+        }, 1000);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [tutorialStep, showTutorial]);
 
   // Jump to the requested step if navigated with initialStep param
   useEffect(() => {
@@ -200,7 +215,7 @@ export default function GameContainer() {
         <View
           className={`absolute pointer-events-none flex-col justify-end ${showTutorial ? 'z-[210]' : 'z-10'}`}
           style={{ 
-            bottom: 30, 
+            bottom: 0, 
             right: (currentStep === 3 || showTutorial) ? undefined : -200,
             left: (currentStep === 3 || showTutorial) ? 160 : undefined,
             width: SCREEN_W * 1.1, 
@@ -293,18 +308,18 @@ export default function GameContainer() {
                   <View className={`rounded-[18px] overflow-hidden border-[1.5px] shadow-black/10 shadow-opacity-12 shadow-radius-10 elevation-8 ${feedbackStyle.bgColor} ${feedbackStyle.borderColor}`}>
                     {/* Exclamation header — "Good Job!" or "Oh No!" */}
                     <View className="pt-3 px-3.5 pr-9">
-                      <Text className={`text-[15px] font-[900] mb-0.5 ${feedbackStyle.textColor}`}>
+                      <Text className={`text-[18px] font-[900] mb-0.5 ${feedbackStyle.textColor}`}>
                         {feedbackStyle.exclamation}
                       </Text>
                     </View>
 
                     {/* Feedback content */}
                     <View className="pb-3 px-3.5 pr-9">
-                      <Text className={`text-[13px] font-[700] mb-0.5 ${feedback.type === 'error' ? 'text-[#991B1B]' : feedback.type === 'info' ? 'text-[#7C3E6B]' : 'text-[#14532D]'}`}>
+                      <Text className={`text-[15px] font-[700] mb-0.5 ${feedback.type === 'error' ? 'text-[#991B1B]' : feedback.type === 'info' ? 'text-[#7C3E6B]' : 'text-[#14532D]'}`}>
                         {feedback.message}
                       </Text>
                       {feedback.detail ? (
-                        <Text className="text-[11.5px] text-[#555] leading-[17px] font-[500] mt-0.5">{feedback.detail}</Text>
+                        <Text className="text-[13px] text-[#555] leading-[17px] font-[500] mt-0.5">{feedback.detail}</Text>
                       ) : null}
                     </View>
 
@@ -349,7 +364,16 @@ export default function GameContainer() {
       <TutorialOverlay
         visible={showTutorial}
         onClose={() => setShowTutorial(false)}
+        onNext={(step) => {
+          if (step < 3) {
+            setTutorialStep(step + 1);
+          } else {
+            setTutorialStep(0);
+            setShowTutorial(false);
+          }
+        }}
       />
     </View>
   );
 }
+

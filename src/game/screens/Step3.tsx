@@ -399,11 +399,11 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
             style={{ maxHeight: Dimensions.get('window').height * 0.42 }}
           >
             {/* Question */}
-            <View className="px-4 pt-3.5 pb-2.5">
-              <Text className="text-[10px] font-[800] tracking-[1.5px] uppercase mb-1" style={{ color: triColor }}>
+            <View className="px-4 pt-4 pb-3">
+              <Text className="text-[12px] font-[800] tracking-[1.5px] uppercase mb-1.5" style={{ color: triColor }}>
                 {isNe ? scenario.titleNe : scenario.title}
               </Text>
-              <Text className="text-[14px] font-[600] text-[#2D2D2D] leading-[20px]">
+              <Text className="text-[16px] font-[600] text-[#2D2D2D] leading-[24px]">
                 {isNe ? scenario.descriptionNe : scenario.description}
               </Text>
             </View>
@@ -412,12 +412,12 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
             <View className="h-[1px] mx-4" style={{ backgroundColor: triColor + '15' }} />
 
             {/* Options */}
-            <View className="px-4 pt-2.5 pb-8 gap-2">
+            <View className="px-4 pt-3 pb-8 gap-2.5">
               {!selectedResult ? (
                 scenario.options.map((opt, i) => (
                   <TouchableOpacity
                     key={i}
-                    className="flex-row items-center px-3 py-2.5 rounded-[12px]"
+                    className="flex-row items-center px-3.5 py-3 rounded-[12px]"
                     style={{
                       backgroundColor: triColor + '08',
                       borderWidth: 1.5,
@@ -428,14 +428,14 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
                     activeOpacity={0.6}
                   >
                     <View
-                      className="w-[26px] h-[26px] rounded-[8px] items-center justify-center mr-2.5"
+                      className="w-[28px] h-[28px] rounded-[8px] items-center justify-center mr-3"
                       style={{ backgroundColor: triColor + '18' }}
                     >
-                      <Text className="text-[12px] font-[800]" style={{ color: triColor }}>
+                      <Text className="text-[13px] font-[800]" style={{ color: triColor }}>
                         {OPTION_LABELS[i]}
                       </Text>
                     </View>
-                    <Text className="text-[13px] text-[#3A3A3A] font-[600] leading-[18px] flex-1">
+                    <Text className="text-[15px] text-[#3A3A3A] font-[600] leading-[22px] flex-1">
                       {isNe ? opt.textNe : opt.text}
                     </Text>
                   </TouchableOpacity>

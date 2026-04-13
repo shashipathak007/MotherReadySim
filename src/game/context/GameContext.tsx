@@ -35,6 +35,10 @@ interface GameContextType extends GameState {
   setQuizProgress: (current: number, total: number) => void;
   soundEnabled: boolean;
   toggleSound: () => void;
+  tutorialStep: number;
+  setTutorialStep: (step: number) => void;
+  showTutorial: boolean;
+  setShowTutorial: (show: boolean) => void;
   // Quiz resume helpers
   setQuizState: (trimester: TrimesterKey | null, index: number, scenarioIds: number[]) => void;
   clearQuizState: () => void;
@@ -60,6 +64,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [quizProgress, setQuizProgressState] = useState({ current: 0, total: 0 });
   const [soundEnabled, setSoundEnabled] = useState(true);
   const toggleSound = () => setSoundEnabled(prev => !prev);
+  const [tutorialStep, setTutorialStep] = useState(0);
+  const [showTutorial, setShowTutorial] = useState(true);
 
   // Track whether initial load is done so we don't save the default state back
   const hasLoaded = useRef(false);
@@ -197,7 +203,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <GameContext.Provider value={{ ...state, setStep, packItem, saveContact, addQuizStar, resetGame, resetCurrentStep, resetStepData, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound, setQuizState, clearQuizState }}>
+    <GameContext.Provider value={{ ...state, setStep, packItem, saveContact, addQuizStar, resetGame, resetCurrentStep, resetStepData, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial, setQuizState, clearQuizState }}>
       {children}
     </GameContext.Provider>
   );
@@ -208,4 +214,3 @@ export const useGame = () => {
   if (!context) throw new Error('useGame must be used within GameProvider');
   return context;
 };
-
