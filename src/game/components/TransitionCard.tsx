@@ -40,18 +40,18 @@ const TRANSITION_CONTENT = {
   3: {
     emoji: '✅',
     title: 'Contacts Saved!',
-    titleNe: 'सम्पर्क सेभ भयो!',
+    titleNe: 'नम्बरहरू सेभ भयो!',
     subtitle: 'Do you know the danger signs?',
-    subtitleNe: 'के तपाईंलाई खतराका चिन्हहरू थाहा छ?',
+    subtitleNe: 'गर्भावस्थामा के-कस्ता कुरामा ध्यान दिनुपर्छ, सिकौं!',
     accent: '#C49A3C',
     bgColor: 'rgba(255, 252, 240, 0.97)',
   },
   4: {
     emoji: '🌟',
     title: 'Scenarios Done!',
-    titleNe: 'परिदृश्य सकियो!',
+    titleNe: 'सबै चरण पूरा भयो!',
     subtitle: "Let's see your final results.",
-    subtitleNe: 'अब नतिजा हेरौं!',
+    subtitleNe: 'तपाईंको नतिजा कस्तो आयो त, हेरौं!',
     accent: '#C06898',
     bgColor: 'rgba(253, 245, 250, 0.97)',
   }

@@ -28,7 +28,7 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClo
       emoji: '',
     },
     {
-      title: isNe ? 'अलि बेर थिच्नुहोस्!' : 'Tap to Learn!',
+      title: isNe ? 'एक पटक थिच्नुहोस्!' : 'Tap to Learn!',
       description: isNe
         ? 'कुनै पनि सामानमा थिचिराख्नुहोस् — किन चाहिन्छ भन्ने कुरा देख्नुहुन्छ!'
         : 'Tap any item to see why it matters. Every item has a reason!',
@@ -159,12 +159,12 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClo
           </View>
 
           {/* Title */}
-          <Text style={{ fontSize: 19, fontWeight: '800', color: '#333', marginBottom: 6 }}>
+          <Text style={{ fontSize: 20, fontWeight: '700', color: '#333', marginBottom: 6 }}>
             {currentTutorial.title}
           </Text>
 
           {/* Description */}
-          <Text style={{ fontSize: 15, color: '#555', lineHeight: 22, fontWeight: '500', marginBottom: 14 }}>
+          <Text style={{ fontSize: 16, color: '#555', lineHeight: 22, fontWeight: '500', marginBottom: 14 }}>
             {currentTutorial.description}
           </Text>
 

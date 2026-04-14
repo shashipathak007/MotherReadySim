@@ -145,7 +145,7 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
             elevation: 6,
           }}
         >
-          <Text style={{ fontSize: 45, textAlign: 'center' }}>{emoji}</Text>
+          <Text style={{ fontSize: 50, textAlign: 'center' }}>{emoji}</Text>
         </View>
 
         {/* Text label — sits directly below circle, centered under it */}

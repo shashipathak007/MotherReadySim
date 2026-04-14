@@ -115,7 +115,7 @@ export default function GameContainer() {
       return `🎒 ${packedBagItems.length}/43 · ${isNepali ? (waveNe[currentWave] || currentWave) : currentWave.replace('Docs', ' Docs').toUpperCase()}`;
     }
     if (currentStep === 2) {
-      const waveNe: Record<string, string> = { CRITICAL: 'अति जरुरी', IMPORTANT: 'महत्त्वपूर्ण', INFO: 'जानकारी' };
+      const waveNe: Record<string, string> = { CRITICAL: 'एकदम जरुरी', IMPORTANT: 'जरुरी', INFO: 'जानकारी' };
       return `📱 ${savedContacts.length}/8 · ${isNepali ? (waveNe[currentWave] || currentWave) : currentWave}`;
     }
     if (currentStep === 3) {

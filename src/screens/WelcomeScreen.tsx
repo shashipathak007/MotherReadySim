@@ -67,7 +67,7 @@ export default function WelcomeScreen({ navigation }: any) {
   const stepItems = isNepali ? [
     { label: 'अस्पतालको झोला', step: 1, desc: 'चरण १ मा जानुहोस्' },
     { label: 'आपतकालीन सम्पर्क', step: 2, desc: 'चरण २ मा जानुहोस्' },
-    { label: 'गर्भावस्था परिदृश्यहरू', step: 3, desc: 'चरण ३ मा जानुहोस्' },
+    { label: 'गर्भावस्था परिदृश्य', step: 3, desc: 'चरण ३ मा जानुहोस्' },
   ] : [
     { label: 'Bag Checklist', step: 1, desc: 'Jump to Step 1' },
     { label: 'Emergency Contacts', step: 2, desc: 'Jump to Step 2' },
@@ -87,7 +87,7 @@ export default function WelcomeScreen({ navigation }: any) {
         style={{ flex: 1 }}
         resizeMode="cover"
       >
-        {/* 🔥 Improved Gradient */}
+        {/* Improved Gradient */}
         <LinearGradient 
           colors={[
             'rgba(255,255,255,0.85)',
@@ -126,7 +126,7 @@ export default function WelcomeScreen({ navigation }: any) {
               }}
             >
               <Text style={{ color: COLORS.secondary, fontSize: 13, fontWeight: '900' }}>
-                {isNepali ? 'पुनःसेट गर्नुहोस्' : 'Reset All'}
+                {isNepali ? 'रिसेट' : 'Reset All'}
               </Text>
             </TouchableOpacity>
 
@@ -182,9 +182,9 @@ export default function WelcomeScreen({ navigation }: any) {
             <View style={{ height: 2, width: 70, backgroundColor: COLORS.primary, marginTop: 6 }} />
 
             <Text style={{ 
-              fontSize: 12,
+              fontSize: 13,
               fontWeight: '800',
-              color: '#888',
+              color: '',
               opacity: 0.7,
               letterSpacing: 6,
               marginTop: 10,
@@ -204,14 +204,14 @@ export default function WelcomeScreen({ navigation }: any) {
             }}>
               
               <Text style={{ 
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: '900',
-                color: COLORS.secondary,
+                color: COLORS.primary,
                 textAlign: 'center',
                 letterSpacing: 2,
                 marginBottom: 16,
               }}>
-                {isNepali ? 'चरण छान्नुहोस्' : 'Pick a Step to Practice'}
+                {isNepali ? 'कुनै एक चरण छान्नुहोस्' : 'Pick a Step to Practice'}
               </Text>
 
               <View style={{ gap: 12 }}>
@@ -276,7 +276,7 @@ export default function WelcomeScreen({ navigation }: any) {
                   }}
                 >
                   <Text style={{ color: '#FFF', fontSize: 20, fontWeight: '900', letterSpacing: 2 }}>
-                    {isNepali ? 'सुरुदेखि सुरु गर्नुहोस्' : 'START FROM BEGINNING'}
+                    {isNepali ? 'सुरुदेखि नै खेल्नुहोस्' : 'START FROM BEGINNING'}
                   </Text>
 
                   <Text style={{ color: '#FFF', fontSize: 11, marginTop: 4, opacity: 0.8 }}>

@@ -521,7 +521,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
                   borderRadius: 10,
                   borderWidth: 1.5,
                   borderColor: '#F5E1EC',
-                  paddingHorizontal: 6,
+                  paddingHorizontal: 7,
                   paddingVertical: 4,
                 }}
               >
