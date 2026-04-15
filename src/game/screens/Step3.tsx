@@ -287,6 +287,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
 
   // ── Trimester selection ──
   const handleSelectTrimester = (key: TrimesterKey) => {
+    resetInactivityTimer();
     setSelectedTrimester(key);
     setCurrentIdx(0);
     setSelectedResult(null);
@@ -304,6 +305,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   };
 
   const handleBackToSelector = () => {
+    resetInactivityTimer();
     setSelectedTrimester(null);
     setCurrentIdx(0);
     setSelectedResult(null);
@@ -315,6 +317,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
 
   // ── Answer handling ──
   const handleSelect = (opt: { text: string; textNe: string; isCorrect: boolean }) => {
+    resetInactivityTimer();
     if (hasAnswered.current) return;
     hasAnswered.current = true;
 
@@ -344,6 +347,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   };
 
   const handleNext = () => {
+    resetInactivityTimer();
     setSelectedResult(null);
     hasAnswered.current = false;
     clearFeedback();

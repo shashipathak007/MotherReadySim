@@ -15,6 +15,7 @@ interface GameState {
   selectedTrimester: TrimesterKey | null;
   quizIndex: number;
   shuffledScenarioIds: number[];   // persisted order of scenario ids
+  tutorialCompleted: boolean;
 }
 
 interface GameContextType extends GameState {
@@ -52,6 +53,7 @@ const defaultState: GameState = {
   selectedTrimester: null,
   quizIndex: 0,
   shuffledScenarioIds: [],
+  tutorialCompleted: false,
 };
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -65,7 +67,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [soundEnabled, setSoundEnabled] = useState(true);
   const toggleSound = () => setSoundEnabled(prev => !prev);
   const [tutorialStep, setTutorialStep] = useState(0);
-  const [showTutorial, setShowTutorial] = useState(true);
+  const [showTutorial, _setShowTutorial] = useState(false);
 
   // Track whether initial load is done so we don't save the default state back
   const hasLoaded = useRef(false);
@@ -86,7 +88,15 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
             selectedTrimester: saved.selectedTrimester ?? prev.selectedTrimester,
             quizIndex: saved.quizIndex ?? prev.quizIndex,
             shuffledScenarioIds: saved.shuffledScenarioIds ?? prev.shuffledScenarioIds,
+            tutorialCompleted: saved.tutorialCompleted ?? prev.tutorialCompleted,
           }));
+          // Only show tutorial if it was never completed
+          if (!saved.tutorialCompleted) {
+            _setShowTutorial(true);
+          }
+        } else {
+          // Fresh install — no saved data, show tutorial
+          _setShowTutorial(true);
         }
       } catch (e) {
         console.warn('Failed to load game state:', e);
@@ -155,10 +165,18 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }));
   };
 
+  const setShowTutorial = (show: boolean) => {
+    _setShowTutorial(show);
+    // When tutorial is hidden, mark it as completed
+    if (!show) {
+      setState(prev => ({ ...prev, tutorialCompleted: true }));
+    }
+  };
+
   const resetGame = async () => {
     setState(defaultState);
     setTutorialStep(0);
-    setShowTutorial(true);
+    _setShowTutorial(true);
     try {
       await AsyncStorage.removeItem(STORAGE_KEY);
     } catch (e) {

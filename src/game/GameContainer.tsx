@@ -349,15 +349,13 @@ export default function GameContainer() {
 
       <TutorialOverlay
         visible={showTutorial}
-        onClose={() => { setShowTutorial(false); resetCurrentStep(); }}
+        onClose={() => { setShowTutorial(false); }}
         onNext={(step) => {
           if (step < 3) {
             setTutorialStep(step + 1);
           } else {
             setTutorialStep(0);
             setShowTutorial(false);
-            // Reset any items packed during the tutorial demo so player starts fresh at 0/43
-            resetCurrentStep();
           }
         }}
       />
