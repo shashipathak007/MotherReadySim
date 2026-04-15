@@ -25,7 +25,8 @@ export default function GameContainer() {
   const {
     currentStep, setStep, isReady, resetCurrentStep, resetStepData, resetGame,
     packedBagItems, savedContacts, feedback, clearFeedback, currentWave, quizProgress,
-    soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial
+    soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial,
+    completeTutorial
   } = useGame();
   const { i18n } = useTranslation();
   const navigation = useNavigation<any>();
@@ -349,13 +350,13 @@ export default function GameContainer() {
 
       <TutorialOverlay
         visible={showTutorial}
-        onClose={() => { setShowTutorial(false); resetCurrentStep(); }}
+        onClose={() => { completeTutorial(); setTutorialStep(0); resetCurrentStep(); }}
         onNext={(step) => {
           if (step < 3) {
             setTutorialStep(step + 1);
           } else {
             setTutorialStep(0);
-            setShowTutorial(false);
+            completeTutorial();
             // Reset any items packed during the tutorial demo so player starts fresh at 0/43
             resetCurrentStep();
           }

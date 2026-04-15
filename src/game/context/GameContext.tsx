@@ -15,6 +15,7 @@ interface GameState {
   selectedTrimester: TrimesterKey | null;
   quizIndex: number;
   shuffledScenarioIds: number[];   // persisted order of scenario ids
+  tutorialCompleted: boolean;      // persisted flag — true once tutorial has been fully played
 }
 
 interface GameContextType extends GameState {
@@ -39,6 +40,7 @@ interface GameContextType extends GameState {
   setTutorialStep: (step: number) => void;
   showTutorial: boolean;
   setShowTutorial: (show: boolean) => void;
+  completeTutorial: () => void;
   // Quiz resume helpers
   setQuizState: (trimester: TrimesterKey | null, index: number, scenarioIds: number[]) => void;
   clearQuizState: () => void;
@@ -52,6 +54,7 @@ const defaultState: GameState = {
   selectedTrimester: null,
   quizIndex: 0,
   shuffledScenarioIds: [],
+  tutorialCompleted: false,
 };
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -65,7 +68,9 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [soundEnabled, setSoundEnabled] = useState(true);
   const toggleSound = () => setSoundEnabled(prev => !prev);
   const [tutorialStep, setTutorialStep] = useState(0);
-  const [showTutorial, setShowTutorial] = useState(true);
+  // showTutorial starts false; we set it to true only after loading persisted state
+  // and confirming the tutorial hasn't been completed yet
+  const [showTutorial, setShowTutorialRaw] = useState(false);
 
   // Track whether initial load is done so we don't save the default state back
   const hasLoaded = useRef(false);
@@ -86,7 +91,15 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
             selectedTrimester: saved.selectedTrimester ?? prev.selectedTrimester,
             quizIndex: saved.quizIndex ?? prev.quizIndex,
             shuffledScenarioIds: saved.shuffledScenarioIds ?? prev.shuffledScenarioIds,
+            tutorialCompleted: saved.tutorialCompleted ?? prev.tutorialCompleted,
           }));
+          // Only show tutorial if it hasn't been completed before
+          if (!saved.tutorialCompleted) {
+            setShowTutorialRaw(true);
+          }
+        } else {
+          // No saved state means first ever launch — show tutorial
+          setShowTutorialRaw(true);
         }
       } catch (e) {
         console.warn('Failed to load game state:', e);
@@ -155,10 +168,21 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }));
   };
 
+  // Wrapper that also marks tutorial as completed when hiding it after completion
+  const setShowTutorial = (show: boolean) => {
+    setShowTutorialRaw(show);
+  };
+
+  // Mark tutorial as completed and persist it
+  const completeTutorial = () => {
+    setShowTutorialRaw(false);
+    setState(prev => ({ ...prev, tutorialCompleted: true }));
+  };
+
   const resetGame = async () => {
     setState(defaultState);
     setTutorialStep(0);
-    setShowTutorial(true);
+    setShowTutorialRaw(true);
     try {
       await AsyncStorage.removeItem(STORAGE_KEY);
     } catch (e) {
@@ -205,7 +229,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <GameContext.Provider value={{ ...state, setStep, packItem, saveContact, addQuizStar, resetGame, resetCurrentStep, resetStepData, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial, setQuizState, clearQuizState }}>
+    <GameContext.Provider value={{ ...state, setStep, packItem, saveContact, addQuizStar, resetGame, resetCurrentStep, resetStepData, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial, completeTutorial, setQuizState, clearQuizState }}>
       {children}
     </GameContext.Provider>
   );
