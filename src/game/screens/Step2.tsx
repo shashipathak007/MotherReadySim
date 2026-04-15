@@ -1,14 +1,19 @@
 /// <reference types="nativewind/types" />
-import React, { useRef, useState, useMemo, useEffect } from 'react';
+import React, { useRef, useState, useMemo, useEffect, useCallback } from 'react';
 import { View, Dimensions, Text, ScrollView, Image } from 'react-native';
 import { useGame } from '../context/GameContext';
 import { CONTACTS } from '../../data/contacts';
 import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
 import { StepCompletionModal } from '../components/StepCompletionModal';
-import Animated, { FadeInDown, useSharedValue, useAnimatedStyle, withSpring, withSequence } from 'react-native-reanimated';
+import Animated, {
+  FadeInDown, useSharedValue, useAnimatedStyle, withSpring, withSequence,
+  withTiming, withRepeat, Easing, cancelAnimation,
+} from 'react-native-reanimated';
 import { useTranslation } from 'react-i18next';
 import { useGameAudio } from '../hooks/useGameAudio';
 import { LinearGradient } from 'expo-linear-gradient';
+
+const INACTIVITY_DELAY_MS = 10000;
 
 const { width, height } = Dimensions.get('window');
 
@@ -117,7 +122,7 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
         }
       };
     });
-  }, [currentWave, savedContacts.length === 0, containerLayout.width]);
+  }, [currentWave, savedContacts.length === 0, containerLayout.width, containerLayout.height]);
 
   // Drop zone — EXACTLY same as Step 1 bag
   const dropZone = {
@@ -127,6 +132,180 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
     h: 180
   };
   const itemRefs = useRef<Record<number, DraggableItemRef>>({});
+
+  // ── Inactivity idle-tutorial shared values ──
+  const idleFingerX       = useSharedValue(-200);
+  const idleFingerY       = useSharedValue(-200);
+  const idleFingerScale   = useSharedValue(1);
+  const idleFingerOpacity = useSharedValue(0);
+  const idleFingerRotate  = useSharedValue(0);
+  const idleGhostOpacity  = useSharedValue(0);
+  const [idleGhostItem, setIdleGhostItem] = useState<{ emoji: string; name: string } | null>(null);
+
+  const inactivityTimer    = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const idleLoopTimers     = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const isIdleRunning      = useRef(false);
+
+  // Live refs to current state so the idle loop has latest values
+  const activeWaveContactsRef = useRef(activeWaveContacts);
+  useEffect(() => { activeWaveContactsRef.current = activeWaveContacts; }, [activeWaveContacts]);
+  const dropZoneRef = useRef(dropZone);
+  useEffect(() => { dropZoneRef.current = dropZone; }, [dropZone]);
+  const savedRef = useRef(savedContacts);
+  useEffect(() => { savedRef.current = savedContacts; }, [savedContacts]);
+
+  const idleFingerAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: idleFingerOpacity.value,
+    transform: [
+      { translateX: idleFingerX.value },
+      { translateY: idleFingerY.value },
+      { scale: idleFingerScale.value },
+      { rotate: `${idleFingerRotate.value}deg` },
+    ],
+  }));
+
+  const idleGhostAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: idleGhostOpacity.value,
+    transform: [
+      { translateX: idleFingerX.value - 10 },
+      { translateY: idleFingerY.value + 38 },
+    ],
+  }));
+
+  const clearIdleTimers = () => {
+    idleLoopTimers.current.forEach(clearTimeout);
+    idleLoopTimers.current = [];
+  };
+
+  const stopIdleAnimation = useCallback(() => {
+    if (!isIdleRunning.current) return;
+    isIdleRunning.current = false;
+    clearIdleTimers();
+    cancelAnimation(idleFingerX);
+    cancelAnimation(idleFingerY);
+    cancelAnimation(idleFingerScale);
+    cancelAnimation(idleFingerRotate);
+    idleFingerOpacity.value = withTiming(0, { duration: 150 });
+    idleGhostOpacity.value = withTiming(0, { duration: 150 });
+    setIdleGhostItem(null);
+  }, []);
+
+  const runIdleCycle = useCallback(() => {
+    if (!isIdleRunning.current) return;
+
+    const items = activeWaveContactsRef.current;
+    const saved = savedRef.current;
+    const dz = dropZoneRef.current;
+
+    const dragCandidates = items.filter(i => !(!i.isWrong && saved.includes(i.id)));
+    if (dragCandidates.length === 0) {
+      isIdleRunning.current = false;
+      return;
+    }
+    const dragItem = dragCandidates[Math.floor(Math.random() * dragCandidates.length)];
+
+    const dix = dragItem.initialPos.x + 10;
+    const diy = dragItem.initialPos.y - 50;
+
+    const tx = dz.x + dz.w / 2 - 28;
+    const ty = dz.y + 20; // Top half of the phone
+
+    const addTimer = (fn: () => void, ms: number) => {
+      const id = setTimeout(fn, ms);
+      idleLoopTimers.current.push(id);
+    };
+
+    // ── DRAG demo ──
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      const ghostEmoji = getContactEmoji(dragItem.id);
+      const ghostName  = (dragItem as any).nameNe && isNe ? (dragItem as any).nameNe : dragItem.name;
+      setIdleGhostItem({ emoji: ghostEmoji, name: ghostName });
+
+      idleFingerX.value = dix;
+      idleFingerY.value = diy - 180;
+      idleFingerScale.value = 1;
+      idleFingerRotate.value = 0;
+      idleGhostOpacity.value = 0;
+
+      idleFingerOpacity.value = withTiming(1, { duration: 400 });
+      idleFingerY.value = withTiming(diy, { duration: 500, easing: Easing.out(Easing.ease) });
+    }, 200);
+
+    // Press to grab (no ripple)
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      idleFingerScale.value = withTiming(0.85, { duration: 280, easing: Easing.in(Easing.ease) });
+      idleGhostOpacity.value = withTiming(1, { duration: 200 });
+    }, 900);
+
+    // Lean
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      idleFingerRotate.value = withTiming(-12, { duration: 280 });
+    }, 1200);
+
+    // Drag to phone
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      const dur = 1800;
+      const ease = Easing.inOut(Easing.ease);
+      idleFingerX.value = withTiming(tx, { duration: dur, easing: ease });
+      idleFingerY.value = withTiming(ty, { duration: dur, easing: ease });
+    }, 1300);
+
+    // Straighten on arrival
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      idleFingerRotate.value = withTiming(0, { duration: 220 });
+    }, 3140);
+
+    // Release
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      idleFingerScale.value = withSequence(
+        withTiming(1.2, { duration: 140 }),
+        withTiming(1, { duration: 140 })
+      );
+    }, 3200);
+
+    // Hide ghost, fade out finger
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      idleGhostOpacity.value = withTiming(0, { duration: 250 });
+      idleFingerOpacity.value = withTiming(0, { duration: 400 });
+      setIdleGhostItem(null);
+    }, 3700);
+
+    // Recurse
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      runIdleCycle();
+    }, 4700);
+  }, [isNe]);
+
+  const startIdleAnimation = useCallback(() => {
+    if (isIdleRunning.current) return;
+    isIdleRunning.current = true;
+    runIdleCycle();
+  }, [runIdleCycle]);
+
+  const resetInactivityTimer = useCallback(() => {
+    if (isIdleRunning.current) stopIdleAnimation();
+    if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
+    inactivityTimer.current = setTimeout(() => {
+      startIdleAnimation();
+    }, INACTIVITY_DELAY_MS);
+  }, [startIdleAnimation, stopIdleAnimation]);
+
+  useEffect(() => {
+    resetInactivityTimer();
+    return () => {
+      if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
+      clearIdleTimers();
+      isIdleRunning.current = false;
+    };
+  }, [resetInactivityTimer]);
 
   const handleDrop = (id: number, x: number, y: number, isWrong: boolean) => {
     const item = activeWaveContacts.find(i => i.id === id && i.isWrong === isWrong);
@@ -187,7 +366,8 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
         const { width, height } = e.nativeEvent.layout;
         setContainerLayout({ width, height });
       }}
-      
+      onStartShouldSetResponder={() => { resetInactivityTimer(); return false; }}
+      onMoveShouldSetResponder={() => { resetInactivityTimer(); return false; }}
     >
       <LinearGradient colors={['rgba(255,255,255,0.9)','rgba(243,58,106,0.05)','rgba(176,76,138,0.08)']}
                       style={{position: 'absolute', width: '100%',height: '100%',}}
@@ -321,6 +501,51 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
           setShowCompletionModal(false);
         }}
       />
+
+      {/* ── IDLE / INACTIVITY TUTORIAL LAYER ── */}
+      <View
+        pointerEvents="none"
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9996, elevation: 9996 }}
+      >
+        {idleGhostItem && (
+          <Animated.View
+            pointerEvents="none"
+            style={[{ position: 'absolute', zIndex: 5 }, idleGhostAnimatedStyle]}
+          >
+            <View
+              style={{
+                width: 72, height: 72, borderRadius: 36,
+                backgroundColor: '#FFFFFF', borderWidth: 3.5, borderColor: '#F85797',
+                justifyContent: 'center', alignItems: 'center',
+                shadowColor: '#C06898', shadowOffset: { width: 0, height: 3 },
+                shadowOpacity: 0.35, shadowRadius: 8, elevation: 10,
+              }}
+            >
+              <Text style={{ fontSize: 36, textAlign: 'center' }}>{idleGhostItem.emoji}</Text>
+            </View>
+            <View
+              style={{
+                width: 92, marginTop: 4, marginLeft: -10,
+                backgroundColor: '#FFFFFF', borderRadius: 10,
+                borderWidth: 1.5, borderColor: '#F5E1EC',
+                paddingHorizontal: 7, paddingVertical: 4,
+              }}
+            >
+              <Text style={{ fontSize: 10, fontWeight: '700', textAlign: 'center', color: '#333', lineHeight: 13 }} numberOfLines={2}>
+                {idleGhostItem.name}
+              </Text>
+            </View>
+          </Animated.View>
+        )}
+
+        {/* Idle finger cursor */}
+        <Animated.View
+          pointerEvents="none"
+          style={[{ position: 'absolute', zIndex: 6 }, idleFingerAnimatedStyle]}
+        >
+          <Text style={{ fontSize: 46, lineHeight: 50 }}>👆</Text>
+        </Animated.View>
+      </View>
     </View>
   );
 }

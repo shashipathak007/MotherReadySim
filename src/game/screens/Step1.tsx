@@ -1,5 +1,5 @@
 /// <reference types="nativewind/types" />
-import React, { useRef, useState, useMemo, useEffect } from 'react';
+import React, { useRef, useState, useMemo, useEffect, useCallback } from 'react';
 import { View, Dimensions, Image, Text } from 'react-native';
 import { useGame } from '../context/GameContext';
 import { BAG_ITEMS, DO_NOT_PACK_ITEMS } from '../../data/bagItems';
@@ -16,6 +16,8 @@ import Animated, {
   Easing,
   cancelAnimation,
 } from 'react-native-reanimated';
+
+const INACTIVITY_DELAY_MS = 10000; // 10 seconds
 
 const { width, height } = Dimensions.get('window');
 
@@ -48,7 +50,20 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   const tutorialHideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Ref mirror of isTutorialVisible so the animation effect doesn't re-run when we hide/show the tutorial
   const isTutorialVisibleRef = useRef(isTutorialVisible);
-  useEffect(() => { isTutorialVisibleRef.current = isTutorialVisible; }, [isTutorialVisible]);
+  // Stable function refs so early effects can call idle helpers defined later
+  const stopIdleAnimationRef = useRef<() => void>(() => { });
+  const resetInactivityTimerRef = useRef<() => void>(() => { });
+  useEffect(() => {
+    isTutorialVisibleRef.current = isTutorialVisible;
+    if (isTutorialVisible) {
+      // Main tutorial is showing — stop idle anim and pause the inactivity timer
+      stopIdleAnimationRef.current();
+      if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
+    } else {
+      // Tutorial dismissed — restart the inactivity countdown
+      resetInactivityTimerRef.current();
+    }
+  }, [isTutorialVisible]);
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
   const { playCorrect, playIncorrect } = useGameAudio();
@@ -126,7 +141,10 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
       const yPos = containerLayout.height * 0.42 + row * (itemSize + 30);
       return { ...item, initialPos: { x: xPos + (Math.random() - 0.5) * 10, y: yPos + (Math.random() - 0.5) * 10 } };
     });
-  }, [activeWaveItems, itemPage, containerLayout.width]);
+  }, [activeWaveItems, itemPage, containerLayout.width, containerLayout.height]);
+
+  // Keep paginatedItemsRef in sync for inactivity animation
+  useEffect(() => { paginatedItemsRef.current = paginatedItems; }, [paginatedItems]);
 
   // Auto-advance page when all correct items on current page are packed
   useEffect(() => {
@@ -150,20 +168,46 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   const itemRefs = useRef<Record<number, DraggableItemRef>>({});
 
   // ── Finger animation shared values ──
-  const fingerX       = useSharedValue(-200);
-  const fingerY       = useSharedValue(-200);
-  const fingerScale   = useSharedValue(1);
+  const fingerX = useSharedValue(-200);
+  const fingerY = useSharedValue(-200);
+  const fingerScale = useSharedValue(1);
   const fingerOpacity = useSharedValue(0);
-  const fingerRotate  = useSharedValue(0);   // degrees, for drag lean
+  const fingerRotate = useSharedValue(0);   // degrees, for drag lean
   // Ripple
-  const rippleScale   = useSharedValue(0);
+  const rippleScale = useSharedValue(0);
   const rippleOpacity = useSharedValue(0);
   // Trail
-  const trailOpacity  = useSharedValue(0);
-  const trailX        = useSharedValue(-200);
-  const trailY        = useSharedValue(-200);
+  const trailOpacity = useSharedValue(0);
+  const trailX = useSharedValue(-200);
+  const trailY = useSharedValue(-200);
   // Ghost item (follows finger during drag tutorial)
-  const ghostOpacity  = useSharedValue(0);
+  const ghostOpacity = useSharedValue(0);
+
+  // ── Inactivity idle-tutorial shared values (separate from main tutorial finger) ──
+  const idleFingerX = useSharedValue(-200);
+  const idleFingerY = useSharedValue(-200);
+  const idleFingerScale = useSharedValue(1);
+  const idleFingerOpacity = useSharedValue(0);
+  const idleFingerRotate = useSharedValue(0);
+  const idleGhostOpacity = useSharedValue(0);
+  const idleRippleScale = useSharedValue(0);
+  const idleRippleOpacity = useSharedValue(0);
+  // Which item id the idle ghost is showing
+  const [idleGhostItem, setIdleGhostItem] = useState<{ emoji: string; name: string } | null>(null);
+
+  // Inactivity timer & running flag
+  const inactivityTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const idleLoopTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const isIdleRunning = useRef(false);
+  // Keep a live ref to paginatedItems so the idle loop always sees the latest items
+  const paginatedItemsRef = useRef([] as typeof paginatedItems);
+  // Keep a live ref to dropZone
+  const dropZoneRef = useRef({ x: 0, y: 0, w: 0, h: 0 });
+  // Keep dropZoneRef in sync for inactivity animation
+  dropZoneRef.current = dropZone;
+  // Keep a live ref to packedBagItems
+  const packedRef = useRef(packedBagItems);
+  useEffect(() => { packedRef.current = packedBagItems; }, [packedBagItems]);
 
   const fingerAnimatedStyle = useAnimatedStyle(() => ({
     opacity: fingerOpacity.value,
@@ -202,12 +246,207 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     ],
   }));
 
+  // ── Idle tutorial animated styles ──
+  const idleFingerAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: idleFingerOpacity.value,
+    transform: [
+      { translateX: idleFingerX.value },
+      { translateY: idleFingerY.value },
+      { scale: idleFingerScale.value },
+      { rotate: `${idleFingerRotate.value}deg` },
+    ],
+  }));
+
+  const idleGhostAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: idleGhostOpacity.value,
+    transform: [
+      { translateX: idleFingerX.value - 10 },
+      { translateY: idleFingerY.value + 38 },
+    ],
+  }));
+
+  const idleRippleAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: idleRippleOpacity.value,
+    transform: [
+      { translateX: idleFingerX.value + 16 },
+      { translateY: idleFingerY.value + 16 },
+      { scale: idleRippleScale.value },
+    ],
+  }));
+
   const fireRipple = () => {
     rippleScale.value = 0;
     rippleOpacity.value = 0.7;
     rippleScale.value = withTiming(3.5, { duration: 700, easing: Easing.out(Easing.ease) });
     rippleOpacity.value = withTiming(0, { duration: 700 });
   };
+
+  const fireIdleRipple = () => {
+    idleRippleScale.value = 0;
+    idleRippleOpacity.value = 0.7;
+    idleRippleScale.value = withTiming(3.5, { duration: 700, easing: Easing.out(Easing.ease) });
+    idleRippleOpacity.value = withTiming(0, { duration: 700 });
+  };
+
+  // Clear all idle loop timers
+  const clearIdleTimers = () => {
+    idleLoopTimers.current.forEach(clearTimeout);
+    idleLoopTimers.current = [];
+  };
+
+  // Stop idle animation immediately and reset finger to offscreen
+  const stopIdleAnimation = useCallback(() => {
+    if (!isIdleRunning.current) return;
+    isIdleRunning.current = false;
+    clearIdleTimers();
+    cancelAnimation(idleFingerX);
+    cancelAnimation(idleFingerY);
+    cancelAnimation(idleFingerScale);
+    cancelAnimation(idleFingerRotate);
+    idleFingerOpacity.value = withTiming(0, { duration: 150 });
+    idleGhostOpacity.value = withTiming(0, { duration: 150 });
+    idleRippleOpacity.value = 0;
+    setIdleGhostItem(null);
+  }, [
+    idleFingerOpacity, idleGhostOpacity, idleRippleOpacity,
+    idleFingerX, idleFingerY, idleFingerScale, idleFingerRotate
+  ]);
+  stopIdleAnimationRef.current = stopIdleAnimation;
+
+  // Run one full idle cycle: drag anim on a visible item, then recurse
+  const runIdleCycle = useCallback(() => {
+    if (!isIdleRunning.current) return;
+
+    const items = paginatedItemsRef.current;
+    const packed = packedRef.current;
+    const dz = dropZoneRef.current;
+
+    // Pick a random visible (not-yet-packed) item to demo dragging
+    const dragCandidates = items.filter(i => !(!i.isWrong && packed.includes(i.id)));
+    if (dragCandidates.length === 0) {
+      // Nothing to show; stop idle and let inactivity timer restart later
+      isIdleRunning.current = false;
+      return;
+    }
+    const dragItem = dragCandidates[Math.floor(Math.random() * dragCandidates.length)];
+
+    // Start finger right above the item's visual center (item circle is 82px)
+    const dix = dragItem.initialPos.x;
+    const diy = dragItem.initialPos.y - 160;
+
+    // Target = inside the bag (same approach as Step 2)
+    const tx = dz.x + dz.w / 2 - 28;
+    const ty = dz.y - 130;
+
+    const addTimer = (fn: () => void, ms: number) => {
+      const id = setTimeout(fn, ms);
+      idleLoopTimers.current.push(id);
+    };
+
+    // ── DRAG demo ──
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      const ghostEmoji = dragItem.emoji ?? '📦';
+      const ghostName = ('nameNe' in dragItem && isNe) ? (dragItem as any).nameNe : dragItem.name;
+      setIdleGhostItem({ emoji: ghostEmoji, name: ghostName });
+
+      idleFingerX.value = dix;
+      idleFingerY.value = diy - 180;
+      idleFingerScale.value = 1;
+      idleFingerRotate.value = 0;
+      idleGhostOpacity.value = 0;
+
+      idleFingerOpacity.value = withTiming(1, { duration: 400 });
+      idleFingerY.value = withTiming(diy, { duration: 500, easing: Easing.out(Easing.ease) });
+    }, 200);
+
+    // Press to grab (no ripple — avoids looking like a tap)
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      idleFingerScale.value = withTiming(0.85, { duration: 280, easing: Easing.in(Easing.ease) });
+      idleGhostOpacity.value = withTiming(1, { duration: 200 });
+    }, 900);
+
+    // Lean
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      idleFingerRotate.value = withTiming(-12, { duration: 280 });
+    }, 1200);
+
+    // Drag to bag
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      const dur = 1800;
+      const ease = Easing.inOut(Easing.ease);
+      idleFingerX.value = withTiming(tx, { duration: dur, easing: ease });
+      idleFingerY.value = withTiming(ty, { duration: dur, easing: ease });
+    }, 1300);
+
+    // Straighten on arrival
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      idleFingerRotate.value = withTiming(0, { duration: 220 });
+    }, 3140);
+
+    // Release + ripple
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      idleFingerScale.value = withSequence(
+        withTiming(1.2, { duration: 140 }),
+        withTiming(1, { duration: 140 })
+      );
+      fireIdleRipple();
+    }, 3200);
+
+    // Hide ghost, fade out finger
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      idleGhostOpacity.value = withTiming(0, { duration: 250 });
+      idleFingerOpacity.value = withTiming(0, { duration: 400 });
+      setIdleGhostItem(null);
+    }, 3700);
+
+    // Recurse with a short pause between cycles
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      runIdleCycle();
+    }, 4700);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isNe]);
+
+  // Start idle animation
+  const startIdleAnimation = useCallback(() => {
+    if (isIdleRunning.current) return;
+    isIdleRunning.current = true;
+    runIdleCycle();
+  }, [runIdleCycle]);
+
+  // Reset inactivity timer on user activity
+  const resetInactivityTimer = useCallback(() => {
+    // If idle anim was running, stop it
+    if (isIdleRunning.current) {
+      stopIdleAnimation();
+    }
+    // Clear previous timer
+    if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
+    // Don't schedule idle during the main tutorial
+    if (isTutorialVisibleRef.current) return;
+    inactivityTimer.current = setTimeout(() => {
+      startIdleAnimation();
+    }, INACTIVITY_DELAY_MS);
+  }, [startIdleAnimation, stopIdleAnimation]);
+  resetInactivityTimerRef.current = resetInactivityTimer;
+
+  // Start inactivity timer on mount, clear on unmount
+  useEffect(() => {
+    resetInactivityTimer();
+    return () => {
+      if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
+      clearIdleTimers();
+      isIdleRunning.current = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const timers: ReturnType<typeof setTimeout>[] = [];
@@ -386,13 +625,13 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
         ref?.animatePack(dropZone.x + dropZone.w / 2 - 30, dropZone.y + dropZone.h / 2 - 30);
         playCorrect();
         const itemName = isNe && 'nameNe' in item ? (item as any).nameNe : item.name;
-        const itemWhy  = isNe && 'whyNe' in item  ? (item as any).whyNe  : item.why;
+        const itemWhy = isNe && 'whyNe' in item ? (item as any).whyNe : item.why;
         showFeedback(isNe ? `शाबास! ${itemName}` : `Great job! ${itemName}`, itemWhy, 'success');
       } else {
         ref?.shakeAndSnapBack();
         playIncorrect();
         const itemName = isNe && 'nameNe' in item ? (item as any).nameNe : item.name;
-        const itemWhy  = isNe && 'whyNotNe' in item ? (item as any).whyNotNe : item.why;
+        const itemWhy = isNe && 'whyNotNe' in item ? (item as any).whyNotNe : item.why;
         showFeedback(isNe ? `ओहो! ${itemName} चाहिँदैन` : `Oops! ${itemName} isn't needed`, itemWhy, 'error');
       }
     } else {
@@ -404,9 +643,9 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     const item = activeWaveItems.find(i => i.id === id && i.isWrong === isWrong);
     if (!item) return;
     const itemName = isNe && 'nameNe' in item && (item as any).nameNe ? (item as any).nameNe : item.name;
-    const itemWhy  = item.isWrong
+    const itemWhy = item.isWrong
       ? ((isNe && 'whyNotNe' in item && (item as any).whyNotNe) || item.why)
-      : ((isNe && 'whyNe' in item  && (item as any).whyNe)  || item.why);
+      : ((isNe && 'whyNe' in item && (item as any).whyNe) || item.why);
     showFeedback(itemName, itemWhy, 'info');
 
     // During tap-tutorial step: hide tutorial so the info tip is fully visible for 2s,
@@ -428,6 +667,8 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
         const { width, height } = e.nativeEvent.layout;
         setContainerLayout({ width, height });
       }}
+      onStartShouldSetResponder={() => { resetInactivityTimer(); return false; }}
+      onMoveShouldSetResponder={() => { resetInactivityTimer(); return false; }}
     >
       <LinearGradient
         colors={['rgba(255,255,255,0.9)', 'rgba(243,58,106,0.05)', 'rgba(176,76,138,0.08)']}
@@ -487,7 +728,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
         {(() => {
           const item3 = paginatedItems.find(i => i.id === 3);
           const ghostEmoji = item3?.emoji ?? '🩴';
-          const ghostName  = item3 ? (isNe && 'nameNe' in item3 ? (item3 as any).nameNe : item3.name) : '';
+          const ghostName = item3 ? (isNe && 'nameNe' in item3 ? (item3 as any).nameNe : item3.name) : '';
           return (
             <Animated.View
               pointerEvents="none"
@@ -566,12 +807,63 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
           pointerEvents="none"
           style={[{ position: 'absolute', zIndex: 4 }, fingerAnimatedStyle]}
         >
-          <View style={{
-            position: 'absolute',
-            width: 58, height: 58, borderRadius: 29,
-            backgroundColor: 'rgba(192,104,152,0.22)',
-            top: -7, left: -7,
-          }} />
+          <Text style={{ fontSize: 46, lineHeight: 50 }}>👆</Text>
+        </Animated.View>
+
+        {/* ── IDLE / INACTIVITY TUTORIAL LAYER (zIndex 9996 — above main tutorial finger) ── */}
+        {/* Idle ghost item dragged by idle finger */}
+        {idleGhostItem && (
+          <Animated.View
+            pointerEvents="none"
+            style={[{ position: 'absolute', zIndex: 5 }, idleGhostAnimatedStyle]}
+          >
+            <View
+              style={{
+                width: 72, height: 72, borderRadius: 36,
+                backgroundColor: '#FFFFFF',
+                borderWidth: 3.5, borderColor: '#F85797',
+                justifyContent: 'center', alignItems: 'center',
+                shadowColor: '#C06898',
+                shadowOffset: { width: 0, height: 3 },
+                shadowOpacity: 0.35, shadowRadius: 8, elevation: 10,
+              }}
+            >
+              <Text style={{ fontSize: 36, textAlign: 'center' }}>{idleGhostItem.emoji}</Text>
+            </View>
+            <View
+              style={{
+                width: 92, marginTop: 4, marginLeft: -10,
+                backgroundColor: '#FFFFFF', borderRadius: 10,
+                borderWidth: 1.5, borderColor: '#F5E1EC',
+                paddingHorizontal: 7, paddingVertical: 4,
+              }}
+            >
+              <Text style={{ fontSize: 10, fontWeight: '700', textAlign: 'center', color: '#333', lineHeight: 13 }} numberOfLines={2}>
+                {idleGhostItem.name}
+              </Text>
+            </View>
+          </Animated.View>
+        )}
+
+        {/* Idle ripple ring */}
+        <Animated.View
+          pointerEvents="none"
+          style={[
+            {
+              position: 'absolute', zIndex: 5,
+              width: 56, height: 56, borderRadius: 28,
+              borderWidth: 2.5, borderColor: '#C06898',
+              marginLeft: -28, marginTop: -28,
+            },
+            idleRippleAnimatedStyle,
+          ]}
+        />
+
+        {/* Idle finger cursor */}
+        <Animated.View
+          pointerEvents="none"
+          style={[{ position: 'absolute', zIndex: 6 }, idleFingerAnimatedStyle]}
+        >
           <Text style={{ fontSize: 46, lineHeight: 50 }}>👆</Text>
         </Animated.View>
       </View>
