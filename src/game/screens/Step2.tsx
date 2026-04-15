@@ -51,6 +51,7 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
   const [showCompletionModal, setShowCompletionModal] = useState(false);
   const [currentWaveIdx, setCurrentWaveIdx] = useState(0);
   const [containerLayout, setContainerLayout] = useState({ width: width, height: height });
+  const [itemPositions, setItemPositions] = useState<Record<number, { x: number; y: number }>>({});
   const waveCategories = ['CRITICAL', 'IMPORTANT', 'INFO'];
   const currentWave = waveCategories[currentWaveIdx];
 
@@ -117,12 +118,29 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
       return {
         ...item,
         initialPos: {
-          x: xPos + (Math.random() - 0.5) * 10,
-          y: yPos + (Math.random() - 0.5) * 10
+          // Deterministic tiny jitter so initial positions don't change across renders.
+          x: xPos + ((((item.id * 13) % 11) - 5) * 0.8),
+          y: yPos + ((((item.id * 17) % 11) - 5) * 0.8)
         }
       };
     });
   }, [currentWave, savedContacts.length === 0, containerLayout.width, containerLayout.height]);
+
+  // Ensure every visible item has a persisted position (prevents snapping back after re-renders).
+  useEffect(() => {
+    setItemPositions(prev => {
+      let changed = false;
+      const next = { ...prev };
+      for (const it of activeWaveContacts) {
+        const uniqueId = it.isWrong ? -it.id : it.id;
+        if (!next[uniqueId]) {
+          next[uniqueId] = it.initialPos;
+          changed = true;
+        }
+      }
+      return changed ? next : prev;
+    });
+  }, [activeWaveContacts]);
 
   // Drop zone — EXACTLY same as Step 1 bag
   const dropZone = {
@@ -333,7 +351,9 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
         showFeedback(wrongName, wrongWhy, 'error');
       }
     } else {
-      ref?.snapBack();
+      // Persist where the user dropped it (do not snap back).
+      const uniqueId = isWrong ? -id : id;
+      setItemPositions(prev => ({ ...prev, [uniqueId]: { x, y } }));
     }
   };
 
@@ -475,6 +495,7 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
       {activeWaveContacts.map((item) => {
         const uniqueId = item.isWrong ? -item.id : item.id;
         const packed = !item.isWrong && savedContacts.includes(item.id);
+        const persistedPos = itemPositions[uniqueId] ?? item.initialPos;
         return (
           <DraggableItem
             key={`contact-${currentWave}-${uniqueId}`}
@@ -483,7 +504,7 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
             name={isNe && item.nameNe ? item.nameNe : item.name}
             emoji={getContactEmoji(item.id)}
             isWrong={item.isWrong}
-            initialPos={item.initialPos}
+            initialPos={persistedPos}
             onDrop={handleDrop}
             onLongPress={handleLongPress}
             packed={packed}

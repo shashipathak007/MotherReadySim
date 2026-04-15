@@ -1,5 +1,5 @@
 /// <reference types="nativewind/types" />
-import React, { forwardRef, useImperativeHandle, useEffect } from 'react';
+import React, { forwardRef, useImperativeHandle, useEffect, useRef } from 'react';
 import { View, Text } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -43,8 +43,14 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
   const startX = useSharedValue(0);
   const startY = useSharedValue(0);
 
+  const prevPackedRef = useRef(packed);
   useEffect(() => {
-    if (!packed) {
+    // Important: don't "follow" `initialPos` on every re-render.
+    // Items should remain wherever the user dropped them. We only reset when an item
+    // transitions from packed -> unpacked (e.g. step reset).
+    const wasPacked = prevPackedRef.current;
+    prevPackedRef.current = packed;
+    if (wasPacked && !packed) {
       translateX.value = withSpring(initialPos.x);
       translateY.value = withSpring(initialPos.y);
       scale.value = withSpring(1);
@@ -101,6 +107,9 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
     })
     .onEnd(() => {
       runOnJS(onDrop)(id, translateX.value, translateY.value, isWrong);
+      scale.value = withSpring(1);
+      rotation.value = withSpring(0);
+      zIndex.value = 1;
     });
 
   const tapGesture = Gesture.Tap()
