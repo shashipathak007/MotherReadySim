@@ -581,7 +581,6 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
         if (ref) {
           ref.animatePack(dropZone.x + dropZone.w / 2 - 30, dropZone.y + dropZone.h / 2 - 30);
           playCorrect();
-          packItem(3);
           const bagItem = BAG_ITEMS.find(i => i.id === 3)!;
           showFeedback(
             isNe ? `शाबास! ${bagItem.nameNe}` : `Great job! ${bagItem.name}`,
@@ -601,6 +600,10 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
 
       // Fade out finger
       t(() => { fingerOpacity.value = withTiming(0, { duration: 500 }); }, 4500);
+
+      // Ensure the real item becomes visible again after the demo drag completes
+      // (tutorial should demonstrate the action, but not permanently pack the item for gameplay)
+      t(() => { setHideTutorialItem(false); }, 4600);
     }
 
     return () => timers.forEach(clearTimeout);
