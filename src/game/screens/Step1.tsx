@@ -132,16 +132,54 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   }, [currentWave]);
 
   const paginatedItems = useMemo(() => {
-    const itemSize = 75;
-    const slice = activeWaveItems.slice(itemPage * itemsPerPage, (itemPage + 1) * itemsPerPage);
-    return slice.map((item, index) => {
-      const row = Math.floor(index / 3);
-      const col = index % 3;
-      const xPos = containerLayout.width * 0.35 - (3 * itemSize) / 2 + col * itemSize;
-      const yPos = containerLayout.height * 0.42 + row * (itemSize + 30);
-      return { ...item, initialPos: { x: xPos + (Math.random() - 0.5) * 10, y: yPos + (Math.random() - 0.5) * 10 } };
-    });
-  }, [activeWaveItems, itemPage, containerLayout.width, containerLayout.height]);
+  const itemSize = 70;
+
+  // Horizontal spacing between columns
+  const colSpacing = itemSize + 30;
+
+  // Vertical spacing between rows
+  const baseRowSpacing = itemSize + 40;
+
+  // Extra gap between first row and second row
+  const extraGap = 30;
+
+  const columns = 3;
+  const rightPadding = 180;
+
+  const slice = activeWaveItems.slice(
+    itemPage * itemsPerPage,
+    (itemPage + 1) * itemsPerPage
+  );
+
+  // Right aligned grid
+  const totalGridWidth = (columns - 1) * colSpacing;
+  const startX = containerLayout.width - totalGridWidth - rightPadding;
+
+  return slice.map((item, index) => {
+    const row = Math.floor(index / columns);
+    const col = index % columns;
+
+    const xPos = startX + col * colSpacing;
+
+    const yPos =
+      containerLayout.height * 0.42 +
+      row * baseRowSpacing +
+      (row >= 1 ? extraGap : 0);
+
+    return {
+      ...item,
+      initialPos: {
+        x: xPos + (Math.random() - 0.5) * 10,
+        y: yPos + (Math.random() - 0.5) * 10,
+      },
+    };
+  });
+}, [
+  activeWaveItems,
+  itemPage,
+  containerLayout.width,
+  containerLayout.height,
+]);
 
   // Keep paginatedItemsRef in sync for inactivity animation
   useEffect(() => { paginatedItemsRef.current = paginatedItems; }, [paginatedItems]);
@@ -810,7 +848,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
           pointerEvents="none"
           style={[{ position: 'absolute', zIndex: 4 }, fingerAnimatedStyle]}
         >
-          <Text style={{ fontSize: 46, lineHeight: 50 }}>👆</Text>
+          <Image source={require('../../../assets/images/Finger.png')} style={{ width: 80, height: 80 }} resizeMode="contain" />
         </Animated.View>
 
         {/* ── IDLE / INACTIVITY TUTORIAL LAYER (zIndex 9996 — above main tutorial finger) ── */}
@@ -867,7 +905,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
           pointerEvents="none"
           style={[{ position: 'absolute', zIndex: 6 }, idleFingerAnimatedStyle]}
         >
-          <Text style={{ fontSize: 46, lineHeight: 50 }}>👆</Text>
+          <Image source={require('../../../assets/images/Finger.png')} style={{ width: 80, height: 80 }} resizeMode="contain" />
         </Animated.View>
       </View>
     </View>

@@ -1,6 +1,6 @@
 /// <reference types="nativewind/types" />
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Dimensions, Image } from 'react-native';
 import { useGame } from '../context/GameContext';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, {
@@ -609,7 +609,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
         />
         {/* Finger */}
         <Animated.View pointerEvents="none" style={[{ position: 'absolute', zIndex: 2 }, idleFingerAnimatedStyle]}>
-          <Text style={{ fontSize: 46, lineHeight: 50 }}>👆</Text>
+          <Image source={require('../../../assets/images/Finger.png')} style={{ width: 60, height: 60 }} resizeMode="contain" />
         </Animated.View>
       </View>
     </View>

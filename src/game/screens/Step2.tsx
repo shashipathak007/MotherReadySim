@@ -104,25 +104,48 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
     }));
 
     const combined = [...correctItems, ...wrongItems];
-    const itemCount = combined.length;
-    const itemSize = 75;
+const itemCount = combined.length;
 
-    return combined.sort((a, b) => a.name.localeCompare(b.name)).map((item, index) => {
-      const cols = Math.min(itemCount, 3);
-      const row = Math.floor(index / cols);
-      const col = index % cols;
+const itemSize = 75;
 
-      const xPos = (containerLayout.width * 0.35) - ((cols * itemSize) / 2) + (col * itemSize) + (itemSize / 2) - 35;
-      const yPos = (containerLayout.height * 0.35) + (row * (itemSize + 30));
+// Horizontal spacing
+const colSpacing = itemSize + 30;
+// Vertical spacing
+const baseRowSpacing = itemSize + 40;
+const extraGap = 30;
+const columns = 3;
+const rightPadding = 180;
 
-      return {
-        ...item,
-        initialPos: {
-          // Deterministic tiny jitter so initial positions don't change across renders.
-          x: xPos + ((((item.id * 13) % 11) - 5) * 0.8),
-          y: yPos + ((((item.id * 17) % 11) - 5) * 0.8)
-        }
-      };
+return combined
+  .sort((a, b) => a.name.localeCompare(b.name))
+  .map((item, index) => {
+    const cols = Math.min(itemCount, columns);
+
+    const row = Math.floor(index / cols);
+    const col = index % cols;
+
+    // Right aligned grid
+    const totalGridWidth = (cols - 1) * colSpacing;
+    const startX =
+      containerLayout.width - totalGridWidth - rightPadding;
+
+    const xPos = startX + col * colSpacing;
+
+    const yPos =
+      containerLayout.height * 0.35 +
+      row * baseRowSpacing +
+      (row >= 1 ? extraGap : 0);
+
+    return {
+      ...item,
+      initialPos: {
+        x: xPos + (Math.random() - 0.5) * 10,
+        y: yPos + (Math.random() - 0.5) * 10,
+      },
+    };
+ 
+
+      
     });
   }, [currentWave, savedContacts.length === 0, containerLayout.width, containerLayout.height]);
 
@@ -564,7 +587,7 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
           pointerEvents="none"
           style={[{ position: 'absolute', zIndex: 6 }, idleFingerAnimatedStyle]}
         >
-          <Text style={{ fontSize: 46, lineHeight: 50 }}>👆</Text>
+          <Image source={require('../../../assets/images/Finger.png')} style={{ width: 60, height: 60 }} resizeMode="contain" />
         </Animated.View>
       </View>
     </View>
