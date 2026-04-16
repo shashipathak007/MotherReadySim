@@ -68,17 +68,14 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
       translateX.value = withSequence(
         withTiming(currentX - 10, { duration: 50 }),
         withRepeat(withTiming(currentX + 10, { duration: 50 }), 3, true),
-        withSpring(initialPos.x)
+        withSpring(currentX)
       );
-      translateY.value = withSpring(initialPos.y);
       scale.value = withSpring(1);
       rotation.value = withSpring(0);
       zIndex.value = 1;
     },
     snapBack: () => {
       'worklet';
-      translateX.value = withSpring(initialPos.x);
-      translateY.value = withSpring(initialPos.y);
       scale.value = withSpring(1);
       rotation.value = withSpring(0);
       zIndex.value = 1;

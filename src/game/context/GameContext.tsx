@@ -122,13 +122,13 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
     persist();
   }, [state]);
-  
+
   const updateState = (updates: Partial<GameState>) => {
     setState((prev) => ({ ...prev, ...updates }));
   };
 
   const setStep = (currentStep: GameStep) => updateState({ currentStep });
-  
+
   const packItem = (id: number) => {
     setState(prev => ({
       ...prev,
@@ -149,7 +149,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       quizStars: Math.min(20, prev.quizStars + 1),
     }));
   };
-  
+
   const setQuizState = (trimester: TrimesterKey | null, index: number, scenarioIds: number[]) => {
     setState(prev => ({
       ...prev,
@@ -196,7 +196,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (prev.currentStep === 1) updates = { packedBagItems: [] };
       if (prev.currentStep === 2) updates = { savedContacts: [] };
       if (prev.currentStep === 3) updates = { quizStars: 0, selectedTrimester: null, quizIndex: 0, shuffledScenarioIds: [] };
-      
+
       // Reset quiz progress counter when on the quiz step
       if (prev.currentStep === 3) {
         setQuizProgressState({ current: 0, total: 0 });
