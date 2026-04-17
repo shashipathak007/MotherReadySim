@@ -20,6 +20,10 @@ import Animated, {
 const INACTIVITY_DELAY_MS = 10000; // 10 seconds
 
 const { width, height } = Dimensions.get('window');
+const FINGER_VISUAL_X_OFFSET = -24;
+const FINGER_VISUAL_Y_OFFSET = -10;
+const STEP1_DRAG_TARGET_Y_OFFSET = -24;
+const STEP1_PACK_TARGET_Y_OFFSET = -20;
 
 const waveCategories = [
   'Clothing',
@@ -250,8 +254,8 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   const fingerAnimatedStyle = useAnimatedStyle(() => ({
     opacity: fingerOpacity.value,
     transform: [
-      { translateX: fingerX.value },
-      { translateY: fingerY.value },
+      { translateX: fingerX.value + FINGER_VISUAL_X_OFFSET },
+      { translateY: fingerY.value + FINGER_VISUAL_Y_OFFSET },
       { scale: fingerScale.value },
       { rotate: `${fingerRotate.value}deg` },
     ],
@@ -288,8 +292,8 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   const idleFingerAnimatedStyle = useAnimatedStyle(() => ({
     opacity: idleFingerOpacity.value,
     transform: [
-      { translateX: idleFingerX.value },
-      { translateY: idleFingerY.value },
+      { translateX: idleFingerX.value + FINGER_VISUAL_X_OFFSET },
+      { translateY: idleFingerY.value + FINGER_VISUAL_Y_OFFSET },
       { scale: idleFingerScale.value },
       { rotate: `${idleFingerRotate.value}deg` },
     ],
@@ -374,7 +378,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
 
     // Target = inside the bag (same approach as Step 2)
     const tx = dz.x + dz.w / 2 - 28;
-    const ty = dz.y - 130;
+    const ty = dz.y - 130 + STEP1_DRAG_TARGET_Y_OFFSET;
 
     const addTimer = (fn: () => void, ms: number) => {
       const id = setTimeout(fn, ms);
@@ -566,7 +570,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     if (tutorialStep === 2) {
       // Target = bag center
       const tx = dropZone.x + dropZone.w / 2 - 28;
-      const ty = dropZone.y + dropZone.h / 2 - 28;
+      const ty = dropZone.y + dropZone.h / 2 - 40 + STEP1_DRAG_TARGET_Y_OFFSET;
 
       fingerX.value = ix;
       fingerY.value = iy - 200;
@@ -617,7 +621,10 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
         ghostOpacity.value = withTiming(0, { duration: 200 });
         const ref = itemRefs.current[3];
         if (ref) {
-          ref.animatePack(dropZone.x + dropZone.w / 2 - 30, dropZone.y + dropZone.h / 2 - 30);
+          ref.animatePack(
+            dropZone.x + dropZone.w / 2 - 30,
+            dropZone.y + dropZone.h / 2 - 30 + STEP1_PACK_TARGET_Y_OFFSET
+          );
           playCorrect();
           const bagItem = BAG_ITEMS.find(i => i.id === 3)!;
           showFeedback(
@@ -663,7 +670,10 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     if (inZone) {
       if (!isWrong) {
         packItem(id);
-        ref?.animatePack(dropZone.x + dropZone.w / 2 - 30, dropZone.y + dropZone.h / 2 - 30);
+        ref?.animatePack(
+          dropZone.x + dropZone.w / 2 - 30,
+          dropZone.y + dropZone.h / 2 - 30 + STEP1_PACK_TARGET_Y_OFFSET
+        );
         playCorrect();
         const itemName = isNe && 'nameNe' in item ? (item as any).nameNe : item.name;
         const itemWhy = isNe && 'whyNe' in item ? (item as any).whyNe : item.why;
@@ -848,7 +858,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
           pointerEvents="none"
           style={[{ position: 'absolute', zIndex: 4 }, fingerAnimatedStyle]}
         >
-          <Image source={require('../../../assets/images/Finger.png')} style={{ width: 80, height: 80 }} resizeMode="contain" />
+          <Image source={require('../../../assets/images/Finger.png')} style={{ width: 110, height: 110 }} resizeMode="contain" />
         </Animated.View>
 
         {/* ── IDLE / INACTIVITY TUTORIAL LAYER (zIndex 9996 — above main tutorial finger) ── */}
@@ -905,7 +915,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
           pointerEvents="none"
           style={[{ position: 'absolute', zIndex: 6 }, idleFingerAnimatedStyle]}
         >
-          <Image source={require('../../../assets/images/Finger.png')} style={{ width: 80, height: 80 }} resizeMode="contain" />
+          <Image source={require('../../../assets/images/Finger.png')} style={{ width: 110, height: 110 }} resizeMode="contain" />
         </Animated.View>
       </View>
     </View>

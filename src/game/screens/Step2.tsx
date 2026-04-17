@@ -587,7 +587,7 @@ return combined
           pointerEvents="none"
           style={[{ position: 'absolute', zIndex: 6 }, idleFingerAnimatedStyle]}
         >
-          <Image source={require('../../../assets/images/Finger.png')} style={{ width: 60, height: 60 }} resizeMode="contain" />
+          <Image source={require('../../../assets/images/Finger.png')} style={{ width: 110, height: 110 }} resizeMode="contain" />
         </Animated.View>
       </View>
     </View>
