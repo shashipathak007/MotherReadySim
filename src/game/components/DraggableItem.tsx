@@ -12,7 +12,7 @@ import Animated, {
   withRepeat,
   cancelAnimation
 } from 'react-native-reanimated';
-import { getItemIcon } from './ItemIcons';
+import { getItemIcon, getContactIcon } from './ItemIcons';
 
 export interface DraggableItemRef {
   shakeAndSnapBack: () => void;
@@ -30,10 +30,11 @@ interface DraggableItemProps {
   onLongPress?: (id: number, isWrong: boolean) => void;
   packed: boolean;
   color?: string;
+  isContact?: boolean;
 }
 
 export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
-  id, name, emoji, isWrong = false, initialPos, onDrop, onLongPress, packed, color = '#FFFBFD'
+  id, name, emoji, isWrong = false, initialPos, onDrop, onLongPress, packed, color = '#FFFBFD', isContact = false
 }, ref) => {
   const translateX = useSharedValue(initialPos.x);
   const translateY = useSharedValue(initialPos.y);
@@ -155,7 +156,10 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
             elevation: 6,
           }}
         >
-          {getItemIcon(id, isWrong, 55) || <Text style={{ fontSize: 50, textAlign: 'center' }}>{emoji}</Text>}
+          {isContact
+            ? (getContactIcon(id, isWrong, 55) || <Text style={{ fontSize: 50, textAlign: 'center' }}>{emoji}</Text>)
+            : (getItemIcon(id, isWrong, 55) || <Text style={{ fontSize: 50, textAlign: 'center' }}>{emoji}</Text>)
+          }
         </View>
 
         {/* Text label — sits directly below circle, centered under it */}

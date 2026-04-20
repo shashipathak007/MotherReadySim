@@ -7,11 +7,12 @@ import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
 import { StepCompletionModal } from '../components/StepCompletionModal';
 import Animated, {
   FadeInDown, useSharedValue, useAnimatedStyle, withSpring, withSequence,
-  withTiming, withRepeat, Easing, cancelAnimation,
+  withTiming, Easing, cancelAnimation,
 } from 'react-native-reanimated';
 import { useTranslation } from 'react-i18next';
 import { useGameAudio } from '../hooks/useGameAudio';
 import { LinearGradient } from 'expo-linear-gradient';
+import { getContactIcon } from '../components/ItemIcons';
 
 const INACTIVITY_DELAY_MS = 10000;
 
@@ -55,12 +56,9 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
   const waveCategories = ['CRITICAL', 'IMPORTANT', 'INFO'];
   const currentWave = waveCategories[currentWaveIdx];
 
-  const hasCompletedInitially = useRef(savedContacts.length >= CONTACTS.length);
-  const isFirstCompletion = useRef(false);
 
   const checkCompletion = (newCount: number) => {
     if (newCount >= CONTACTS.length) {
-      isFirstCompletion.current = !hasCompletedInitially.current;
       setShowCompletionModal(true);
     }
   };
@@ -181,7 +179,7 @@ return combined
   const idleFingerOpacity = useSharedValue(0);
   const idleFingerRotate  = useSharedValue(0);
   const idleGhostOpacity  = useSharedValue(0);
-  const [idleGhostItem, setIdleGhostItem] = useState<{ emoji: string; name: string } | null>(null);
+  const [idleGhostItem, setIdleGhostItem] = useState<{ emoji: string; name: string; id: number; isWrong: boolean } | null>(null);
 
   const inactivityTimer    = useRef<ReturnType<typeof setTimeout> | null>(null);
   const idleLoopTimers     = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -261,7 +259,7 @@ return combined
       if (!isIdleRunning.current) return;
       const ghostEmoji = getContactEmoji(dragItem.id);
       const ghostName  = (dragItem as any).nameNe && isNe ? (dragItem as any).nameNe : dragItem.name;
-      setIdleGhostItem({ emoji: ghostEmoji, name: ghostName });
+      setIdleGhostItem({ emoji: ghostEmoji, name: ghostName, id: dragItem.id, isWrong: dragItem.isWrong });
 
       idleFingerX.value = dix;
       idleFingerY.value = diy - 180;
@@ -397,7 +395,7 @@ return combined
   const getContactEmoji = (id: number) => {
     switch (id) {
       case 1: return '👩‍⚕️'; case 2: return '🚑'; case 3: return '🏥';
-      case 4: return '🤝'; case 5: return '👫'; case 6: return '🏠';
+      case 4: return '🧕'; case 5: return '👫'; case 6: return '🏠';
       case 7: return '🩸'; case 8: return '📞'; default: return '📱';
     }
   };
@@ -532,6 +530,7 @@ return combined
             onLongPress={handleLongPress}
             packed={packed}
             color={item.isWrong ? '#F5F0F0' : '#FFFBFD'}
+            isContact={true}
           />
         );
       })}
@@ -539,7 +538,7 @@ return combined
       <StepCompletionModal
         visible={showCompletionModal}
         onClose={() => setShowCompletionModal(false)}
-        onNext={isFirstCompletion.current ? () => { setShowCompletionModal(false); onNextStep(); } : undefined}
+        onNext={() => { setShowCompletionModal(false); onNextStep(); }}
         onReset={() => {
           resetCurrentStep();
           setShowCompletionModal(false);
@@ -565,7 +564,7 @@ return combined
                 shadowOpacity: 0.35, shadowRadius: 8, elevation: 10,
               }}
             >
-              <Text style={{ fontSize: 36, textAlign: 'center' }}>{idleGhostItem.emoji}</Text>
+              {getContactIcon(idleGhostItem.id, idleGhostItem.isWrong, 60) || <Text style={{ fontSize: 36, textAlign: 'center' }}>{idleGhostItem.emoji}</Text>}
             </View>
             <View
               style={{

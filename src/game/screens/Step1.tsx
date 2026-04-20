@@ -83,12 +83,9 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   const itemsPerPage = 6;
   const currentWave = waveCategories[currentWaveIdx];
 
-  const hasCompletedInitially = useRef(packedBagItems.length >= BAG_ITEMS.length);
-  const isFirstCompletion = useRef(false);
 
   const checkCompletion = (count: number) => {
     if (count >= BAG_ITEMS.length) {
-      isFirstCompletion.current = !hasCompletedInitially.current;
       setShowCompletionModal(true);
     }
   };
@@ -781,7 +778,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
       <StepCompletionModal
         visible={showCompletionModal}
         onClose={() => setShowCompletionModal(false)}
-        onNext={isFirstCompletion.current ? () => { setShowCompletionModal(false); onNextStep(); } : undefined}
+        onNext={() => { setShowCompletionModal(false); onNextStep(); }}
         onReset={() => { resetCurrentStep(); setShowCompletionModal(false); }}
       />
 

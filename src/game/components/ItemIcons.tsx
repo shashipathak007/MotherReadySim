@@ -34,26 +34,18 @@ export const getItemIcon = (id: number, isWrong: boolean, size = 50) => {
         return (
           <Svg width={size} height={size} viewBox="0 0 100 100">
             <Defs>
-              <RadialGradient id="braCupWrong" cx="40%" cy="40%" r="60%">
-                <Stop offset="0%" stopColor="#FFB6C1" />
-                <Stop offset="100%" stopColor="#FF1493" />
+              <RadialGradient id="braCupWrong" cx="50%" cy="50%" r="50%">
+                <Stop offset="0%" stopColor="#FF69B4" />
+                <Stop offset="100%" stopColor="#C71585" />
               </RadialGradient>
-              <LinearGradient id="wireDark" x1="0%" y1="0%" x2="0%" y2="100%">
-                <Stop offset="0%" stopColor="#000" stopOpacity="0.8" />
-                <Stop offset="100%" stopColor="#000" stopOpacity="0.4" />
-              </LinearGradient>
             </Defs>
-            <Path d="M20 70 C 20 90, 45 90, 45 70" fill="url(#braCupWrong)" />
-            <Path d="M55 70 C 55 90, 80 90, 80 70" fill="url(#braCupWrong)" />
-            <Path d="M20 70 Q 32.5 50 45 70 Z" fill="#FFE4E1" />
-            <Path d="M55 70 Q 67.5 50 80 70 Z" fill="#FFE4E1" />
-            <Path d="M25 70 L 20 30 M40 70 L 45 30" stroke="#FF69B4" strokeWidth="3" strokeLinecap="round" />
-            <Path d="M60 70 L 55 30 M75 70 L 80 30" stroke="#FF69B4" strokeWidth="3" strokeLinecap="round" />
-            <Path d="M20 70 C 20 95, 45 95, 45 70" fill="none" stroke="url(#wireDark)" strokeWidth="3" strokeLinecap="round" />
-            <Path d="M55 70 C 55 95, 80 95, 80 70" fill="none" stroke="url(#wireDark)" strokeWidth="3" strokeLinecap="round" />
-            <Circle cx="50" cy="70" r="3" fill="#8B0000" />
-            <Path d="M28 80 Q 32 85 40 80" stroke="#FFF" strokeWidth="2" fill="none" opacity="0.6" strokeLinecap="round" />
-            <Path d="M63 80 Q 67 85 75 80" stroke="#FFF" strokeWidth="2" fill="none" opacity="0.6" strokeLinecap="round" />
+            <Path d="M15 50 A 17 17 0 0 0 49 50 Z" fill="url(#braCupWrong)" />
+            <Path d="M51 50 A 17 17 0 0 0 85 50 Z" fill="url(#braCupWrong)" />
+            <Path d="M15 50 A 17 17 0 0 0 49 50" fill="none" stroke="#8B0000" strokeWidth="3" />
+            <Path d="M51 50 A 17 17 0 0 0 85 50" fill="none" stroke="#8B0000" strokeWidth="3" />
+            <Path d="M32 50 L 32 20 M 68 50 L 68 20" stroke="#C71585" strokeWidth="5" strokeLinecap="round" />
+            <Path d="M15 50 Q 10 35 15 25 M 85 50 Q 90 35 85 25" stroke="#C71585" strokeWidth="4" strokeLinecap="round" fill="none" />
+            <Path d="M49 45 L 51 45" stroke="#C71585" strokeWidth="3" />
           </Svg>
         );
       case 5: // Baby powder (Chubby 3D bottle with cloud)
@@ -133,45 +125,38 @@ export const getItemIcon = (id: number, isWrong: boolean, size = 50) => {
         return (
           <Svg width={size} height={size} viewBox="0 0 100 100">
             <Defs>
-              <RadialGradient id="braCup" cx="30%" cy="30%" r="60%">
-                <Stop offset="0%" stopColor="#FF69B4" />
-                <Stop offset="70%" stopColor="#FF1493" />
-                <Stop offset="100%" stopColor="#C71585" />
-              </RadialGradient>
-              <LinearGradient id="strapGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <Stop offset="0%" stopColor="#FFB6C1" />
+              <RadialGradient id="braCupRight" cx="50%" cy="50%" r="50%">
+                <Stop offset="0%" stopColor="#FFC0CB" />
                 <Stop offset="100%" stopColor="#FF69B4" />
-              </LinearGradient>
+              </RadialGradient>
             </Defs>
-            <Path d="M15 60 C 15 90, 48 90, 48 60 C 48 45, 15 45, 15 60 Z" fill="url(#braCup)" />
-            <Path d="M52 60 C 52 90, 85 90, 85 60 C 85 45, 52 45, 52 60 Z" fill="url(#braCup)" />
-            <Path d="M22 60 Q 31.5 80 41 60" stroke="#FF69B4" strokeWidth="1" fill="none" opacity="0.3" />
-            <Path d="M59 60 Q 68.5 80 78 60" stroke="#FF69B4" strokeWidth="1" fill="none" opacity="0.3" />
-            <Rect x="46" y="55" width="8" height="15" rx="3" fill="#DB7093" />
-            <Path d="M25 45 Q 31.5 30 25 15 M 31.5 50 Q 50 30 50 10" stroke="url(#strapGrad)" strokeWidth="5" fill="none" strokeLinecap="round" />
-            <Path d="M75 45 Q 68.5 30 75 15 M 68.5 50 Q 50 30 50 10" stroke="url(#strapGrad)" strokeWidth="5" fill="none" strokeLinecap="round" />
-            <Circle cx="50" cy="63" r="4" fill="#000" opacity="0.1" />
-            <Circle cx="50" cy="62" r="4" fill="#FFF" />
+            <Path d="M15 45 Q 32 85 48 45 Z" fill="url(#braCupRight)" />
+            <Path d="M52 45 Q 68 85 85 45 Z" fill="url(#braCupRight)" />
+            <Path d="M32 45 L 25 15 M 68 45 L 75 15" stroke="#FF69B4" strokeWidth="8" strokeLinecap="round" />
+            <Path d="M48 45 L 52 45" stroke="#FF69B4" strokeWidth="6" />
+            <Circle cx="30" cy="35" r="4" fill="#FFF" />
+            <Circle cx="70" cy="35" r="4" fill="#FFF" />
+            <Path d="M25 55 Q 32 65 39 55" stroke="#FFF" strokeWidth="2" fill="none" opacity="0.4" strokeLinecap="round" />
+            <Path d="M61 55 Q 68 65 75 55" stroke="#FFF" strokeWidth="2" fill="none" opacity="0.4" strokeLinecap="round" />
+            <Path d="M10 50 Q 30 10 50 50 Q 70 10 90 50" fill="none" stroke="#FF69B4" strokeWidth="8" strokeLinecap="round" />
+            <Path d="M15 50 Q 30 75 50 50 Q 70 75 85 50" fill="none" stroke="#FF69B4" strokeWidth="6" strokeLinecap="round" />
+            <Path d="M50 50 L 50 20" stroke="#FF69B4" strokeWidth="4" />
           </Svg>
         );
       case 11: // Hair tie (Bumpy shiny scrunchie)
         return (
           <Svg width={size} height={size} viewBox="0 0 100 100">
             <Defs>
-              <LinearGradient id="scrunchieOuter" x1="0%" y1="0%" x2="100%" y2="100%">
+              <LinearGradient id="tieGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <Stop offset="0%" stopColor="#FF1493" />
-                <Stop offset="50%" stopColor="#FF69B4" />
-                <Stop offset="100%" stopColor="#DB7093" />
+                <Stop offset="100%" stopColor="#8B0A50" />
               </LinearGradient>
-              <RadialGradient id="scrunchieHighlight" cx="30%" cy="30%" r="50%">
-                <Stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.7" />
-                <Stop offset="100%" stopColor="#FFF" stopOpacity="0" />
-              </RadialGradient>
             </Defs>
-            <Path d="M50 15 C 65 10, 80 15, 85 30 C 95 40, 90 60, 85 70 C 80 85, 65 90, 50 85 C 35 90, 20 85, 15 70 C 10 60, 5 40, 15 30 C 20 15, 35 10, 50 15 Z" fill="url(#scrunchieOuter)" />
-            <Path d="M50 25 C 65 25, 75 35, 75 50 C 75 65, 65 75, 50 75 C 35 75, 25 65, 25 50 C 25 35, 35 25, 50 25 Z" fill="#FFF" opacity="0.2" />
-            <Path d="M40 15 Q 50 30 60 15 M85 40 Q 70 50 85 60 M60 85 Q 50 70 40 85 M15 60 Q 30 50 15 40 M30 25 Q 40 40 25 45" stroke="#8B0A50" strokeWidth="2.5" fill="none" opacity="0.6" strokeLinecap="round" />
-            <Path d="M40 20 Q 55 25 75 40" stroke="#FFF" strokeWidth="4" fill="none" opacity="0.4" strokeLinecap="round" />
+            <Circle cx="50" cy="50" r="30" fill="none" stroke="url(#tieGrad)" strokeWidth="18" strokeDasharray="14 6" strokeLinecap="round" />
+            <Circle cx="50" cy="50" r="30" fill="none" stroke="#FF69B4" strokeWidth="18" opacity="0.5" />
+            <Circle cx="50" cy="50" r="21" fill="none" stroke="#8B0A50" strokeWidth="2" opacity="0.8" />
+            <Circle cx="50" cy="50" r="39" fill="none" stroke="#8B0A50" strokeWidth="2" opacity="0.8" />
+            <Path d="M30 30 Q 50 15 70 30" stroke="#FFF" strokeWidth="3" fill="none" opacity="0.6" strokeLinecap="round" />
           </Svg>
         );
       case 12: // Lip balm (Glossy tube)
@@ -222,22 +207,8 @@ export const getItemIcon = (id: number, isWrong: boolean, size = 50) => {
             <Path d="M48 45 Q 52 55 48 65 Q 45 55 48 45" fill="#FFF" opacity="0.6" />
           </Svg>
         );
-      case 14: // Home pillow (Soft puffy 3D)
-        return (
-          <Svg width={size} height={size} viewBox="0 0 100 100">
-            <Defs>
-              <RadialGradient id="pillowGrad" cx="30%" cy="30%" r="70%">
-                <Stop offset="0%" stopColor="#B0C4DE" />
-                <Stop offset="60%" stopColor="#778899" />
-                <Stop offset="100%" stopColor="#4682B4" />
-              </RadialGradient>
-            </Defs>
-            <Rect x="15" y="30" width="70" height="40" rx="20" fill="url(#pillowGrad)" stroke="#E6E6FA" strokeWidth="2" />
-            <Path d="M25 40 Q 50 55 75 40" stroke="#FFF" strokeWidth="4" fill="none" opacity="0.8" strokeLinecap="round" />
-            <Path d="M25 60 Q 50 45 75 60" stroke="#87CEEB" strokeWidth="2" fill="none" opacity="0.5" strokeLinecap="round" />
-            <Path d="M15 30 L 85 70 M 85 30 L 15 70" stroke="#FFF" strokeWidth="4" opacity="0.3" fill="none" strokeDasharray="10,20"/>
-          </Svg>
-        );
+      case 14: // Home pillow
+        return null; // Fallback to standard emoji
       case 15: // Massage oil (Green 3D bottle with roller)
         return (
           <Svg width={size} height={size} viewBox="0 0 100 100">
@@ -429,23 +400,54 @@ export const getItemIcon = (id: number, isWrong: boolean, size = 50) => {
       case 28: // Cotton balls (3D fluffy clustered spheres)
         return (
           <Svg width={size} height={size} viewBox="0 0 100 100">
-            <Defs>
-              <RadialGradient id="cottonBall" cx="35%" cy="35%" r="65%">
-                <Stop offset="0%" stopColor="#B0C4DE" />
-                <Stop offset="60%" stopColor="#778899" />
-                <Stop offset="100%" stopColor="#4A708B" />
-              </RadialGradient>
-            </Defs>
-            <Circle cx="35" cy="60" r="22" fill="url(#cottonBall)" />
-            <Circle cx="65" cy="60" r="22" fill="url(#cottonBall)" />
-            <Circle cx="50" cy="35" r="24" fill="url(#cottonBall)" />
-            <Path d="M28 55 Q 35 48 42 55" stroke="#FFF" strokeWidth="3" fill="none" strokeLinecap="round" />
-            <Path d="M58 55 Q 65 48 72 55" stroke="#FFF" strokeWidth="3" fill="none" strokeLinecap="round" />
-            <Path d="M40 30 Q 50 20 60 30" stroke="#FFF" strokeWidth="3" fill="none" strokeLinecap="round" />
+            <Circle cx="35" cy="65" r="22" fill="#FFFFFF" stroke="#333333" strokeWidth="3" />
+            <Circle cx="65" cy="65" r="22" fill="#FFFFFF" stroke="#333333" strokeWidth="3" />
+            <Circle cx="50" cy="35" r="25" fill="#FFFFFF" stroke="#333333" strokeWidth="3" />
+            <Path d="M40 30 Q 50 20 60 30" stroke="#CCCCCC" strokeWidth="2" fill="none" strokeLinecap="round" />
+            <Path d="M28 60 Q 35 50 42 60" stroke="#CCCCCC" strokeWidth="2" fill="none" strokeLinecap="round" />
+            <Path d="M58 60 Q 65 50 72 60" stroke="#CCCCCC" strokeWidth="2" fill="none" strokeLinecap="round" />
+            <Circle cx="45" cy="28" r="3" fill="#EEEEEE" />
+            <Circle cx="30" cy="58" r="2" fill="#EEEEEE" />
+            <Circle cx="70" cy="58" r="2" fill="#EEEEEE" />
           </Svg>
         );
       default:
         return null;
     }
   }
+};
+
+export const getContactIcon = (id: number, isWrong: boolean, size = 50) => {
+  // Only custom SVG for FCHV (id:4, correct) — blue saree with white border
+  if (!isWrong && id === 4) {
+    return (
+      <Svg width={size} height={size} viewBox="0 0 100 100">
+        <Defs>
+          <LinearGradient id="sareeBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+            <Stop offset="0%" stopColor="#1E90FF" />
+            <Stop offset="100%" stopColor="#0047AB" />
+          </LinearGradient>
+        </Defs>
+        {/* Head */}
+        <Circle cx="50" cy="28" r="16" fill="#D2A679" />
+        {/* Hair / dupatta drape over head */}
+        <Path d="M34 28 Q 34 10, 50 10 Q 66 10, 66 28" fill="#0047AB" />
+        {/* Body — saree drape */}
+        <Path d="M30 44 Q 50 38, 70 44 L 75 92 Q 50 96, 25 92 Z" fill="url(#sareeBlue)" />
+        {/* White saree border (pallu edge) */}
+        <Path d="M30 44 Q 50 38, 70 44 L 68 50 Q 50 44, 32 50 Z" fill="#FFFFFF" />
+        <Path d="M25 88 Q 50 92, 75 88 L 75 92 Q 50 96, 25 92 Z" fill="#FFFFFF" />
+        {/* Pallu drape across shoulder */}
+        <Path d="M42 44 Q 30 65, 28 90" stroke="#FFFFFF" strokeWidth="3" fill="none" strokeLinecap="round" />
+        {/* Smile */}
+        <Path d="M45 33 Q 50 38, 55 33" stroke="#8B5E3C" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+        {/* Eyes */}
+        <Circle cx="44" cy="27" r="2" fill="#333" />
+        <Circle cx="56" cy="27" r="2" fill="#333" />
+        {/* Bindi */}
+        <Circle cx="50" cy="22" r="2" fill="#DC143C" />
+      </Svg>
+    );
+  }
+  return null;
 };

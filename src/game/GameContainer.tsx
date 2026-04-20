@@ -7,10 +7,9 @@ import Step1 from './screens/Step1';
 import Step2 from './screens/Step2';
 import Step3 from './screens/Step3';
 import Step4 from './screens/Step4';
-import { TransitionCard } from './components/TransitionCard';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import Animated, { FadeInUp, FadeOutDown, BounceIn, FadeInDown, ZoomIn } from 'react-native-reanimated';
+import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TutorialOverlay } from './components/TutorialOverlay';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +22,7 @@ const { width: SCREEN_W } = Dimensions.get('window');
 
 export default function GameContainer() {
   const {
-    currentStep, setStep, isReady, resetCurrentStep, resetStepData, resetGame,
+    currentStep, setStep, isReady, resetCurrentStep, resetGame,
     packedBagItems, savedContacts, feedback, clearFeedback, currentWave, quizProgress,
     soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial,
     completeTutorial
@@ -37,8 +36,6 @@ export default function GameContainer() {
     i18n.changeLanguage(isNepali ? 'en' : 'ne');
   };
 
-  const [showTransition, setShowTransition] = useState(false);
-  const [transitionStep, setTransitionStep] = useState<1 | 2 | 3 | 4>(1);
   const [entryStep, setEntryStep] = useState<number>(1);
 
   // No auto-demo actions needed in GameContainer — animations handled in Step1
@@ -68,10 +65,7 @@ export default function GameContainer() {
     setStep((stepFinished + 1) as any);
   };
 
-  const handleTransitionComplete = () => {
-    setShowTransition(false);
-    setStep((transitionStep + 1) as any);
-  };
+
 
   const renderStep = () => {
     switch (currentStep) {
@@ -342,11 +336,7 @@ export default function GameContainer() {
         </SafeAreaView>
       </View>
 
-      <TransitionCard
-        visible={showTransition}
-        step={transitionStep}
-        onComplete={handleTransitionComplete}
-      />
+
 
       <TutorialOverlay
         visible={showTutorial}
