@@ -12,6 +12,7 @@ import Animated, {
   withRepeat,
   cancelAnimation
 } from 'react-native-reanimated';
+import { getItemIcon } from './ItemIcons';
 
 export interface DraggableItemRef {
   shakeAndSnapBack: () => void;
@@ -154,7 +155,7 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
             elevation: 6,
           }}
         >
-          <Text style={{ fontSize: 50, textAlign: 'center' }}>{emoji}</Text>
+          {getItemIcon(id, isWrong, 55) || <Text style={{ fontSize: 50, textAlign: 'center' }}>{emoji}</Text>}
         </View>
 
         {/* Text label — sits directly below circle, centered under it */}

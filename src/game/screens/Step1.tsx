@@ -4,6 +4,7 @@ import { View, Dimensions, Image, Text } from 'react-native';
 import { useGame } from '../context/GameContext';
 import { BAG_ITEMS, DO_NOT_PACK_ITEMS } from '../../data/bagItems';
 import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
+import { getItemIcon } from '../components/ItemIcons';
 import { StepCompletionModal } from '../components/StepCompletionModal';
 import { useTranslation } from 'react-i18next';
 import { useGameAudio } from '../hooks/useGameAudio';
@@ -98,6 +99,13 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
 
   useEffect(() => { setItemPage(0); }, [currentWaveIdx]);
 
+  useEffect(() => {
+    if (packedBagItems.length === 0) {
+      setItemPage(0);
+      setCurrentWaveIdx(0);
+    }
+  }, [packedBagItems]);
+
   // Advance wave when all correct items in current wave are packed
   useEffect(() => {
     let nextWaveIdx = 0;
@@ -125,13 +133,20 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
       .filter(i => wrongIds.includes(i.id))
       .map(item => ({ ...item, isWrong: true, why: item.whyNot }));
     const combined = [...correctItems, ...wrongItems];
-    // Swap shawl (id:3, correct) and tight jeans (id:4, wrong) positions in the grid
-    // so the drag tutorial finger lands correctly above the shawl
-    const shawlIdx = combined.findIndex(i => i.id === 3 && !i.isWrong);
-    const jeansIdx = combined.findIndex(i => i.id === 4 && i.isWrong);
-    if (shawlIdx !== -1 && jeansIdx !== -1) {
-      [combined[shawlIdx], combined[jeansIdx]] = [combined[jeansIdx], combined[shawlIdx]];
+    
+    // Shuffle all items to ensure wrong items and correct items mix across all pages
+    for (let i = combined.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [combined[i], combined[j]] = [combined[j], combined[i]];
     }
+
+    // Force the tutorial shawl (id:3, correct) to always be safely on the first page
+    const shawlIdx = combined.findIndex(i => i.id === 3 && !i.isWrong);
+    if (shawlIdx >= itemsPerPage) {
+      const swapIdx = Math.floor(Math.random() * Math.min(combined.length, itemsPerPage));
+      [combined[shawlIdx], combined[swapIdx]] = [combined[swapIdx], combined[shawlIdx]];
+    }
+    
     return combined;
   }, [currentWave]);
 
@@ -235,7 +250,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   const idleRippleScale = useSharedValue(0);
   const idleRippleOpacity = useSharedValue(0);
   // Which item id the idle ghost is showing
-  const [idleGhostItem, setIdleGhostItem] = useState<{ emoji: string; name: string } | null>(null);
+  const [idleGhostItem, setIdleGhostItem] = useState<{ id: number; isWrong: boolean; emoji: string; name: string } | null>(null);
 
   // Inactivity timer & running flag
   const inactivityTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -390,7 +405,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
       if (!isIdleRunning.current) return;
       const ghostEmoji = dragItem.emoji ?? '📦';
       const ghostName = ('nameNe' in dragItem && isNe) ? (dragItem as any).nameNe : dragItem.name;
-      setIdleGhostItem({ emoji: ghostEmoji, name: ghostName });
+      setIdleGhostItem({ id: dragItem.id, isWrong: dragItem.isWrong || false, emoji: ghostEmoji, name: ghostName });
 
       idleFingerX.value = dix;
       idleFingerY.value = diy - 180;
@@ -800,9 +815,10 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
                   shadowOpacity: 0.35,
                   shadowRadius: 8,
                   elevation: 10,
+                  overflow: 'hidden'
                 }}
               >
-                <Text style={{ fontSize: 36, textAlign: 'center' }}>{ghostEmoji}</Text>
+                {getItemIcon(3, false, 55) || <Text style={{ fontSize: 36, textAlign: 'center' }}>{ghostEmoji}</Text>}
               </View>
               <View
                 style={{
@@ -876,10 +892,10 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
                 justifyContent: 'center', alignItems: 'center',
                 shadowColor: '#C06898',
                 shadowOffset: { width: 0, height: 3 },
-                shadowOpacity: 0.35, shadowRadius: 8, elevation: 10,
+                shadowOpacity: 0.35, shadowRadius: 8, elevation: 10, overflow: 'hidden'
               }}
             >
-              <Text style={{ fontSize: 36, textAlign: 'center' }}>{idleGhostItem.emoji}</Text>
+              {getItemIcon(idleGhostItem.id, idleGhostItem.isWrong, 55) || <Text style={{ fontSize: 36, textAlign: 'center' }}>{idleGhostItem.emoji}</Text>}
             </View>
             <View
               style={{
