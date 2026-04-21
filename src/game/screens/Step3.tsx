@@ -69,7 +69,7 @@ const TRIMESTERS: TrimesterInfo[] = [
     weeks: 'Weeks 1–12',
     weeksNe: 'हप्ता १–१२',
     color: '#6BBF8A',
-    
+
     scenarios: FIRST_TRIMESTER_SCENARIOS,
   },
   {
@@ -89,7 +89,7 @@ const TRIMESTERS: TrimesterInfo[] = [
     weeks: 'Weeks 27–40',
     weeksNe: 'हप्ता २७–४०',
     color: '#7BAED6',
-    
+
     scenarios: THIRD_TRIMESTER_SCENARIOS,
   },
 ];
@@ -102,7 +102,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   const {
     addQuizStar, showFeedback, clearFeedback, setQuizProgress, setCurrentWave,
     selectedTrimester: savedTrimester, quizIndex: savedQuizIndex, shuffledScenarioIds,
-    setQuizState, clearQuizState,
+    setQuizState, clearQuizState, feedback,
   } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
@@ -115,18 +115,19 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   const hasAnswered = useRef(false);
   const [shuffledScenarios, setShuffledScenarios] = useState<Scenario[]>([]);
   const didResume = useRef(false);
+  const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ── Inactivity idle tap animation state ──
-  const idleFingerX       = useSharedValue(-200);
-  const idleFingerY       = useSharedValue(-200);
-  const idleFingerScale   = useSharedValue(1);
+  const idleFingerX = useSharedValue(-200);
+  const idleFingerY = useSharedValue(-200);
+  const idleFingerScale = useSharedValue(1);
   const idleFingerOpacity = useSharedValue(0);
-  const rippleScale       = useSharedValue(0);
-  const rippleOpacity     = useSharedValue(0);
+  const rippleScale = useSharedValue(0);
+  const rippleOpacity = useSharedValue(0);
 
-  const inactivityTimer   = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const idleLoopTimers    = useRef<ReturnType<typeof setTimeout>[]>([]);
-  const isIdleRunning     = useRef(false);
+  const inactivityTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const idleLoopTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const isIdleRunning = useRef(false);
 
   const idleFingerAnimatedStyle = useAnimatedStyle(() => ({
     opacity: idleFingerOpacity.value,
@@ -231,6 +232,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     resetInactivityTimer();
     return () => {
       if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
+      if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
       stopIdleAnimation();
     };
   }, []);
@@ -249,10 +251,10 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       }
     }
   }, []);
-  
+
   // ── Sync local state when external reset clears the quiz ──
   useEffect(() => {
-    if (!didResume.current) return;         
+    if (!didResume.current) return;
     if (savedTrimester === null && selectedTrimester !== null) {
       setSelectedTrimester(null);
       setCurrentIdx(0);
@@ -276,6 +278,15 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   const scenario = scenarios[currentIdx];
   const totalScenarios = scenarios.length;
 
+  // ── Auto-show question in global speech bubble ──
+  useEffect(() => {
+    if (scenario && !feedback) {
+      const q = isNe ? scenario.descriptionNe : scenario.description;
+      const t = isNe ? scenario.titleNe : scenario.title;
+      showFeedback(q, t, 'question');
+    }
+  }, [scenario, feedback, isNe]);
+
   // ── Sync quiz progress to GameContext ──
   useEffect(() => {
     if (selectedTrimester && totalScenarios > 0) {
@@ -288,6 +299,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   // ── Trimester selection ──
   const handleSelectTrimester = (key: TrimesterKey) => {
     resetInactivityTimer();
+    if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
     setSelectedTrimester(key);
     setCurrentIdx(0);
     setSelectedResult(null);
@@ -306,6 +318,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
 
   const handleBackToSelector = () => {
     resetInactivityTimer();
+    if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
     setSelectedTrimester(null);
     setCurrentIdx(0);
     setSelectedResult(null);
@@ -344,10 +357,16 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
         hasAnswered.current = false;
       }, 500);
     }
+
+    if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
+    feedbackTimer.current = setTimeout(() => {
+      clearFeedback();
+    }, 5000);
   };
 
   const handleNext = () => {
     resetInactivityTimer();
+    if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
     setSelectedResult(null);
     hasAnswered.current = false;
     clearFeedback();
@@ -370,23 +389,23 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   // ═══════════════════════════════════════════
   if (!selectedTrimester) {
     return (
-      <View 
+      <View
         className="flex-1 justify-end"
         onStartShouldSetResponder={() => { resetInactivityTimer(); return false; }}
         onMoveShouldSetResponder={() => { resetInactivityTimer(); return false; }}
       >
-           <LinearGradient
-            colors={[
-        'rgba(255,255,255,0.9)',
-        'rgba(243,58,106,0.05)',
-        'rgba(176,76,138,0.08)'
-                    ]}
-              style={{
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-      }}
-    />
+        <LinearGradient
+          colors={[
+            'rgba(255,255,255,0.9)',
+            'rgba(243,58,106,0.05)',
+            'rgba(176,76,138,0.08)'
+          ]}
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+          }}
+        />
 
         <Animated.View
           entering={FadeInUp.duration(400)}
@@ -462,30 +481,30 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   const progressPct = ((currentIdx + 1) / totalScenarios) * 100;
 
   return (
-    <View 
+    <View
       className="flex-1 justify-end"
       onStartShouldSetResponder={() => { resetInactivityTimer(); return false; }}
       onMoveShouldSetResponder={() => { resetInactivityTimer(); return false; }}
     >
       <LinearGradient
-      colors={[
-        'rgba(255,255,255,0.9)',
-        'rgba(243,58,106,0.05)',
-        'rgba(176,76,138,0.08)'
-      ]}
-      style={{
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-      }}
-    />
+        colors={[
+          'rgba(255,255,255,0.9)',
+          'rgba(243,58,106,0.05)',
+          'rgba(176,76,138,0.08)'
+        ]}
+        style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+        }}
+      />
 
       <Animated.View
         style={[{ zIndex: 50 }, animatedStyle]}
       >
-        {/* Full-width card flush to bottom & sides */}
+        {/* Main card floating with bottom space */}
         <View
-          className="rounded-t-[20px] rounded-b-[20px] overflow-hidden"
+          className="rounded-[20px] overflow-hidden mx-1 mb-2"
           style={{
             backgroundColor: '#FFFFFF',
             shadowColor: '#000',
@@ -509,7 +528,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
               >
                 <Text className="text-white text-[13px] font-[800] mr-1">‹</Text>
                 <Text className="text-white text-[11px] font-[700]">
-                   Change Trimester
+                  Change Trimester
                 </Text>
               </TouchableOpacity>
 
@@ -526,32 +545,18 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
             </View>
           </View>
 
-          {/* ── Question + options ── */}
+          {/* ── Options ── */}
           <ScrollView
-            showsVerticalScrollIndicator={false}
-            bounces={false}
-            style={{ maxHeight: Dimensions.get('window').height * 0.42 }}
+            showsVerticalScrollIndicator={true}
+            bounces={true}
+            style={{ maxHeight: Dimensions.get('window').height * 0.28 }}
           >
-            {/* Question */}
-            <View className="px-4 pt-1 pb-1">
-              <Text className="text-[12px] font-[800] tracking-[1.5px] uppercase mb-1.5" style={{ color: triColor }}>
-                {isNe ? scenario.titleNe : scenario.title}
-              </Text>
-              <Text className="text-[16px] font-[600] text-[#2D2D2D] leading-[24px]">
-                {isNe ? scenario.descriptionNe : scenario.description}
-              </Text>
-            </View>
-
-            {/* Separator */}
-            <View className="h-[1px] mx-4" style={{ backgroundColor: triColor + '15' }} />
-
-            {/* Options */}
-            <View className="px-4 pt-1 pb-8 gap-2.5">
+            <View className="px-4 pt-2 pb-4 gap-1.5">
               {!selectedResult ? (
                 scenario.options.map((opt, i) => (
                   <TouchableOpacity
                     key={i}
-                    className="flex-row items-center px-3.5 py-3 rounded-[12px]"
+                    className="flex-row items-center px-3 py-2 rounded-[10px]"
                     style={{
                       backgroundColor: triColor + '08',
                       borderWidth: 1.5,
@@ -562,14 +567,14 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
                     activeOpacity={0.6}
                   >
                     <View
-                      className="w-[28px] h-[28px] rounded-[8px] items-center justify-center mr-3"
+                      className="w-[24px] h-[24px] rounded-[6px] items-center justify-center mr-3"
                       style={{ backgroundColor: triColor + '18' }}
                     >
-                      <Text className="text-[13px] font-[800]" style={{ color: triColor }}>
+                      <Text className="text-[12px] font-[800]" style={{ color: triColor }}>
                         {OPTION_LABELS[i]}
                       </Text>
                     </View>
-                    <Text className="text-[15px] text-[#3A3A3A] font-[600] leading-[22px] flex-1">
+                    <Text className="text-[14px] text-[#3A3A3A] font-[600] leading-[20px] flex-1">
                       {isNe ? opt.textNe : opt.text}
                     </Text>
                   </TouchableOpacity>

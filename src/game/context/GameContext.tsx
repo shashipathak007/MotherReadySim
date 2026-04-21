@@ -27,8 +27,8 @@ interface GameContextType extends GameState {
   resetCurrentStep: () => void;
   resetStepData: (step: GameStep) => void;
   isReady: boolean;
-  feedback: { message: string, detail?: string, type: 'success' | 'error' | 'info' } | null;
-  showFeedback: (message: string, detail: string, type: 'success' | 'error' | 'info') => void;
+  feedback: { message: string, detail?: string, type: 'success' | 'error' | 'info' | 'question' } | null;
+  showFeedback: (message: string, detail: string, type: 'success' | 'error' | 'info' | 'question') => void;
   clearFeedback: () => void;
   currentWave: string;
   setCurrentWave: (wave: string) => void;
@@ -62,7 +62,7 @@ const GameContext = createContext<GameContextType | undefined>(undefined);
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, setState] = useState<GameState>(defaultState);
   const [isReady, setIsReady] = useState(false);
-  const [feedback, setFeedback] = useState<{ message: string, detail?: string, type: 'success' | 'error' | 'info' } | null>(null);
+  const [feedback, setFeedback] = useState<{ message: string, detail?: string, type: 'success' | 'error' | 'info' | 'question' } | null>(null);
   const [currentWave, setCurrentWave] = useState('');
   const [quizProgress, setQuizProgressState] = useState({ current: 0, total: 0 });
   const [soundEnabled, setSoundEnabled] = useState(true);
@@ -218,7 +218,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const showFeedback = (message: string, detail: string, type: 'success' | 'error' | 'info') => {
+  const showFeedback = (message: string, detail: string, type: 'success' | 'error' | 'info' | 'question') => {
     setFeedback({ message, detail, type });
   };
 

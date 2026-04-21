@@ -146,6 +146,16 @@ export default function GameContainer() {
         accentColor: '#DC2626',
       };
     }
+    if (feedback.type === 'question') {
+      return {
+        image: charInfo,
+        exclamation: '',
+        bgColor: 'bg-[#FFF9FB]',
+        borderColor: 'border-[#F5E1EC]',
+        textColor: 'text-[#9B5983]',
+        accentColor: '#9B5983',
+      };
+    }
     return {
       image: charInfo,
       exclamation: isNepali ? 'जानकारी 💡' : 'Did you know? 💡',
@@ -288,11 +298,15 @@ export default function GameContainer() {
                 <View className="flex-1">
                   <View className={`rounded-[18px] overflow-hidden border-[1.5px] shadow-black/10 shadow-opacity-12 shadow-radius-10 elevation-8 ${feedbackStyle.bgColor} ${feedbackStyle.borderColor}`}>
                     {/* Exclamation header — "Good Job!" or "Oh No!" */}
-                    <View className="pt-3 px-3.5 pr-9">
-                      <Text className={`text-[18px] font-[700] mb-0.5 ${feedbackStyle.textColor}`}>
-                        {feedbackStyle.exclamation}
-                      </Text>
-                    </View>
+                    {feedbackStyle.exclamation ? (
+                      <View className="pt-3 px-3.5 pr-9">
+                        <Text className={`text-[18px] font-[700] mb-0.5 ${feedbackStyle.textColor}`}>
+                          {feedbackStyle.exclamation}
+                        </Text>
+                      </View>
+                    ) : (
+                      <View className="pt-2" />
+                    )}
 
                     {/* Feedback content */}
                     <View className="pb-3 px-3.5 pr-9">
