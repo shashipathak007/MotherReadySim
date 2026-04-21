@@ -8,6 +8,7 @@ import Step2 from './screens/Step2';
 import Step3 from './screens/Step3';
 import Step4 from './screens/Step4';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScenarioImages } from './constants/ScenarioImages';
 
 import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -25,7 +26,7 @@ export default function GameContainer() {
     currentStep, setStep, isReady, resetCurrentStep, resetGame,
     packedBagItems, savedContacts, feedback, clearFeedback, currentWave, quizProgress,
     soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial,
-    completeTutorial
+    completeTutorial, selectedTrimester, quizIndex, shuffledScenarioIds
   } = useGame();
   const { i18n } = useTranslation();
   const navigation = useNavigation<any>();
@@ -170,7 +171,22 @@ export default function GameContainer() {
     switch (currentStep) {
       case 1: return require('../../assets/images/bedroom_bg.png');
       case 2: return require('../../assets/images/phone_bg.png');
-      case 3: return require('../../assets/images/bedroom_bg.png');
+      case 3: 
+        if (selectedTrimester && shuffledScenarioIds.length > 0) {
+          const currentId = shuffledScenarioIds[quizIndex];
+          let prefix = '';
+          if (selectedTrimester === '1st') prefix = 'F';
+          else if (selectedTrimester === '2nd') prefix = 'S';
+          else if (selectedTrimester === '3rd') prefix = 'T';
+          
+          if (prefix && currentId) {
+             const imgKey = prefix + currentId;
+             if (ScenarioImages[imgKey]) {
+                return ScenarioImages[imgKey];
+             }
+          }
+        }
+        return require('../../assets/images/bedroom_bg.png');
       case 4: return require('../../assets/images/aama_ready_main_bg.png');
       default: return require('../../assets/images/bedroom_bg.png');
     }
