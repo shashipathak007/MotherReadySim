@@ -504,7 +504,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       >
         {/* Main card floating with bottom space */}
         <View
-          className="rounded-[20px] overflow-hidden mx-1 mb-2"
+          className="rounded-[20px] overflow-hidden mx-1 mb-1"
           style={{
             backgroundColor: '#FFFFFF',
             shadowColor: '#000',
