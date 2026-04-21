@@ -120,7 +120,6 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   const [questionVisible, setQuestionVisible] = useState(false);
   const [optionsVisible, setOptionsVisible] = useState(false);
   const questionRevealTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const optionsRevealTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ── Inactivity idle tap animation state ──
   const idleFingerX = useSharedValue(-200);
@@ -239,7 +238,6 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
       if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
       if (questionRevealTimer.current) clearTimeout(questionRevealTimer.current);
-      if (optionsRevealTimer.current) clearTimeout(optionsRevealTimer.current);
       stopIdleAnimation();
     };
   }, []);
@@ -299,10 +297,9 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     }
   }, [scenario, questionVisible, feedback, isNe, selectedResult]);
 
-  // ── Reveal question + options together ──
+  // ── Reveal question + options + character together in one tick ──
   useEffect(() => {
     if (questionRevealTimer.current) clearTimeout(questionRevealTimer.current);
-    if (optionsRevealTimer.current) clearTimeout(optionsRevealTimer.current);
     setQuestionVisible(false);
     setOptionsVisible(false);
     setStep3CharacterVisible(false);
@@ -311,19 +308,15 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
 
     const delayMs = 2000;
     questionRevealTimer.current = setTimeout(() => {
+      // Batch all three in one render cycle so they appear simultaneously
       setQuestionVisible(true);
-    }, delayMs);
-
-    optionsRevealTimer.current = setTimeout(() => {
       setOptionsVisible(true);
-    }, delayMs);
-
-    // Show the big right-side tutorial character together with question/options
-    const charTimer = setTimeout(() => {
       setStep3CharacterVisible(true);
     }, delayMs);
 
-    return () => clearTimeout(charTimer);
+    return () => {
+      if (questionRevealTimer.current) clearTimeout(questionRevealTimer.current);
+    };
   }, [selectedTrimester, scenario?.id]);
 
   // ── Sync quiz progress to GameContext ──
