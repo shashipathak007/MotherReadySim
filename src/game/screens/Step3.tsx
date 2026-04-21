@@ -103,6 +103,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     addQuizStar, showFeedback, clearFeedback, setQuizProgress, setCurrentWave,
     selectedTrimester: savedTrimester, quizIndex: savedQuizIndex, shuffledScenarioIds,
     setQuizState, clearQuizState, feedback,
+    setStep3CharacterVisible,
   } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
@@ -116,6 +117,10 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   const [shuffledScenarios, setShuffledScenarios] = useState<Scenario[]>([]);
   const didResume = useRef(false);
   const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [questionVisible, setQuestionVisible] = useState(false);
+  const [optionsVisible, setOptionsVisible] = useState(false);
+  const questionRevealTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const optionsRevealTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ── Inactivity idle tap animation state ──
   const idleFingerX = useSharedValue(-200);
@@ -173,9 +178,9 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       idleLoopTimers.current.push(id);
     };
 
-    // Tap roughly halfway down the options list area
+    // Tap lower (below options area)
     const tx = SCREEN_W / 2 - 25;
-    const ty = SCREEN_H - 180;
+    const ty = SCREEN_H - 110;
 
     addTimer(() => {
       if (!isIdleRunning.current) return;
@@ -233,6 +238,8 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     return () => {
       if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
       if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
+      if (questionRevealTimer.current) clearTimeout(questionRevealTimer.current);
+      if (optionsRevealTimer.current) clearTimeout(optionsRevealTimer.current);
       stopIdleAnimation();
     };
   }, []);
@@ -260,6 +267,9 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       setCurrentIdx(0);
       setSelectedResult(null);
       hasAnswered.current = false;
+      setQuestionVisible(false);
+      setOptionsVisible(false);
+      setStep3CharacterVisible(true);
       setShuffledScenarios([]);
       clearFeedback();
       setCurrentWave('');
@@ -278,14 +288,43 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   const scenario = scenarios[currentIdx];
   const totalScenarios = scenarios.length;
 
-  // ── Auto-show question in global speech bubble ──
+  // ── Auto-show question in global speech bubble (delayed) ──
   useEffect(() => {
-    if (scenario && !feedback) {
+    // Don't re-show the question if the user already answered correctly
+    // (we want char_correct to stay visible until "Next Scenario" is clicked)
+    if (scenario && questionVisible && !feedback && !selectedResult) {
       const q = isNe ? scenario.descriptionNe : scenario.description;
       const t = isNe ? scenario.titleNe : scenario.title;
       showFeedback(q, t, 'question');
     }
-  }, [scenario, feedback, isNe]);
+  }, [scenario, questionVisible, feedback, isNe, selectedResult]);
+
+  // ── Reveal question + options together ──
+  useEffect(() => {
+    if (questionRevealTimer.current) clearTimeout(questionRevealTimer.current);
+    if (optionsRevealTimer.current) clearTimeout(optionsRevealTimer.current);
+    setQuestionVisible(false);
+    setOptionsVisible(false);
+    setStep3CharacterVisible(false);
+
+    if (!selectedTrimester || !scenario) return;
+
+    const delayMs = 2000;
+    questionRevealTimer.current = setTimeout(() => {
+      setQuestionVisible(true);
+    }, delayMs);
+
+    optionsRevealTimer.current = setTimeout(() => {
+      setOptionsVisible(true);
+    }, delayMs);
+
+    // Show the big right-side tutorial character together with question/options
+    const charTimer = setTimeout(() => {
+      setStep3CharacterVisible(true);
+    }, delayMs);
+
+    return () => clearTimeout(charTimer);
+  }, [selectedTrimester, scenario?.id]);
 
   // ── Sync quiz progress to GameContext ──
   useEffect(() => {
@@ -304,6 +343,9 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     setCurrentIdx(0);
     setSelectedResult(null);
     hasAnswered.current = false;
+    setQuestionVisible(false);
+    setOptionsVisible(false);
+    setStep3CharacterVisible(false);
     clearFeedback();
     const tri = TRIMESTERS.find((t) => t.key === key);
     if (tri) {
@@ -323,6 +365,9 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     setCurrentIdx(0);
     setSelectedResult(null);
     hasAnswered.current = false;
+    setQuestionVisible(false);
+    setOptionsVisible(false);
+    setStep3CharacterVisible(true);
     clearFeedback();
     setCurrentWave('');
     clearQuizState();
@@ -343,6 +388,8 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       playCorrect();
       showFeedback(explanation, '', 'success');
       setSelectedResult({ isCorrect: true });
+      // Keep char_correct visible — do NOT auto-clear success feedback.
+      // It will be cleared when "Next Scenario" is tapped (handleNext).
     } else {
       playIncorrect();
       shakeOffset.value = withSequence(
@@ -356,12 +403,13 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       setTimeout(() => {
         hasAnswered.current = false;
       }, 500);
-    }
 
-    if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
-    feedbackTimer.current = setTimeout(() => {
-      clearFeedback();
-    }, 5000);
+      // Auto-clear error feedback after 5 s
+      if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
+      feedbackTimer.current = setTimeout(() => {
+        clearFeedback();
+      }, 5000);
+    }
   };
 
   const handleNext = () => {
@@ -369,6 +417,9 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
     setSelectedResult(null);
     hasAnswered.current = false;
+    setQuestionVisible(false);
+    setOptionsVisible(false);
+    setStep3CharacterVisible(false);
     clearFeedback();
     if (currentIdx < totalScenarios - 1) {
       const nextIdx = currentIdx + 1;
@@ -479,6 +530,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
 
   const triColor = trimesterInfo!.color;
   const progressPct = ((currentIdx + 1) / totalScenarios) * 100;
+  const showBottomCard = optionsVisible || selectedResult !== null;
 
   return (
     <View
@@ -499,111 +551,115 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
         }}
       />
 
-      <Animated.View
-        style={[{ zIndex: 50 }, animatedStyle]}
-      >
-        {/* Main card floating with bottom space */}
-        <View
-          className="rounded-[20px] overflow-hidden mx-1 mb-1"
-          style={{
-            backgroundColor: '#FFFFFF',
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: -4 },
-            shadowOpacity: 0.1,
-            shadowRadius: 16,
-            elevation: 14,
-          }}
+      {showBottomCard ? (
+        <Animated.View
+          style={[{ zIndex: 50 }, animatedStyle]}
         >
-          {/* Colored accent strip */}
-          <View className="h-[3px]" style={{ backgroundColor: triColor }} />
-
-          {/* ── Header: trimester button + progress ── */}
-          <View className="px-4 pt-3 pb-2" style={{ backgroundColor: triColor + '08' }}>
-            <View className="flex-row items-center justify-between mb-2">
-              <TouchableOpacity
-                className="flex-row items-center pl-2.5 pr-3.5 py-1 rounded-full"
-                style={{ backgroundColor: triColor }}
-                onPress={handleBackToSelector}
-                activeOpacity={0.7}
-              >
-                <Text className="text-white text-[13px] font-[800] mr-1">‹</Text>
-                <Text className="text-white text-[11px] font-[700]">
-                  Change Trimester
-                </Text>
-              </TouchableOpacity>
-
-              <Text className="text-[12px] font-[800]" style={{ color: triColor }}>
-                {currentIdx + 1}/{totalScenarios}
-              </Text>
-            </View>
-
-            <View className="h-[4px] rounded-full overflow-hidden" style={{ backgroundColor: triColor + '20' }}>
-              <View
-                className="h-full rounded-full"
-                style={{ width: `${progressPct}%`, backgroundColor: triColor }}
-              />
-            </View>
-          </View>
-
-          {/* ── Options ── */}
-          <ScrollView
-            showsVerticalScrollIndicator={true}
-            bounces={true}
-            style={{ maxHeight: Dimensions.get('window').height * 0.28 }}
+          {/* Main card floating with bottom space */}
+          <View
+            className="rounded-[20px] overflow-hidden mx-1 mb-1"
+            style={{
+              backgroundColor: '#FFFFFF',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: -4 },
+              shadowOpacity: 0.1,
+              shadowRadius: 16,
+              elevation: 14,
+            }}
           >
-            <View className="px-4 pt-2 pb-4 gap-1.5">
-              {!selectedResult ? (
-                scenario.options.map((opt, i) => (
-                  <TouchableOpacity
-                    key={i}
-                    className="flex-row items-center px-3 py-2 rounded-[10px]"
-                    style={{
-                      backgroundColor: triColor + '08',
-                      borderWidth: 1.5,
-                      borderColor: triColor + '20',
-                    }}
-                    onPress={() => handleSelect(opt)}
-                    disabled={selectedResult !== null}
-                    activeOpacity={0.6}
-                  >
-                    <View
-                      className="w-[24px] h-[24px] rounded-[6px] items-center justify-center mr-3"
-                      style={{ backgroundColor: triColor + '18' }}
-                    >
-                      <Text className="text-[12px] font-[800]" style={{ color: triColor }}>
-                        {OPTION_LABELS[i]}
-                      </Text>
-                    </View>
-                    <Text className="text-[14px] text-[#3A3A3A] font-[600] leading-[20px] flex-1">
-                      {isNe ? opt.textNe : opt.text}
-                    </Text>
-                  </TouchableOpacity>
-                ))
-              ) : (
+            {/* Colored accent strip */}
+            <View className="h-[3px]" style={{ backgroundColor: triColor }} />
+
+            {/* ── Header: trimester button + progress ── */}
+            <View className="px-4 pt-3 pb-2" style={{ backgroundColor: triColor + '08' }}>
+              <View className="flex-row items-center justify-between mb-2">
                 <TouchableOpacity
-                  className="py-[13px] rounded-[12px] items-center"
-                  style={{
-                    backgroundColor: triColor,
-                    shadowColor: triColor,
-                    shadowOffset: { width: 0, height: 3 },
-                    shadowOpacity: 0.35,
-                    shadowRadius: 6,
-                    elevation: 6,
-                  }}
-                  onPress={handleNext}
-                  activeOpacity={0.8}
+                  className="flex-row items-center pl-2.5 pr-3.5 py-1 rounded-full"
+                  style={{ backgroundColor: triColor }}
+                  onPress={handleBackToSelector}
+                  activeOpacity={0.7}
                 >
-                  <Text className="text-white text-[14px] font-[800] tracking-[0.5px]">
-                    {currentIdx === totalScenarios - 1
-                      ? isNe ? 'खेल सकियो' : 'Finish Scenarios'
-                      : isNe ? 'अर्को परिदृश्य' : 'Next Scenario'}
+                  <Text className="text-white text-[13px] font-[800] mr-1">‹</Text>
+                  <Text className="text-white text-[11px] font-[700]">
+                    Change Trimester
                   </Text>
                 </TouchableOpacity>
-              )}
+
+                <Text className="text-[12px] font-[800]" style={{ color: triColor }}>
+                  {currentIdx + 1}/{totalScenarios}
+                </Text>
+              </View>
+
+              <View className="h-[4px] rounded-full overflow-hidden" style={{ backgroundColor: triColor + '20' }}>
+                <View
+                  className="h-full rounded-full"
+                  style={{ width: `${progressPct}%`, backgroundColor: triColor }}
+                />
+              </View>
             </View>
-          </ScrollView>
-        </View>
-      </Animated.View>
+
+            {/* ── Options ── */}
+            <ScrollView
+              showsVerticalScrollIndicator={true}
+              bounces={true}
+              style={{ maxHeight: Dimensions.get('window').height * 0.28 }}
+            >
+              <View className="px-4 pt-2 pb-4 gap-1.5">
+                {!selectedResult ? (
+                  optionsVisible ? (
+                    scenario.options.map((opt, i) => (
+                      <TouchableOpacity
+                        key={i}
+                        className="flex-row items-center px-3 py-2 rounded-[10px]"
+                        style={{
+                          backgroundColor: triColor + '08',
+                          borderWidth: 1.5,
+                          borderColor: triColor + '20',
+                        }}
+                        onPress={() => handleSelect(opt)}
+                        disabled={selectedResult !== null}
+                        activeOpacity={0.6}
+                      >
+                        <View
+                          className="w-[24px] h-[24px] rounded-[6px] items-center justify-center mr-3"
+                          style={{ backgroundColor: triColor + '18' }}
+                        >
+                          <Text className="text-[12px] font-[800]" style={{ color: triColor }}>
+                            {OPTION_LABELS[i]}
+                          </Text>
+                        </View>
+                        <Text className="text-[14px] text-[#3A3A3A] font-[600] leading-[20px] flex-1">
+                          {isNe ? opt.textNe : opt.text}
+                        </Text>
+                      </TouchableOpacity>
+                    ))
+                  ) : null
+                ) : (
+                  <TouchableOpacity
+                    className="py-[13px] rounded-[12px] items-center"
+                    style={{
+                      backgroundColor: triColor,
+                      shadowColor: triColor,
+                      shadowOffset: { width: 0, height: 3 },
+                      shadowOpacity: 0.35,
+                      shadowRadius: 6,
+                      elevation: 6,
+                    }}
+                    onPress={handleNext}
+                    activeOpacity={0.8}
+                  >
+                    <Text className="text-white text-[14px] font-[800] tracking-[0.5px]">
+                      {currentIdx === totalScenarios - 1
+                        ? isNe ? 'खेल सकियो' : 'Finish Scenarios'
+                        : isNe ? 'अर्को परिदृश्य' : 'Next Scenario'}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            </ScrollView>
+          </View>
+        </Animated.View>
+      ) : null}
 
       {/* ── IDLE TUTORIAL LAYER ── */}
       <View pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9996, elevation: 9996 }}>

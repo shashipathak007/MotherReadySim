@@ -44,6 +44,9 @@ interface GameContextType extends GameState {
   // Quiz resume helpers
   setQuizState: (trimester: TrimesterKey | null, index: number, scenarioIds: number[]) => void;
   clearQuizState: () => void;
+  // Step 3: timed reveal of global character
+  step3CharacterVisible: boolean;
+  setStep3CharacterVisible: (visible: boolean) => void;
 }
 
 const defaultState: GameState = {
@@ -68,6 +71,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [soundEnabled, setSoundEnabled] = useState(true);
   const toggleSound = () => setSoundEnabled(prev => !prev);
   const [tutorialStep, setTutorialStep] = useState(0);
+  const [step3CharacterVisible, setStep3CharacterVisible] = useState(true);
   // showTutorial starts false; we set it to true only after loading persisted state
   // and confirming the tutorial hasn't been completed yet
   const [showTutorial, setShowTutorialRaw] = useState(false);
@@ -127,7 +131,13 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setState((prev) => ({ ...prev, ...updates }));
   };
 
-  const setStep = (currentStep: GameStep) => updateState({ currentStep });
+  const setStep = (currentStep: GameStep) => {
+    // Step 3: hide the big right-side character immediately on entry.
+    // Step3 screen will reveal it on its own timer.
+    if (currentStep === 3) setStep3CharacterVisible(false);
+    else setStep3CharacterVisible(true);
+    updateState({ currentStep });
+  };
 
   const packItem = (id: number) => {
     setState(prev => ({
@@ -183,6 +193,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setState(defaultState);
     setTutorialStep(0);
     setShowTutorialRaw(true);
+    setStep3CharacterVisible(true);
     try {
       await AsyncStorage.removeItem(STORAGE_KEY);
     } catch (e) {
@@ -229,7 +240,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <GameContext.Provider value={{ ...state, setStep, packItem, saveContact, addQuizStar, resetGame, resetCurrentStep, resetStepData, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial, completeTutorial, setQuizState, clearQuizState }}>
+    <GameContext.Provider value={{ ...state, setStep, packItem, saveContact, addQuizStar, resetGame, resetCurrentStep, resetStepData, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial, completeTutorial, setQuizState, clearQuizState, step3CharacterVisible, setStep3CharacterVisible }}>
       {children}
     </GameContext.Provider>
   );

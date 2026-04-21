@@ -26,7 +26,7 @@ export default function GameContainer() {
     currentStep, setStep, isReady, resetCurrentStep, resetGame,
     packedBagItems, savedContacts, feedback, clearFeedback, currentWave, quizProgress,
     soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial,
-    completeTutorial, selectedTrimester, quizIndex, shuffledScenarioIds
+    completeTutorial, selectedTrimester, quizIndex, shuffledScenarioIds, step3CharacterVisible
   } = useGame();
   const { i18n } = useTranslation();
   const navigation = useNavigation<any>();
@@ -218,7 +218,7 @@ export default function GameContainer() {
       </View>
 
       {/* 2. Character Rendered below the interactive steps */}
-      {currentStep < 4 && (
+      {currentStep < 4 && (currentStep !== 3 || step3CharacterVisible) && (
         <View
           className={`absolute pointer-events-none flex-col justify-end ${showTutorial ? 'z-[210]' : 'z-10'}`}
           style={{ 
