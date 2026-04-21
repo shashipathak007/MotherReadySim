@@ -140,11 +140,11 @@ export default function GameContainer() {
     if (feedback.type === 'error') {
       return {
         image: charOhNo,
-        exclamation: isNepali ? 'ओहो!' : 'Oh No!',
-        bgColor: 'bg-[#FFF8F8]',
-        borderColor: 'border-[#FECACA]',
-        textColor: 'text-[#B91C1C]',
-        accentColor: '#DC2626',
+        exclamation: isNepali ? 'धेरैले यो गल्ती गर्छन्!' : 'Many get this one wrong!',
+        bgColor: 'bg-[#FFFBEB]',
+        borderColor: 'border-[#FDE68A]',
+        textColor: 'text-[#92400E]',
+        accentColor: '#D97706',
       };
     }
     if (feedback.type === 'question') {
@@ -326,7 +326,7 @@ export default function GameContainer() {
 
                     {/* Feedback content */}
                     <View className="pb-3 px-3.5 pr-9">
-                      <Text className={`text-[16px] font-[500] mb-0.2 ${feedback.type === 'error' ? 'text-[#991B1B]' : feedback.type === 'info' ? 'text-[#7C3E6B]' : 'text-[#14532D]'}`}>
+                      <Text className={`text-[16px] font-[500] mb-0.2 ${feedback.type === 'error' ? 'text-[#92400E]' : feedback.type === 'info' ? 'text-[#7C3E6B]' : 'text-[#14532D]'}`}>
                         {feedback.message}
                       </Text>
                       {feedback.detail ? (
@@ -352,7 +352,7 @@ export default function GameContainer() {
                       alignSelf: 'flex-end',
                       marginRight: 40,
                       borderTopWidth: 14,
-                      borderTopColor: feedback.type === 'error' ? '#FFF8F8' : feedback.type === 'info' ? 'white' : '#F0FDF4',
+                      borderTopColor: feedback.type === 'error' ? '#FFFBEB' : feedback.type === 'info' ? 'white' : '#F0FDF4',
                       borderLeftWidth: 14,
                       borderLeftColor: 'transparent',
                       borderRightWidth: 0, 
