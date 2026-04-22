@@ -296,7 +296,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     explanation: "Losing 1–2kg in the first trimester due to morning sickness is common and generally not harmful if the mother stays hydrated.",
     explanationNe: "पहिलो ३ महिनामा खाना रुची नहुँदा वा वाकवाकी लाग्दा १ देखि २ किलोसम्म तौल घट्नु धेरै महिलालाई हुने कुरा हो। शरीरमा पानीको कमी हुन दिएको छैन र थोरै थोरै भए पनि खाइरहेको छ भने यसले बच्चालाई कुनै नोक्सान पुग्दैन।"
   }
-];import { Scenario } from './firstTrimesterScenarios';
+];
 
 export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   {
