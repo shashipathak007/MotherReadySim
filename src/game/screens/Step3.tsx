@@ -571,17 +571,40 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
           {shuffledScenarios.map((s, idx) => {
             const res = quizResults.find(r => r.id === s.id);
             const isCorrect = res?.isCorrect ?? false;
+            const correctOption = s.options.find(o => o.isCorrect);
+            const correctText = correctOption ? (isNe ? correctOption.textNe : correctOption.text) : '';
+
             return (
-              <Animated.View entering={FadeInUp.delay(idx * 50)} key={s.id} className="mb-4 p-4 rounded-[14px] bg-white border border-[#F5E1EC] shadow-sm">
+              <Animated.View entering={FadeInUp.delay(idx * 50)} key={s.id} className={`mb-4 p-4 rounded-[14px] bg-white border ${isCorrect ? 'border-[#86EFAC]' : 'border-[#FCA5A5]'} shadow-sm`}>
+                <View className="flex-row items-center mb-2">
+                  <Text className="text-[16px] mr-2 leading-5">{isCorrect ? '✅' : '❌'}</Text>
+                  <Text className={`text-[12px] font-[800] uppercase tracking-[1px] ${isCorrect ? 'text-[#16A34A]' : 'text-[#DC2626]'}`}>
+                    {isCorrect ? (isNe ? 'सही उत्तर' : 'CORRECT') : (isNe ? 'गलत उत्तर' : 'INCORRECT')}
+                  </Text>
+                </View>
                 <Text className="text-[15px] font-[800] text-[#333] mb-1.5">
                   {idx + 1}. {isNe ? s.titleNe : s.title}
                 </Text>
                 <Text className="text-[14px] font-[500] text-[#666] mb-3 leading-5">
                   {isNe ? s.descriptionNe : s.description}
                 </Text>
-                <View className="flex-row items-start bg-[#F9F0F5] p-3 rounded-[8px]">
-                  <Text className="text-[18px] mr-2 leading-5">{isCorrect ? '✅' : '❌'}</Text>
-                  <Text className="text-[14px] font-[600] text-[#9B5983] flex-1 leading-5">
+
+                {/* Explicitly show the correct answer */}
+                <View className={`mb-3 p-3 rounded-[8px] border ${isCorrect ? 'bg-[#F0FDF4] border-[#BBF7D0]' : 'bg-[#FEF2F2] border-[#FECACA]'}`}>
+                  <Text className="text-[12px] font-[700] text-[#666] mb-1">
+                    {isNe ? 'सही विकल्प:' : 'Correct Answer:'}
+                  </Text>
+                  <Text className={`text-[14px] font-[800] ${isCorrect ? 'text-[#166534]' : 'text-[#991B1B]'}`}>
+                    ✓ {correctText}
+                  </Text>
+                </View>
+
+                {/* Explanation */}
+                <View className="bg-[#F9F0F5] p-3 rounded-[8px]">
+                  <Text className="text-[12px] font-[700] text-[#C06898] mb-1">
+                    {isNe ? 'व्याख्या:' : 'Explanation:'}
+                  </Text>
+                  <Text className="text-[14px] font-[600] text-[#9B5983] leading-5">
                     {isNe ? s.explanationNe : s.explanation}
                   </Text>
                 </View>
