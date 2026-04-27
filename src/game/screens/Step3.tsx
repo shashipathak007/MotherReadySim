@@ -11,11 +11,13 @@ import Animated, {
   withRepeat,
   FadeInUp,
   FadeInDown,
+  ZoomIn,
   Easing,
   cancelAnimation,
 } from 'react-native-reanimated';
 import { useTranslation } from 'react-i18next';
 import { useGameAudio } from '../hooks/useGameAudio';
+import ConfettiCannon from 'react-native-confetti-cannon';
 
 import { Scenario } from '../../data/firstTrimesterScenarios';
 import { FIRST_TRIMESTER_SCENARIOS } from '../../data/firstTrimesterScenarios';
@@ -120,6 +122,12 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   const [questionVisible, setQuestionVisible] = useState(false);
   const [optionsVisible, setOptionsVisible] = useState(false);
   const questionRevealTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const [streak, setStreak] = useState(0);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [quizResults, setQuizResults] = useState<{ id: number; isCorrect: boolean }[]>([]);
+  const [showReview, setShowReview] = useState(false);
+  const madeMistakeOnCurrent = useRef(false);
 
   // ── Inactivity idle tap animation state ──
   const idleFingerX = useSharedValue(-200);
@@ -271,6 +279,10 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       setShuffledScenarios([]);
       clearFeedback();
       setCurrentWave('');
+      setStreak(0);
+      setQuizResults([]);
+      setShowReview(false);
+      madeMistakeOnCurrent.current = false;
     }
   }, [savedTrimester]);
 
@@ -340,6 +352,10 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     setOptionsVisible(false);
     setStep3CharacterVisible(false);
     clearFeedback();
+    setStreak(0);
+    setQuizResults([]);
+    setShowReview(false);
+    madeMistakeOnCurrent.current = false;
     const tri = TRIMESTERS.find((t) => t.key === key);
     if (tri) {
       setCurrentWave(isNe ? tri.labelNe : tri.label);
@@ -364,6 +380,10 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     clearFeedback();
     setCurrentWave('');
     clearQuizState();
+    setStreak(0);
+    setQuizResults([]);
+    setShowReview(false);
+    madeMistakeOnCurrent.current = false;
   };
 
   // ── Answer handling ──
@@ -381,9 +401,25 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       playCorrect();
       showFeedback(explanation, '', 'success');
       setSelectedResult({ isCorrect: true });
+      
+      if (!madeMistakeOnCurrent.current) {
+        setStreak(s => {
+          const newStreak = s + 1;
+          if (newStreak === 10) {
+            setShowConfetti(true);
+            setTimeout(() => setShowConfetti(false), 4000);
+          }
+          return newStreak;
+        });
+      }
+      
+      setQuizResults(prev => [...prev, { id: scenario!.id, isCorrect: !madeMistakeOnCurrent.current }]);
+
       // Keep char_correct visible — do NOT auto-clear success feedback.
       // It will be cleared when "Next Scenario" is tapped (handleNext).
     } else {
+      madeMistakeOnCurrent.current = true;
+      setStreak(0);
       playIncorrect();
       shakeOffset.value = withSequence(
         withTiming(-5, { duration: 50 }),
@@ -410,6 +446,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
     setSelectedResult(null);
     hasAnswered.current = false;
+    madeMistakeOnCurrent.current = false;
     setQuestionVisible(false);
     setOptionsVisible(false);
     setStep3CharacterVisible(false);
@@ -422,9 +459,9 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
         setQuizState(selectedTrimester, nextIdx, shuffledScenarios.map((s) => s.id));
       }
     } else {
-      // Quiz done — clear saved quiz state
+      // Quiz done — show review screen
       clearQuizState();
-      onNextStep();
+      setShowReview(true);
     }
   };
 
@@ -519,6 +556,49 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   // 
   // RENDER: Quiz flow
   //
+  if (showReview) {
+    return (
+      <View className="flex-1 bg-white" style={{ paddingTop: 60 }}>
+        <LinearGradient colors={['rgba(255,255,255,0.9)', 'rgba(243,58,106,0.05)', 'rgba(176,76,138,0.08)']} style={{ position: 'absolute', width: '100%', height: '100%' }} />
+        <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 60 }} showsVerticalScrollIndicator={false}>
+          <Text className="text-[24px] font-[800] text-[#9B5983] mb-6 text-center">
+            {isNe ? 'परिदृश्यको समीक्षा' : 'Scenario Review'}
+          </Text>
+          {shuffledScenarios.map((s, idx) => {
+            const res = quizResults.find(r => r.id === s.id);
+            const isCorrect = res?.isCorrect ?? false;
+            return (
+              <Animated.View entering={FadeInUp.delay(idx * 50)} key={s.id} className="mb-4 p-4 rounded-[14px] bg-white border border-[#F5E1EC] shadow-sm">
+                <Text className="text-[15px] font-[800] text-[#333] mb-1.5">
+                  {idx + 1}. {isNe ? s.titleNe : s.title}
+                </Text>
+                <Text className="text-[14px] font-[500] text-[#666] mb-3 leading-5">
+                  {isNe ? s.descriptionNe : s.description}
+                </Text>
+                <View className="flex-row items-start bg-[#F9F0F5] p-3 rounded-[8px]">
+                  <Text className="text-[18px] mr-2 leading-5">{isCorrect ? '✅' : '❌'}</Text>
+                  <Text className="text-[14px] font-[600] text-[#9B5983] flex-1 leading-5">
+                    {isNe ? s.explanationNe : s.explanation}
+                  </Text>
+                </View>
+              </Animated.View>
+            );
+          })}
+          <TouchableOpacity 
+            className="w-full py-4 rounded-full bg-[#C06898] items-center mt-6 mb-4 shadow-md"
+            onPress={() => {
+              setShowReview(false);
+              onNextStep();
+            }}
+            activeOpacity={0.8}
+          >
+            <Text className="text-white font-[800] text-[16px] tracking-wide">{isNe ? 'अगाडि बढ्नुहोस्' : 'Continue'}</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </View>
+    );
+  }
+
   if (!scenario) return null;
 
   const triColor = trimesterInfo!.color;
@@ -578,9 +658,16 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
                   </Text>
                 </TouchableOpacity>
 
-                <Text className="text-[12px] font-[800]" style={{ color: triColor }}>
-                  {currentIdx + 1}/{totalScenarios}
-                </Text>
+                <View className="flex-row items-center">
+                  {streak >= 3 && (
+                    <Animated.View entering={ZoomIn.springify()} className="mr-3 bg-white px-2 py-0.5 rounded-full border border-orange-200">
+                      <Text className="text-[12px] font-[800] text-orange-500">🔥 {streak}</Text>
+                    </Animated.View>
+                  )}
+                  <Text className="text-[12px] font-[800]" style={{ color: triColor }}>
+                    {currentIdx + 1}/{totalScenarios}
+                  </Text>
+                </View>
               </View>
 
               <View className="h-[4px] rounded-full overflow-hidden" style={{ backgroundColor: triColor + '20' }}>
@@ -666,6 +753,13 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
           <Image source={require('../../../assets/images/Finger.png')} style={{ width: 110, height: 110 }} resizeMode="contain" />
         </Animated.View>
       </View>
+
+      {/* Confetti Animation */}
+      {showConfetti && (
+        <View pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, elevation: 9999 }}>
+          <ConfettiCannon count={100} origin={{x: SCREEN_W / 2, y: -20}} fadeOut={true} fallSpeed={2500} />
+        </View>
+      )}
     </View>
   );
 }

@@ -1,5 +1,6 @@
 import { useRef, useEffect, useCallback } from 'react';
 import { Audio } from 'expo-av';
+import * as Haptics from 'expo-haptics';
 import { useGame } from '../context/GameContext';
 
 const correctSound = require('../../../assets/Soundeffects/Correct.mp3');
@@ -39,6 +40,9 @@ export function useGameAudio() {
   }, []);
 
   const playCorrect = useCallback(async () => {
+    try {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    } catch(e) {}
     if (!soundEnabled || !correctRef.current) return;
     try {
       await correctRef.current.setPositionAsync(0);
@@ -49,6 +53,9 @@ export function useGameAudio() {
   }, [soundEnabled]);
 
   const playIncorrect = useCallback(async () => {
+    try {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+    } catch(e) {}
     if (!soundEnabled || !incorrectRef.current) return;
     try {
       await incorrectRef.current.setPositionAsync(0);
