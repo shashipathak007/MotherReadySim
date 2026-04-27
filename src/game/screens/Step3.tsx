@@ -1,6 +1,7 @@
 /// <reference types="nativewind/types" />
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Dimensions, Image } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import { useGame } from '../context/GameContext';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, {
@@ -103,13 +104,14 @@ const INACTIVITY_DELAY_MS = 10000;
 export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   const {
     addQuizStar, showFeedback, clearFeedback, setQuizProgress, setCurrentWave,
-    selectedTrimester: savedTrimester, quizIndex: savedQuizIndex, shuffledScenarioIds,
+    selectedTrimester: savedTrimester, quizIndex: savedQuizIndex, shuffledScenarioIds, quizResults: savedQuizResults,
     setQuizState, clearQuizState, feedback,
     setStep3CharacterVisible,
   } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
   const { playCorrect, playIncorrect } = useGameAudio();
+  const isFocused = useIsFocused();
 
   // ── State ──
   const [selectedTrimester, setSelectedTrimester] = useState<TrimesterKey | null>(savedTrimester);
@@ -125,7 +127,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
 
   const [streak, setStreak] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [quizResults, setQuizResults] = useState<{ id: number; isCorrect: boolean }[]>([]);
+  const [quizResults, setQuizResults] = useState<{ id: number; isCorrect: boolean }[]>(savedQuizResults || []);
   const [showReview, setShowReview] = useState(false);
   const madeMistakeOnCurrent = useRef(false);
 
@@ -242,11 +244,13 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
 
   useEffect(() => {
     resetInactivityTimer();
+    clearFeedback();
     return () => {
       if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
       if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
       if (questionRevealTimer.current) clearTimeout(questionRevealTimer.current);
       stopIdleAnimation();
+      clearFeedback();
     };
   }, []);
 
@@ -260,6 +264,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
         setSelectedTrimester(savedTrimester);
         setCurrentIdx(savedQuizIndex);
         setShuffledScenarios(reorderByIds(tri.scenarios, shuffledScenarioIds));
+        setQuizResults(savedQuizResults || []);
         setCurrentWave(isNe ? tri.labelNe : tri.label);
       }
     }
@@ -302,12 +307,12 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   useEffect(() => {
     // Don't re-show the question if the user already answered correctly
     // (we want char_correct to stay visible until "Next Scenario" is clicked)
-    if (scenario && questionVisible && !feedback && !selectedResult) {
+    if (isFocused && scenario && questionVisible && !feedback && !selectedResult) {
       const q = isNe ? scenario.descriptionNe : scenario.description;
       const t = isNe ? scenario.titleNe : scenario.title;
       showFeedback(q, t, 'question');
     }
-  }, [scenario, questionVisible, feedback, isNe, selectedResult]);
+  }, [isFocused, scenario, questionVisible, feedback, isNe, selectedResult]);
 
   // ── Reveal question + options + character together in one tick ──
   useEffect(() => {
@@ -363,7 +368,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       const shuffled = shuffleScenarios(tri.scenarios);
       setShuffledScenarios(shuffled);
       // Persist the selected trimester & shuffled order
-      setQuizState(key, 0, shuffled.map((s) => s.id));
+      setQuizState(key, 0, shuffled.map((s) => s.id), []);
     }
   };
 
@@ -401,18 +406,18 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       playCorrect();
       showFeedback(explanation, '', 'success');
       setSelectedResult({ isCorrect: true });
-      
+
       if (!madeMistakeOnCurrent.current) {
         setStreak(s => {
           const newStreak = s + 1;
-          if (newStreak === 10) {
+          if (newStreak === 5) {
             setShowConfetti(true);
             setTimeout(() => setShowConfetti(false), 4000);
           }
           return newStreak;
         });
       }
-      
+
       setQuizResults(prev => [...prev, { id: scenario!.id, isCorrect: !madeMistakeOnCurrent.current }]);
 
       // Keep char_correct visible — do NOT auto-clear success feedback.
@@ -456,11 +461,10 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       setCurrentIdx(nextIdx);
       // Persist the progress
       if (selectedTrimester) {
-        setQuizState(selectedTrimester, nextIdx, shuffledScenarios.map((s) => s.id));
+        setQuizState(selectedTrimester, nextIdx, shuffledScenarios.map((s) => s.id), quizResults);
       }
     } else {
       // Quiz done — show review screen
-      clearQuizState();
       setShowReview(true);
     }
   };
@@ -584,10 +588,11 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
               </Animated.View>
             );
           })}
-          <TouchableOpacity 
+          <TouchableOpacity
             className="w-full py-4 rounded-full bg-[#C06898] items-center mt-6 mb-4 shadow-md"
             onPress={() => {
               setShowReview(false);
+              clearQuizState();
               onNextStep();
             }}
             activeOpacity={0.8}
@@ -757,7 +762,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       {/* Confetti Animation */}
       {showConfetti && (
         <View pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, elevation: 9999 }}>
-          <ConfettiCannon count={100} origin={{x: SCREEN_W / 2, y: -20}} fadeOut={true} fallSpeed={2500} />
+          <ConfettiCannon count={100} origin={{ x: SCREEN_W / 2, y: -20 }} fadeOut={true} fallSpeed={2500} />
         </View>
       )}
     </View>
