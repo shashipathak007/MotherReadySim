@@ -130,7 +130,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
       .filter(i => wrongIds.includes(i.id))
       .map(item => ({ ...item, isWrong: true, why: item.whyNot }));
     const combined = [...correctItems, ...wrongItems];
-    
+
     // Shuffle all items to ensure wrong items and correct items mix across all pages
     for (let i = combined.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -143,59 +143,59 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
       const swapIdx = Math.floor(Math.random() * Math.min(combined.length, itemsPerPage));
       [combined[shawlIdx], combined[swapIdx]] = [combined[swapIdx], combined[shawlIdx]];
     }
-    
+
     return combined;
   }, [currentWave]);
 
   const paginatedItems = useMemo(() => {
-  const itemSize = 70;
+    const itemSize = 70;
 
-  // Horizontal spacing between columns
-  const colSpacing = itemSize + 30;
+    // Horizontal spacing between columns
+    const colSpacing = itemSize + 30;
 
-  // Vertical spacing between rows
-  const baseRowSpacing = itemSize + 40;
+    // Vertical spacing between rows
+    const baseRowSpacing = itemSize + 40;
 
-  // Extra gap between first row and second row
-  const extraGap = 30;
+    // Extra gap between first row and second row
+    const extraGap = 30;
 
-  const columns = 3;
-  const rightPadding = 180;
+    const columns = 3;
+    const rightPadding = 180;
 
-  const slice = activeWaveItems.slice(
-    itemPage * itemsPerPage,
-    (itemPage + 1) * itemsPerPage
-  );
+    const slice = activeWaveItems.slice(
+      itemPage * itemsPerPage,
+      (itemPage + 1) * itemsPerPage
+    );
 
-  // Right aligned grid
-  const totalGridWidth = (columns - 1) * colSpacing;
-  const startX = containerLayout.width - totalGridWidth - rightPadding;
+    // Right aligned grid
+    const totalGridWidth = (columns - 1) * colSpacing;
+    const startX = containerLayout.width - totalGridWidth - rightPadding;
 
-  return slice.map((item, index) => {
-    const row = Math.floor(index / columns);
-    const col = index % columns;
+    return slice.map((item, index) => {
+      const row = Math.floor(index / columns);
+      const col = index % columns;
 
-    const xPos = startX + col * colSpacing;
+      const xPos = startX + col * colSpacing;
 
-    const yPos =
-      containerLayout.height * 0.42 +
-      row * baseRowSpacing +
-      (row >= 1 ? extraGap : 0);
+      const yPos =
+        containerLayout.height * 0.42 +
+        row * baseRowSpacing +
+        (row >= 1 ? extraGap : 0);
 
-    return {
-      ...item,
-      initialPos: {
-        x: xPos + (Math.random() - 0.5) * 10,
-        y: yPos + (Math.random() - 0.5) * 10,
-      },
-    };
-  });
-}, [
-  activeWaveItems,
-  itemPage,
-  containerLayout.width,
-  containerLayout.height,
-]);
+      return {
+        ...item,
+        initialPos: {
+          x: xPos + (Math.random() - 0.5) * 10,
+          y: yPos + (Math.random() - 0.5) * 10,
+        },
+      };
+    });
+  }, [
+    activeWaveItems,
+    itemPage,
+    containerLayout.width,
+    containerLayout.height,
+  ]);
 
   // Keep paginatedItemsRef in sync for inactivity animation
   useEffect(() => { paginatedItemsRef.current = paginatedItems; }, [paginatedItems]);
@@ -367,7 +367,6 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   ]);
   stopIdleAnimationRef.current = stopIdleAnimation;
 
-  // Run one full idle cycle: drag anim on a visible item, then recurse
   const runIdleCycle = useCallback(() => {
     if (!isIdleRunning.current) return;
 
@@ -378,19 +377,24 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     // Pick a random visible (not-yet-packed) item to demo dragging
     const dragCandidates = items.filter(i => !(!i.isWrong && packed.includes(i.id)));
     if (dragCandidates.length === 0) {
-      // Nothing to show; stop idle and let inactivity timer restart later
       isIdleRunning.current = false;
       return;
     }
     const dragItem = dragCandidates[Math.floor(Math.random() * dragCandidates.length)];
 
-    // Start finger right above the item's visual center (item circle is 82px)
+    // dix remains centered on the item
     const dix = dragItem.initialPos.x;
-    const diy = dragItem.initialPos.y - 160;
 
-    // Target = inside the bag (same approach as Step 2)
+    /**
+     * ADJUSTMENT: We set the Y target higher (above the item).
+     * Since the item circle is 82px, subtracting ~100-120 ensures 
+     * the finger graphic is positioned at the top edge or above the emoji.
+     */
+    const diy = dragItem.initialPos.y - 250;
+
+    // Target = inside the bag
     const tx = dz.x + dz.w / 2 - 28;
-    const ty = dz.y - 130 + STEP1_DRAG_TARGET_Y_OFFSET;
+    const ty = dz.y - 150 + STEP1_DRAG_TARGET_Y_OFFSET;
 
     const addTimer = (fn: () => void, ms: number) => {
       const id = setTimeout(fn, ms);
@@ -405,23 +409,30 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
       setIdleGhostItem({ id: dragItem.id, isWrong: dragItem.isWrong || false, emoji: ghostEmoji, name: ghostName });
 
       idleFingerX.value = dix;
-      idleFingerY.value = diy - 180;
+
+      /**
+       * START POSITION: Finger starts further up (diy - 150) 
+       * so it "enters" the screen from above the item.
+       */
+      idleFingerY.value = diy - 150;
       idleFingerScale.value = 1;
       idleFingerRotate.value = 0;
       idleGhostOpacity.value = 0;
 
       idleFingerOpacity.value = withTiming(1, { duration: 400 });
+
+      // Finger moves DOWN to the item's top edge
       idleFingerY.value = withTiming(diy, { duration: 500, easing: Easing.out(Easing.ease) });
     }, 200);
 
-    // Press to grab (no ripple — avoids looking like a tap)
+    // Press to grab
     addTimer(() => {
       if (!isIdleRunning.current) return;
       idleFingerScale.value = withTiming(0.85, { duration: 280, easing: Easing.in(Easing.ease) });
       idleGhostOpacity.value = withTiming(1, { duration: 200 });
     }, 900);
 
-    // Lean
+    // Lean (tilts slightly while "holding" the item)
     addTimer(() => {
       if (!isIdleRunning.current) return;
       idleFingerRotate.value = withTiming(-12, { duration: 280 });
@@ -460,12 +471,12 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
       setIdleGhostItem(null);
     }, 3700);
 
-    // Recurse with a short pause between cycles
+    // Recurse
     addTimer(() => {
       if (!isIdleRunning.current) return;
       runIdleCycle();
     }, 4700);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [isNe]);
 
   // Start idle animation
