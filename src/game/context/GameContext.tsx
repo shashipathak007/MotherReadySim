@@ -26,7 +26,6 @@ interface GameContextType extends GameState {
   addQuizStar: () => void;
   resetGame: () => void;
   resetCurrentStep: () => void;
-  resetStepData: (step: GameStep) => void;
   isReady: boolean;
   feedback: { message: string, detail?: string, type: 'success' | 'error' | 'info' | 'question' } | null;
   showFeedback: (message: string, detail: string, type: 'success' | 'error' | 'info' | 'question') => void;
@@ -222,18 +221,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   };
 
-  const resetStepData = (step: GameStep) => {
-    setState((prev) => {
-      if (step === 1) return { ...prev, packedBagItems: [] };
-      if (step === 2) return { ...prev, savedContacts: [] };
-      if (step === 3) return { ...prev, quizStars: 0, selectedTrimester: null, quizIndex: 0, shuffledScenarioIds: [], quizResults: [] };
-      return prev;
-    });
-    if (step === 3) {
-      setQuizProgressState({ current: 0, total: quizProgress.total });
-    }
-  };
-
   const showFeedback = (message: string, detail: string, type: 'success' | 'error' | 'info' | 'question') => {
     setFeedback({ message, detail, type });
   };
@@ -245,7 +232,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <GameContext.Provider value={{ ...state, setStep, packItem, saveContact, addQuizStar, resetGame, resetCurrentStep, resetStepData, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial, completeTutorial, setQuizState, clearQuizState, step3CharacterVisible, setStep3CharacterVisible }}>
+    <GameContext.Provider value={{ ...state, setStep, packItem, saveContact, addQuizStar, resetGame, resetCurrentStep, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial, completeTutorial, setQuizState, clearQuizState, step3CharacterVisible, setStep3CharacterVisible }}>
       {children}
     </GameContext.Provider>
   );

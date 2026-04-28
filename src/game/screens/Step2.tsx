@@ -6,8 +6,7 @@ import { CONTACTS } from '../../data/contacts';
 import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
 import { StepCompletionModal } from '../components/StepCompletionModal';
 import Animated, {
-  FadeInDown, useSharedValue, useAnimatedStyle, withSpring, withSequence,
-  withTiming, Easing, cancelAnimation,
+  FadeInDown, useSharedValue, useAnimatedStyle, withTiming, Easing, cancelAnimation, withSequence,
 } from 'react-native-reanimated';
 import { useTranslation } from 'react-i18next';
 import { useGameAudio } from '../hooks/useGameAudio';
@@ -36,18 +35,6 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
   const { playCorrect, playIncorrect } = useGameAudio();
-
-  const phoneScale = useSharedValue(1);
-  const triggerPhoneReaction = () => {
-    'worklet';
-    phoneScale.value = withSequence(
-      withSpring(1.08, { damping: 8, stiffness: 120 }),
-      withSpring(1)
-    );
-  };
-  const phoneAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: phoneScale.value }]
-  }));
 
   const [showCompletionModal, setShowCompletionModal] = useState(false);
   const [currentWaveIdx, setCurrentWaveIdx] = useState(0);
@@ -358,7 +345,6 @@ return combined
     if (inZone) {
       if (!isWrong) {
         saveContact(item.id);
-        triggerPhoneReaction();
         ref?.animatePack(dropZone.x + dropZone.w / 2 - 30, dropZone.y + dropZone.h / 2 - 30);
         playCorrect();
         const cName = isNe && item.nameNe ? item.nameNe : item.name;

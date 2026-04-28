@@ -1,6 +1,6 @@
 /// <reference types="nativewind/types" />
 import React from 'react';
-import { View, Text, TouchableOpacity, Share, ImageBackground, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, Share, ScrollView } from 'react-native';
 import { useGame } from '../context/GameContext';
 import Animated, { FadeInUp, ZoomIn, FadeInDown } from 'react-native-reanimated';
 import { BAG_ITEMS } from '../../data/bagItems';

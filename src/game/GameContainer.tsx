@@ -1,5 +1,5 @@
 /// <reference types="nativewind/types" />
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, Dimensions, ImageBackground } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useGame } from './context/GameContext';
@@ -25,7 +25,7 @@ export default function GameContainer() {
   const {
     currentStep, setStep, isReady, resetCurrentStep, resetGame,
     packedBagItems, savedContacts, feedback, clearFeedback, currentWave, quizProgress,
-    soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial,
+    soundEnabled, toggleSound, setTutorialStep, showTutorial,
     completeTutorial, selectedTrimester, quizIndex, shuffledScenarioIds, step3CharacterVisible
   } = useGame();
   const { i18n } = useTranslation();

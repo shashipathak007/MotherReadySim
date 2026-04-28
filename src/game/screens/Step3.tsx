@@ -714,34 +714,32 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
             >
               <View className="px-4 pt-2 pb-4 gap-1.5">
                 {!selectedResult ? (
-                  optionsVisible ? (
-                    scenario.options.map((opt, i) => (
-                      <TouchableOpacity
-                        key={i}
-                        className="flex-row items-center px-3 py-2 rounded-[10px]"
-                        style={{
-                          backgroundColor: triColor + '08',
-                          borderWidth: 1.5,
-                          borderColor: triColor + '20',
-                        }}
-                        onPress={() => handleSelect(opt)}
-                        disabled={selectedResult !== null}
-                        activeOpacity={0.6}
+                  scenario.options.map((opt, i) => (
+                    <TouchableOpacity
+                      key={i}
+                      className="flex-row items-center px-3 py-2 rounded-[10px]"
+                      style={{
+                        backgroundColor: triColor + '08',
+                        borderWidth: 1.5,
+                        borderColor: triColor + '20',
+                      }}
+                      onPress={() => handleSelect(opt)}
+                      disabled={selectedResult !== null}
+                      activeOpacity={0.6}
+                    >
+                      <View
+                        className="w-[24px] h-[24px] rounded-[6px] items-center justify-center mr-3"
+                        style={{ backgroundColor: triColor + '18' }}
                       >
-                        <View
-                          className="w-[24px] h-[24px] rounded-[6px] items-center justify-center mr-3"
-                          style={{ backgroundColor: triColor + '18' }}
-                        >
-                          <Text className="text-[12px] font-[800]" style={{ color: triColor }}>
-                            {OPTION_LABELS[i]}
-                          </Text>
-                        </View>
-                        <Text className="text-[14px] text-[#3A3A3A] font-[600] leading-[20px] flex-1">
-                          {isNe ? opt.textNe : opt.text}
+                        <Text className="text-[12px] font-[800]" style={{ color: triColor }}>
+                          {OPTION_LABELS[i]}
                         </Text>
-                      </TouchableOpacity>
-                    ))
-                  ) : null
+                      </View>
+                      <Text className="text-[14px] text-[#3A3A3A] font-[600] leading-[20px] flex-1">
+                        {isNe ? opt.textNe : opt.text}
+                      </Text>
+                    </TouchableOpacity>
+                  ))
                 ) : (
                   <TouchableOpacity
                     className="py-[13px] rounded-[12px] items-center"

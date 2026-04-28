@@ -1,11 +1,9 @@
 /// <reference types="nativewind/types" />
 import React from 'react';
-import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import Animated, { FadeIn, FadeOut, FadeInUp } from 'react-native-reanimated';
 import { useTranslation } from 'react-i18next';
 import { useGame } from '../context/GameContext';
-
-const { height: SCREEN_H } = Dimensions.get('window');
 
 interface TutorialOverlayProps {
   visible: boolean;

@@ -230,10 +230,6 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   // Ripple
   const rippleScale = useSharedValue(0);
   const rippleOpacity = useSharedValue(0);
-  // Trail
-  const trailOpacity = useSharedValue(0);
-  const trailX = useSharedValue(-200);
-  const trailY = useSharedValue(-200);
   // Ghost item (follows finger during drag tutorial)
   const ghostOpacity = useSharedValue(0);
 
@@ -289,14 +285,6 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
       { translateX: fingerX.value + 16 },
       { translateY: fingerY.value + 16 },
       { scale: rippleScale.value },
-    ],
-  }));
-
-  const trailAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: trailOpacity.value,
-    transform: [
-      { translateX: trailX.value },
-      { translateY: trailY.value },
     ],
   }));
 
@@ -386,8 +374,6 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     const dix = dragItem.initialPos.x;
 
     /**
-     * ADJUSTMENT: We set the Y target higher (above the item).
-     * Since the item circle is 82px, subtracting ~100-120 ensures 
      * the finger graphic is positioned at the top edge or above the emoji.
      */
     const diy = dragItem.initialPos.y - 250;
@@ -524,7 +510,6 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     fingerOpacity.value = withTiming(0, { duration: 120 });
     ghostOpacity.value = 0;
     rippleOpacity.value = 0;
-    trailOpacity.value = 0;
     setHideTutorialItem(false);
 
     if (!isTutorialVisibleRef.current || currentWaveIdx !== 0) {
@@ -860,20 +845,6 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
               marginLeft: -28, marginTop: -28,
             },
             rippleAnimatedStyle,
-          ]}
-        />
-
-        {/* DRAG TRAIL DOT */}
-        <Animated.View
-          pointerEvents="none"
-          style={[
-            {
-              position: 'absolute', zIndex: 2,
-              width: 12, height: 12, borderRadius: 6,
-              backgroundColor: '#C06898',
-              marginLeft: -6, marginTop: -6,
-            },
-            trailAnimatedStyle,
           ]}
         />
 
