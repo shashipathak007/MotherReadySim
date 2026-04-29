@@ -309,12 +309,21 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   useEffect(() => {
     // Don't re-show the question if the user already answered correctly
     // (we want char_correct to stay visible until "Next Scenario" is clicked)
-    if (isFocused && scenario && questionVisible && !feedback && !selectedResult) {
+    if (isFocused && scenario && questionVisible && !selectedResult) {
       const q = isNe ? scenario.descriptionNe : scenario.description;
       const t = isNe ? scenario.titleNe : scenario.title;
-      showFeedback(q, t, 'question');
+      if (!feedback || (feedback.type === 'question' && (feedback.message !== q || feedback.detail !== t))) {
+        showFeedback(q, t, 'question');
+      }
     }
   }, [isFocused, scenario, questionVisible, feedback, isNe, selectedResult]);
+
+  // ── Auto-translate header wave text ──
+  useEffect(() => {
+    if (selectedTrimester && trimesterInfo) {
+      setCurrentWave(isNe ? trimesterInfo.labelNe : trimesterInfo.label);
+    }
+  }, [isNe, selectedTrimester, trimesterInfo]);
 
   // ── Reveal question + options + character together in one tick ──
   useEffect(() => {
