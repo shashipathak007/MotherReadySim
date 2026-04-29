@@ -126,7 +126,9 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   const questionRevealTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [streak, setStreak] = useState(0);
+  const [highestStreak, setHighestStreak] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [confettiAmount, setConfettiAmount] = useState(100);
   const [quizResults, setQuizResults] = useState<{ id: number; isCorrect: boolean }[]>(savedQuizResults || []);
   const [showReview, setShowReview] = useState(false);
   const madeMistakeOnCurrent = useRef(false);
@@ -410,7 +412,14 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       if (!madeMistakeOnCurrent.current) {
         setStreak(s => {
           const newStreak = s + 1;
-          if (newStreak === 5) {
+          setHighestStreak(h => Math.max(h, newStreak));
+          
+          if (newStreak === 5 || newStreak === 10 || newStreak === 15 || newStreak === 20) {
+            let amount = 100;
+            if (newStreak === 10) amount = 200;
+            if (newStreak === 15) amount = 300;
+            if (newStreak === 20) amount = 400;
+            setConfettiAmount(amount);
             setShowConfetti(true);
             setTimeout(() => setShowConfetti(false), 4000);
           }
@@ -438,11 +447,11 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
         hasAnswered.current = false;
       }, 500);
 
-      // Auto-clear error feedback after 5 s
+      // Auto-clear error feedback after 8 second
       if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
       feedbackTimer.current = setTimeout(() => {
         clearFeedback();
-      }, 5000);
+      }, 8000); //Explanation time 
     }
   };
 
@@ -687,7 +696,12 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
                 </TouchableOpacity>
 
                 <View className="flex-row items-center">
-                  {streak >= 3 && (
+                  {highestStreak > 0 && (
+                    <Animated.View entering={ZoomIn.springify()} className="mr-2 bg-white px-2 py-0.5 rounded-full border border-purple-200">
+                      <Text className="text-[12px] font-[800] text-purple-500">🏆 {highestStreak}</Text>
+                    </Animated.View>
+                  )}
+                  {streak >= 1 && (
                     <Animated.View entering={ZoomIn.springify()} className="mr-3 bg-white px-2 py-0.5 rounded-full border border-orange-200">
                       <Text className="text-[12px] font-[800] text-orange-500">🔥 {streak}</Text>
                     </Animated.View>
@@ -783,7 +797,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       {/* Confetti Animation */}
       {showConfetti && (
         <View pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, elevation: 9999 }}>
-          <ConfettiCannon count={100} origin={{ x: SCREEN_W / 2, y: -20 }} fadeOut={true} fallSpeed={2500} />
+          <ConfettiCannon count={confettiAmount} origin={{ x: SCREEN_W / 2, y: -20 }} fadeOut={true} fallSpeed={2500} />
         </View>
       )}
     </View>
