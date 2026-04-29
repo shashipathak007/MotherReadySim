@@ -38,7 +38,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "पूजा ८ हप्ताकी गर्भवती छिन्। डाक्टरले उनलाई आइरन र फोलिक एसिड चक्की खान दिएका छन्, तर उनी कहिलेकाहीं खान बिर्सिन्छिन्।",
     options: [
       { text: "Prevents mother's fatigue", textNe: "आमालाई थकाइबाट बचाउँछ", isCorrect: false },
-      { text: "Aids baby's brain & spine growth", textNe: "दिमाग र मेरुदण्ड बिकास गर्छ", isCorrect: true },
+      { text: "Aids baby's brain & spine growth", textNe: "दिमाग र मेरुदण्डको विकास गर्छ", isCorrect: true },
       { text: "Increases mother's appetite", textNe: "आमाको भोक बढाउँछ", isCorrect: false }
     ],
     explanation: "Folic acid is critical in the first 12 weeks because the baby's neural tube — which becomes the brain and spinal cord — forms during this period. A deficiency increases the risk of neural tube defects like spina bifida.",
@@ -191,7 +191,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Kabita is 8 weeks pregnant and her family is advising her to visit a local faith healer and follow specific rituals.",
     descriptionNe: "कबिता ८ हप्ताकी गर्भवती छिन्। परिवारका पाका मान्छेहरूले उनलाई धामीकहाँ गएर फुक्न र ग्रह शान्ति गर्न भनिरहेका छन्।",
     options: [
-      { text: "No, ANC is not needed then", textNe: "पर्दैन, डाक्टरकहाँ जानु पर्दैन", isCorrect: false },
+      { text: "No, ANC is not needed then", textNe: "पर्दैन, स्वास्थ्य चौकी जानु पर्दैन", isCorrect: false },
       { text: "Yes, medical care is essential", textNe: "पर्छ, स्वास्थ्य जाँच गराउनैपर्छ", isCorrect: true },
       { text: "Only if faith healer says so", textNe: "धामीले भने मात्र जाने", isCorrect: false }
     ],
@@ -206,7 +206,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "दीपा १० हप्ताकी गर्भवती छिन्। उनकी आमाले बच्चा राम्रो हुन्छ भनेर वनको जडीबुटी उमालेर पिउन भन्दै हुनुहुन्छ।",
     options: [
       { text: "All herbs are completely safe", textNe: "जडीबुटी जति खाए पनि हुन्छ", isCorrect: false },
-      { text: "Many herbs are unsafe in pregnancy", textNe: "केही जडीबुटी खतरा हुन्छन्, नसोध्ने नखाने", isCorrect: true },
+      { text: "Many herbs are unsafe in pregnancy", textNe: "केही जडीबुटी खतरा हुन्छन्, नसोधी नखाने", isCorrect: true },
       { text: "Better than any medicine", textNe: "औषधिभन्दा जडीबुटी राम्रो हो", isCorrect: false }
     ],
     explanation: "Natural does not mean safe during pregnancy. Several commonly used herbs can stimulate uterine contractions or affect fetal development.",
@@ -220,7 +220,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "सुना १२ हप्ताकी गर्भवती छिन् र उनले भर्खर भिडियो एक्स-रे (Ultrasound) गराइन्। डाक्टरले बच्चा ठीकसँग हुर्किरहेको छ भनेर बताएका छन्।",
     options: [
       { text: "To find baby's gender", textNe: "छोरा वा छोरी हेर्न", isCorrect: false },
-      { text: "Confirm dates, location & twins", textNe: "मिति, जुम्ल्याहा र गर्भको अवस्था हेर्न", isCorrect: true },
+      { text: "Confirm dates, location & twins", textNe: "मिति, जुम्ल्याहा र गर्भको अवस्था थाहा पाउन", isCorrect: true },
       { text: "To take a photo", textNe: "फोटो खिच्न मात्र", isCorrect: false }
     ],
     explanation: "The first-trimester ultrasound confirms the pregnancy is inside the uterus, establishes the due date, checks for twins, and screens for chromosomal conditions.",
@@ -233,8 +233,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Durga is 9 weeks pregnant and still smoking occasionally. Her husband also smokes inside the house.",
     descriptionNe: "दुर्गा ९ हप्ताकी गर्भवती छिन् र उनी अझै पनि बेलाबेला चुरोट पिउँछिन्। उनका श्रीमानले पनि घरभित्रै चुरोट खान्छन्।",
     options: [
-      { text: "Only dangerous after 6th month", textNe: "६ महिनापछि मात्र असर गर्छ", isCorrect: false },
-      { text: "Both increase miscarriage risk", textNe: "चुरोटको धुवाँले गर्भपतनको डर हुन्छ", isCorrect: true },
+      { text: "Only dangerous after 6th month", textNe: "६ महिना लागेपछि मात्र असर गर्छ", isCorrect: false },
+      { text: "Both increase miscarriage risk", textNe: "चुरोटको धुवाँले गर्भ खेर जाने डर हुन्छ", isCorrect: true },
       { text: "Only father's smoking hurts baby", textNe: "श्रीमानले खाएकोले मात्र असर गर्छ", isCorrect: false }
     ],
     explanation: "Smoking during pregnancy — both active and passive — is harmful at every stage. There is no safe level of smoking during pregnancy.",
@@ -261,7 +261,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Rita is 8 weeks pregnant and has been told she should not tell anyone about the pregnancy until after 3 months.",
     descriptionNe: "रीता ८ हप्ताकी गर्भवती छिन्। परिवारका ठूलाबडाले उनलाई '३ महिना पार नहुन्जेल अरूलाई यो कुरा नसुनाउनू' भनेका छन्।",
     options: [
-      { text: "Pure superstition", textNe: "पुरानो अन्धविश्वास मात्र हो", isCorrect: false },
+      { text: "Pure superstition", textNe: "यो पुरानो अन्धविश्वास मात्र हो", isCorrect: false },
       { text: "Highest miscarriage risk in 1st trimester", textNe: "सुरुको ३ महिना बच्चा खेर जाने डर हुन्छ", isCorrect: true },
       { text: "Baby is not real yet", textNe: "बच्चा बनिसकेकै हुँदैन", isCorrect: false }
     ],
@@ -290,7 +290,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "संगीता ७ हप्ताकी गर्भवती छिन्। खाना नरुच्ने र वाकवाकी लाग्ने भएर उनको तौल १ किलो जति घटेको छ, जुन देखेर श्रीमानलाई पिर परेको छ।",
     options: [
       { text: "Dangerous, needs hospital instantly", textNe: "तौल घट्नु खतरा हो, अस्पताल जाने", isCorrect: false },
-      { text: "1-2kg loss from nausea is common", textNe: "१-२ किलो घट्नु एकदम सामान्य हो", isCorrect: true },
+      { text: "1-2kg loss from nausea is common", textNe: "वाकवाकीले १-२ किलो घट्नु सामान्य हो", isCorrect: true },
       { text: "Must force feed meals", textNe: "जबरजस्ती टन्न खानैपर्छ", isCorrect: false }
     ],
     explanation: "Losing 1–2kg in the first trimester due to morning sickness is common and generally not harmful if the mother stays hydrated.",

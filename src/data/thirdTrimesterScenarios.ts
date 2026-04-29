@@ -8,7 +8,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Sunita is 30 weeks pregnant. Her doctor says she needs to do a kick count daily.",
     descriptionNe: "सुनिता ३० हप्ताकी गर्भवती छिन्। डाक्टरले उनलाई दिनदिनै बच्चा चलेको गन्न (किक काउन्ट गर्न) भन्नुभएको छ।",
     options: [
-      { text: "Counting the steps mother walks", textNe: "आमा कति कदम हिँडिन् गन्ने", isCorrect: false },
+      { text: "Counting the steps mother walks", textNe: "आमा दिनभरिमा कति कदम हिँडिन् गन्ने", isCorrect: false },
       { text: "Counting baby movements (10 in 2 hrs)", textNe: "कम्तीमा २ घण्टामा १० पटक चल्नुपर्छ", isCorrect: true },
       { text: "Counting baby kicks to ribs", textNe: "करङमा कति लात हान्यो गन्ने", isCorrect: false }
     ],
@@ -22,7 +22,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Puja is 32 weeks pregnant and feels burning in her chest and throat after eating.",
     descriptionNe: "पूजा ३२ हप्ताकी गर्भवती छिन्। उनलाई खाना खानेबित्तिकै छाती ढुस्स हुने र अमिलो पानी आएर घाँटी पोल्ने गर्छ।",
     options: [
-      { text: "Having a heart attack", textNe: "हार्ट अट्याकको लक्षण हो", isCorrect: false },
+      { text: "Having a heart attack", textNe: "यो हार्ट अट्याकको लक्षण हो", isCorrect: false },
       { text: "Heartburn, uterus pushes stomach up", textNe: "एसिडले हो, पेटले माथि धकेलेर", isCorrect: true },
       { text: "Gestational diabetes sign", textNe: "प्रेग्नेन्सी सुगरको संकेत हो", isCorrect: false }
     ],
@@ -36,8 +36,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Kamala is 34 weeks pregnant and is told the baby is in a cephalic (head-down) position.",
     descriptionNe: "कमला ३४ हप्ताकी गर्भवती छिन्। डाक्टरले बच्चा सुल्टो (टाउको तल फर्केको) अवस्थामा छ भनेका छन्।",
     options: [
-      { text: "Baby has a large head", textNe: "बच्चाको टाउको ठूलो छ", isCorrect: false },
-      { text: "Optimal for normal vaginal delivery", textNe: "नर्मल डेलिभरी हुन सजिलो हुन्छ", isCorrect: true },
+      { text: "Baby has a large head", textNe: "बच्चाको टाउको ठूलो भएर हो", isCorrect: false },
+      { text: "Optimal for normal vaginal delivery", textNe: "यसले नर्मल डेलिभरी हुन सजिलो हुन्छ", isCorrect: true },
       { text: "Makes C-section necessary", textNe: "अप्रेसन गर्नैपर्ने हुन्छ", isCorrect: false }
     ],
     explanation: "About 95% of babies are head-down by 36 weeks. The head being first allows the cervix to dilate most effectively.",
@@ -64,7 +64,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Rita is 38 weeks pregnant. A family member advises her to eat spicy food, go on long walks, and drink castor oil to bring on labour faster.",
     descriptionNe: "रिता ३८ हप्ताकी गर्भवती छिन्। छिटो व्यथा लागोस् भनेर परिवारका सदस्यहरूले उनलाई पिरो खानेकुरा खान, धेरै बेरसम्म हिँड्न र अरंडीको (क्यास्टर) तेल पिउन भनेका छन्।",
     options: [
-      { text: "Medically proven to induce labour", textNe: "डाक्टरले प्रमाणित गरेको सुरक्षित तरिका", isCorrect: false },
+      { text: "Medically proven to induce labour", textNe: "यो डाक्टरले प्रमाणित गरेको सुरक्षित तरिका हो", isCorrect: false },
       { text: "Unproven, castor oil causes dehydration", textNe: "ग्यारेन्टी छैन, तेलले झाडापखाला लाग्छ", isCorrect: true },
       { text: "Only long walks work", textNe: "धेरै हिँड्दा मात्र काम गर्छ", isCorrect: false }
     ],
@@ -78,7 +78,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Nirmala is 35 weeks pregnant and is told she has Group B Streptococcus (GBS) bacteria.",
     descriptionNe: "निर्मला ३५ हप्ताकी गर्भवती छिन्। उनको पिसाब वा योनीको जाँच गर्दा GBS ब्याक्टेरिया (किटाणु) देखिएको छ।",
     options: [
-      { text: "Must have a C-section", textNe: "अप्रेसन नै गर्नुपर्छ", isCorrect: false },
+      { text: "Must have a C-section", textNe: "यस्तो बेला अप्रेसन नै गर्नुपर्छ", isCorrect: false },
       { text: "Antibiotics during labour prevent infection", textNe: "व्यथा लाग्दा एन्टिबायोटिक दिए रोकिन्छ", isCorrect: true },
       { text: "Take antibiotics for 6 months", textNe: "६ महिना लगातार एन्टिबायोटिक खाने", isCorrect: false }
     ],
@@ -106,7 +106,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Anita is 37 weeks pregnant. She has been losing small amounts of thick mucus with some blood streaking.",
     descriptionNe: "अनिता ३७ हप्ताकी गर्भवती छिन्। उनलाई एक-दुई दिनदेखि योनीबाट अलिअलि बाक्लो सिंगान जस्तो रगत मिसिएको ढिक्का (Mucus) गइरहेको छ।",
     options: [
-      { text: "Active labour, rush to hospital", textNe: "व्यथा सुरु भइसक्यो, अस्पताल जाने", isCorrect: false },
+      { text: "Active labour, rush to hospital", textNe: "व्यथा सुरु भइसक्यो, तुरुन्तै अस्पताल जाने", isCorrect: false },
       { text: "Mucus plug releasing, labour soon", textNe: "म्युकस प्लग बाहिर आएको हो, व्यथा लाग्दैछ", isCorrect: true },
       { text: "Vaginal infection", textNe: "योनीमा इन्फेक्सन भएको हो", isCorrect: false }
     ],
@@ -120,7 +120,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Sima is 39 weeks pregnant and is feeling very anxious about the pain of labour.",
     descriptionNe: "सिमा ३९ हप्ताकी गर्भवती छिन्। दिन नजिकिंदै गर्दा उनलाई सुत्केरी व्यथाको दुखाइ सम्झेर एकदमै डर लागिरहेको छ।",
     options: [
-      { text: "Request C-section to avoid pain", textNe: "दुखाइबाट बच्न सुरुमै अप्रेसन गर्ने", isCorrect: false },
+      { text: "Request C-section to avoid pain", textNe: "दुखाइबाट बच्न डाक्टरलाई अप्रेसन गर्न लगाउने", isCorrect: false },
       { text: "Breathing, support, & understanding help", textNe: "सास लिने अभ्यास र साथले डर कम हुन्छ", isCorrect: true },
       { text: "Don't think, hope for the best", textNe: "नसोच्ने, भगवानको भरोसामा बस्ने", isCorrect: false }
     ],
@@ -134,7 +134,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Maya is 31 weeks pregnant and wants to know when she should prepare her hospital bag.",
     descriptionNe: "माया ३१ हप्ताकी गर्भवती छिन्। उनी अस्पताल जाँदा लैजानुपर्ने कपडा र सामानहरुको झोला कहिले प्याक गरेर राख्दा ठीक हुन्छ भनेर जान्न चाहन्छिन्।",
     options: [
-      { text: "When labour starts, no need earlier", textNe: "व्यथा लागेको दिन हालेर लगे हुन्छ", isCorrect: false },
+      { text: "When labour starts, no need earlier", textNe: "व्यथा लागेको दिन झोलामा हालेर लगे हुन्छ", isCorrect: false },
       { text: "By 36 weeks at the latest", textNe: "ढिलोमा ३६ हप्तासम्ममा तयार राख्नुपर्छ", isCorrect: true },
       { text: "Only if doctor tells you to", textNe: "डाक्टरले भनेपछि मात्र झोला मिलाउने", isCorrect: false }
     ],
@@ -148,7 +148,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Devi is 28 weeks pregnant and starts to feel shortness of breath when climbing stairs.",
     descriptionNe: "देवी २८ हप्ताकी गर्भवती छिन्। अचेल उनलाई अलिकति भर्‍याङ चढ्दा वा छिटो हिँड्दा सास फेर्न गाह्रो भएर स्वाँ-स्वाँ हुन्छ।",
     options: [
-      { text: "Developed asthma from pregnancy", textNe: "प्रेग्नेन्सीमा दमको रोग सुरु भएको हो", isCorrect: false },
+      { text: "Developed asthma from pregnancy", textNe: "प्रेग्नेन्सीमा दमको रोग सुरु भएर हो", isCorrect: false },
       { text: "Uterus pushes diaphragm, lessening lung space", textNe: "पेटले फोक्सो थिचेर हो, यो सामान्य हो", isCorrect: true },
       { text: "Needs more iron intake", textNe: "रगत कम भएर हो, आइरन धेरै खाने", isCorrect: false }
     ],
@@ -162,7 +162,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Parbati is 34 weeks pregnant. Her doctor prescribed a Tdap or TT vaccine during this visit.",
     descriptionNe: "पार्बती ३४ हप्ताकी गर्भवती छिन्। डाक्टरले उनलाई यो जाँचमा एउटा खोप (Tdap वा TT) लगाउनु पर्छ भनेका छन्।",
     options: [
-      { text: "Protects mother from diseases during birth", textNe: "सुत्केरी हुँदा आमालाई रोग लाग्न दिँदैन", isCorrect: false },
+      { text: "Protects mother from diseases during birth", textNe: "यसले सुत्केरी हुँदा आमालाई रोग लाग्न दिँदैन", isCorrect: false },
       { text: "Protects baby from whooping cough initially", textNe: "सुरुको महिना बच्चालाई लहरेखोकीबाट बचाउँछ", isCorrect: true },
       { text: "Only for C-section mothers", textNe: "अप्रेसन गर्ने आमालाई मात्र दिइन्छ", isCorrect: false }
     ],
@@ -176,7 +176,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Hira is 30 weeks pregnant and her feet and ankles are visibly swollen by evening but the swelling goes away by morning.",
     descriptionNe: "हिरा ३० हप्ताकी गर्भवती छिन्। दिनभरि हिँड्दा वा बस्दा उनको पैताला र खुट्टा निकै सुन्निन्छ, तर रातभर सुतेर बिहान उठ्दा भने त्यो आफैं हराउँछ।",
     options: [
-      { text: "Kidney problem sign", textNe: "मिर्गौला खराब भएको लक्षण हो", isCorrect: false },
+      { text: "Kidney problem sign", textNe: "यो मिर्गौला (किड्नी) खराब भएको लक्षण हो", isCorrect: false },
       { text: "Normal physiological swelling", textNe: "दिनभर उभिएर सुन्निने, यो सामान्य हो", isCorrect: true },
       { text: "Must stop drinking water", textNe: "पानी पिउनै छोड्नुपर्छ", isCorrect: false }
     ],
@@ -190,7 +190,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Laxmi is 29 weeks pregnant and has been told to have a glucose tolerance test done this week.",
     descriptionNe: "लक्ष्मी २९ हप्ताकी गर्भवती छिन्। डाक्टरले उनलाई अस्पतालमा आएर ग्लुकोज पानी पिएर सुगर जाँच्न (Glucose Tolerance Test) भनेका छन्।",
     options: [
-      { text: "Checks if mother likes sweets", textNe: "आमाले गुलियो खाएको हेर्न", isCorrect: false },
+      { text: "Checks if mother likes sweets", textNe: "आमालाई गुलियो कत्तिको पच्छ भनेर हेर्न", isCorrect: false },
       { text: "Tests for gestational diabetes", textNe: "सुगर रोग पत्ता लगाउन जाँचेको हो", isCorrect: true },
       { text: "Checks if baby will be heavy", textNe: "बच्चा मोटो जन्मिन्छ कि हेर्न", isCorrect: false }
     ],
@@ -218,7 +218,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Sarita is 32 weeks pregnant and her husband works away from home. She is worried about being alone when labour starts.",
     descriptionNe: "सरिता ३२ हप्ताकी गर्भवती छिन् र उनका श्रीमान कामको सिलसिलामा बाहिर हुनुहुन्छ। एक्कासी व्यथा सुरु भएमा म एक्लै के गर्ने भनेर उनी ज्यादै आत्तिएकी छिन्।",
     options: [
-      { text: "Go wait at hospital now", textNe: "अहिलेदेखि अस्पताल गएर बस्ने", isCorrect: false },
+      { text: "Go wait at hospital now", textNe: "अहिलेदेखि नै अस्पताल गएर बस्ने", isCorrect: false },
       { text: "Have backup person, contacts, and bag ready", textNe: "योजना बनाउने, झोला र एम्बुलेन्स नम्बर तयार राख्ने", isCorrect: true },
       { text: "Tell husband to fly home instantly", textNe: "श्रीमानलाई भोलि नै घर फर्किन भन्ने", isCorrect: false }
     ],
@@ -232,7 +232,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Deepa is 40 weeks pregnant and has not gone into labour yet. Her family is pushing her to go to hospital immediately.",
     descriptionNe: "दीपाको गर्भ ४० हप्ता पुगिसक्यो तर अझै व्यथा लागेको छैन। डाक्टरले दिएको मिति कटेकोले परिवारका सबैजना आत्तिएर तुरुन्तै अस्पताल जानुपर्छ भनिरहेका छन्।",
     options: [
-      { text: "Induce instantly exactly at 40 weeks", textNe: "मिति कट्नेबित्तिकै अप्रेसन गरिहाल्ने", isCorrect: false },
+      { text: "Induce instantly exactly at 40 weeks", textNe: "मिति कट्नेबित्तिकै तुरुन्तै अप्रेसन गरिहाल्ने", isCorrect: false },
       { text: "Due date is estimate, up to 41 weeks is normal", textNe: "४०-४१ हप्तासम्म जानु एकदम सामान्य हो", isCorrect: true },
       { text: "Definitely needs a C-section", textNe: "मिति काटेपछि पक्का अप्रेसन गर्नुपर्छ", isCorrect: false }
     ],
@@ -246,7 +246,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Rina is 35 weeks pregnant and asks if she should still be sleeping on her back.",
     descriptionNe: "रिना ३५ हप्ताकी गर्भवती छिन्। उनी 'अहिले पेट धेरै ठूलो भइसक्यो, अब उत्तानो परेर सुत्न मिल्छ कि मिल्दैन?' भनेर सोधिरहेकी छिन्।",
     options: [
-      { text: "Flat on back with pillow", textNe: "सधैं उत्तानो मात्र सुत्ने", isCorrect: false },
+      { text: "Flat on back with pillow", textNe: "सिरानी राखेर सधैं उत्तानो मात्र सुत्ने", isCorrect: false },
       { text: "Left side improves blood flow", textNe: "देब्रे कोल्टे सुत्दा रगत राम्ररी पुग्छ", isCorrect: true },
       { text: "On stomach with donut pillow", textNe: "घोप्टो परेर सुत्ने", isCorrect: false }
     ],
@@ -260,7 +260,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Mina is 37 weeks pregnant and asks if she should prepare a birth plan.",
     descriptionNe: "मिना ३७ हप्ताकी गर्भवती छिन्। उनले अस्पताल जाँदा 'बर्थ प्लान' (Birth Plan) बनाएर जानुपर्छ भन्ने सुनेकी छिन् र यो भनेको के हो भनेर जान्न चाहन्छिन्।",
     options: [
-      { text: "Legal doc forcing doctors", textNe: "डाक्टरलाई बाध्य पार्ने कानुनी कागज हो", isCorrect: false },
+      { text: "Legal doc forcing doctors", textNe: "यो डाक्टरलाई नियम मान्न बाध्य पार्ने कानुनी कागज हो", isCorrect: false },
       { text: "Notes preferences for delivery room", textNe: "सुत्केरी हुँदा चाहिने सुविधा लेखिएको नोट हो", isCorrect: true },
       { text: "Only wealthy city folks need it", textNe: "धनी मानिसलाई मात्र चाहिने कुरा हो", isCorrect: false }
     ],

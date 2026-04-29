@@ -9,7 +9,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "सिमा १६ हप्ताकी गर्भवती छिन् र जाँच गराउँदा उनको हेमोग्लोबिन ९.५ g/dL देखियो।",
     options: [
       { text: "Perfectly normal for pregnancy", textNe: "गर्भवती हुँदा सामान्य हो", isCorrect: false },
-      { text: "Mild anaemia, needs iron tablets", textNe: "रगतको कमी छ, आइरन खाने", isCorrect: true },
+      { text: "Mild anaemia, needs iron tablets", textNe: "रगतको कमी छ, आइरन चक्की खाने", isCorrect: true },
       { text: "Needs immediate blood transfusion", textNe: "तुरुन्तै रगत चढाउनुपर्छ", isCorrect: false }
     ],
     explanation: "Normal haemoglobin for a pregnant woman is above 11 g/dL. A reading of 9.5 means mild to moderate anaemia. Sima should take iron tablets daily, eat iron-rich foods, and add vitamin C to improve absorption.",
@@ -18,12 +18,12 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   {
     id: 2,
     title: "What is this fluttering sensation Kamala is feeling?",
-    titleNe: "कमलाले महसुस गरिरहेको यो चलेको जस्तो के हो?",
+    titleNe: "कमलाले पेटमा महसुस गरिरहेको यो चलेको जस्तो कुरा के हो?",
     description: "Kamala is 18 weeks pregnant and feels something like a butterfly flutter in her belly.",
     descriptionNe: "कमला १८ हप्ताकी गर्भवती छिन् र उनलाई पेटमा केही चलेको वा पुतली उडेको जस्तो महसुस भइरहेको छ।",
     options: [
       { text: "Gas or indigestion", textNe: "ग्यास वा अपचले हो", isCorrect: false },
-      { text: "First baby movements (quickening)", textNe: "बच्चा चल्न थालेको संकेत", isCorrect: true },
+      { text: "First baby movements (quickening)", textNe: "बच्चा चल्न थालेको पहिलो संकेत", isCorrect: true },
       { text: "A sign she needs more calcium", textNe: "क्याल्सियम चाहिएको हो", isCorrect: false }
     ],
     explanation: "Quickening — the first time a mother feels her baby move — typically happens between weeks 16–22 for first-time mothers. It often feels like gentle flutters, bubbles, or tapping.",
@@ -37,7 +37,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "प्रिया २० हप्ताकी गर्भवती छिन्। भिडियो एक्स-रे (अल्ट्रासाउन्ड) गर्दा उनको साल अलि तल देखियो, तर डाक्टरले ३२ हप्तामा फेरि हेर्नुपर्छ भन्नुभयो।",
     options: [
       { text: "Immediate C-section required", textNe: "तुरुन्त अप्रेसन गर्ने", isCorrect: false },
-      { text: "Usually moves up as uterus grows", textNe: "पाठेघर बढ्दा आफैं माथि सर्छ", isCorrect: true },
+      { text: "Usually moves up as uterus grows", textNe: "पाठेघर बढ्दै जाँदा आफैं माथि सर्छ", isCorrect: true },
       { text: "Baby in danger, needs hospital", textNe: "खतरा छ, अस्पताल भर्ना गर्ने", isCorrect: false }
     ],
     explanation: "Low-lying placenta at 20 weeks is found in about 1 in 20 pregnancies, but in 90% of cases the placenta moves up as the uterus grows. It only becomes a concern if it remains low at 32–36 weeks.",
@@ -64,7 +64,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Nisha is 24 weeks pregnant. Her mother-in-law advises her to eat a lot of ghee to make the baby's skin fair and delivery easier.",
     descriptionNe: "निशा २४ हप्ताकी गर्भवती छिन्। उनकी सासूले बच्चा गोरो जन्मियोस् र सुत्केरी हुन सजिलो होस् भनेर धेरै घिउ खान भनिरहनुभएको छ।",
     options: [
-      { text: "Ghee makes skin fair & delivery easy", textNe: "बच्चा गोरो र सुत्केरी सजिलो हुन्छ", isCorrect: false },
+      { text: "Ghee makes skin fair & delivery easy", textNe: "यसले बच्चा गोरो र सुत्केरी सजिलो हुन्छ", isCorrect: false },
       { text: "Genetics decide skin; ghee adds fat", textNe: "जीनमा भर पर्छ, घिउले तौल बढाउँछ", isCorrect: true },
       { text: "Only if mixed with milk", textNe: "दूधसँग मिसाएर मात्र खाने", isCorrect: false }
     ],
@@ -92,7 +92,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Anita is 21 weeks pregnant and feels more emotional than usual — crying at small things.",
     descriptionNe: "अनिता २१ हप्ताकी गर्भवती छिन्। उनी आजकल सानातिना कुरामा पनि रुने गर्छिन् र पहिलेभन्दा धेरै भावुक छिन्।",
     options: [
-      { text: "Overreacting, needs to be strong", textNe: "झर्को मानेकी हुन्, बलियो हुनुपर्छ", isCorrect: false },
+      { text: "Overreacting, needs to be strong", textNe: "धेरै सोचेर हो, बलियो हुनुपर्छ", isCorrect: false },
       { text: "Hormonal changes affect mood", textNe: "हर्मोनको कारणले हो, यो सामान्य हो", isCorrect: true },
       { text: "Depression, needs medicine", textNe: "डिप्रेसन हो, औषधि खाइहाल्ने", isCorrect: false }
     ],
@@ -106,7 +106,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Parbati is 23 weeks pregnant and the nurse measures her fundal height at 23 cm.",
     descriptionNe: "पार्वती २३ हप्ताकी गर्भवती छिन् र नर्सले टेपले नाप्दा उनको पेटको उचाइ २३ सेन्टिमिटर देखियो।",
     options: [
-      { text: "Check if mother is overweight", textNe: "आमाको तौल धेरै छ कि भनेर", isCorrect: false },
+      { text: "Check if mother is overweight", textNe: "आमाको तौल धेरै छ कि भनेर जाँच्न", isCorrect: false },
       { text: "Estimate baby's growth in weeks", textNe: "बच्चा कति बढ्यो भनेर नाप्न", isCorrect: true },
       { text: "Check baby's gender", textNe: "छोरा कि छोरी हेर्न", isCorrect: false }
     ],
@@ -122,7 +122,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     options: [
       { text: "All paints are fully safe", textNe: "सबै पेन्ट सुरक्षित हुन्छन्", isCorrect: false },
       { text: "Avoid fumes, stay away 24-48hrs", textNe: "गन्धबाट बच्ने, टाढा बस्ने", isCorrect: true },
-      { text: "Only oil paints are dangerous", textNe: "तेल मिसाएको पेन्ट मात्र खतरनाक", isCorrect: false }
+      { text: "Only oil paints are dangerous", textNe: "तेल मिसाएको पेन्ट मात्र खतरनाक हुन्छ", isCorrect: false }
     ],
     explanation: "Many paints contain volatile organic compounds that release harmful fumes. The safest approach is to have someone else paint, use low-VOC paint, keep ventilation, and avoid the room for 24–48 hours.",
     explanationNe: "धेरैजसो पेन्टमा केमिकलको गन्ध आउँछ जसले गर्भवतीलाई असर गर्न सक्छ। आफूले पेन्ट नगर्ने, हावा ओहोरदोहोर हुने गरी झ्याल ढोका खुला राख्ने र पेन्ट सुकेको २४ देखि ४८ घन्टासम्म त्यो कोठामा नबस्नु नै सबैभन्दा सुरक्षित मानिन्छ।"
@@ -134,7 +134,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Bindu is 17 weeks pregnant and has been getting leg cramps at night.",
     descriptionNe: "बिन्दु १७ हप्ताकी गर्भवती छिन् र राति सुत्दा उनको खुट्टा पटक-पटक बाउँडिने गर्छ।",
     options: [
-      { text: "Exercising too much, needs rest", textNe: "धेरै काम गरेर हो, आराम गर्ने", isCorrect: false },
+      { text: "Exercising too much, needs rest", textNe: "धेरै हिँडेर हो, आराम गर्ने", isCorrect: false },
       { text: "Low calcium, fluid, or circulation", textNe: "क्याल्सियम र पानीको कमीले हो", isCorrect: true },
       { text: "Baby kicking the muscles", textNe: "बच्चाले लात हानेर हो", isCorrect: false }
     ],
@@ -148,7 +148,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Gita is 20 weeks pregnant and told she needs a glucose screening test at 24–28 weeks.",
     descriptionNe: "गीता २० हप्ताकी गर्भवती छिन्। डाक्टरले उनलाई २४ देखि २८ हप्ताको बीचमा ग्लुकोज पानी पिएर सुगर टेस्ट गराउन भनेका छन्।",
     options: [
-      { text: "Check if mother likes sweet food", textNe: "गुलियो पच्छ कि पच्दैन हेर्न", isCorrect: false },
+      { text: "Check if mother likes sweet food", textNe: "गुलियो खानेकुरा पच्छ कि पच्दैन हेर्न", isCorrect: false },
       { text: "Screen for gestational diabetes", textNe: "सुगर रोग पत्ता लगाउन", isCorrect: true },
       { text: "Check if baby has diabetes", textNe: "बच्चालाई सुगर छ कि हेर्न", isCorrect: false }
     ],
@@ -164,7 +164,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     options: [
       { text: "Funeral stress directly harms baby", textNe: "तनावले बच्चालाई सिधै असर गर्छ", isCorrect: false },
       { text: "Safe, but watch crowds and standing", textNe: "सुरक्षित छ, भिडभाडमा ध्यान दिने", isCorrect: true },
-      { text: "Never leave house in trimester 2", textNe: "दोस्रो महिनामा घर बाहिर नजाने", isCorrect: false }
+      { text: "Never leave house in trimester 2", textNe: "यस्तो बेला घर बाहिर निस्कनै हुँदैन", isCorrect: false }
     ],
     explanation: "There is no medical contraindication. Grief is natural and important. Be mindful of practical things: long standing, crowds, heat, and exhaustion. Sit when possible and stay hydrated.",
     explanationNe: "डाक्टरी हिसाबले मलामी वा किरियापुत्रीकोमा जाँदा कुनै बेफाइदा गर्दैन। दुःखको बेला परिवारसँग बस्नु स्वभाविक हो। तर त्यहाँ लामो समय उभिँदा, भिडभाडले गर्दा सास फेर्न गाह्रो हुने वा गर्मीले थकाइ लाग्न सक्छ। त्यसैले पानी प्रशस्त पिउने र बेलाबेला बस्ने गर्नुपर्छ।"
@@ -176,7 +176,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Laxmi is 26 weeks pregnant and is told the baby is in a breech position.",
     descriptionNe: "लक्ष्मी २६ हप्ताकी गर्भवती छिन् र डाक्टरले बच्चा उल्टो बसेको (Breech) छ भनेका छन्।",
     options: [
-      { text: "Needs C-section scheduled instantly", textNe: "तुरुन्तै अप्रेसनको तयारी गर्ने", isCorrect: false },
+      { text: "Needs C-section scheduled instantly", textNe: "तुरुन्तै अप्रेसनको तयारी गरिहाल्ने", isCorrect: false },
       { text: "Normal, babies turn head-down later", textNe: "सामान्य हो, पछि आफैं सुल्टो हुन्छ", isCorrect: true },
       { text: "Needs exercises every hour", textNe: "हरेक घण्टा व्यायाम गर्नुपर्छ", isCorrect: false }
     ],
@@ -205,7 +205,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "दीपा २४ हप्ताकी गर्भवती छिन्। उनलाई पछि सुत्केरी हुँदा सजिलो होस् भनेर 'पेरिनियल मसाज' (योनी र मलद्वार बिचको भागको मालिस) सुरु गर्न सल्लाह दिइएको छ।",
     options: [
       { text: "Full body hospital massage", textNe: "अस्पतालमा पुरै शरीरको मालिस", isCorrect: false },
-      { text: "Improves elasticity, started later", textNe: "लचिलो बनाउँछ, तर पछि मात्र गर्ने", isCorrect: true },
+      { text: "Improves elasticity, started later", textNe: "मासु लचिलो बनाउँछ, तर अन्तिमतिर मात्र गर्ने", isCorrect: true },
       { text: "Helps baby turn head-down", textNe: "बच्चालाई उल्टोबाट सुल्टो बनाउँछ", isCorrect: false }
     ],
     explanation: "Perineal massage reduces the risk of severe tearing during delivery, particularly for first-time mothers. It is recommended from 34–36 weeks — not from 24 weeks, which is too early.",
@@ -218,7 +218,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Kabita is 19 weeks pregnant and her neighbour says she should drink a lot of milk to ensure the baby has strong bones.",
     descriptionNe: "कबिता १९ हप्ताकी गर्भवती छिन्। उनकी छिमेकीले 'बच्चाको हड्डी बलियो बनाउन धेरै दूध पिउनू' भनिरहेकी छिन्।",
     options: [
-      { text: "Only important in 3rd trimester", textNe: "अन्तिम महिनामा मात्र चाहिन्छ", isCorrect: false },
+      { text: "Only important in 3rd trimester", textNe: "अन्तिम ३ महिनामा मात्र चाहिन्छ", isCorrect: false },
       { text: "Crucial for baby's bones and teeth", textNe: "गर्भावस्थाभरि नै एकदमै जरुरी हुन्छ", isCorrect: true },
       { text: "Only milk counts for calcium", textNe: "दूध पिए मात्र पुग्छ", isCorrect: false }
     ],
@@ -260,7 +260,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Maya is 21 weeks pregnant. She noticed her shoes no longer fit and her rings are tight.",
     descriptionNe: "माया २१ हप्ताकी गर्भवती छिन्। पहिलेको जुत्ताले अहिले खुट्टा थिच्छ र औंलामा औंठी पनि कसिलो भएर निकाल्न गाह्रो भएको छ।",
     options: [
-      { text: "Too much salt, stop salt", textNe: "नुन धेरै खाएर हो, नुन खान छोड्ने", isCorrect: false },
+      { text: "Too much salt, stop salt", textNe: "नुन धेरै खाएर हो, नुन खानै छोड्ने", isCorrect: false },
       { text: "Normal fluid and blood increase", textNe: "रगत र पानी बढेकोले हो, सामान्य हो", isCorrect: true },
       { text: "Sign of failing kidneys", textNe: "किड्नी खराब भएको लक्षण हो", isCorrect: false }
     ],
@@ -276,7 +276,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     options: [
       { text: "No exercise should be done", textNe: "कुनै व्यायाम गर्नै हुँदैन", isCorrect: false },
       { text: "Walking, yoga, or Kegel exercises", textNe: "वाक गर्ने, योग र सुरक्षित व्यायाम गर्ने", isCorrect: true },
-      { text: "Heavy weight training only", textNe: "गह्रौँ तौल उचाल्ने काम मात्र गर्ने", isCorrect: false }
+      { text: "Heavy weight training only", textNe: "गह्रौँ भारी उठाउने काम मात्र गर्ने", isCorrect: false }
     ],
     explanation: "The second trimester is an ideal time to establish a gentle exercise routine. Walking, swimming, prenatal yoga, and Kegel exercises are all recommended and safe in a normal pregnancy.",
     explanationNe: "गर्भावस्थाको १६ हप्ता पछि बिस्तारै हल्का व्यायाम सुरु गर्नु राम्रो हो। बिहान-बेलुका आधा घन्टा जति हिँड्ने (वाक गर्ने), सजिलो खाले योग गर्ने र पेल्भिक व्यायाम गर्दा सुत्केरी हुन सजिलो हुन्छ भने ढाड दुख्ने समस्या पनि कम हुन्छ।"
