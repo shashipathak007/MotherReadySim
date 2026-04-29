@@ -105,6 +105,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   const {
     addQuizStar, showFeedback, clearFeedback, setQuizProgress, setCurrentWave,
     selectedTrimester: savedTrimester, quizIndex: savedQuizIndex, shuffledScenarioIds, quizResults: savedQuizResults,
+    quizStreak: savedQuizStreak, quizHighestStreak: savedQuizHighestStreak,
     setQuizState, clearQuizState, feedback,
     setStep3CharacterVisible,
   } = useGame();
@@ -125,8 +126,8 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   const [optionsVisible, setOptionsVisible] = useState(false);
   const questionRevealTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const [streak, setStreak] = useState(0);
-  const [highestStreak, setHighestStreak] = useState(0);
+  const [streak, setStreak] = useState(savedQuizStreak || 0);
+  const [highestStreak, setHighestStreak] = useState(savedQuizHighestStreak || 0);
   const [showConfetti, setShowConfetti] = useState(false);
   const [confettiAmount, setConfettiAmount] = useState(100);
   const [quizResults, setQuizResults] = useState<{ id: number; isCorrect: boolean }[]>(savedQuizResults || []);
@@ -267,6 +268,8 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
         setCurrentIdx(savedQuizIndex);
         setShuffledScenarios(reorderByIds(tri.scenarios, shuffledScenarioIds));
         setQuizResults(savedQuizResults || []);
+        setStreak(savedQuizStreak || 0);
+        setHighestStreak(savedQuizHighestStreak || 0);
         setCurrentWave(isNe ? tri.labelNe : tri.label);
       }
     }
@@ -379,7 +382,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       const shuffled = shuffleScenarios(tri.scenarios);
       setShuffledScenarios(shuffled);
       // Persist the selected trimester & shuffled order
-      setQuizState(key, 0, shuffled.map((s) => s.id), []);
+      setQuizState(key, 0, shuffled.map((s) => s.id), [], 0, 0);
     }
   };
 
@@ -422,7 +425,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
         setStreak(s => {
           const newStreak = s + 1;
           setHighestStreak(h => Math.max(h, newStreak));
-          
+
           if (newStreak === 5 || newStreak === 10 || newStreak === 15 || newStreak === 20) {
             let amount = 100;
             if (newStreak === 10) amount = 200;
@@ -479,7 +482,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       setCurrentIdx(nextIdx);
       // Persist the progress
       if (selectedTrimester) {
-        setQuizState(selectedTrimester, nextIdx, shuffledScenarios.map((s) => s.id), quizResults);
+        setQuizState(selectedTrimester, nextIdx, shuffledScenarios.map((s) => s.id), quizResults, streak, highestStreak);
       }
     } else {
       // Quiz done — show review screen
@@ -529,14 +532,14 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
           {/* Header */}
           <View className="px-5 pt-4 pb-3">
             <Text className="text-[10px] font-[800] text-[#B07498] tracking-[2px] uppercase mb-1 text-center">
-              {isNe ? 'गर्भावस्था परिदृश्य' : 'PREGNANCY SCENARIOS'}
+              {isNe ? 'गर्भावस्थाका प्रश्नहरू' : 'PREGNANCY SCENARIOS'}
             </Text>
             <Text className="text-[18px] font-[800] text-[#2D2D2D] mb-0.5 text-center">
               {isNe ? 'आफ्नो त्रैमासिक छान्नुहोस्' : 'Choose Your Trimester'}
             </Text>
             <Text className="text-[12px] font-[500] text-[#888] text-center">
               {isNe
-                ? 'प्रत्येक त्रैमासिकमा २० परिदृश्यहरू छन्'
+                ? 'हरेक त्रैमासिकमा तपाईंको ज्ञान जाँच्न २० वटा प्रश्नहरू राखिएका छन्'
                 : 'Each trimester has 20 scenarios to test your knowledge'}
             </Text>
           </View>
@@ -562,7 +565,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
                     </Text>
                     <Text className="text-[11px] font-[600] mt-0.5" style={{ color: tri.color }}>
                       {isNe ? tri.weeksNe : tri.weeks} · {tri.scenarios.length}{' '}
-                      {isNe ? 'परिदृश्य' : 'scenarios'}
+                      {isNe ? 'प्रश्नहरू' : 'scenarios'}
                     </Text>
                   </View>
                   <Text className="text-[16px] font-[800]" style={{ color: tri.color }}>›</Text>
@@ -584,7 +587,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
         <LinearGradient colors={['rgba(255,255,255,0.9)', 'rgba(243,58,106,0.05)', 'rgba(176,76,138,0.08)']} style={{ position: 'absolute', width: '100%', height: '100%' }} />
         <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 60 }} showsVerticalScrollIndicator={false}>
           <Text className="text-[24px] font-[800] text-[#9B5983] mb-6 text-center">
-            {isNe ? 'परिदृश्यको समीक्षा' : 'Scenario Review'}
+            {isNe ? 'तपाईंले दिनुभएको उत्तरको नतिजा' : 'Scenario Review'}
           </Text>
           {shuffledScenarios.map((s, idx) => {
             const res = quizResults.find(r => r.id === s.id);
@@ -690,7 +693,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
             <View className="h-[3px]" style={{ backgroundColor: triColor }} />
 
             {/* ── Header: trimester button + progress ── */}
-            <View className="px-4 pt-3 pb-2" style={{ backgroundColor: triColor + '08' }}>
+            <View className="px-2 pt-3 pb-0" style={{ backgroundColor: triColor + '08' }}>
               <View className="flex-row items-center justify-between mb-2">
                 <TouchableOpacity
                   className="flex-row items-center pl-2.5 pr-3.5 py-1 rounded-full"
@@ -700,19 +703,21 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
                 >
                   <Text className="text-white text-[13px] font-[800] mr-1">‹</Text>
                   <Text className="text-white text-[11px] font-[700]">
-                    Change Trimester
+                    {isNe ? 'महिना परिवर्तन' : 'Change Trimester'}
                   </Text>
                 </TouchableOpacity>
 
                 <View className="flex-row items-center">
                   {highestStreak > 0 && (
-                    <Animated.View entering={ZoomIn.springify()} className="mr-2 bg-white px-2 py-0.5 rounded-full border border-purple-200">
-                      <Text className="text-[12px] font-[800] text-purple-500">🏆 {highestStreak}</Text>
+                    <Animated.View entering={ZoomIn.springify()} className="mr-2 flex-row items-center bg-[#FDF4FF] px-2.5 py-1 rounded-full border border-[#F5D0FE] shadow-sm">
+                      <Text className="text-[14px] mr-1">🏆</Text>
+                      <Text className="text-[11px] font-[800] text-[#A21CAF] uppercase tracking-wider">{isNe ? 'उत्कृष्ट' : 'Best'} {highestStreak}</Text>
                     </Animated.View>
                   )}
-                  {streak >= 1 && (
-                    <Animated.View entering={ZoomIn.springify()} className="mr-3 bg-white px-2 py-0.5 rounded-full border border-orange-200">
-                      <Text className="text-[12px] font-[800] text-orange-500">🔥 {streak}</Text>
+                  {streak > 0 && (
+                    <Animated.View entering={ZoomIn.springify()} className="mr-3 flex-row items-center bg-[#FFF7ED] px-2.5 py-1 rounded-full border border-[#FFEDD5] shadow-sm">
+                      <Text className="text-[14px] mr-1">🔥</Text>
+                      <Text className="text-[11px] font-[800] text-[#EA580C] uppercase tracking-wider">{isNe ? 'लगातार' : 'Streak'} {streak}</Text>
                     </Animated.View>
                   )}
                   <Text className="text-[12px] font-[800]" style={{ color: triColor }}>
@@ -779,8 +784,8 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
                   >
                     <Text className="text-white text-[14px] font-[800] tracking-[0.5px]">
                       {currentIdx === totalScenarios - 1
-                        ? isNe ? 'खेल सकियो' : 'Finish Scenarios'
-                        : isNe ? 'अर्को परिदृश्य' : 'Next Scenario'}
+                        ? isNe ? 'सबै प्रश्न सकिए' : 'Finish Scenarios'
+                        : isNe ? 'अर्को प्रश्न' : 'Next Scenario'}
                     </Text>
                   </TouchableOpacity>
                 )}

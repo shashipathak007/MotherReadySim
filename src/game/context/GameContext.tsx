@@ -17,6 +17,8 @@ interface GameState {
   shuffledScenarioIds: number[];   // persisted order of scenario ids
   tutorialCompleted: boolean;      // persisted flag — true once tutorial has been fully played
   quizResults: { id: number, isCorrect: boolean }[]; // persisted results for review screen
+  quizStreak: number;              // persisted current streak
+  quizHighestStreak: number;       // persisted highest streak
 }
 
 interface GameContextType extends GameState {
@@ -42,7 +44,7 @@ interface GameContextType extends GameState {
   setShowTutorial: (show: boolean) => void;
   completeTutorial: () => void;
   // Quiz resume helpers
-  setQuizState: (trimester: TrimesterKey | null, index: number, scenarioIds: number[], results: { id: number, isCorrect: boolean }[]) => void;
+  setQuizState: (trimester: TrimesterKey | null, index: number, scenarioIds: number[], results: { id: number, isCorrect: boolean }[], streak: number, highestStreak: number) => void;
   clearQuizState: () => void;
   // Step 3: timed reveal of global character
   step3CharacterVisible: boolean;
@@ -59,6 +61,8 @@ const defaultState: GameState = {
   shuffledScenarioIds: [],
   tutorialCompleted: false,
   quizResults: [],
+  quizStreak: 0,
+  quizHighestStreak: 0,
 };
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -98,6 +102,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
             shuffledScenarioIds: saved.shuffledScenarioIds ?? prev.shuffledScenarioIds,
             tutorialCompleted: saved.tutorialCompleted ?? prev.tutorialCompleted,
             quizResults: saved.quizResults ?? prev.quizResults,
+            quizStreak: saved.quizStreak ?? prev.quizStreak,
+            quizHighestStreak: saved.quizHighestStreak ?? prev.quizHighestStreak,
           }));
           // Only show tutorial if it hasn't been completed before
           if (!saved.tutorialCompleted) {
@@ -162,13 +168,15 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }));
   };
 
-  const setQuizState = (trimester: TrimesterKey | null, index: number, scenarioIds: number[], results: { id: number, isCorrect: boolean }[]) => {
+  const setQuizState = (trimester: TrimesterKey | null, index: number, scenarioIds: number[], results: { id: number, isCorrect: boolean }[], streak: number, highestStreak: number) => {
     setState(prev => ({
       ...prev,
       selectedTrimester: trimester,
       quizIndex: index,
       shuffledScenarioIds: scenarioIds,
       quizResults: results,
+      quizStreak: streak,
+      quizHighestStreak: highestStreak,
     }));
   };
 
@@ -179,6 +187,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       quizIndex: 0,
       shuffledScenarioIds: [],
       quizResults: [],
+      quizStreak: 0,
+      quizHighestStreak: 0,
     }));
   };
 
@@ -210,7 +220,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       let updates = {};
       if (prev.currentStep === 1) updates = { packedBagItems: [] };
       if (prev.currentStep === 2) updates = { savedContacts: [] };
-      if (prev.currentStep === 3) updates = { quizStars: 0, selectedTrimester: null, quizIndex: 0, shuffledScenarioIds: [], quizResults: [] };
+      if (prev.currentStep === 3) updates = { quizStars: 0, selectedTrimester: null, quizIndex: 0, shuffledScenarioIds: [], quizResults: [], quizStreak: 0, quizHighestStreak: 0 };
 
       // Reset quiz progress counter when on the quiz step
       if (prev.currentStep === 3) {
