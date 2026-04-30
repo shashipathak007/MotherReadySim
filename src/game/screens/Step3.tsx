@@ -351,7 +351,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     return () => {
       if (questionRevealTimer.current) clearTimeout(questionRevealTimer.current);
     };
-  }, [selectedTrimester, scenario?.id]);
+  }, [selectedTrimester, scenario?.id, quizReviewVisible]);
 
   // ── Sync quiz progress to GameContext ──
   useEffect(() => {
@@ -604,15 +604,33 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
           {shuffledScenarios.map((s, idx) => {
             const res = quizResults.find(r => r.id === s.id);
             const isCorrect = res?.isCorrect ?? false;
+            const isUnanswered = !res;
             const correctOption = s.options.find(o => o.isCorrect);
             const correctText = correctOption ? (isNe ? correctOption.textNe : correctOption.text) : '';
 
+            let badge = '✅';
+            let statusText = isNe ? 'सही उत्तर' : 'CORRECT';
+            let statusColor = 'text-[#16A34A]';
+            let borderColor = 'border-[#86EFAC]';
+
+            if (isUnanswered) {
+              badge = '🟡';
+              statusText = isNe ? 'अनुत्तरित' : 'UNANSWERED';
+              statusColor = 'text-[#B45309]';
+              borderColor = 'border-[#FDE68A]';
+            } else if (!isCorrect) {
+              badge = '❌';
+              statusText = isNe ? 'गलत उत्तर' : 'INCORRECT';
+              statusColor = 'text-[#DC2626]';
+              borderColor = 'border-[#FCA5A5]';
+            }
+
             return (
-              <Animated.View entering={FadeInUp.delay(idx * 50)} key={s.id} className={`mb-4 p-4 rounded-[14px] bg-white border ${isCorrect ? 'border-[#86EFAC]' : 'border-[#FCA5A5]'} shadow-sm`}>
+              <Animated.View entering={FadeInUp.delay(idx * 50)} key={s.id} className={`mb-4 p-4 rounded-[14px] bg-white border ${borderColor} shadow-sm`}>
                 <View className="flex-row items-center mb-2">
-                  <Text className="text-[16px] mr-2 leading-5">{isCorrect ? '✅' : '❌'}</Text>
-                  <Text className={`text-[12px] font-[800] uppercase tracking-[1px] ${isCorrect ? 'text-[#16A34A]' : 'text-[#DC2626]'}`}>
-                    {isCorrect ? (isNe ? 'सही उत्तर' : 'CORRECT') : (isNe ? 'गलत उत्तर' : 'INCORRECT')}
+                  <Text className="text-[16px] mr-2 leading-5">{badge}</Text>
+                  <Text className={`text-[12px] font-[800] uppercase tracking-[1px] ${statusColor}`}>
+                    {statusText}
                   </Text>
                 </View>
                 <Text className="text-[15px] font-[800] text-[#333] mb-1.5">

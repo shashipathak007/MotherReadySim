@@ -251,7 +251,9 @@ export default function GameContainer() {
             <TouchableOpacity
               className="px-5 py-2 rounded-full bg-[#C06898]"
               onPress={() => {
-                if (currentStep === entryStep) {
+                if (currentStep === 3 && quizReviewVisible) {
+                  setQuizReviewVisible(false);
+                } else if (currentStep === entryStep) {
                   navigation.navigate('Welcome');
                 } else {
                   const prevStep = Math.max(1, currentStep - 1) as any;

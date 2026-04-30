@@ -519,12 +519,12 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     const item3 = paginatedItems.find(i => i.id === 3);
     if (!item3) return () => timers.forEach(clearTimeout);
 
-    // Finger sits ON the item center
-    const ix = item3.initialPos.x + 10;
-    const iy = item3.initialPos.y - 50;
-
     // ── TAP TO LEARN — slow deliberate taps ──
     if (tutorialStep === 1) {
+      // Finger sits ON the item center
+      const ix = item3.initialPos.x - 10;
+      const iy = item3.initialPos.y - 80;
+
       fingerX.value = ix;
       fingerY.value = iy - 200;
       fingerScale.value = 1;
@@ -576,6 +576,10 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
 
     // ── DRAG & DROP — finger ON item, both move together to bag ──
     if (tutorialStep === 2) {
+      // Finger sits ON the item center
+      const ix = item3.initialPos.x + 10;
+      const iy = item3.initialPos.y - 50;
+
       // Target = bag center
       const tx = dropZone.x + dropZone.w / 2 - 28;
       const ty = dropZone.y + dropZone.h / 2 - 40 + STEP1_DRAG_TARGET_Y_OFFSET;
