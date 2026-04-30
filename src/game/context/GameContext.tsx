@@ -16,9 +16,10 @@ interface GameState {
   quizIndex: number;
   shuffledScenarioIds: number[];   // persisted order of scenario ids
   tutorialCompleted: boolean;      // persisted flag — true once tutorial has been fully played
-  quizResults: { id: number, isCorrect: boolean }[]; // persisted results for review screen
+  quizResults: { id: number, isCorrect: boolean, selectedText?: string, selectedTextNe?: string }[]; // persisted results for review screen
   quizStreak: number;              // persisted current streak
   quizHighestStreak: number;       // persisted highest streak
+  quizReviewVisible: boolean;      // whether the review screen is currently visible
 }
 
 interface GameContextType extends GameState {
@@ -44,11 +45,12 @@ interface GameContextType extends GameState {
   setShowTutorial: (show: boolean) => void;
   completeTutorial: () => void;
   // Quiz resume helpers
-  setQuizState: (trimester: TrimesterKey | null, index: number, scenarioIds: number[], results: { id: number, isCorrect: boolean }[], streak: number, highestStreak: number) => void;
+  setQuizState: (trimester: TrimesterKey | null, index: number, scenarioIds: number[], results: { id: number, isCorrect: boolean, selectedText?: string, selectedTextNe?: string }[], streak: number, highestStreak: number) => void;
   clearQuizState: () => void;
   // Step 3: timed reveal of global character
   step3CharacterVisible: boolean;
   setStep3CharacterVisible: (visible: boolean) => void;
+  setQuizReviewVisible: (visible: boolean) => void;
 }
 
 const defaultState: GameState = {
@@ -63,6 +65,7 @@ const defaultState: GameState = {
   quizResults: [],
   quizStreak: 0,
   quizHighestStreak: 0,
+  quizReviewVisible: false,
 };
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -168,7 +171,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }));
   };
 
-  const setQuizState = (trimester: TrimesterKey | null, index: number, scenarioIds: number[], results: { id: number, isCorrect: boolean }[], streak: number, highestStreak: number) => {
+  const setQuizState = (trimester: TrimesterKey | null, index: number, scenarioIds: number[], results: { id: number, isCorrect: boolean, selectedText?: string, selectedTextNe?: string }[], streak: number, highestStreak: number) => {
     setState(prev => ({
       ...prev,
       selectedTrimester: trimester,
@@ -241,8 +244,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setQuizProgressState({ current, total });
   };
 
+  const setQuizReviewVisible = (visible: boolean) => {
+    setState(prev => ({ ...prev, quizReviewVisible: visible }));
+  };
+
   return (
-    <GameContext.Provider value={{ ...state, setStep, packItem, saveContact, addQuizStar, resetGame, resetCurrentStep, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial, completeTutorial, setQuizState, clearQuizState, step3CharacterVisible, setStep3CharacterVisible }}>
+    <GameContext.Provider value={{ ...state, setStep, packItem, saveContact, addQuizStar, resetGame, resetCurrentStep, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial, completeTutorial, setQuizState, clearQuizState, step3CharacterVisible, setStep3CharacterVisible, setQuizReviewVisible }}>
       {children}
     </GameContext.Provider>
   );

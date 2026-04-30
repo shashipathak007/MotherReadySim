@@ -26,7 +26,7 @@ export default function GameContainer() {
     currentStep, setStep, isReady, resetCurrentStep, resetGame,
     packedBagItems, savedContacts, feedback, clearFeedback, currentWave, quizProgress,
     soundEnabled, toggleSound, setTutorialStep, showTutorial,
-    completeTutorial, selectedTrimester, quizIndex, shuffledScenarioIds, step3CharacterVisible
+    completeTutorial, selectedTrimester, quizIndex, shuffledScenarioIds, step3CharacterVisible, quizReviewVisible
   } = useGame();
   const { i18n } = useTranslation();
   const navigation = useNavigation<any>();
@@ -285,7 +285,7 @@ export default function GameContainer() {
           </View>
 
           {/* Sub-bar: wave info + language toggle + reset */}
-          {currentStep < 4 && (
+          {currentStep < 4 && !(currentStep === 3 && quizReviewVisible) && (
             <View className="mx-5 mt-0.5 flex-row justify-between items-center px-4 py-1.5 bg-white/85 rounded-full border border-[#F5E1EC]">
               <Text className="text-[13px] font-[800] text-[#9B5983] tracking-[0.3px]" numberOfLines={1}>{getWaveLabel()}</Text>
               <View className="flex-row items-center gap-2">

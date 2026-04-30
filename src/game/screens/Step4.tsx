@@ -45,16 +45,16 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
   }
 
   const handleShare = async () => {
-  try {
-    await Share.share({
-      message: isNe 
-        ? `मैले Aama Ready खेलेर "${badgeMsg}" हासिल गरेँ! तपाईं पनि खेल्नुस् र आफ्नो तयारी जाँच्नुस्।`
-        : `I just completed the Aama Ready journey and earned "${badgeMsg}"! Try the game and test your pregnancy preparedness in Nepal.`,
-    });
-  } catch (error) {
-    console.error(error);
-  }
-};
+    try {
+      await Share.share({
+        message: isNe
+          ? `मैले Aama Ready खेलेर "${badgeMsg}" हासिल गरेँ! तपाईं पनि खेल्नुस् र आफ्नो तयारी जाँच्नुस्।`
+          : `I just completed the Aama Ready journey and earned "${badgeMsg}"! Try the game and test your pregnancy preparedness in Nepal.`,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleReplay = () => {
     resetGame();
@@ -75,9 +75,9 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
         <Text className="text-base font-[800] text-[#9B5983]">{count}/{total}</Text>
       </View>
       <View className="h-3.5 bg-[#F3F4F6] rounded-[7px] overflow-hidden">
-        <View 
-          className="h-3.5 rounded-[7px]" 
-          style={{ width: `${Math.max(ratio * 100, 3)}%`, backgroundColor: getProgressColor(ratio) }} 
+        <View
+          className="h-3.5 rounded-[7px]"
+          style={{ width: `${Math.max(ratio * 100, 3)}%`, backgroundColor: getProgressColor(ratio) }}
         />
       </View>
     </View>
@@ -86,17 +86,17 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
   return (
     <View className="flex-1">
       <LinearGradient
-      colors={[
-        'rgba(255,255,255,0.9)',
-        'rgba(243,58,106,0.05)',
-        'rgba(176,76,138,0.08)'
-      ]}
-      style={{
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-      }}
-    />
+        colors={[
+          'rgba(255,255,255,0.9)',
+          'rgba(243,58,106,0.05)',
+          'rgba(176,76,138,0.08)'
+        ]}
+        style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+        }}
+      />
       <ScrollView contentContainerStyle={{ paddingTop: 80, paddingBottom: 50, paddingHorizontal: 24, alignItems: 'center' }} showsVerticalScrollIndicator={false}>
         {/* Badge */}
         <Animated.View entering={ZoomIn.delay(200)} className="items-center mb-7">
@@ -108,7 +108,7 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
         {/* Stats Card */}
         <Animated.View entering={FadeInUp.delay(400)} className="w-full bg-white/95 rounded-[22px] p-6 mb-6 shadow-black shadow-opacity-8 shadow-radius-16 elevation-8 border border-[#F5E1EC]">
           <Text className="text-lg font-[900] text-[#333] mb-5 text-center">{isNe ? 'नतिजा' : 'Your Results'}</Text>
-          
+
           <ProgressBar icon="🎒" label={isNe ? 'अस्पतालको झोला' : 'Hospital Bag'} ratio={bagRatio} count={packedBagsCount} total={bagItemsCount} />
           <ProgressBar icon="📁" label={isNe ? 'जरुरी कागजातहरू' : 'Important Documents'} ratio={docRatio} count={packedDocsCount} total={docItemsCount} />
           <ProgressBar icon="📱" label={isNe ? 'सम्पर्क नम्बरहरू' : 'Contacts'} ratio={contactsRatio} count={savedContacts.length} total={CONTACTS.length} />
@@ -116,8 +116,8 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
 
           <View className="flex-row items-center justify-between mt-5 pt-4 border-t border-[#F0E0E8]">
             <Text className="text-lg font-[900] text-[#333]">{isNe ? 'जम्मा स्कोर' : 'Overall Score'}</Text>
-            <Text 
-              className="text-[32px] font-[900]" 
+            <Text
+              className="text-[32px] font-[900]"
               style={{ color: getProgressColor(scorePercentage) }}
             >
               {Math.round(scorePercentage * 100)}%
@@ -133,10 +133,10 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
         {/* Action Buttons — stacked for better tap targets */}
         <Animated.View entering={FadeInDown.delay(800)} className="w-full gap-3">
           {/* Share button — primary, full width */}
-          <TouchableOpacity 
-            className="w-full rounded-full overflow-hidden elevation-6" 
+          <TouchableOpacity
+            className="w-full rounded-full overflow-hidden elevation-6"
             style={{ shadowColor: '#C06898', shadowOpacity: 0.2, shadowRadius: 12, shadowOffset: { width: 0, height: 4 } }}
-            onPress={handleShare} 
+            onPress={handleShare}
             activeOpacity={0.8}
           >
             <View className="bg-[#C06898] py-4 flex-row items-center justify-center gap-2">
@@ -146,8 +146,8 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
           </TouchableOpacity>
 
           {/* Play again — secondary, outlined */}
-          <TouchableOpacity 
-            className="w-full py-3.5 rounded-full items-center justify-center bg-white/90 border-[1.5px] border-[#E8B4D0]" 
+          <TouchableOpacity
+            className="w-full py-3.5 rounded-full items-center justify-center bg-white/90 border-[1.5px] border-[#E8B4D0]"
             onPress={handleReplay}
             activeOpacity={0.7}
           >

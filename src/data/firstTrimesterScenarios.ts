@@ -27,7 +27,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
       { text: "Eat dry snacks before rising", textNe: "उठ्नुअघि सुक्खा बिस्कुट खाने", isCorrect: true },
       { text: "Take strong anti-nausea medicine", textNe: "कडा औषधि खाइहाल्ने", isCorrect: false }
     ],
-    explanation: "Eating small dry snacks before getting up prevents an empty stomach, which is the main trigger for morning sickness. Keeping crackers on the bedside table and eating a few before even sitting up is one of the most effective and safe strategies. Morning sickness is very common and usually resolves by week 12–14.",
+    explanation: "Eating small dry snacks before getting up prevents morning sickness. Keeping crackers on the bedside table and eating a few before even sitting up is one of the most effective and safe strategies.",
     explanationNe: "बिहान उठ्नेबित्तिकै पेट खाली हुँदा धेरै वाकवाकी लाग्छ। त्यसैले ओछ्यानको छेउमा बिस्कुट राखेर बिहान उठ्नुअघि नै थोरै खाँदा धेरै राहत मिल्छ। यो एकदम सामान्य समस्या हो र प्रायः ३ महिना (१२-१४ हप्ता) लागेपछि आफैं निको हुन्छ।"
   },
   {

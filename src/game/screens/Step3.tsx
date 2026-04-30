@@ -108,6 +108,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     quizStreak: savedQuizStreak, quizHighestStreak: savedQuizHighestStreak,
     setQuizState, clearQuizState, feedback,
     setStep3CharacterVisible,
+    setQuizReviewVisible,
   } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
@@ -130,7 +131,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   const [highestStreak, setHighestStreak] = useState(savedQuizHighestStreak || 0);
   const [showConfetti, setShowConfetti] = useState(false);
   const [confettiAmount, setConfettiAmount] = useState(100);
-  const [quizResults, setQuizResults] = useState<{ id: number; isCorrect: boolean }[]>(savedQuizResults || []);
+  const [quizResults, setQuizResults] = useState<{ id: number; isCorrect: boolean; selectedText?: string; selectedTextNe?: string }[]>(savedQuizResults || []);
   const [showReview, setShowReview] = useState(false);
   const madeMistakeOnCurrent = useRef(false);
 
@@ -402,6 +403,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     setStreak(0);
     setQuizResults([]);
     setShowReview(false);
+    setQuizReviewVisible(false);
     madeMistakeOnCurrent.current = false;
   };
 
@@ -439,7 +441,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
         });
       }
 
-      setQuizResults(prev => [...prev, { id: scenario!.id, isCorrect: !madeMistakeOnCurrent.current }]);
+      setQuizResults(prev => [...prev, { id: scenario!.id, isCorrect: !madeMistakeOnCurrent.current, selectedText: opt.text, selectedTextNe: opt.textNe }]);
 
       // Keep char_correct visible — do NOT auto-clear success feedback.
       // It will be cleared when "Next Scenario" is tapped (handleNext).
@@ -453,6 +455,15 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
         withTiming(0, { duration: 50 })
       );
       showFeedback(explanation, '', 'error');
+      
+      // Update results on first wrong answer to store their first selection
+      setQuizResults(prev => {
+        // Only add if not already in results
+        if (!prev.find(r => r.id === scenario!.id)) {
+          return [...prev, { id: scenario!.id, isCorrect: false, selectedText: opt.text, selectedTextNe: opt.textNe }];
+        }
+        return prev;
+      });
 
       // Allow retry after a brief pause
       setTimeout(() => {
@@ -487,6 +498,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     } else {
       // Quiz done — show review screen
       setShowReview(true);
+      setQuizReviewVisible(true);
     }
   };
 
@@ -583,9 +595,9 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   //
   if (showReview) {
     return (
-      <View className="flex-1 bg-white" style={{ paddingTop: 60 }}>
+      <View className="flex-1 bg-white">
         <LinearGradient colors={['rgba(255,255,255,0.9)', 'rgba(243,58,106,0.05)', 'rgba(176,76,138,0.08)']} style={{ position: 'absolute', width: '100%', height: '100%' }} />
-        <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 60 }} showsVerticalScrollIndicator={false}>
+        <ScrollView contentContainerStyle={{ paddingTop: 130, paddingHorizontal: 20, paddingBottom: 60 }} showsVerticalScrollIndicator={false}>
           <Text className="text-[24px] font-[800] text-[#9B5983] mb-6 text-center">
             {isNe ? 'तपाईंले दिनुभएको उत्तरको नतिजा' : 'Scenario Review'}
           </Text>
@@ -606,16 +618,26 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
                 <Text className="text-[15px] font-[800] text-[#333] mb-1.5">
                   {idx + 1}. {isNe ? s.titleNe : s.title}
                 </Text>
-                <Text className="text-[14px] font-[500] text-[#666] mb-3 leading-5">
-                  {isNe ? s.descriptionNe : s.description}
-                </Text>
+
+
+                {/* Show user's incorrect answer if applicable */}
+                {!isCorrect && res?.selectedText && (
+                  <View className="mb-2 p-3 rounded-[8px] bg-[#FEF2F2] border border-[#FECACA]">
+                    <Text className="text-[12px] font-[700] text-[#991B1B] mb-1">
+                      {isNe ? 'तपाईंको उत्तर:' : 'Your Answer:'}
+                    </Text>
+                    <Text className="text-[14px] font-[800] text-[#991B1B]">
+                      ✗ {isNe ? res.selectedTextNe : res.selectedText}
+                    </Text>
+                  </View>
+                )}
 
                 {/* Explicitly show the correct answer */}
-                <View className={`mb-3 p-3 rounded-[8px] border ${isCorrect ? 'bg-[#F0FDF4] border-[#BBF7D0]' : 'bg-[#FEF2F2] border-[#FECACA]'}`}>
-                  <Text className="text-[12px] font-[700] text-[#666] mb-1">
+                <View className={`mb-3 p-3 rounded-[8px] border ${isCorrect ? 'bg-[#F0FDF4] border-[#BBF7D0]' : 'bg-[#F0FDF4] border-[#BBF7D0]'}`}>
+                  <Text className="text-[12px] font-[700] text-[#166534] mb-1">
                     {isNe ? 'सही विकल्प:' : 'Correct Answer:'}
                   </Text>
-                  <Text className={`text-[14px] font-[800] ${isCorrect ? 'text-[#166534]' : 'text-[#991B1B]'}`}>
+                  <Text className="text-[14px] font-[800] text-[#166534]">
                     ✓ {correctText}
                   </Text>
                 </View>
@@ -636,6 +658,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
             className="w-full py-4 rounded-full bg-[#C06898] items-center mt-6 mb-4 shadow-md"
             onPress={() => {
               setShowReview(false);
+              setQuizReviewVisible(false);
               clearQuizState();
               onNextStep();
             }}
