@@ -99,11 +99,11 @@ export default function GameContainer() {
 
   const getWaveLabel = () => {
     if (currentStep === 1) {
-      const waveNe: Record<string, string> = { 
-        Clothing: 'लत्ताकपडा', 
-        Hygiene: 'सरसफाइ', 
-        Comfort: 'सुविधा', 
-        Baby: 'शिशु', 
+      const waveNe: Record<string, string> = {
+        Clothing: 'लत्ताकपडा',
+        Hygiene: 'सरसफाइ',
+        Comfort: 'सुविधा',
+        Baby: 'शिशु',
         LegalDocs: 'कानुनी कागजातहरू',
         HealthDocs: 'स्वास्थ्य कार्डहरू',
         ClinicalDocs: 'जाँच रिपोर्टहरू'
@@ -171,19 +171,19 @@ export default function GameContainer() {
     switch (currentStep) {
       case 1: return require('../../assets/images/bedroom_bg.png');
       case 2: return require('../../assets/images/phone_bg.png');
-      case 3: 
+      case 3:
         if (selectedTrimester && shuffledScenarioIds.length > 0) {
           const currentId = shuffledScenarioIds[quizIndex];
           let prefix = '';
           if (selectedTrimester === '1st') prefix = 'F';
           else if (selectedTrimester === '2nd') prefix = 'S';
           else if (selectedTrimester === '3rd') prefix = 'T';
-          
+
           if (prefix && currentId) {
-             const imgKey = prefix + currentId;
-             if (ScenarioImages[imgKey]) {
-                return ScenarioImages[imgKey];
-             }
+            const imgKey = prefix + currentId;
+            if (ScenarioImages[imgKey]) {
+              return ScenarioImages[imgKey];
+            }
           }
         }
         return require('../../assets/images/bedroom_bg.png');
@@ -203,17 +203,17 @@ export default function GameContainer() {
           blurRadius={1.5}
         >
           <LinearGradient
-  colors={[
-    'rgba(255,255,255,0.92)',
-    'rgba(243,58,106,0.06)',
-    'rgba(176,76,138,0.10)'
-  ]}
-  style={{
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-  }}
-/>
+            colors={[
+              'rgba(255,255,255,0.92)',
+              'rgba(243,58,106,0.06)',
+              'rgba(176,76,138,0.10)'
+            ]}
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+            }}
+          />
         </ImageBackground>
       </View>
 
@@ -221,12 +221,12 @@ export default function GameContainer() {
       {currentStep < 4 && (currentStep !== 3 || step3CharacterVisible) && (
         <View
           className={`absolute pointer-events-none flex-col justify-end ${showTutorial ? 'z-[210]' : 'z-10'}`}
-          style={{ 
-            bottom: 0, 
+          style={{
+            bottom: 0,
             right: (currentStep === 3 || showTutorial) ? undefined : -200,
             left: (currentStep === 3 || showTutorial) ? 160 : undefined,
-            width: SCREEN_W * 1.1, 
-            height: Dimensions.get('window').height * 0.90 
+            width: SCREEN_W * 1.1,
+            height: Dimensions.get('window').height * 0.90
           }}
         >
           <Image
@@ -355,7 +355,7 @@ export default function GameContainer() {
                       borderTopColor: feedback.type === 'error' ? '#FFFBEB' : feedback.type === 'info' ? 'white' : '#F0FDF4',
                       borderLeftWidth: 14,
                       borderLeftColor: 'transparent',
-                      borderRightWidth: 0, 
+                      borderRightWidth: 0,
                       borderRightColor: 'transparent',
                     }}
                   />
