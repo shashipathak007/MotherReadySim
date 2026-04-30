@@ -26,7 +26,7 @@ export default function GameContainer() {
     currentStep, setStep, isReady, resetCurrentStep, resetGame,
     packedBagItems, savedContacts, feedback, clearFeedback, currentWave, quizProgress,
     soundEnabled, toggleSound, setTutorialStep, showTutorial,
-    completeTutorial, selectedTrimester, quizIndex, shuffledScenarioIds, step3CharacterVisible, quizReviewVisible
+    completeTutorial, selectedTrimester, quizIndex, shuffledScenarioIds, step3CharacterVisible, quizReviewVisible, quizResults, setQuizReviewVisible
   } = useGame();
   const { i18n } = useTranslation();
   const navigation = useNavigation<any>();
@@ -276,7 +276,18 @@ export default function GameContainer() {
             {/* Next button */}
             <TouchableOpacity
               className={`px-5 py-2 rounded-full bg-[#C06898] ${currentStep === 4 ? 'opacity-30' : ''}`}
-              onPress={() => setStep(Math.min(4, currentStep + 1) as any)}
+              onPress={() => {
+                if (currentStep === 3) {
+                  if (quizResults && quizResults.length >= 1 && !quizReviewVisible) {
+                    clearFeedback();
+                    setQuizReviewVisible(true);
+                  } else {
+                    setStep(4);
+                  }
+                } else {
+                  setStep(Math.min(4, currentStep + 1) as any);
+                }
+              }}
               disabled={currentStep === 4}
               activeOpacity={0.7}
             >
@@ -302,8 +313,8 @@ export default function GameContainer() {
             </View>
           )}
 
-          {/* Enhanced Feedback — speech bubble */}
-          {feedback && (() => {
+          {/* Enhanced Feedback — speech bubble (hidden on review screen) */}
+          {feedback && !quizReviewVisible && (() => {
             const feedbackStyle = getFeedbackCharacter();
             return (
               <Animated.View

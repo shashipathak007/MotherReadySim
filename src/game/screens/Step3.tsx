@@ -108,7 +108,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     quizStreak: savedQuizStreak, quizHighestStreak: savedQuizHighestStreak,
     setQuizState, clearQuizState, feedback,
     setStep3CharacterVisible,
-    setQuizReviewVisible,
+    setQuizReviewVisible, quizReviewVisible,
   } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
@@ -132,7 +132,6 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   const [showConfetti, setShowConfetti] = useState(false);
   const [confettiAmount, setConfettiAmount] = useState(100);
   const [quizResults, setQuizResults] = useState<{ id: number; isCorrect: boolean; selectedText?: string; selectedTextNe?: string }[]>(savedQuizResults || []);
-  const [showReview, setShowReview] = useState(false);
   const madeMistakeOnCurrent = useRef(false);
 
   // ── Inactivity idle tap animation state ──
@@ -292,7 +291,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       setCurrentWave('');
       setStreak(0);
       setQuizResults([]);
-      setShowReview(false);
+      setQuizReviewVisible(false);
       madeMistakeOnCurrent.current = false;
     }
   }, [savedTrimester]);
@@ -313,7 +312,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   useEffect(() => {
     // Don't re-show the question if the user already answered correctly
     // (we want char_correct to stay visible until "Next Scenario" is clicked)
-    if (isFocused && scenario && questionVisible && !selectedResult) {
+    if (isFocused && scenario && questionVisible && !selectedResult && !quizReviewVisible) {
       const q = isNe ? scenario.descriptionNe : scenario.description;
       const t = isNe ? scenario.titleNe : scenario.title;
       if (!feedback || (feedback.type === 'question' && (feedback.message !== q || feedback.detail !== t))) {
@@ -335,15 +334,18 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     setQuestionVisible(false);
     setOptionsVisible(false);
     setStep3CharacterVisible(false);
+    clearFeedback();
 
     if (!selectedTrimester || !scenario) return;
 
-    const delayMs = 2000;
+    const delayMs = 0;
     questionRevealTimer.current = setTimeout(() => {
       // Batch all three in one render cycle so they appear simultaneously
-      setQuestionVisible(true);
-      setOptionsVisible(true);
-      setStep3CharacterVisible(true);
+      if (!quizReviewVisible) {
+        setQuestionVisible(true);
+        setOptionsVisible(true);
+        setStep3CharacterVisible(true);
+      }
     }, delayMs);
 
     return () => {
@@ -374,7 +376,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     clearFeedback();
     setStreak(0);
     setQuizResults([]);
-    setShowReview(false);
+    setQuizReviewVisible(false);
     madeMistakeOnCurrent.current = false;
     const tri = TRIMESTERS.find((t) => t.key === key);
     if (tri) {
@@ -402,7 +404,6 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     clearQuizState();
     setStreak(0);
     setQuizResults([]);
-    setShowReview(false);
     setQuizReviewVisible(false);
     madeMistakeOnCurrent.current = false;
   };
@@ -497,7 +498,6 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
       }
     } else {
       // Quiz done — show review screen
-      setShowReview(true);
       setQuizReviewVisible(true);
     }
   };
@@ -593,7 +593,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   // 
   // RENDER: Quiz flow
   //
-  if (showReview) {
+  if (quizReviewVisible) {
     return (
       <View className="flex-1 bg-white">
         <LinearGradient colors={['rgba(255,255,255,0.9)', 'rgba(243,58,106,0.05)', 'rgba(176,76,138,0.08)']} style={{ position: 'absolute', width: '100%', height: '100%' }} />
@@ -657,7 +657,6 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
           <TouchableOpacity
             className="w-full py-4 rounded-full bg-[#C06898] items-center mt-6 mb-4 shadow-md"
             onPress={() => {
-              setShowReview(false);
               setQuizReviewVisible(false);
               clearQuizState();
               onNextStep();
