@@ -167,11 +167,15 @@ export default function WelcomeScreen({ navigation }: any) {
                 marginBottom: 18,
                 backgroundColor: '#FFF'
               }}>
-                <Image 
-                  source={require('../../assets/images/aama_ready_logo.png')} 
-                  style={{ width: 120, height: 120 }} 
-                  resizeMode="contain" 
-                />
+                <Image
+                source={require('../../assets/images/aama_ready_logo.png')}
+                style={{
+                width: 120,
+                height: 120,
+                transform: [{ scale: 1.7 }] 
+                 }}
+                 resizeMode="contain"
+               />
               </View>
             </Animated.View>
 
@@ -204,9 +208,10 @@ export default function WelcomeScreen({ navigation }: any) {
             }}>
               
               <Text style={{ 
-                fontSize: 14,
+                fontSize: 15,
                 fontWeight: '900',
-                color: COLORS.primary,
+                color: "#E30B5D",
+                
                 textAlign: 'center',
                 letterSpacing: 2,
                 marginBottom: 16,
@@ -239,7 +244,7 @@ export default function WelcomeScreen({ navigation }: any) {
                       <Text style={{ color: COLORS.textDark, fontWeight: '800', fontSize: 15 }}>
                         {item.label}
                       </Text>
-                      <Text style={{ color: COLORS.secondary, fontSize: 11, marginTop: 2, opacity: 0.7 }}>
+                      <Text style={{ color: '#AA336A', fontSize: 11, marginTop: 2, opacity: 1, fontWeight: "800" }}>
                         {item.desc}
                       </Text>
                     </View>
@@ -279,7 +284,7 @@ export default function WelcomeScreen({ navigation }: any) {
                     {isNepali ? 'सुरुदेखि नै खेल्नुहोस्' : 'START FROM BEGINNING'}
                   </Text>
 
-                  <Text style={{ color: '#FFF', fontSize: 11, marginTop: 4, opacity: 0.8 }}>
+                  <Text style={{ color: '#FFF', fontSize: 12, marginTop: 4, opacity: 1, fontWeight:"700" }}>
                     {isNepali ? 'सबै चरणहरू क्रमैसँग' : 'ALL STEPS IN ORDER'}
                   </Text>
                 </LinearGradient>
