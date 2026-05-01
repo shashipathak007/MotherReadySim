@@ -20,10 +20,11 @@ interface GameState {
   quizStreak: number;              // persisted current streak
   quizHighestStreak: number;       // persisted highest streak
   quizReviewVisible: boolean;      // whether the review screen is currently visible
+  currentCategoryIdx: number;      // index of the current category (wave) in Step 1 or Step 2
 }
 
 interface GameContextType extends GameState {
-  setStep: (step: GameStep) => void;
+  setStep: (step: GameStep, initialCategoryIdx?: number) => void;
   packItem: (id: number) => void;
   saveContact: (id: number) => void;
   addQuizStar: () => void;
@@ -51,6 +52,7 @@ interface GameContextType extends GameState {
   step3CharacterVisible: boolean;
   setStep3CharacterVisible: (visible: boolean) => void;
   setQuizReviewVisible: (visible: boolean) => void;
+  setCategoryIdx: (idx: number) => void;
 }
 
 const defaultState: GameState = {
@@ -66,6 +68,7 @@ const defaultState: GameState = {
   quizStreak: 0,
   quizHighestStreak: 0,
   quizReviewVisible: false,
+  currentCategoryIdx: 0,
 };
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -107,6 +110,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
             quizResults: saved.quizResults ?? prev.quizResults,
             quizStreak: saved.quizStreak ?? prev.quizStreak,
             quizHighestStreak: saved.quizHighestStreak ?? prev.quizHighestStreak,
+            currentCategoryIdx: saved.currentCategoryIdx ?? prev.currentCategoryIdx,
           }));
           // Only show tutorial if it hasn't been completed before
           if (!saved.tutorialCompleted) {
@@ -142,12 +146,13 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setState((prev) => ({ ...prev, ...updates }));
   };
 
-  const setStep = (currentStep: GameStep) => {
+  const setStep = (currentStep: GameStep, initialCategoryIdx: number = 0) => {
     // Step 3: hide the big right-side character immediately on entry.
     // Step3 screen will reveal it on its own timer.
     if (currentStep === 3) setStep3CharacterVisible(false);
     else setStep3CharacterVisible(true);
-    updateState({ currentStep });
+    // Use the provided initialCategoryIdx or default to 0
+    updateState({ currentStep, currentCategoryIdx: initialCategoryIdx });
   };
 
   const packItem = (id: number) => {
@@ -248,8 +253,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setState(prev => ({ ...prev, quizReviewVisible: visible }));
   };
 
+  const setCategoryIdx = (idx: number) => {
+    updateState({ currentCategoryIdx: idx });
+  };
+
   return (
-    <GameContext.Provider value={{ ...state, setStep, packItem, saveContact, addQuizStar, resetGame, resetCurrentStep, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial, completeTutorial, setQuizState, clearQuizState, step3CharacterVisible, setStep3CharacterVisible, setQuizReviewVisible }}>
+    <GameContext.Provider value={{ ...state, setStep, packItem, saveContact, addQuizStar, resetGame, resetCurrentStep, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial, completeTutorial, setQuizState, clearQuizState, step3CharacterVisible, setStep3CharacterVisible, setQuizReviewVisible, setCategoryIdx }}>
       {children}
     </GameContext.Provider>
   );

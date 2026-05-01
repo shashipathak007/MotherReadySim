@@ -50,7 +50,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   const {
     packedBagItems, packItem, showFeedback, clearFeedback, setCurrentWave,
     resetCurrentStep, tutorialStep, showTutorial: isTutorialVisible,
-    setShowTutorial,
+    setShowTutorial, currentCategoryIdx, setCategoryIdx,
   } = useGame();
   const tutorialHideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Ref mirror of isTutorialVisible so the animation effect doesn't re-run when we hide/show the tutorial
@@ -74,14 +74,13 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   const { playCorrect, playIncorrect } = useGameAudio();
 
   const [showCompletionModal, setShowCompletionModal] = useState(false);
-  const [currentWaveIdx, setCurrentWaveIdx] = useState(0);
   const [itemPage, setItemPage] = useState(0);
   const [containerLayout, setContainerLayout] = useState({ width, height });
   // Hide the real item while the ghost drags during tutorial step 2
   const [hideTutorialItem, setHideTutorialItem] = useState(false);
 
   const itemsPerPage = 6;
-  const currentWave = waveCategories[currentWaveIdx];
+  const currentWave = waveCategories[currentCategoryIdx];
 
 
   const checkCompletion = (count: number) => {
@@ -94,12 +93,12 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     if (currentWave) setCurrentWave(currentWave);
   }, [currentWave]);
 
-  useEffect(() => { setItemPage(0); }, [currentWaveIdx]);
+  useEffect(() => { setItemPage(0); }, [currentCategoryIdx]);
 
   useEffect(() => {
     if (packedBagItems.length === 0) {
       setItemPage(0);
-      setCurrentWaveIdx(0);
+      setCategoryIdx(0);
     }
   }, [packedBagItems]);
 
@@ -116,7 +115,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     if (nextWaveIdx >= waveCategories.length) {
       checkCompletion(packedBagItems.length);
     } else {
-      setCurrentWaveIdx(nextWaveIdx);
+      setCategoryIdx(nextWaveIdx);
     }
   }, [packedBagItems]);
 
@@ -515,7 +514,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     rippleOpacity.value = 0;
     setHideTutorialItem(false);
 
-    if (!isTutorialVisibleRef.current || currentWaveIdx !== 0) {
+    if (!isTutorialVisibleRef.current || currentCategoryIdx !== 0) {
       return () => timers.forEach(clearTimeout);
     }
 

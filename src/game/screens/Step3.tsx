@@ -338,7 +338,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
 
     if (!selectedTrimester || !scenario) return;
 
-    const delayMs = 0;
+    const delayMs = 2000;
     questionRevealTimer.current = setTimeout(() => {
       // Batch all three in one render cycle so they appear simultaneously
       if (!quizReviewVisible) {
@@ -456,7 +456,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
         withTiming(0, { duration: 50 })
       );
       showFeedback(explanation, '', 'error');
-      
+
       // Update results on first wrong answer to store their first selection
       setQuizResults(prev => {
         // Only add if not already in results

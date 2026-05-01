@@ -26,7 +26,8 @@ export default function GameContainer() {
     currentStep, setStep, isReady, resetCurrentStep, resetGame,
     packedBagItems, savedContacts, feedback, clearFeedback, currentWave, quizProgress,
     soundEnabled, toggleSound, setTutorialStep, showTutorial,
-    completeTutorial, selectedTrimester, quizIndex, shuffledScenarioIds, step3CharacterVisible, quizReviewVisible, quizResults, setQuizReviewVisible
+    completeTutorial, selectedTrimester, quizIndex, shuffledScenarioIds, step3CharacterVisible, quizReviewVisible, quizResults, setQuizReviewVisible,
+    currentCategoryIdx, setCategoryIdx
   } = useGame();
   const { i18n } = useTranslation();
   const navigation = useNavigation<any>();
@@ -253,6 +254,20 @@ export default function GameContainer() {
               onPress={() => {
                 if (currentStep === 3 && quizReviewVisible) {
                   setQuizReviewVisible(false);
+                } else if (currentStep === 1) {
+                  if (currentCategoryIdx > 0) {
+                    setCategoryIdx(currentCategoryIdx - 1);
+                  } else {
+                    navigation.navigate('Welcome');
+                  }
+                } else if (currentStep === 2) {
+                  if (currentCategoryIdx > 0) {
+                    setCategoryIdx(currentCategoryIdx - 1);
+                  } else {
+                    setStep(1, 6); // Go to Step 1, last category (ClinicalDocs)
+                  }
+                } else if (currentStep === 3) {
+                  setStep(2, 2); // Go to Step 2, last category (INFO)
                 } else if (currentStep === entryStep) {
                   navigation.navigate('Welcome');
                 } else {
@@ -279,7 +294,19 @@ export default function GameContainer() {
             <TouchableOpacity
               className={`px-5 py-2 rounded-full bg-[#C06898] ${currentStep === 4 ? 'opacity-30' : ''}`}
               onPress={() => {
-                if (currentStep === 3) {
+                if (currentStep === 1) {
+                  if (currentCategoryIdx < 6) {
+                    setCategoryIdx(currentCategoryIdx + 1);
+                  } else {
+                    setStep(2);
+                  }
+                } else if (currentStep === 2) {
+                  if (currentCategoryIdx < 2) {
+                    setCategoryIdx(currentCategoryIdx + 1);
+                  } else {
+                    setStep(3);
+                  }
+                } else if (currentStep === 3) {
                   if (quizResults && quizResults.length >= 1 && !quizReviewVisible) {
                     clearFeedback();
                     setQuizReviewVisible(true);

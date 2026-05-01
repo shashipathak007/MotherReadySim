@@ -31,17 +31,19 @@ const WRONG_DISTRIBUTION: Record<string, number[]> = {
 
 
 export default function Step2({ onNextStep }: { onNextStep: () => void }) {
-  const { savedContacts, saveContact, showFeedback, setCurrentWave, resetCurrentStep } = useGame();
+  const {
+    savedContacts, saveContact, showFeedback, setCurrentWave,
+    resetCurrentStep, currentCategoryIdx, setCategoryIdx
+  } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
   const { playCorrect, playIncorrect } = useGameAudio();
 
   const [showCompletionModal, setShowCompletionModal] = useState(false);
-  const [currentWaveIdx, setCurrentWaveIdx] = useState(0);
   const [containerLayout, setContainerLayout] = useState({ width: width, height: height });
   const [itemPositions, setItemPositions] = useState<Record<number, { x: number; y: number }>>({});
   const waveCategories = ['CRITICAL', 'IMPORTANT', 'INFO'];
-  const currentWave = waveCategories[currentWaveIdx];
+  const currentWave = waveCategories[currentCategoryIdx];
 
 
   const checkCompletion = (newCount: number) => {
@@ -70,7 +72,7 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
     if (nextWaveIdx >= waveCategories.length) {
       checkCompletion(savedContacts.length);
     } else {
-      setCurrentWaveIdx(nextWaveIdx);
+      setCategoryIdx(nextWaveIdx);
     }
   }, [savedContacts]);
 
