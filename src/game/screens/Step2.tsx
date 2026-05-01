@@ -171,6 +171,8 @@ return combined
   const inactivityTimer    = useRef<ReturnType<typeof setTimeout> | null>(null);
   const idleLoopTimers     = useRef<ReturnType<typeof setTimeout>[]>([]);
   const isIdleRunning      = useRef(false);
+  // Track last shown feedback item so we can re-translate when language changes
+  const lastFeedbackRef = useRef<{ id: number; isWrong: boolean; feedbackType: 'success' | 'error' | 'info' } | null>(null);
 
   // Live refs to current state so the idle loop has latest values
   const activeWaveContactsRef = useRef(activeWaveContacts);
@@ -333,6 +335,27 @@ return combined
     };
   }, [resetInactivityTimer]);
 
+  // ── Re-translate feedback when language changes ──
+  useEffect(() => {
+    if (!lastFeedbackRef.current) return;
+    const { id, isWrong, feedbackType } = lastFeedbackRef.current;
+    const item = activeWaveContacts.find(i => i.id === id && i.isWrong === isWrong);
+    if (!item) return;
+    const itemName = isNe && item.nameNe ? item.nameNe : item.name;
+    if (feedbackType === 'success') {
+      const cWhy = isNe && item.whyNe ? item.whyNe : item.why;
+      showFeedback(itemName, cWhy, 'success');
+    } else if (feedbackType === 'error') {
+      const wrongWhy = isNe && 'whyNotNe' in item && (item as any).whyNotNe ? (item as any).whyNotNe : item.why;
+      showFeedback(itemName, wrongWhy, 'error');
+    } else {
+      const infoWhy = item.isWrong
+        ? (isNe && 'whyNotNe' in item && (item as any).whyNotNe ? (item as any).whyNotNe : item.why)
+        : (isNe && item.whyNe ? item.whyNe : item.why);
+      showFeedback(itemName, infoWhy, 'info');
+    }
+  }, [isNe]);
+
   const handleDrop = (id: number, x: number, y: number, isWrong: boolean) => {
     const item = activeWaveContacts.find(i => i.id === id && i.isWrong === isWrong);
     if (!item) return;
@@ -350,12 +373,14 @@ return combined
         const cName = isNe && item.nameNe ? item.nameNe : item.name;
         const cWhy = isNe && item.whyNe ? item.whyNe : item.why;
         showFeedback(cName, cWhy, 'success');
+        lastFeedbackRef.current = { id, isWrong: false, feedbackType: 'success' };
       } else {
         ref?.shakeAndSnapBack();
         playIncorrect();
         const wrongName = isNe && item.nameNe ? item.nameNe : item.name;
         const wrongWhy = isNe && 'whyNotNe' in item && (item as any).whyNotNe ? (item as any).whyNotNe : item.why;
         showFeedback(wrongName, wrongWhy, 'error');
+        lastFeedbackRef.current = { id, isWrong: true, feedbackType: 'error' };
       }
     } else {
       // Persist where the user dropped it (do not snap back).
@@ -375,6 +400,7 @@ return combined
         itemWhy = isNe && item.whyNe ? item.whyNe : item.why;
       }
       showFeedback(itemName, itemWhy, 'info');
+      lastFeedbackRef.current = { id, isWrong, feedbackType: 'info' };
     }
   };
 

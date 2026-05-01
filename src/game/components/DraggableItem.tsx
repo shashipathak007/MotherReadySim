@@ -1,6 +1,6 @@
 /// <reference types="nativewind/types" />
 import React, { forwardRef, useImperativeHandle, useEffect, useRef } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Dimensions } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
@@ -13,6 +13,9 @@ import Animated, {
   cancelAnimation
 } from 'react-native-reanimated';
 import { getItemIcon, getContactIcon } from './ItemIcons';
+
+const ITEM_SIZE = 82; // width/height of draggable circle
+const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 
 export interface DraggableItemRef {
   shakeAndSnapBack: () => void;
@@ -101,8 +104,14 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
       rotation.value = withSpring(5);
     })
     .onUpdate((event) => {
-      translateX.value = startX.value + event.translationX;
-      translateY.value = startY.value + event.translationY;
+      'worklet';
+      // Clamp fully within screen so item never goes off any edge
+      const minX = 0;
+      const maxX = SCREEN_W - ITEM_SIZE;
+      const minY = 80;  // below header
+      const maxY = SCREEN_H - ITEM_SIZE - 20;
+      translateX.value = Math.max(minX, Math.min(maxX, startX.value + event.translationX));
+      translateY.value = Math.max(minY, Math.min(maxY, startY.value + event.translationY));
     })
     .onEnd(() => {
       runOnJS(onDrop)(id, translateX.value, translateY.value, isWrong);

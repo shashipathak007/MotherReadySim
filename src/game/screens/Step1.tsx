@@ -232,6 +232,9 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   const rippleOpacity = useSharedValue(0);
   // Ghost item (follows finger during drag tutorial)
   const ghostOpacity = useSharedValue(0);
+  const madeMistakeOnCurrent = useRef(false);
+  // Track last shown feedback item so we can re-translate when language changes
+  const lastFeedbackRef = useRef<{ id: number; isWrong: boolean; feedbackType: 'success' | 'error' | 'info' } | null>(null);
 
   // ── Inactivity idle-tutorial shared values (separate from main tutorial finger) ──
   const idleFingerX = useSharedValue(-200);
@@ -666,6 +669,29 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     return () => timers.forEach(clearTimeout);
   }, [tutorialStep, paginatedItems]);
 
+  // ── Re-translate feedback when language changes ──
+  useEffect(() => {
+    if (!lastFeedbackRef.current) return;
+    const { id, isWrong, feedbackType } = lastFeedbackRef.current;
+    const item = activeWaveItems.find(i => i.id === id && i.isWrong === isWrong);
+    if (!item) return;
+    if (feedbackType === 'success') {
+      const itemName = isNe && 'nameNe' in item ? (item as any).nameNe : item.name;
+      const itemWhy = isNe && 'whyNe' in item ? (item as any).whyNe : item.why;
+      showFeedback(isNe ? `शाबास! ${itemName}` : `Great job! ${itemName}`, itemWhy, 'success');
+    } else if (feedbackType === 'error') {
+      const itemName = isNe && 'nameNe' in item ? (item as any).nameNe : item.name;
+      const itemWhy = isNe && 'whyNotNe' in item ? (item as any).whyNotNe : item.why;
+      showFeedback(isNe ? `ओहो! ${itemName} चाहिँदैन` : `Oops! ${itemName} isn't needed`, itemWhy, 'error');
+    } else {
+      const itemName = isNe && 'nameNe' in item && (item as any).nameNe ? (item as any).nameNe : item.name;
+      const itemWhy = item.isWrong
+        ? ((isNe && 'whyNotNe' in item && (item as any).whyNotNe) || item.why)
+        : ((isNe && 'whyNe' in item && (item as any).whyNe) || item.why);
+      showFeedback(itemName, itemWhy, 'info');
+    }
+  }, [isNe]);
+
   const handleDrop = (id: number, x: number, y: number, isWrong: boolean) => {
     const item = activeWaveItems.find(i => i.id === id && i.isWrong === isWrong);
     if (!item) return;
@@ -690,12 +716,14 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
         const itemName = isNe && 'nameNe' in item ? (item as any).nameNe : item.name;
         const itemWhy = isNe && 'whyNe' in item ? (item as any).whyNe : item.why;
         showFeedback(isNe ? `शाबास! ${itemName}` : `Great job! ${itemName}`, itemWhy, 'success');
+        lastFeedbackRef.current = { id, isWrong: false, feedbackType: 'success' };
       } else {
         ref?.shakeAndSnapBack();
         playIncorrect();
         const itemName = isNe && 'nameNe' in item ? (item as any).nameNe : item.name;
         const itemWhy = isNe && 'whyNotNe' in item ? (item as any).whyNotNe : item.why;
         showFeedback(isNe ? `ओहो! ${itemName} चाहिँदैन` : `Oops! ${itemName} isn't needed`, itemWhy, 'error');
+        lastFeedbackRef.current = { id, isWrong: true, feedbackType: 'error' };
       }
     } else {
       ref?.snapBack();
@@ -710,6 +738,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
       ? ((isNe && 'whyNotNe' in item && (item as any).whyNotNe) || item.why)
       : ((isNe && 'whyNe' in item && (item as any).whyNe) || item.why);
     showFeedback(itemName, itemWhy, 'info');
+    lastFeedbackRef.current = { id, isWrong, feedbackType: 'info' };
 
     // During tap-tutorial step: hide tutorial so the info tip is fully visible for 2s,
     // then clear the tip and bring the tutorial back
