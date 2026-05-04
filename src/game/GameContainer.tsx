@@ -62,7 +62,7 @@ export default function GameContainer() {
 
   useEffect(() => {
     clearFeedback();
-  }, [currentStep, currentCategoryIdx]);
+  }, [currentStep]);
 
   if (!isReady) {
     return <View className="flex-1 bg-[#FFF9FB]" />;
