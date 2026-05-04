@@ -95,6 +95,11 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     if (currentWave) setCurrentWave(currentWave);
   }, [currentWave]);
 
+  // Reset page to 0 whenever the category changes (e.g. navigating back to an incomplete section)
+  useEffect(() => {
+    setItemPage(0);
+  }, [currentCategoryIdx]);
+
   useEffect(() => {
     if (packedBagItems.length === 0) {
       setItemPage(0);
@@ -144,13 +149,13 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
       .map(item => ({ ...item, isWrong: true, why: item.whyNot }));
     const combined = [...correctItems, ...wrongItems];
 
-    // Shuffle all items to ensure wrong items and correct items mix across all pages
+    // Shuffle once on wave entry
     for (let i = combined.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [combined[i], combined[j]] = [combined[j], combined[i]];
     }
 
-    // Force the tutorial shawl (id:3, correct) to always be safely on the first page
+    // Force tutorial shawl (id:3) to first page
     const shawlIdx = combined.findIndex(i => i.id === 3 && !i.isWrong);
     if (shawlIdx >= itemsPerPage) {
       const swapIdx = Math.floor(Math.random() * Math.min(combined.length, itemsPerPage));
