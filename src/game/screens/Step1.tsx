@@ -112,7 +112,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     }
     if (nextWaveIdx >= waveCategories.length) {
       checkCompletion(packedBagItems.length);
-    } else if (nextWaveIdx !== currentCategoryIdx) {
+    } else if (nextWaveIdx > currentCategoryIdx) {
       setItemPage(0);
       setCategoryIdx(nextWaveIdx);
     }

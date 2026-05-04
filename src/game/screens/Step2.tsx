@@ -71,7 +71,7 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
 
     if (nextWaveIdx >= waveCategories.length) {
       checkCompletion(savedContacts.length);
-    } else if (nextWaveIdx !== currentCategoryIdx) {
+    } else if (nextWaveIdx > currentCategoryIdx) {
       setCategoryIdx(nextWaveIdx);
     }
   }, [savedContacts, currentCategoryIdx, setCategoryIdx]);

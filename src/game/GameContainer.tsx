@@ -14,6 +14,8 @@ import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TutorialOverlay } from './components/TutorialOverlay';
 import { useTranslation } from 'react-i18next';
+import { BAG_ITEMS } from '../data/bagItems';
+import { CONTACTS } from '../data/contacts';
 
 const charGoodJob = require('../../assets/images/char_correct.png');
 const charOhNo = require('../../assets/images/char_incorrect.png');
@@ -57,7 +59,7 @@ export default function GameContainer() {
 
   useEffect(() => {
     clearFeedback();
-  }, [currentStep]);
+  }, [currentStep, currentCategoryIdx]);
 
   if (!isReady) {
     return <View className="flex-1 bg-[#FFF9FB]" />;
@@ -255,9 +257,29 @@ export default function GameContainer() {
                 if (currentStep === 3 && quizReviewVisible) {
                   setQuizReviewVisible(false);
                 } else if (currentStep === 1 && currentCategoryIdx > 0) {
-                  setCategoryIdx(currentCategoryIdx - 1);
+                  const waveCategories = ['Clothing', 'Hygiene', 'Comfort', 'Baby', 'LegalDocs', 'HealthDocs', 'ClinicalDocs'];
+                  const cat = waveCategories[currentCategoryIdx - 1];
+                  const correctInWave = BAG_ITEMS.filter(item => item.category === cat);
+                  const isComplete = correctInWave.length === 0 || (correctInWave.filter(item => packedBagItems.includes(item.id)).length >= correctInWave.length);
+
+                  if (isComplete) {
+                    if (currentStep === entryStep) navigation.navigate('Welcome');
+                    else setStep(Math.max(1, currentStep - 1) as any);
+                  } else {
+                    setCategoryIdx(currentCategoryIdx - 1);
+                  }
                 } else if (currentStep === 2 && currentCategoryIdx > 0) {
-                  setCategoryIdx(currentCategoryIdx - 1);
+                  const waveCategories = ['CRITICAL', 'IMPORTANT', 'INFO'];
+                  const cat = waveCategories[currentCategoryIdx - 1];
+                  const correctInWave = CONTACTS.filter(item => item.urgency === cat);
+                  const isComplete = correctInWave.length === 0 || (correctInWave.filter(item => savedContacts.includes(item.id)).length >= correctInWave.length);
+
+                  if (isComplete) {
+                    if (currentStep === entryStep) navigation.navigate('Welcome');
+                    else setStep(1, 6); // Go back to Step 1, last category
+                  } else {
+                    setCategoryIdx(currentCategoryIdx - 1);
+                  }
                 } else if (currentStep === entryStep || currentStep === 1) {
                   navigation.navigate('Welcome');
                 } else {
@@ -326,7 +348,7 @@ export default function GameContainer() {
               {/* Left: Home Button */}
               <View className="flex-row items-center">
                 <TouchableOpacity className="px-2 py-1 bg-white rounded-full border border-[#F5E1EC] flex-row items-center gap-1" onPress={() => navigation.navigate('Welcome')}>
-                  <Text className="text-[11px] font-[800] text-[#D4849B]">{isNepali ? 'छोड्नुहोस्' : 'Exit'}</Text>
+                  <Text className="text-[11px] font-[800] text-[#D4849B]">{isNepali ? 'बाहिर निस्कनुहोस्' : 'Exit to Home'}</Text>
                 </TouchableOpacity>
               </View>
 
