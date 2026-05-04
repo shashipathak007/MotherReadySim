@@ -347,11 +347,15 @@ export default function GameContainer() {
             <View className="mx-2 mt-0.5 flex-row justify-between items-center px-3 py-1.5 bg-white/85 rounded-full border border-[#F5E1EC]">
               {/* Left: Home Button */}
               <View className="flex-row items-center">
-                <TouchableOpacity className="px-2 py-1 bg-white rounded-full border border-[#F5E1EC] flex-row items-center gap-1" onPress={() => navigation.navigate('Welcome')}>
-                  <Text className="text-[11px] font-[800] text-[#D4849B]">{isNepali ? 'बाहिर निस्कनुहोस्' : 'Exit to Home'}</Text>
+                <TouchableOpacity
+                  className="px-3 py-1.5 bg-[#FFE4EC] rounded-full border border-[#F9A8D4] flex-row items-center gap-1"
+                  onPress={() => navigation.navigate('Welcome')}
+                >
+                  <Text className="text-[11px] font-[800] text-[#BE185D]">
+                    {isNepali ? 'बाहिर निस्कनुहोस्' : 'Exit to Home'}
+                  </Text>
                 </TouchableOpacity>
               </View>
-
               {/* Center: Wave Info */}
               <View className="flex-1 items-center px-1">
                 <Text className="text-[12px] font-[800] text-[#9B5983] tracking-[0.3px]" numberOfLines={1} adjustsFontSizeToFit>{getWaveLabel()}</Text>
@@ -363,11 +367,19 @@ export default function GameContainer() {
                   <Text className="text-[12px]">{soundEnabled ? '🔊' : '🔇'}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity className="w-7 h-7 bg-[#F9F0F5] rounded-full justify-center items-center" onPress={toggleLanguage}>
-                  <Text className="text-[12px] font-[800] text-[#9B5983]">{isNepali ? 'EN' : 'ने'}</Text>
+                  <Text className="text-[12px] font-[800] text-[#BE185D]">{isNepali ? 'EN' : 'ने'}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity className="px-2 py-1 bg-white rounded-full border border-[#F5E1EC]" onPress={() => { resetCurrentStep(); clearFeedback(); }}>
-                  <Text className="text-[11px] font-[800] text-[#D4849B]">{isNepali ? 'रिसेट' : 'Reset'}</Text>
-                </TouchableOpacity>
+                <View className="flex-row items-center">
+                  <TouchableOpacity
+                    className="px-3 py-1.5 rounded-full bg-[#FFE4EC] border border-[#F5E1EC] active:opacity-80 flex-row items-center gap-1"
+                    onPress={() => { resetCurrentStep(); clearFeedback(); }}
+                  >
+
+                    <Text className="text-[11px] font-[800] text-[#C2410C]">
+                      {isNepali ? 'रिसेट' : 'Reset'}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           )}
