@@ -50,7 +50,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   const {
     packedBagItems, packItem, showFeedback, clearFeedback, setCurrentWave,
     resetCurrentStep, tutorialStep, showTutorial: isTutorialVisible,
-    setShowTutorial, currentCategoryIdx, setCategoryIdx,
+    setShowTutorial, currentCategoryIdx, setCategoryIdx, tutorialCompleted
   } = useGame();
   const tutorialHideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Ref mirror of isTutorialVisible so the animation effect doesn't re-run when we hide/show the tutorial
@@ -799,6 +799,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
             onLongPress={handleLongPress}
             packed={packed || (hideTutorialItem && item.id === 3 && !item.isWrong)}
             color={item.isWrong ? '#FFF5F6' : '#FFFFFF'}
+            disabled={!tutorialCompleted}
           />
         );
       })}

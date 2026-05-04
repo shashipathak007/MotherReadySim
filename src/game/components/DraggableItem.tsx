@@ -34,10 +34,11 @@ interface DraggableItemProps {
   packed: boolean;
   color?: string;
   isContact?: boolean;
+  disabled?: boolean;
 }
 
 export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
-  id, name, emoji, isWrong = false, initialPos, onDrop, onLongPress, packed, color = '#FFFBFD', isContact = false
+  id, name, emoji, isWrong = false, initialPos, onDrop, onLongPress, packed, color = '#FFFBFD', isContact = false, disabled = false
 }, ref) => {
   const translateX = useSharedValue(initialPos.x);
   const translateY = useSharedValue(initialPos.y);
@@ -95,7 +96,7 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
   }));
 
   const panGesture = Gesture.Pan()
-    .enabled(!packed)
+    .enabled(!packed && !disabled)
     .onStart(() => {
       startX.value = translateX.value;
       startY.value = translateY.value;
@@ -121,7 +122,7 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
     });
 
   const tapGesture = Gesture.Tap()
-    .enabled(!packed)
+    .enabled(!packed && !disabled)
     .onEnd(() => {
       if (onLongPress) {
         runOnJS(onLongPress)(id, isWrong);
