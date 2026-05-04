@@ -116,4 +116,76 @@ export const CONTACTS: ContactItem[] = [
     fullDetail: 'The government health helpline for pregnancy-related queries, referrals, and information. Available during working hours. Free to call.',
     fullDetailNe: 'गर्भवती अवस्थाको बारेमा केही सोध्नुपरेमा वा सल्लाह लिनुपरेमा फोन गर्न मिल्ने यो सरकारको निःशुल्क नम्बर हो। यसमा अफिस खुलेको बेला फोन गर्दा पैसा लाग्दैन र डाक्टरसँग कुरा गर्न पाइन्छ।'
   },
+  {
+    id: 9,
+    initials: 'PS',
+    name: 'Local Police Station',
+    nameNe: 'नजिकैको प्रहरी चौकी',
+    urgency: 'CRITICAL',
+    phone: '100',
+    shortDesc: 'For emergency safety or transport help',
+    shortDescNe: 'आकस्मिक सुरक्षा वा यातायातमा सहयोगका लागि',
+    fullDetail: 'If you are in a remote area or having trouble finding transport at night, the local police can sometimes assist or provide security. Keep the 100 emergency number or your specific ward\'s police post number.',
+    fullDetailNe: 'यदि तपाईं दुर्गम ठाउँमा हुनुहुन्छ वा रातिको समयमा गाडी पाउन गाह्रो भएको छ भने प्रहरीले कहिलेकाहीं सहयोग गर्न सक्छन्। १०० नम्बर वा आफ्नो वडाको प्रहरी चौकीको नम्बर सेभ गरिराख्नुहोस्।'
+  },
+  {
+    id: 10,
+    initials: 'PV',
+    name: 'Private Ambulance or Taxi Service',
+    nameNe: 'निजी एम्बुलेन्स वा ट्याक्सी सेवा',
+    urgency: 'CRITICAL',
+    phone: '',
+    shortDesc: 'Reliable private transport backup',
+    shortDescNe: 'भरपर्दो निजी यातायातको विकल्प',
+    fullDetail: 'Sometimes government ambulances (102) are busy or far. Having a number for a private ambulance or a local taxi driver who is willing to travel at night is a critical safety net.',
+    fullDetailNe: 'कहिलेकाहीं सरकारी एम्बुलेन्स (१०२) व्यस्त हुन सक्छ। यस्तो बेलाको लागि निजी एम्बुलेन्स वा राति पनि हिँड्ने ट्याक्सी ड्राइभरको नम्बर राख्नु सुरक्षित हुन्छ।'
+  },
+  {
+    id: 11,
+    initials: 'TX',
+    name: 'Local Taxi/Jeep Driver',
+    nameNe: 'स्थानीय ट्याक्सी वा जीप चालक',
+    urgency: 'IMPORTANT',
+    phone: '',
+    shortDesc: 'Pre-arranged transport driver',
+    shortDescNe: 'पहिले नै सल्लाह गरिएको चालक',
+    fullDetail: 'Identify 1-2 local drivers who live nearby and are willing to be called at any hour. Confirm their availability around your due date.',
+    fullDetailNe: 'आफ्नो घर नजिकै बस्ने १-२ जना ड्राइभरहरूसँग पहिले नै कुरा गरेर राख्नुहोस्। सुत्केरी हुने मिति वरिपरि उहाँहरू उपलब्ध हुन सक्ने कुरा पक्का गर्नुहोस्।'
+  },
+  {
+    id: 12,
+    initials: 'FR',
+    name: 'Female Relative (Aunt, Sister, or Mother)',
+    nameNe: 'नजिकैको महिला आफन्त (दिदीबहिनी वा आमा)',
+    urgency: 'IMPORTANT',
+    phone: '',
+    shortDesc: 'Experienced support for mother & baby',
+    shortDescNe: 'आमा र बच्चाको हेरचाहमा अनुभवी व्यक्ति',
+    fullDetail: 'An experienced female relative who can help with the newborn, guide you with breastfeeding, and support you emotionally during the first few days.',
+    fullDetailNe: 'बच्चा जन्मिएपछि उसको हेरचाह गर्न, स्तनपान सिकाउन र तपाईंलाई हौसला दिन अनुभवी महिला आफन्तको साथ निकै जरुरी हुन्छ।'
+  },
+  {
+    id: 13,
+    initials: 'WO',
+    name: 'Ward Office / Local Palika',
+    nameNe: 'वडा कार्यालय वा पालिका',
+    urgency: 'INFO',
+    phone: '',
+    shortDesc: 'For birth registration information',
+    shortDescNe: 'जन्म दर्ता सम्बन्धी जानकारीका लागि',
+    fullDetail: 'Contact your ward office to understand the process for birth registration and to learn about any local government birth allowances (Aama Surakshya Program) you may be eligible for.',
+    fullDetailNe: 'बच्चा जन्मिएपछि जन्म दर्ता कसरी गर्ने र सरकारले दिने सुत्केरी भत्ता (आमा सुरक्षा कार्यक्रम) को बारेमा बुझ्न वडा कार्यालयमा सम्पर्क गर्नुपर्छ।'
+  },
+  {
+    id: 14,
+    initials: 'VC',
+    name: 'Local Health Post (Vaccination Info)',
+    nameNe: 'स्थानीय स्वास्थ्य चौकी (खोप सम्बन्धी जानकारी)',
+    urgency: 'INFO',
+    phone: '',
+    shortDesc: 'To plan baby\'s first vaccinations',
+    shortDescNe: 'बच्चाको पहिलो खोपको तालिका बुझ्न',
+    fullDetail: 'The local health post provides the national immunization schedule. Contact them to know which vaccines the baby needs in the first few months and the clinic dates.',
+    fullDetailNe: 'बच्चा जन्मिएपछि लगाउनुपर्ने खोपहरुको बारेमा बुझ्न स्वास्थ्य चौकीमा सम्पर्क गर्नुहोस्। कुन खोप कहिले लगाउने र खोप लगाउने दिन कहिले हो भनेर थाहा पाउनु जरुरी छ।'
+  },
 ];

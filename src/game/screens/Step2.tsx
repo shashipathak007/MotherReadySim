@@ -14,7 +14,7 @@ import { useGameAudio } from '../hooks/useGameAudio';
 import { LinearGradient } from 'expo-linear-gradient';
 import { getContactIcon } from '../components/ItemIcons';
 
-const INACTIVITY_DELAY_MS = 10000;
+const INACTIVITY_DELAY_MS = 12000;
 
 const { width, height } = Dimensions.get('window');
 
@@ -42,8 +42,11 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
 
   const [showIncompleteModal, setShowIncompleteModal] = useState(false);
   const [showCompletionModal, setShowCompletionModal] = useState(false);
+  const [itemPage, setItemPage] = useState(0);
+  const itemsPerPage = 6;
   const [containerLayout, setContainerLayout] = useState({ width: width, height: height });
   const [itemPositions, setItemPositions] = useState<Record<number, { x: number; y: number }>>({});
+  const scrollRef = useRef<ScrollView>(null);
   const waveCategories = ['CRITICAL', 'IMPORTANT', 'INFO'];
   const currentWave = waveCategories[currentCategoryIdx];
 
@@ -56,7 +59,8 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
 
   useEffect(() => {
     if (currentWave) setCurrentWave(currentWave);
-  }, [currentWave, setCurrentWave]);
+    setItemPage(0);
+  }, [currentWave, setCurrentWave, currentCategoryIdx]);
 
   const isWaveComplete = useMemo(() => {
     if (!currentWave) return false;
@@ -91,6 +95,12 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
     }
   }, [isWaveComplete, currentCategoryIdx, setCategoryIdx]);
 
+  useEffect(() => {
+    if (savedContacts.length > 0) {
+      setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 100);
+    }
+  }, [savedContacts]);
+
   // Items — same layout formula as Step 1
   const activeWaveContacts = useMemo(() => {
     if (!currentWave) return [];
@@ -105,58 +115,60 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
       isWrong: true, why: item.whyNot, whyNe: '', whyNotNe: item.whyNotNe || '', phone: ''
     }));
 
-    const combined = [...correctItems, ...wrongItems];
-const itemCount = combined.length;
+    return [...correctItems, ...wrongItems].sort((a, b) => a.name.localeCompare(b.name));
+  }, [currentWave]);
 
-const itemSize = 75;
+  const paginatedContacts = useMemo(() => {
+    const slice = activeWaveContacts.slice(
+      itemPage * itemsPerPage,
+      (itemPage + 1) * itemsPerPage
+    );
+    const itemCount = slice.length;
+    const itemSize = 75;
+    const colSpacing = itemSize + 30;
+    const baseRowSpacing = itemSize + 40;
+    const extraGap = 30;
+    const columns = 3;
+    const rightPadding = 180;
 
-// Horizontal spacing
-const colSpacing = itemSize + 30;
-// Vertical spacing
-const baseRowSpacing = itemSize + 40;
-const extraGap = 30;
-const columns = 3;
-const rightPadding = 180;
+    return slice.map((item, index) => {
+      const cols = Math.min(itemCount, columns);
+      const row = Math.floor(index / cols);
+      const col = index % cols;
 
-return combined
-  .sort((a, b) => a.name.localeCompare(b.name))
-  .map((item, index) => {
-    const cols = Math.min(itemCount, columns);
+      const totalGridWidth = (cols - 1) * colSpacing;
+      const startX = containerLayout.width - totalGridWidth - rightPadding;
+      const xPos = startX + col * colSpacing;
+      const yPos = containerLayout.height * 0.35 + row * baseRowSpacing + (row >= 1 ? extraGap : 0);
 
-    const row = Math.floor(index / cols);
-    const col = index % cols;
-
-    // Right aligned grid
-    const totalGridWidth = (cols - 1) * colSpacing;
-    const startX =
-      containerLayout.width - totalGridWidth - rightPadding;
-
-    const xPos = startX + col * colSpacing;
-
-    const yPos =
-      containerLayout.height * 0.35 +
-      row * baseRowSpacing +
-      (row >= 1 ? extraGap : 0);
-
-    return {
-      ...item,
-      initialPos: {
-        x: xPos + (Math.random() - 0.5) * 10,
-        y: yPos + (Math.random() - 0.5) * 10,
-      },
-    };
- 
-
-      
+      return {
+        ...item,
+        initialPos: {
+          x: xPos + (Math.random() - 0.5) * 10,
+          y: yPos + (Math.random() - 0.5) * 10,
+        },
+      };
     });
-  }, [currentWave, savedContacts.length === 0, containerLayout.width, containerLayout.height]);
+  }, [activeWaveContacts, itemPage, containerLayout.width, containerLayout.height]);
+
+  // Auto-advance page when all correct items on current page are saved
+  useEffect(() => {
+    const slice = activeWaveContacts.slice(itemPage * itemsPerPage, (itemPage + 1) * itemsPerPage);
+    const correctOnPage = slice.filter(i => !i.isWrong);
+    if (correctOnPage.length > 0 && correctOnPage.every(i => savedContacts.includes(i.id))) {
+      if ((itemPage + 1) * itemsPerPage < activeWaveContacts.length) {
+        const timer = setTimeout(() => setItemPage(p => p + 1), 800);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [savedContacts, itemPage, activeWaveContacts]);
 
   // Ensure every visible item has a persisted position (prevents snapping back after re-renders).
   useEffect(() => {
     setItemPositions(prev => {
       let changed = false;
       const next = { ...prev };
-      for (const it of activeWaveContacts) {
+      for (const it of paginatedContacts) {
         const uniqueId = it.isWrong ? -it.id : it.id;
         if (!next[uniqueId]) {
           next[uniqueId] = it.initialPos;
@@ -165,7 +177,7 @@ return combined
       }
       return changed ? next : prev;
     });
-  }, [activeWaveContacts]);
+  }, [paginatedContacts]);
 
   // Drop zone — EXACTLY same as Step 1 bag
   const dropZone = {
@@ -177,23 +189,23 @@ return combined
   const itemRefs = useRef<Record<number, DraggableItemRef>>({});
 
   // ── Inactivity idle-tutorial shared values ──
-  const idleFingerX       = useSharedValue(-200);
-  const idleFingerY       = useSharedValue(-200);
-  const idleFingerScale   = useSharedValue(1);
+  const idleFingerX = useSharedValue(-200);
+  const idleFingerY = useSharedValue(-200);
+  const idleFingerScale = useSharedValue(1);
   const idleFingerOpacity = useSharedValue(0);
-  const idleFingerRotate  = useSharedValue(0);
-  const idleGhostOpacity  = useSharedValue(0);
+  const idleFingerRotate = useSharedValue(0);
+  const idleGhostOpacity = useSharedValue(0);
   const [idleGhostItem, setIdleGhostItem] = useState<{ emoji: string; name: string; id: number; isWrong: boolean } | null>(null);
 
-  const inactivityTimer    = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const idleLoopTimers     = useRef<ReturnType<typeof setTimeout>[]>([]);
-  const isIdleRunning      = useRef(false);
+  const inactivityTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const idleLoopTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const isIdleRunning = useRef(false);
   // Track last shown feedback item so we can re-translate when language changes
   const lastFeedbackRef = useRef<{ id: number; isWrong: boolean; feedbackType: 'success' | 'error' | 'info' } | null>(null);
 
   // Live refs to current state so the idle loop has latest values
-  const activeWaveContactsRef = useRef(activeWaveContacts);
-  useEffect(() => { activeWaveContactsRef.current = activeWaveContacts; }, [activeWaveContacts]);
+  const activeWaveContactsRef = useRef(paginatedContacts);
+  useEffect(() => { activeWaveContactsRef.current = paginatedContacts; }, [paginatedContacts]);
   const dropZoneRef = useRef(dropZone);
   useEffect(() => { dropZoneRef.current = dropZone; }, [dropZone]);
   const savedRef = useRef(savedContacts);
@@ -264,7 +276,7 @@ return combined
     addTimer(() => {
       if (!isIdleRunning.current) return;
       const ghostEmoji = getContactEmoji(dragItem.id);
-      const ghostName  = (dragItem as any).nameNe && isNe ? (dragItem as any).nameNe : dragItem.name;
+      const ghostName = (dragItem as any).nameNe && isNe ? (dragItem as any).nameNe : dragItem.name;
       setIdleGhostItem({ emoji: ghostEmoji, name: ghostName, id: dragItem.id, isWrong: dragItem.isWrong });
 
       idleFingerX.value = dix;
@@ -425,7 +437,10 @@ return combined
     switch (id) {
       case 1: return '👩‍⚕️'; case 2: return '🚑'; case 3: return '🏥';
       case 4: return '🧕'; case 5: return '👫'; case 6: return '🏠';
-      case 7: return '🩸'; case 8: return '📞'; default: return '📱';
+      case 7: return '🩸'; case 8: return '📞';
+      case 9: return '👮'; case 10: return '🚕'; case 11: return '🚙';
+      case 12: return '👵'; case 13: return '🏛️'; case 14: return '💉';
+      default: return '📱';
     }
   };
 
@@ -439,11 +454,11 @@ return combined
       onStartShouldSetResponder={() => { resetInactivityTimer(); return false; }}
       onMoveShouldSetResponder={() => { resetInactivityTimer(); return false; }}
     >
-      <LinearGradient colors={['rgba(255,255,255,0.9)','rgba(243,58,106,0.05)','rgba(176,76,138,0.08)']}
-                      style={{position: 'absolute', width: '100%',height: '100%',}}
-/>
+      <LinearGradient colors={['rgba(255,255,255,0.9)', 'rgba(243,58,106,0.05)', 'rgba(176,76,138,0.08)']}
+        style={{ position: 'absolute', width: '100%', height: '100%', }}
+      />
       {/* Phone image — EXACTLY same pattern as bag in Step 1 */}
-      <View 
+      <View
         className="absolute justify-center items-center"
         style={{ left: dropZone.x - 15, top: dropZone.y - 30, width: dropZone.w + 30, height: dropZone.h + 60 }}
       >
@@ -490,59 +505,59 @@ return combined
         const screenH = renderedH * 0.68;
 
         return (
-      <View
-        style={{
-          position: 'absolute',
-          left: screenLeft,
-          top: screenTop,
-          width: screenW,
-          height: screenH,
-          overflow: 'hidden',
-          borderRadius: 4,
-        }}
-        pointerEvents="none"
-      >
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          nestedScrollEnabled
-          contentContainerStyle={{ paddingVertical: 2 }}
-        >
-          {savedContacts.map(id => {
-            const contact = CONTACTS.find(c => c.id === id);
-            return (
-              <Animated.View
-                entering={FadeInDown.duration(300)}
-                key={id}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  paddingVertical: 3,
-                  paddingHorizontal: 4,
-                  backgroundColor: 'rgba(255,255,255,0.15)',
-                  marginBottom: 2,
-                  borderRadius: 4,
-                  gap: 3
-                }}
-              >
-                <Text style={{ fontSize: 8 }}>{getContactEmoji(id)}</Text>
-                <View style={{ flex: 1 }}>
-                  <Text style={{ fontSize: 6, color: 'white', fontWeight: '700' }} numberOfLines={1}>
-                    {isNe && contact?.nameNe ? contact.nameNe : contact?.name}
-                  </Text>
-                  <Text style={{ fontSize: 5, color: 'rgba(255,255,255,0.5)' }} numberOfLines={1}>
-                    {contact?.phone || ''}
-                  </Text>
-                </View>
-              </Animated.View>
-            );
-          })}
-        </ScrollView>
-      </View>
+          <View
+            style={{
+              position: 'absolute',
+              left: screenLeft,
+              top: screenTop,
+              width: screenW,
+              height: screenH,
+              overflow: 'hidden',
+              borderRadius: 4,
+            }}
+          >
+            <ScrollView
+              ref={scrollRef}
+              showsVerticalScrollIndicator={true}
+              nestedScrollEnabled
+              contentContainerStyle={{ paddingVertical: 4 }}
+            >
+              {savedContacts.map(id => {
+                const contact = CONTACTS.find(c => c.id === id);
+                return (
+                  <Animated.View
+                    entering={FadeInDown.duration(300)}
+                    key={id}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      paddingVertical: 3,
+                      paddingHorizontal: 4,
+                      backgroundColor: 'rgba(255,255,255,0.15)',
+                      marginBottom: 2,
+                      borderRadius: 4,
+                      gap: 3
+                    }}
+                  >
+                    <Text style={{ fontSize: 8 }}>{getContactEmoji(id)}</Text>
+                    <View style={{ flex: 1 }}>
+                      <Text style={{ fontSize: 6, color: 'white', fontWeight: '700' }} numberOfLines={1}>
+                        {isNe && contact?.nameNe ? contact.nameNe : contact?.name}
+                      </Text>
+                      <Text style={{ fontSize: 5, color: 'rgba(255,255,255,0.5)' }} numberOfLines={1}>
+                        {contact?.phone || ''}
+                      </Text>
+                    </View>
+                  </Animated.View>
+                );
+              })}
+            </ScrollView>
+          </View>
         );
       })()}
 
       {/* Draggable items — same layout as Step 1 */}
-      {!isWaveComplete && activeWaveContacts.map((item) => {
+      {!isWaveComplete && paginatedContacts.map((item) => {
         const uniqueId = item.isWrong ? -item.id : item.id;
         const packed = !item.isWrong && savedContacts.includes(item.id);
         const persistedPos = itemPositions[uniqueId] ?? item.initialPos;
@@ -563,6 +578,7 @@ return combined
           />
         );
       })}
+
 
       <StepCompletionModal
         visible={showCompletionModal}

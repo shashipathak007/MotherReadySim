@@ -99,7 +99,7 @@ const TRIMESTERS: TrimesterInfo[] = [
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 const OPTION_LABELS = ['A', 'B', 'C', 'D', 'E', 'F'];
-const INACTIVITY_DELAY_MS = 10000;
+const INACTIVITY_DELAY_MS = 12000;
 
 export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   const {
@@ -134,125 +134,12 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   const [quizResults, setQuizResults] = useState<{ id: number; isCorrect: boolean; selectedText?: string; selectedTextNe?: string }[]>(savedQuizResults || []);
   const madeMistakeOnCurrent = useRef(false);
 
-  // ── Inactivity idle tap animation state ──
-  const idleFingerX = useSharedValue(-200);
-  const idleFingerY = useSharedValue(-200);
-  const idleFingerScale = useSharedValue(1);
-  const idleFingerOpacity = useSharedValue(0);
-  const rippleScale = useSharedValue(0);
-  const rippleOpacity = useSharedValue(0);
-
-  const inactivityTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const idleLoopTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
-  const isIdleRunning = useRef(false);
-
-  const idleFingerAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: idleFingerOpacity.value,
-    transform: [
-      { translateX: idleFingerX.value },
-      { translateY: idleFingerY.value },
-      { scale: idleFingerScale.value },
-    ],
-  }));
-
-  const rippleAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: rippleOpacity.value,
-    transform: [
-      { translateX: idleFingerX.value + 16 },
-      { translateY: idleFingerY.value + 16 },
-      { scale: rippleScale.value },
-    ],
-  }));
-
-  const fireIdleRipple = () => {
-    rippleScale.value = 0;
-    rippleOpacity.value = 0.7;
-    rippleScale.value = withTiming(3.5, { duration: 700, easing: Easing.out(Easing.ease) });
-    rippleOpacity.value = withTiming(0, { duration: 700 });
-  };
-
-  const stopIdleAnimation = () => {
-    if (!isIdleRunning.current) return;
-    isIdleRunning.current = false;
-    idleLoopTimers.current.forEach(clearTimeout);
-    idleLoopTimers.current = [];
-    cancelAnimation(idleFingerX);
-    cancelAnimation(idleFingerY);
-    cancelAnimation(idleFingerScale);
-    idleFingerOpacity.value = withTiming(0, { duration: 150 });
-    rippleOpacity.value = 0;
-  };
-
-  const runIdleCycle = () => {
-    if (!isIdleRunning.current) return;
-    const addTimer = (fn: () => void, ms: number) => {
-      const id = setTimeout(fn, ms);
-      idleLoopTimers.current.push(id);
-    };
-
-    // Tap lower (below options area)
-    const tx = SCREEN_W / 2 - 25;
-    const ty = SCREEN_H - 110;
-
-    addTimer(() => {
-      if (!isIdleRunning.current) return;
-      idleFingerX.value = tx + 40;
-      idleFingerY.value = ty + 120;
-      idleFingerScale.value = 1;
-      idleFingerOpacity.value = withTiming(1, { duration: 400 });
-      // Float up to tap target
-      idleFingerY.value = withTiming(ty, { duration: 600, easing: Easing.out(Easing.ease) });
-      idleFingerX.value = withTiming(tx, { duration: 600, easing: Easing.out(Easing.ease) });
-    }, 200);
-
-    // Tap down
-    addTimer(() => {
-      if (!isIdleRunning.current) return;
-      idleFingerScale.value = withTiming(0.85, { duration: 150, easing: Easing.in(Easing.ease) });
-    }, 900);
-
-    // Release & Ripple
-    addTimer(() => {
-      if (!isIdleRunning.current) return;
-      idleFingerScale.value = withTiming(1, { duration: 150 });
-      fireIdleRipple();
-    }, 1050);
-
-    // Fade away
-    addTimer(() => {
-      if (!isIdleRunning.current) return;
-      idleFingerOpacity.value = withTiming(0, { duration: 400 });
-    }, 1600);
-
-    // Loop
-    addTimer(() => {
-      if (!isIdleRunning.current) return;
-      runIdleCycle();
-    }, 3600);
-  };
-
-  const startIdleAnimation = () => {
-    if (isIdleRunning.current) return;
-    isIdleRunning.current = true;
-    runIdleCycle();
-  };
-
-  const resetInactivityTimer = () => {
-    if (isIdleRunning.current) stopIdleAnimation();
-    if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
-    inactivityTimer.current = setTimeout(() => {
-      startIdleAnimation();
-    }, INACTIVITY_DELAY_MS);
-  };
 
   useEffect(() => {
-    resetInactivityTimer();
     clearFeedback();
     return () => {
-      if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
       if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
       if (questionRevealTimer.current) clearTimeout(questionRevealTimer.current);
-      stopIdleAnimation();
       clearFeedback();
     };
   }, []);
@@ -364,7 +251,6 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
 
   // ── Trimester selection ──
   const handleSelectTrimester = (key: TrimesterKey) => {
-    resetInactivityTimer();
     if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
     setSelectedTrimester(key);
     setCurrentIdx(0);
@@ -390,7 +276,6 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   };
 
   const handleBackToSelector = () => {
-    resetInactivityTimer();
     if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
     setSelectedTrimester(null);
     setCurrentIdx(0);
@@ -410,7 +295,6 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
 
   // ── Answer handling ──
   const handleSelect = (opt: { text: string; textNe: string; isCorrect: boolean }) => {
-    resetInactivityTimer();
     if (hasAnswered.current) return;
     hasAnswered.current = true;
 
@@ -480,7 +364,6 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   };
 
   const handleNext = () => {
-    resetInactivityTimer();
     if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
     setSelectedResult(null);
     hasAnswered.current = false;
@@ -509,8 +392,6 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     return (
       <View
         className="flex-1 justify-end"
-        onStartShouldSetResponder={() => { resetInactivityTimer(); return false; }}
-        onMoveShouldSetResponder={() => { resetInactivityTimer(); return false; }}
       >
         <LinearGradient
           colors={[
@@ -697,8 +578,6 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   return (
     <View
       className="flex-1 justify-end"
-      onStartShouldSetResponder={() => { resetInactivityTimer(); return false; }}
-      onMoveShouldSetResponder={() => { resetInactivityTimer(); return false; }}
     >
       <LinearGradient
         colors={[
@@ -835,18 +714,6 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
         </Animated.View>
       ) : null}
 
-      {/* ── IDLE TUTORIAL LAYER ── */}
-      <View pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9996, elevation: 9996 }}>
-        {/* Ripple ring */}
-        <Animated.View
-          pointerEvents="none"
-          style={[{ position: 'absolute', zIndex: 1, width: 56, height: 56, borderRadius: 28, borderWidth: 2.5, borderColor: triColor, marginLeft: -28, marginTop: -28 }, rippleAnimatedStyle]}
-        />
-        {/* Finger */}
-        <Animated.View pointerEvents="none" style={[{ position: 'absolute', zIndex: 2 }, idleFingerAnimatedStyle]}>
-          <Image source={require('../../../assets/images/Finger.png')} style={{ width: 110, height: 110 }} resizeMode="contain" />
-        </Animated.View>
-      </View>
 
       {/* Confetti Animation */}
       {showConfetti && (

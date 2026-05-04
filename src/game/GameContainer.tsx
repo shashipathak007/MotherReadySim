@@ -9,14 +9,14 @@ import Step3 from './screens/Step3';
 import Step4 from './screens/Step4';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScenarioImages } from './constants/ScenarioImages';
+import { BAG_ITEMS } from '../data/bagItems';
+import { CONTACTS } from '../data/contacts';
 
 import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TutorialOverlay } from './components/TutorialOverlay';
 import { IncompleteStepModal } from './components/IncompleteStepModal';
 import { useTranslation } from 'react-i18next';
-import { BAG_ITEMS } from '../data/bagItems';
-import { CONTACTS } from '../data/contacts';
 
 const charGoodJob = require('../../assets/images/char_correct.png');
 const charOhNo = require('../../assets/images/char_incorrect.png');
@@ -114,11 +114,11 @@ export default function GameContainer() {
         HealthDocs: 'स्वास्थ्य कार्डहरू',
         ClinicalDocs: 'जाँच रिपोर्टहरू'
       };
-      return `🎒 ${packedBagItems.length}/43 · ${isNepali ? (waveNe[currentWave] || currentWave) : currentWave.replace('Docs', ' Docs').toUpperCase()}`;
+      return `🎒 ${packedBagItems.length}/${BAG_ITEMS.length} · ${isNepali ? (waveNe[currentWave] || currentWave) : currentWave.replace('Docs', ' Docs').toUpperCase()}`;
     }
     if (currentStep === 2) {
       const waveNe: Record<string, string> = { CRITICAL: 'एकदम जरुरी', IMPORTANT: 'जरुरी', INFO: 'जानकारी' };
-      return `📱 ${savedContacts.length}/8 · ${isNepali ? (waveNe[currentWave] || currentWave) : currentWave}`;
+      return `📱 ${savedContacts.length}/${CONTACTS.length} · ${isNepali ? (waveNe[currentWave] || currentWave) : currentWave}`;
     }
     if (currentStep === 3) {
       if (quizProgress.total > 0) {
@@ -519,7 +519,7 @@ export default function GameContainer() {
 
 
       <TutorialOverlay
-        visible={showTutorial}
+        visible={showTutorial && currentStep < 3}
         onClose={() => { completeTutorial(); resetCurrentStep(); }}
         onNext={(step) => {
           if (step < 3) {
@@ -527,7 +527,7 @@ export default function GameContainer() {
           } else {
             setTutorialStep(0);
             completeTutorial();
-            // Reset any items packed during the tutorial demo so player starts fresh at 0/43
+            // Reset any items packed during the tutorial demo so player starts fresh at 0/Total
             resetCurrentStep();
           }
         }}

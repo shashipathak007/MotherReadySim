@@ -19,7 +19,7 @@ import Animated, {
   cancelAnimation,
 } from 'react-native-reanimated';
 
-const INACTIVITY_DELAY_MS = 10000; // 10 seconds
+const INACTIVITY_DELAY_MS = 12000; // 10 seconds
 
 const { width, height } = Dimensions.get('window');
 const FINGER_VISUAL_X_OFFSET = -24;
