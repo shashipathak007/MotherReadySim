@@ -13,6 +13,7 @@ import { ScenarioImages } from './constants/ScenarioImages';
 import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TutorialOverlay } from './components/TutorialOverlay';
+import { IncompleteStepModal } from './components/IncompleteStepModal';
 import { useTranslation } from 'react-i18next';
 import { BAG_ITEMS } from '../data/bagItems';
 import { CONTACTS } from '../data/contacts';
@@ -41,6 +42,8 @@ export default function GameContainer() {
   };
 
   const [entryStep, setEntryStep] = useState<number>(1);
+  const [showIncompleteModal, setShowIncompleteModal] = useState(false);
+  const [incompleteModalProps, setIncompleteModalProps] = useState<{ onProceedAnyway: () => void, onGoBackToIncomplete: () => void } | null>(null);
 
   // No auto-demo actions needed in GameContainer — animations handled in Step1
 
@@ -248,6 +251,19 @@ export default function GameContainer() {
       {/* Floating Header */}
       <View className="absolute top-0 left-0 right-0 z-[100]">
         <SafeAreaView edges={['top']}>
+          {showIncompleteModal && incompleteModalProps && (
+            <IncompleteStepModal
+              visible={showIncompleteModal}
+              onGoBackToIncomplete={() => {
+                setShowIncompleteModal(false);
+                incompleteModalProps.onGoBackToIncomplete();
+              }}
+              onProceedAnyway={() => {
+                setShowIncompleteModal(false);
+                incompleteModalProps.onProceedAnyway();
+              }}
+            />
+          )}
           {/* Top bar: Back | Step title | Next */}
           <View className="flex-row items-center justify-between mx-4 mt-1.5 px-1.5 py-2">
             {/* Back button */}
@@ -258,27 +274,41 @@ export default function GameContainer() {
                   setQuizReviewVisible(false);
                 } else if (currentStep === 1 && currentCategoryIdx > 0) {
                   const waveCategories = ['Clothing', 'Hygiene', 'Comfort', 'Baby', 'LegalDocs', 'HealthDocs', 'ClinicalDocs'];
-                  const cat = waveCategories[currentCategoryIdx - 1];
-                  const correctInWave = BAG_ITEMS.filter(item => item.category === cat);
-                  const isComplete = correctInWave.length === 0 || (correctInWave.filter(item => packedBagItems.includes(item.id)).length >= correctInWave.length);
+                  let prevIncompleteIdx = -1;
+                  for (let i = currentCategoryIdx - 1; i >= 0; i--) {
+                    const cat = waveCategories[i];
+                    const correctInWave = BAG_ITEMS.filter(item => item.category === cat);
+                    const isComplete = correctInWave.length === 0 || (correctInWave.filter(item => packedBagItems.includes(item.id)).length >= correctInWave.length);
+                    if (!isComplete) {
+                      prevIncompleteIdx = i;
+                      break;
+                    }
+                  }
 
-                  if (isComplete) {
+                  if (prevIncompleteIdx === -1) {
                     if (currentStep === entryStep) navigation.navigate('Welcome');
                     else setStep(Math.max(1, currentStep - 1) as any);
                   } else {
-                    setCategoryIdx(currentCategoryIdx - 1);
+                    setCategoryIdx(prevIncompleteIdx);
                   }
                 } else if (currentStep === 2 && currentCategoryIdx > 0) {
                   const waveCategories = ['CRITICAL', 'IMPORTANT', 'INFO'];
-                  const cat = waveCategories[currentCategoryIdx - 1];
-                  const correctInWave = CONTACTS.filter(item => item.urgency === cat);
-                  const isComplete = correctInWave.length === 0 || (correctInWave.filter(item => savedContacts.includes(item.id)).length >= correctInWave.length);
+                  let prevIncompleteIdx = -1;
+                  for (let i = currentCategoryIdx - 1; i >= 0; i--) {
+                    const cat = waveCategories[i];
+                    const correctInWave = CONTACTS.filter(item => item.urgency === cat);
+                    const isComplete = correctInWave.length === 0 || (correctInWave.filter(item => savedContacts.includes(item.id)).length >= correctInWave.length);
+                    if (!isComplete) {
+                      prevIncompleteIdx = i;
+                      break;
+                    }
+                  }
 
-                  if (isComplete) {
+                  if (prevIncompleteIdx === -1) {
                     if (currentStep === entryStep) navigation.navigate('Welcome');
                     else setStep(1, 6); // Go back to Step 1, last category
                   } else {
-                    setCategoryIdx(currentCategoryIdx - 1);
+                    setCategoryIdx(prevIncompleteIdx);
                   }
                 } else if (currentStep === entryStep || currentStep === 1) {
                   navigation.navigate('Welcome');
@@ -316,13 +346,51 @@ export default function GameContainer() {
                   if (currentCategoryIdx < 6) {
                     setCategoryIdx(currentCategoryIdx + 1);
                   } else {
-                    setStep(2);
+                    const isComplete = packedBagItems.length >= BAG_ITEMS.length;
+                    if (isComplete) {
+                      setStep(2);
+                    } else {
+                      setIncompleteModalProps({
+                        onProceedAnyway: () => setStep(2),
+                        onGoBackToIncomplete: () => {
+                          let firstInc = 0;
+                          for (let i = 0; i <= 6; i++) {
+                            const waveCategories = ['Clothing', 'Hygiene', 'Comfort', 'Baby', 'LegalDocs', 'HealthDocs', 'ClinicalDocs'];
+                            const cat = waveCategories[i];
+                            const correctInWave = BAG_ITEMS.filter(item => item.category === cat);
+                            const isWaveComp = correctInWave.length === 0 || (correctInWave.filter(item => packedBagItems.includes(item.id)).length >= correctInWave.length);
+                            if (!isWaveComp) { firstInc = i; break; }
+                          }
+                          setCategoryIdx(firstInc);
+                        }
+                      });
+                      setShowIncompleteModal(true);
+                    }
                   }
                 } else if (currentStep === 2) {
                   if (currentCategoryIdx < 2) {
                     setCategoryIdx(currentCategoryIdx + 1);
                   } else {
-                    setStep(3);
+                    const isComplete = savedContacts.length >= CONTACTS.length;
+                    if (isComplete) {
+                      setStep(3);
+                    } else {
+                      setIncompleteModalProps({
+                        onProceedAnyway: () => setStep(3),
+                        onGoBackToIncomplete: () => {
+                          let firstInc = 0;
+                          for (let i = 0; i <= 2; i++) {
+                            const waveCategories = ['CRITICAL', 'IMPORTANT', 'INFO'];
+                            const cat = waveCategories[i];
+                            const correctInWave = CONTACTS.filter(item => item.urgency === cat);
+                            const isWaveComp = correctInWave.length === 0 || (correctInWave.filter(item => savedContacts.includes(item.id)).length >= correctInWave.length);
+                            if (!isWaveComp) { firstInc = i; break; }
+                          }
+                          setCategoryIdx(firstInc);
+                        }
+                      });
+                      setShowIncompleteModal(true);
+                    }
                   }
                 } else if (currentStep === 3) {
                   if (quizResults && quizResults.length >= 1 && !quizReviewVisible) {

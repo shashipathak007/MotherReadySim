@@ -6,6 +6,7 @@ import { BAG_ITEMS, DO_NOT_PACK_ITEMS } from '../../data/bagItems';
 import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
 import { getItemIcon } from '../components/ItemIcons';
 import { StepCompletionModal } from '../components/StepCompletionModal';
+import { IncompleteStepModal } from '../components/IncompleteStepModal';
 import { useTranslation } from 'react-i18next';
 import { useGameAudio } from '../hooks/useGameAudio';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -73,6 +74,8 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   const isNe = i18n.language === 'ne';
   const { playCorrect, playIncorrect } = useGameAudio();
 
+  const [tutorialKey, setTutorialKey] = useState(0);
+  const [showIncompleteModal, setShowIncompleteModal] = useState(false);
   const [showCompletionModal, setShowCompletionModal] = useState(false);
   const [itemPage, setItemPage] = useState(0);
   const [containerLayout, setContainerLayout] = useState({ width, height });
@@ -81,7 +84,6 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
 
   const itemsPerPage = 6;
   const currentWave = waveCategories[currentCategoryIdx];
-
 
   const checkCompletion = (count: number) => {
     if (count >= BAG_ITEMS.length) {
@@ -100,24 +102,6 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     }
   }, [packedBagItems]);
 
-  // Advance wave when all correct items in current wave are packed
-  useEffect(() => {
-    let nextWaveIdx = 0;
-    for (let i = 0; i < waveCategories.length; i++) {
-      const cat = waveCategories[i];
-      const correctInWave = BAG_ITEMS.filter(item => item.category === cat);
-      if (correctInWave.length === 0) { nextWaveIdx = i + 1; continue; }
-      const packedInWave = correctInWave.filter(item => packedBagItems.includes(item.id));
-      if (packedInWave.length >= correctInWave.length) { nextWaveIdx = i + 1; } else { break; }
-    }
-    if (nextWaveIdx >= waveCategories.length) {
-      checkCompletion(packedBagItems.length);
-    } else if (nextWaveIdx > currentCategoryIdx) {
-      setItemPage(0);
-      setCategoryIdx(nextWaveIdx);
-    }
-  }, [packedBagItems, currentCategoryIdx, setCategoryIdx]);
-
   const isWaveComplete = useMemo(() => {
     if (!currentWave) return false;
     const correctInWave = BAG_ITEMS.filter(item => item.category === currentWave);
@@ -125,6 +109,29 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     const packedInWave = correctInWave.filter(item => packedBagItems.includes(item.id));
     return packedInWave.length >= correctInWave.length;
   }, [currentWave, packedBagItems]);
+
+  // Advance wave when current wave is completed or if navigating to an already completed wave
+  useEffect(() => {
+    if (!isWaveComplete) return;
+    let nextWaveIdx = currentCategoryIdx + 1;
+    while (nextWaveIdx < waveCategories.length) {
+      const cat = waveCategories[nextWaveIdx];
+      const correctInWave = BAG_ITEMS.filter(item => item.category === cat);
+      const packedInWave = correctInWave.filter(item => packedBagItems.includes(item.id));
+      if (packedInWave.length < correctInWave.length) break;
+      nextWaveIdx++;
+    }
+    if (nextWaveIdx < waveCategories.length) {
+      setItemPage(0);
+      setCategoryIdx(nextWaveIdx);
+    } else {
+      if (packedBagItems.length >= BAG_ITEMS.length) {
+        checkCompletion(packedBagItems.length);
+      } else {
+        setShowIncompleteModal(true);
+      }
+    }
+  }, [isWaveComplete, currentCategoryIdx, packedBagItems]);
 
   const activeWaveItems = useMemo(() => {
     if (!currentWave) return [];
@@ -816,6 +823,24 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
         onClose={() => setShowCompletionModal(false)}
         onNext={() => { setShowCompletionModal(false); onNextStep(); }}
         onReset={() => { resetCurrentStep(); setShowCompletionModal(false); }}
+      />
+      <IncompleteStepModal
+        visible={showIncompleteModal}
+        onGoBackToIncomplete={() => {
+          setShowIncompleteModal(false);
+          let firstInc = 0;
+          for (let i = 0; i <= 6; i++) {
+            const cat = waveCategories[i];
+            const correctInWave = BAG_ITEMS.filter(item => item.category === cat);
+            const isWaveComp = correctInWave.length === 0 || (correctInWave.filter(item => packedBagItems.includes(item.id)).length >= correctInWave.length);
+            if (!isWaveComp) { firstInc = i; break; }
+          }
+          setCategoryIdx(firstInc);
+        }}
+        onProceedAnyway={() => {
+          setShowIncompleteModal(false);
+          onNextStep();
+        }}
       />
 
       {/* ── TUTORIAL ANIMATION LAYER — must be LAST child so it always paints above draggable items ── */}

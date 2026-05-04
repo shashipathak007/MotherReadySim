@@ -5,6 +5,7 @@ import { useGame } from '../context/GameContext';
 import { CONTACTS } from '../../data/contacts';
 import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
 import { StepCompletionModal } from '../components/StepCompletionModal';
+import { IncompleteStepModal } from '../components/IncompleteStepModal';
 import Animated, {
   FadeInDown, useSharedValue, useAnimatedStyle, withTiming, Easing, cancelAnimation, withSequence,
 } from 'react-native-reanimated';
@@ -39,6 +40,7 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
   const isNe = i18n.language === 'ne';
   const { playCorrect, playIncorrect } = useGameAudio();
 
+  const [showIncompleteModal, setShowIncompleteModal] = useState(false);
   const [showCompletionModal, setShowCompletionModal] = useState(false);
   const [containerLayout, setContainerLayout] = useState({ width: width, height: height });
   const [itemPositions, setItemPositions] = useState<Record<number, { x: number; y: number }>>({});
@@ -56,26 +58,6 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
     if (currentWave) setCurrentWave(currentWave);
   }, [currentWave, setCurrentWave]);
 
-  useEffect(() => {
-    let nextWaveIdx = 0;
-    for (let i = 0; i < waveCategories.length; i++) {
-      const cat = waveCategories[i];
-      const correctItemsInWave = CONTACTS.filter(item => item.urgency === cat);
-      const collectedInWave = correctItemsInWave.filter(item => savedContacts.includes(item.id));
-      if (collectedInWave.length >= correctItemsInWave.length) {
-        nextWaveIdx = i + 1;
-      } else {
-        break;
-      }
-    }
-
-    if (nextWaveIdx >= waveCategories.length) {
-      checkCompletion(savedContacts.length);
-    } else if (nextWaveIdx > currentCategoryIdx) {
-      setCategoryIdx(nextWaveIdx);
-    }
-  }, [savedContacts, currentCategoryIdx, setCategoryIdx]);
-
   const isWaveComplete = useMemo(() => {
     if (!currentWave) return false;
     const correctInWave = CONTACTS.filter(item => item.urgency === currentWave);
@@ -83,6 +65,31 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
     const packedInWave = correctInWave.filter(item => savedContacts.includes(item.id));
     return packedInWave.length >= correctInWave.length;
   }, [currentWave, savedContacts]);
+
+  // Advance wave when current wave is completed or if navigating to an already completed wave
+  useEffect(() => {
+    if (isWaveComplete) {
+      let nextWaveIdx = currentCategoryIdx + 1;
+      while (nextWaveIdx < waveCategories.length) {
+        const cat = waveCategories[nextWaveIdx];
+        const correctInWave = CONTACTS.filter(item => item.urgency === cat);
+        const packedInWave = correctInWave.filter(item => savedContacts.includes(item.id));
+        if (packedInWave.length < correctInWave.length) {
+          break;
+        }
+        nextWaveIdx++;
+      }
+      if (nextWaveIdx < waveCategories.length) {
+        setCategoryIdx(nextWaveIdx);
+      } else {
+        if (savedContacts.length >= CONTACTS.length) {
+          checkCompletion(savedContacts.length);
+        } else {
+          setShowIncompleteModal(true);
+        }
+      }
+    }
+  }, [isWaveComplete, currentCategoryIdx, setCategoryIdx]);
 
   // Items — same layout formula as Step 1
   const activeWaveContacts = useMemo(() => {
@@ -564,6 +571,24 @@ return combined
         onReset={() => {
           resetCurrentStep();
           setShowCompletionModal(false);
+        }}
+      />
+      <IncompleteStepModal
+        visible={showIncompleteModal}
+        onGoBackToIncomplete={() => {
+          setShowIncompleteModal(false);
+          let firstInc = 0;
+          for (let i = 0; i <= 2; i++) {
+            const cat = waveCategories[i];
+            const correctInWave = CONTACTS.filter(item => item.urgency === cat);
+            const isWaveComp = correctInWave.length === 0 || (correctInWave.filter(item => savedContacts.includes(item.id)).length >= correctInWave.length);
+            if (!isWaveComp) { firstInc = i; break; }
+          }
+          setCategoryIdx(firstInc);
+        }}
+        onProceedAnyway={() => {
+          setShowIncompleteModal(false);
+          onNextStep();
         }}
       />
 

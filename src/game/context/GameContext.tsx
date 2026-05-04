@@ -226,8 +226,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const resetCurrentStep = () => {
     setState((prev) => {
       let updates = {};
-      if (prev.currentStep === 1) updates = { packedBagItems: [] };
-      if (prev.currentStep === 2) updates = { savedContacts: [] };
+      if (prev.currentStep === 1) updates = { packedBagItems: [], currentCategoryIdx: 0 };
+      if (prev.currentStep === 2) updates = { savedContacts: [], currentCategoryIdx: 0 };
       if (prev.currentStep === 3) updates = { quizStars: 0, selectedTrimester: null, quizIndex: 0, shuffledScenarioIds: [], quizResults: [], quizStreak: 0, quizHighestStreak: 0 };
 
       // Reset quiz progress counter when on the quiz step
