@@ -42,7 +42,7 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
 }, ref) => {
   const translateX = useSharedValue(initialPos.x);
   const translateY = useSharedValue(initialPos.y);
-  const scale = useSharedValue(1);
+  const scale = useSharedValue(packed ? 0 : 1);
   const zIndex = useSharedValue(1);
   const rotation = useSharedValue(0);
 
@@ -141,7 +141,8 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
         { rotate: `${rotation.value}deg` }
       ],
       zIndex: zIndex.value,
-      opacity: packed ? 0 : 1,
+      // Use scale for visibility instead of instant opacity snap, so animatePack shows
+      opacity: scale.value === 0 ? 0 : 1,
     };
   });
 

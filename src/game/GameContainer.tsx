@@ -254,25 +254,17 @@ export default function GameContainer() {
               onPress={() => {
                 if (currentStep === 3 && quizReviewVisible) {
                   setQuizReviewVisible(false);
-                } else if (currentStep === 1) {
-                  if (currentCategoryIdx > 0) {
-                    setCategoryIdx(currentCategoryIdx - 1);
-                  } else {
-                    navigation.navigate('Welcome');
-                  }
-                } else if (currentStep === 2) {
-                  if (currentCategoryIdx > 0) {
-                    setCategoryIdx(currentCategoryIdx - 1);
-                  } else {
-                    setStep(1, 6); // Go to Step 1, last category (ClinicalDocs)
-                  }
-                } else if (currentStep === 3) {
-                  setStep(2, 2); // Go to Step 2, last category (INFO)
-                } else if (currentStep === entryStep) {
+                } else if (currentStep === entryStep || currentStep === 1) {
                   navigation.navigate('Welcome');
                 } else {
-                  const prevStep = Math.max(1, currentStep - 1) as any;
-                  setStep(prevStep);
+                  if (currentStep === 2) {
+                    setStep(1, 6); // Go to Step 1, last category (ClinicalDocs)
+                  } else if (currentStep === 3) {
+                    setStep(2, 2); // Go to Step 2, last category (INFO)
+                  } else {
+                    const prevStep = Math.max(1, currentStep - 1) as any;
+                    setStep(prevStep);
+                  }
                 }
               }}
               activeOpacity={0.7}

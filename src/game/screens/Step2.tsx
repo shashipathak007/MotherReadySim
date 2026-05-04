@@ -71,10 +71,18 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
 
     if (nextWaveIdx >= waveCategories.length) {
       checkCompletion(savedContacts.length);
-    } else {
+    } else if (nextWaveIdx !== currentCategoryIdx) {
       setCategoryIdx(nextWaveIdx);
     }
-  }, [savedContacts]);
+  }, [savedContacts, currentCategoryIdx, setCategoryIdx]);
+
+  const isWaveComplete = useMemo(() => {
+    if (!currentWave) return false;
+    const correctInWave = CONTACTS.filter(item => item.urgency === currentWave);
+    if (correctInWave.length === 0) return false;
+    const packedInWave = correctInWave.filter(item => savedContacts.includes(item.id));
+    return packedInWave.length >= correctInWave.length;
+  }, [currentWave, savedContacts]);
 
   // Items — same layout formula as Step 1
   const activeWaveContacts = useMemo(() => {
@@ -527,7 +535,7 @@ return combined
       })()}
 
       {/* Draggable items — same layout as Step 1 */}
-      {activeWaveContacts.map((item) => {
+      {!isWaveComplete && activeWaveContacts.map((item) => {
         const uniqueId = item.isWrong ? -item.id : item.id;
         const packed = !item.isWrong && savedContacts.includes(item.id);
         const persistedPos = itemPositions[uniqueId] ?? item.initialPos;

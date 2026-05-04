@@ -93,8 +93,6 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     if (currentWave) setCurrentWave(currentWave);
   }, [currentWave]);
 
-  useEffect(() => { setItemPage(0); }, [currentCategoryIdx]);
-
   useEffect(() => {
     if (packedBagItems.length === 0) {
       setItemPage(0);
@@ -114,10 +112,19 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     }
     if (nextWaveIdx >= waveCategories.length) {
       checkCompletion(packedBagItems.length);
-    } else {
+    } else if (nextWaveIdx !== currentCategoryIdx) {
+      setItemPage(0);
       setCategoryIdx(nextWaveIdx);
     }
-  }, [packedBagItems]);
+  }, [packedBagItems, currentCategoryIdx, setCategoryIdx]);
+
+  const isWaveComplete = useMemo(() => {
+    if (!currentWave) return false;
+    const correctInWave = BAG_ITEMS.filter(item => item.category === currentWave);
+    if (correctInWave.length === 0) return false;
+    const packedInWave = correctInWave.filter(item => packedBagItems.includes(item.id));
+    return packedInWave.length >= correctInWave.length;
+  }, [currentWave, packedBagItems]);
 
   const activeWaveItems = useMemo(() => {
     if (!currentWave) return [];
@@ -783,7 +790,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
       </View>
 
       {/* Draggable Items */}
-      {paginatedItems.map((item) => {
+      {!isWaveComplete && paginatedItems.map((item) => {
         const uniqueId = item.isWrong ? -item.id : item.id;
         const packed = !item.isWrong && packedBagItems.includes(item.id);
         return (
