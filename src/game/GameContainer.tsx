@@ -254,6 +254,10 @@ export default function GameContainer() {
               onPress={() => {
                 if (currentStep === 3 && quizReviewVisible) {
                   setQuizReviewVisible(false);
+                } else if (currentStep === 1 && currentCategoryIdx > 0) {
+                  setCategoryIdx(currentCategoryIdx - 1);
+                } else if (currentStep === 2 && currentCategoryIdx > 0) {
+                  setCategoryIdx(currentCategoryIdx - 1);
                 } else if (currentStep === entryStep || currentStep === 1) {
                   navigation.navigate('Welcome');
                 } else {
@@ -318,17 +322,29 @@ export default function GameContainer() {
 
           {/* Sub-bar: wave info + language toggle + reset */}
           {currentStep < 4 && !(currentStep === 3 && quizReviewVisible) && (
-            <View className="mx-5 mt-0.5 flex-row justify-between items-center px-4 py-1.5 bg-white/85 rounded-full border border-[#F5E1EC]">
-              <Text className="text-[13px] font-[800] text-[#9B5983] tracking-[0.3px]" numberOfLines={1}>{getWaveLabel()}</Text>
-              <View className="flex-row items-center gap-2">
+            <View className="mx-2 mt-0.5 flex-row justify-between items-center px-3 py-1.5 bg-white/85 rounded-full border border-[#F5E1EC]">
+              {/* Left: Home Button */}
+              <View className="flex-row items-center">
+                <TouchableOpacity className="px-2 py-1 bg-white rounded-full border border-[#F5E1EC] flex-row items-center gap-1" onPress={() => navigation.navigate('Welcome')}>
+                  <Text className="text-[11px] font-[800] text-[#D4849B]">{isNepali ? 'छोड्नुहोस्' : 'Exit'}</Text>
+                </TouchableOpacity>
+              </View>
+
+              {/* Center: Wave Info */}
+              <View className="flex-1 items-center px-1">
+                <Text className="text-[12px] font-[800] text-[#9B5983] tracking-[0.3px]" numberOfLines={1} adjustsFontSizeToFit>{getWaveLabel()}</Text>
+              </View>
+
+              {/* Right: Controls */}
+              <View className="flex-row items-center gap-1.5">
                 <TouchableOpacity className="w-7 h-7 bg-[#F9F0F5] rounded-full justify-center items-center" onPress={toggleSound}>
                   <Text className="text-[12px]">{soundEnabled ? '🔊' : '🔇'}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity className="w-7 h-7 bg-[#F9F0F5] rounded-full justify-center items-center" onPress={toggleLanguage}>
                   <Text className="text-[12px] font-[800] text-[#9B5983]">{isNepali ? 'EN' : 'ने'}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity className="px-3 py-1 bg-white rounded-full border border-[#F5E1EC]" onPress={() => { resetCurrentStep(); clearFeedback(); }}>
-                  <Text className="text-[12px] font-[800] text-[#D4849B]">{isNepali ? 'रिसेट' : 'Reset'}</Text>
+                <TouchableOpacity className="px-2 py-1 bg-white rounded-full border border-[#F5E1EC]" onPress={() => { resetCurrentStep(); clearFeedback(); }}>
+                  <Text className="text-[11px] font-[800] text-[#D4849B]">{isNepali ? 'रिसेट' : 'Reset'}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -414,6 +430,7 @@ export default function GameContainer() {
           }
         }}
       />
+
     </View>
   );
 }
