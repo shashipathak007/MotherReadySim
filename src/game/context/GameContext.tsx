@@ -11,16 +11,15 @@ interface GameState {
   packedBagItems: number[];
   savedContacts: number[];
   quizStars: number;
-  // Quiz resume state
   selectedTrimester: TrimesterKey | null;
   quizIndex: number;
-  shuffledScenarioIds: number[];   // persisted order of scenario ids
-  tutorialCompleted: boolean;      // persisted flag — true once tutorial has been fully played
-  quizResults: { id: number, isCorrect: boolean, selectedText?: string, selectedTextNe?: string }[]; // persisted results for review screen
-  quizStreak: number;              // persisted current streak
-  quizHighestStreak: number;       // persisted highest streak
-  quizReviewVisible: boolean;      // whether the review screen is currently visible
-  currentCategoryIdx: number;      // index of the current category (wave) in Step 1 or Step 2
+  shuffledScenarioIds: number[];   
+  tutorialCompleted: boolean;     
+  quizResults: { id: number, isCorrect: boolean, selectedText?: string, selectedTextNe?: string }[]; 
+  quizStreak: number;              
+  quizHighestStreak: number;       
+  quizReviewVisible: boolean;      
+  currentCategoryIdx: number;
 }
 
 interface GameContextType extends GameState {
@@ -83,8 +82,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const toggleSound = () => setSoundEnabled(prev => !prev);
   const [tutorialStep, setTutorialStep] = useState(0);
   const [step3CharacterVisible, setStep3CharacterVisible] = useState(true);
-  // showTutorial starts false; we set it to true only after loading persisted state
-  // and confirming the tutorial hasn't been completed yet
   const [showTutorial, setShowTutorialRaw] = useState(false);
 
   // Track whether initial load is done so we don't save the default state back

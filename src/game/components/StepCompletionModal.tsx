@@ -56,13 +56,13 @@ export const StepCompletionModal: React.FC<StepCompletionModalProps> = ({ visibl
               borderWidth: 2.5,
               borderColor: '#F5E1EC',
             }}>
-              <Text style={{ fontSize: 42 }}>{isFirstTime ? '🎉' : '🎖️'}</Text>
+              <Text style={{ fontSize: 42 }}>{isFirstTime ? '🌟' : '🎖️'}</Text>
             </View>
 
             {/* Title */}
             <Text style={{ fontSize: 22, fontWeight: '800', color: '#222', textAlign: 'center', marginBottom: 10 }}>
               {isFirstTime
-                ? (isNe ? 'बधाई छ! 🌟' : 'Great Job! 🌟')
+                ? (isNe ? 'बधाई छ!' : 'Great Job!')
                 : (isNe ? 'यो चरण सकियो!' : 'Step Completed!')}
             </Text>
 

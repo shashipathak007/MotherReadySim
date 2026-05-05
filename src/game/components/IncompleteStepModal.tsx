@@ -79,7 +79,7 @@ export const IncompleteStepModal: React.FC<IncompleteStepModalProps> = ({ visibl
                 }}
                 activeOpacity={0.7}
               >
-                <Text style={{ color: '#6B7280', fontWeight: '800', fontSize: 13 }}>
+                <Text style={{ color: 'Black', fontWeight: '800', fontSize: 13 }}>
                   {isNe ? 'अर्को चरणमा जाने' : 'Next Step'}
                 </Text>
               </TouchableOpacity>

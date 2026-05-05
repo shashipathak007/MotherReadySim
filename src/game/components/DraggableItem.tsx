@@ -100,16 +100,16 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
     .onStart(() => {
       startX.value = translateX.value;
       startY.value = translateY.value;
-      scale.value = withSpring(1.15);
+      scale.value = withSpring(1.25);
       zIndex.value = 100;
-      rotation.value = withSpring(5);
+      rotation.value = withSpring(0);
     })
     .onUpdate((event) => {
       'worklet';
       // Clamp fully within screen so item never goes off any edge
       const minX = 0;
       const maxX = SCREEN_W - ITEM_SIZE;
-      const minY = 80;  // below header
+      const minY = 150;  // below header
       const maxY = SCREEN_H - ITEM_SIZE - 20;
       translateX.value = Math.max(minX, Math.min(maxX, startX.value + event.translationX));
       translateY.value = Math.max(minY, Math.min(maxY, startY.value + event.translationY));

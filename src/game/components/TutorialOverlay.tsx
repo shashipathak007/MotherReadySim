@@ -52,9 +52,6 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClo
 
   const currentTutorial = tutorialSteps[step];
   const isLast = step === tutorialSteps.length - 1;
-
-  // During tap (step 1) and drag (step 2) demos, tapping the backdrop should
-  // NOT close/skip — it should advance to next step instead
   const isDemoStep = step === 1 || step === 2;
 
   const handleNext = () => onNext(step);
@@ -65,8 +62,6 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClo
       style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 200 }}
       pointerEvents="box-none"
     >
-      {/* Backdrop — blocks taps on demo steps, dim overlay on info steps */}
-      {/* On ALL steps: backdrop absorbs touches so tapping screen never dismisses tutorial */}
       <Animated.View
         entering={FadeIn.duration(200)}
         exiting={FadeOut.duration(150)}
@@ -77,12 +72,11 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClo
         pointerEvents={isDemoStep ? 'none' : 'box-none'}
       >
         {!isDemoStep && (
-          /* absorb taps on the dark area — do NOTHING, tutorial only closes via buttons */
+
           <View style={{ flex: 1 }} />
         )}
       </Animated.View>
 
-      {/* ── TIP CARD — anchored just below the header ── */}
       <Animated.View
         key={step}
         entering={FadeInUp.duration(350).springify()}
@@ -98,12 +92,12 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ visible, onClo
         {/* Bubble tail pointing UP (toward header) */}
         <View
     style={{
-      position: 'absolute',  // Forces the tail out of the normal layout flow
-      bottom: -13,           // Pushes it completely down, sticking out of the bottom edge
-      right: 24,             // Pins it to the right side
+      position: 'absolute',  
+      bottom: -13,           
+      right: 24,             
       width: 0, 
       height: 0,
-      borderTopWidth: 14,    // Points the triangle DOWN
+      borderTopWidth: 14,    
       borderTopColor: 'white', 
       borderLeftWidth: 12, 
       borderLeftColor: 'transparent',
