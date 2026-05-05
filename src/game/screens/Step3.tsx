@@ -690,8 +690,8 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   return (
     <View
       className="flex-1 justify-end"
-      onStartShouldSetResponder={() => { resetInactivityTimer(); return false; }}
-      onMoveShouldSetResponder={() => { resetInactivityTimer(); return false; }}
+      onStartShouldSetResponderCapture={() => { resetInactivityTimer(); return false; }}
+      onMoveShouldSetResponderCapture={() => { resetInactivityTimer(); return false; }}
     >
       <LinearGradient
         colors={[
