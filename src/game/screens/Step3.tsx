@@ -195,10 +195,9 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   const scenario = scenarios[currentIdx];
   const totalScenarios = scenarios.length;
 
-  // ── Auto-show question in global speech bubble (delayed) ──
+
   useEffect(() => {
-    // Don't re-show the question if the user already answered correctly
-    // (we want char_correct to stay visible until "Next Scenario" is clicked)
+    
     if (isFocused && scenario && questionVisible && !selectedResult && !quizReviewVisible) {
       const q = isNe ? scenario.descriptionNe : scenario.description;
       const t = isNe ? scenario.titleNe : scenario.title;

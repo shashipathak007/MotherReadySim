@@ -681,7 +681,11 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
 
       // Ensure the real item becomes visible again after the demo drag completes
       // (tutorial should demonstrate the action, but not permanently pack the item for gameplay)
-      t(() => { setHideTutorialItem(false); }, 4600);
+      t(() => {
+        setHideTutorialItem(false);
+        const ref = itemRefs.current[3];
+        if (ref) ref.resetToInitial();
+      }, 4600);
     }
 
     return () => timers.forEach(clearTimeout);
@@ -816,7 +820,8 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
             initialPos={item.initialPos}
             onDrop={handleDrop}
             onLongPress={handleLongPress}
-            packed={packed || (hideTutorialItem && item.id === 3 && !item.isWrong)}
+            packed={packed}
+            hidden={hideTutorialItem && item.id === 3 && !item.isWrong}
             color={item.isWrong ? '#FFF5F6' : '#FFFFFF'}
             disabled={!tutorialCompleted}
           />

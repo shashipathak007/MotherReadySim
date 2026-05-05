@@ -21,6 +21,7 @@ export interface DraggableItemRef {
   shakeAndSnapBack: () => void;
   snapBack: () => void;
   animatePack: (targetX: number, targetY: number) => void;
+  resetToInitial: () => void;
 }
 
 interface DraggableItemProps {
@@ -35,10 +36,11 @@ interface DraggableItemProps {
   color?: string;
   isContact?: boolean;
   disabled?: boolean;
+  hidden?: boolean;
 }
 
 export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
-  id, name, emoji, isWrong = false, initialPos, onDrop, onLongPress, packed, color = '#FFFBFD', isContact = false, disabled = false
+  id, name, emoji, isWrong = false, initialPos, onDrop, onLongPress, packed, color = '#FFFBFD', isContact = false, disabled = false, hidden = false
 }, ref) => {
   const translateX = useSharedValue(initialPos.x);
   const translateY = useSharedValue(initialPos.y);
@@ -92,6 +94,14 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
       translateY.value = withSpring(targetY);
       scale.value = withTiming(0, { duration: 500 });
       zIndex.value = 1;
+    },
+    resetToInitial: () => {
+      'worklet';
+      translateX.value = withSpring(initialPos.x);
+      translateY.value = withSpring(initialPos.y);
+      scale.value = withSpring(1);
+      rotation.value = withSpring(0);
+      zIndex.value = 1;
     }
   }));
 
@@ -142,7 +152,7 @@ export const DraggableItem = forwardRef<DraggableItemRef, DraggableItemProps>(({
       ],
       zIndex: zIndex.value,
       // Use scale for visibility instead of instant opacity snap, so animatePack shows
-      opacity: scale.value === 0 ? 0 : 1,
+      opacity: (scale.value === 0 || hidden) ? 0 : 1,
     };
   });
 
