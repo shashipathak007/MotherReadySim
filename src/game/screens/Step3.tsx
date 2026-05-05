@@ -1,5 +1,5 @@
 /// <reference types="nativewind/types" />
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Dimensions, Image } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { useGame } from '../context/GameContext';
@@ -144,6 +144,119 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     };
   }, []);
 
+  // ── Idle tutorial animated styles & state ──
+  const idleFingerX = useSharedValue(-200);
+  const idleFingerY = useSharedValue(-200);
+  const idleFingerScale = useSharedValue(1);
+  const idleFingerOpacity = useSharedValue(0);
+  const idleRippleScale = useSharedValue(0);
+  const idleRippleOpacity = useSharedValue(0);
+
+  const idleFingerAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: idleFingerOpacity.value,
+    transform: [
+      { translateX: idleFingerX.value - 24 },
+      { translateY: idleFingerY.value - 10 },
+      { scale: idleFingerScale.value },
+    ],
+  }));
+
+  const idleRippleAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: idleRippleOpacity.value,
+    transform: [
+      { translateX: idleFingerX.value + 100 },
+      { translateY: idleFingerY.value },
+      { scale: idleRippleScale.value },
+    ],
+  }));
+
+  const inactivityTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const idleLoopTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const isIdleRunning = useRef(false);
+
+  const runIdleCycle = useCallback(() => {
+    if (!isIdleRunning.current) return;
+
+    const addTimer = (fn: () => void, ms: number) => {
+      const id = setTimeout(fn, ms);
+      idleLoopTimers.current.push(id);
+    };
+
+    // Target a spot roughly where the first option is
+    const tx = SCREEN_W / 2 - 150;
+    const ty = SCREEN_H - 100;
+
+    idleFingerX.value = tx;
+    idleFingerY.value = ty + 100;
+    idleFingerScale.value = 1;
+
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      idleFingerOpacity.value = withTiming(1, { duration: 400 });
+      idleFingerY.value = withTiming(ty, { duration: 500, easing: Easing.out(Easing.ease) });
+    }, 200);
+
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      idleFingerScale.value = withTiming(0.85, { duration: 300, easing: Easing.in(Easing.ease) });
+      idleRippleScale.value = 0;
+      idleRippleOpacity.value = 0.7;
+      idleRippleScale.value = withTiming(3.5, { duration: 700, easing: Easing.out(Easing.ease) });
+      idleRippleOpacity.value = withTiming(0, { duration: 700 });
+    }, 900);
+
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      idleFingerScale.value = withSequence(
+        withTiming(1.2, { duration: 150 }),
+        withTiming(1, { duration: 150 })
+      );
+    }, 1200);
+
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      idleFingerOpacity.value = withTiming(0, { duration: 400 });
+    }, 1600);
+
+    addTimer(() => {
+      if (!isIdleRunning.current) return;
+      runIdleCycle();
+    }, 3000);
+  }, []);
+
+  const stopIdleAnimation = useCallback(() => {
+    if (!isIdleRunning.current) return;
+    isIdleRunning.current = false;
+    idleLoopTimers.current.forEach(clearTimeout);
+    idleLoopTimers.current = [];
+    cancelAnimation(idleFingerX);
+    cancelAnimation(idleFingerY);
+    cancelAnimation(idleFingerScale);
+    idleFingerOpacity.value = withTiming(0, { duration: 150 });
+    idleRippleOpacity.value = 0;
+  }, []);
+
+  const resetInactivityTimer = useCallback(() => {
+    if (isIdleRunning.current) stopIdleAnimation();
+    if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
+
+    if (!selectedTrimester || selectedResult || quizReviewVisible || !optionsVisible) return;
+
+    inactivityTimer.current = setTimeout(() => {
+      isIdleRunning.current = true;
+      runIdleCycle();
+    }, INACTIVITY_DELAY_MS);
+  }, [selectedTrimester, selectedResult, quizReviewVisible, optionsVisible, runIdleCycle, stopIdleAnimation]);
+
+  useEffect(() => {
+    resetInactivityTimer();
+    return () => {
+      if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
+      idleLoopTimers.current.forEach(clearTimeout);
+      isIdleRunning.current = false;
+    };
+  }, [resetInactivityTimer]);
+
   // ── Resume from saved state on mount ──
   useEffect(() => {
     if (didResume.current) return;
@@ -197,7 +310,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
 
 
   useEffect(() => {
-    
+
     if (isFocused && scenario && questionVisible && !selectedResult && !quizReviewVisible) {
       const q = isNe ? scenario.descriptionNe : scenario.description;
       const t = isNe ? scenario.titleNe : scenario.title;
@@ -577,6 +690,8 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
   return (
     <View
       className="flex-1 justify-end"
+      onStartShouldSetResponder={() => { resetInactivityTimer(); return false; }}
+      onMoveShouldSetResponder={() => { resetInactivityTimer(); return false; }}
     >
       <LinearGradient
         colors={[
@@ -712,6 +827,14 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
           </View>
         </Animated.View>
       ) : null}
+
+      {/* Idle / Inactivity Tutorial Layer */}
+      <View pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9996, elevation: 9996 }}>
+        <Animated.View style={[{ position: 'absolute', zIndex: 5, width: 56, height: 56, borderRadius: 28, borderWidth: 2.5, borderColor: '#C06898', marginLeft: -28, marginTop: -28 }, idleRippleAnimatedStyle]} />
+        <Animated.View style={[{ position: 'absolute', zIndex: 6 }, idleFingerAnimatedStyle]}>
+          <Image source={require('../../../assets/images/Finger.png')} style={{ width: 110, height: 110 }} resizeMode="contain" />
+        </Animated.View>
+      </View>
 
 
       {/* Confetti Animation */}
