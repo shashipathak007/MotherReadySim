@@ -295,5 +295,427 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     ],
     explanation: "Losing 1–2kg in the first trimester due to morning sickness is common and generally not harmful if the mother stays hydrated.",
     explanationNe: "पहिलो ३ महिनामा खाना रुची नहुँदा वा वाकवाकी लाग्दा १ देखि २ किलोसम्म तौल घट्नु धेरै महिलालाई हुने कुरा हो। शरीरमा पानीको कमी हुन दिएको छैन र थोरै थोरै भए पनि खाइरहेको छ भने यसले बच्चालाई कुनै नोक्सान पुग्दैन।"
+  },
+  // Add these to your FIRST_TRIMESTER_SCENARIOS array (IDs 21–50)
+ 
+  {
+    id: 21,
+    title: "Sita is craving clay and soil — is this safe?",
+    titleNe: "सीतालाई माटो वा चक खान मन लाग्छ — के यो सुरक्षित छ?",
+    description: "Sita is 8 weeks pregnant and has been craving and sometimes eating small amounts of clay from the wall.",
+    descriptionNe: "सीता ८ हप्ताकी गर्भवती छिन्। उनलाई पर्खालको माटो वा चक खान असाध्यै मन लाग्छ र कहिलेकाहीँ खान्छिन् पनि।",
+    options: [
+      { text: "It is a fun craving, totally fine", textNe: "यो रहर मात्र हो, खाँदा केही हुन्न", isCorrect: false },
+      { text: "Stop immediately, tell doctor — sign of iron deficiency", textNe: "तुरुन्तै खान बन्द गर्ने र डाक्टरलाई जानकारी दिने — यो आइरनको कमी भएको संकेत हो", isCorrect: true },
+      { text: "Eat it, the body knows what it needs", textNe: "शरीरलाई चाहिएर नै मन लागेको हो, खाए हुन्छ", isCorrect: false }
+    ],
+    explanation: "Craving non-food items like clay, soil, or chalk is called pica and is often a sign of iron or mineral deficiency. It can also introduce harmful parasites. Tell the doctor immediately.",
+    explanationNe: "माटो, चक वा खाना बाहेकका अन्य चीज खान मन लाग्नुलाई 'पाइका' (Pica) भनिन्छ। यो प्रायः शरीरमा आइरन वा खनिज पदार्थको कमी भएको संकेत हो। माटो खाँदा शरीरमा हानिकारक परजीवीहरू प्रवेश गर्न सक्छन्। यसबारे तुरुन्तै डाक्टरलाई बताउनुपर्छ।"
+  },
+  {
+    id: 22,
+    title: "Frequent urination at 9 weeks — is something wrong?",
+    titleNe: "९ हप्तामा बारम्बार पिसाब लाग्नु केही समस्याको संकेत हो?",
+    description: "Puja is 9 weeks pregnant and needs to urinate every hour, even at night.",
+    descriptionNe: "पूजा ९ हप्ताकी गर्भवती छिन्। उनलाई दिउँसो र राती पनि हरेक एक घण्टामा पिसाब लाग्छ।",
+    options: [
+      { text: "Kidney disease, go to hospital now", textNe: "यो मिर्गौला रोगको लक्षण हो, तुरुन्तै अस्पताल जाने", isCorrect: false },
+      { text: "Normal — uterus presses on bladder", textNe: "यो सामान्य हो — बढ्दै गरेको पाठेघरले मूत्राशयमा दबाब दिन्छ", isCorrect: true },
+      { text: "Stop drinking water to reduce trips", textNe: "पिसाब कम लाग्नका लागि पानी पिउन कम गर्ने", isCorrect: false }
+    ],
+    explanation: "Frequent urination is completely normal in early pregnancy. The growing uterus presses on the bladder. Reducing water intake is harmful — stay well hydrated.",
+    explanationNe: "गर्भावस्थाको सुरुवाती समयमा बारम्बार पिसाब लाग्नु पूर्णतया सामान्य हो। बढ्दो पाठेघरले मूत्राशय (Bladder) मा दबाब दिने हुनाले यस्तो हुन्छ। पानी कम पिउनु स्वास्थ्यका लागि हानिकारक हुन्छ, त्यसैले प्रशस्त पानी पिउनुपर्छ।"
+  },
+  {
+    id: 23,
+    title: "Can Nirmala travel in a bus or car during the first trimester?",
+    titleNe: "पहिलो त्रैमासिक (३ महिना) मा बस वा गाडीमा यात्रा गर्न मिल्छ?",
+    description: "Nirmala is 10 weeks pregnant and needs to travel 3 hours by bus to attend a family event.",
+    descriptionNe: "निर्मला १० हप्ताकी गर्भवती छिन्। उनले पारिवारिक कार्यक्रमका लागि ३ घण्टाको बस यात्रा गर्नुपर्नेछ।",
+    options: [
+      { text: "No travel allowed for 9 months", textNe: "९ महिनासम्म यात्रा गर्नै हुँदैन", isCorrect: false },
+      { text: "Travel is fine, take breaks to walk", textNe: "यात्रा गर्न मिल्छ, तर बीच-बीचमा हिँडडुल गर्ने", isCorrect: true },
+      { text: "Only travel by motorcycle", textNe: "मोटरसाइकलमा मात्र यात्रा गर्ने", isCorrect: false }
+    ],
+    explanation: "Road travel is generally safe in the first trimester. It helps to stop every 1–2 hours to stretch and walk, wear a seatbelt, and stay hydrated.",
+    explanationNe: "पहिलो ३ महिनामा बस वा गाडीमा यात्रा गर्नु सामान्यतया सुरक्षित मानिन्छ। यात्राको क्रममा हरेक १-२ घण्टामा केही समय हिँडडुल गर्ने, सिटबेल्ट बाँध्ने र पर्याप्त पानी पिउनु राम्रो हुन्छ। धेरै उबडखाबड बाटो र मोटरसाइकल यात्राबाट बच्नु उचित हुन्छ।"
+  },
+  {
+    id: 24,
+    title: "Sunita's husband uses pesticides on their farm — is this risky?",
+    titleNe: "खेतबारीमा प्रयोग गरिने विषादीले गर्भवतीलाई असर गर्छ?",
+    description: "Sunita is 8 weeks pregnant. Her husband sprays pesticides on the field and she sometimes helps.",
+    descriptionNe: "सुनीता ८ हप्ताकी गर्भवती छिन्। उनका श्रीमान खेतमा कीटनाशक विषादी छर्छन् र उनले पनि कहिलेकाहीँ सघाउँछिन्।",
+    options: [
+      { text: "Fine as long as she wears a scarf", textNe: "रुमाल वा मास्क लगाएर सघाउँदा केही हुन्न", isCorrect: false },
+      { text: "Avoid all pesticide contact during pregnancy", textNe: "गर्भावस्थामा सबै प्रकारका विषादीको सम्पर्कबाट टाढै बस्ने", isCorrect: true },
+      { text: "Only avoid in the last trimester", textNe: "अन्तिम ३ महिनामा मात्र सावधानी अपनाए पुग्छ", isCorrect: false }
+    ],
+    explanation: "Pesticide exposure during pregnancy — especially the first trimester when organs are forming — is linked to birth defects and miscarriage. Sunita should stay away from the field while spraying.",
+    explanationNe: "गर्भावस्थामा, विशेष गरी पहिलो ३ महिनामा बच्चाको अंगहरू बन्ने बेला, विषादीको सम्पर्कमा आउँदा गर्भपतन हुने वा जन्मजात अपाङ्गता हुने जोखिम हुन्छ। त्यसैले विषादी छर्ने समयमा खेतबारीबाट टाढै बस्नुपर्छ।"
+  },
+  {
+    id: 25,
+    title: "Is it safe to visit someone with chickenpox during the first trimester?",
+    titleNe: "गर्भावस्थामा 'चिकनपक्स' (काँक्रा पाटो) भएको बिरामीलाई भेट्न जानु सुरक्षित छ?",
+    description: "Maya's neighbour has chickenpox. Maya is 9 weeks pregnant and went to visit her.",
+    descriptionNe: "मायाकी छिमेकीलाई चिकनपक्स (Chickenpox) भएको छ। ९ हप्ताकी गर्भवती माया उनलाई भेट्न गइन्।",
+    options: [
+      { text: "Fine, chickenpox is just a rash", textNe: "ठिकै छ, यो सामान्य खटिरा मात्र हो", isCorrect: false },
+      { text: "Avoid exposure — can harm baby", textNe: "सम्पर्कबाट बच्ने — यसले गर्भको बच्चालाई गम्भीर हानि पुर्‍याउन सक्छ", isCorrect: true },
+      { text: "Only risky if you touch them", textNe: "बिरामीलाई छोएमा मात्र जोखिम हुन्छ", isCorrect: false }
+    ],
+    explanation: "Chickenpox (varicella) in pregnancy, especially in the first trimester, can cause serious birth defects. If exposed and unsure of immunity, contact a doctor immediately.",
+    explanationNe: "गर्भावस्थामा, विशेष गरी पहिलो ३ महिनामा चिकनपक्स भाइरसको संक्रमण भएमा बच्चामा गम्भीर जन्मजात समस्याहरू हुन सक्छन्। यदि तपाईं संक्रमित व्यक्तिको सम्पर्कमा आउनुभयो भने तुरुन्तै डाक्टरसँग सल्लाह लिनुहोस्।"
+  },
+  {
+    id: 26,
+    title: "Kamala feels heartburn after every meal at 11 weeks — what helps?",
+    titleNe: "११ हप्तामा खाना खाएपछि छाती पोल्छ — राहतका लागि के गर्ने?",
+    description: "Kamala is 11 weeks pregnant and feels a burning sensation in her chest after eating.",
+    descriptionNe: "कमला ११ हप्ताकी गर्भवती छिन्। उनलाई खाना खाएपछि छाती पोलेको (Heartburn) महसुस हुन्छ।",
+    options: [
+      { text: "Take antacids from the shop freely", textNe: "पसलबाट सोधपुछ नगरी ग्यास्ट्रिकको औषधी किनेर खाने", isCorrect: false },
+      { text: "Eat small meals, sit upright after eating", textNe: "थोरै-थोरै गरी पटक-पटक खाने र खाएपछि सिधा बस्ने", isCorrect: true },
+      { text: "Skip dinner entirely", textNe: "रातीको खाना खाँदै नखाने", isCorrect: false }
+    ],
+    explanation: "Heartburn is very common in pregnancy due to hormones relaxing the digestive valve. Eating smaller meals, not lying down right after eating, and avoiding spicy/oily food helps significantly.",
+    explanationNe: "गर्भावस्थाका हर्मोनहरूले पाचन प्रणालीको भल्भलाई खुकुलो बनाउने हुनाले छाती पोल्ने समस्या धेरैलाई हुन्छ। थोरै-थोरै मात्रामा खाने, खाएपछि तुरुन्तै नसुत्ने र पिरो तथा चिल्लो खाना कम गर्नाले धेरै राहत मिल्छ।"
+  },
+  {
+    id: 27,
+    title: "Laxmi wants to colour her hair at 10 weeks — is it safe?",
+    titleNe: "१० हप्ताको गर्भावस्थामा कपालमा रंग लगाउन मिल्छ?",
+    description: "Laxmi is 10 weeks pregnant and her sister offers to colour her hair for a wedding.",
+    descriptionNe: "लक्ष्मी १० हप्ताकी गर्भवती छिन्। उनलाई एउटा विवाहमा जान कपाल रंगाउन मन लागेको छ।",
+    options: [
+      { text: "Absolutely fine all 9 months", textNe: "९ महिनासम्म कपाल रंगाउनु पूर्णतया सुरक्षित छ", isCorrect: false },
+      { text: "Better to wait until after first trimester", textNe: "पहिलो ३ महिना सकेपछि मात्र रंगाउनु राम्रो", isCorrect: true },
+      { text: "Never colour hair while pregnant", textNe: "गर्भावस्थामा कपाल कहिल्यै रंगाउनु हुँदैन", isCorrect: false }
+    ],
+    explanation: "Most hair dyes are considered low-risk, but chemicals in permanent dyes are absorbed through the scalp. Many doctors advise avoiding them in the first trimester when the baby's organs are forming, then it is generally fine.",
+    explanationNe: "कपाल रंगाउने डाईमा हुने रसायनहरू छालाबाट थोरै मात्रामा सोसिने गर्छन्। पहिलो ३ महिनामा बच्चाको मुख्य अंगहरू बन्ने भएकाले यो समयमा रंग नलगाउनु नै बुद्धिमानी हुन्छ। दोस्रो त्रैमासिक पछि भने यो सामान्यतया सुरक्षित मानिन्छ।"
+  },
+  {
+    id: 28,
+    title: "Should Priya tell her workplace she is pregnant at 7 weeks?",
+    titleNe: "के ७ हप्ताको गर्भावस्थामा अफिसमा जानकारी दिनु आवश्यक छ?",
+    description: "Priya is 7 weeks pregnant and wonders if she should tell her boss right away.",
+    descriptionNe: "प्रिया ७ हप्ताकी गर्भवती छिन्। उनले आफ्नो हाकिमलाई अहिले नै यसबारे भन्नुपर्छ कि पर्दैन भनेर सोचिरहेकी छिन्।",
+    options: [
+      { text: "Must tell on day one", textNe: "थाहा पाउने बित्तिकै भनिहाल्नु पर्छ", isCorrect: false },
+      { text: "Her choice — many wait until 12 weeks", textNe: "यो उनको आफ्नै इच्छा हो — धेरैले १२ हप्ता पछि मात्र बताउँछन्", isCorrect: true },
+      { text: "Never tell until delivery day", textNe: "बच्चा नजन्मिएसम्म कसैलाई भन्नु हुँदैन", isCorrect: false }
+    ],
+    explanation: "There is no medical rule about when to announce pregnancy at work. Many women wait until after 12 weeks when miscarriage risk drops. However if the job involves physical risk (heavy lifting, chemicals), telling sooner protects her.",
+    explanationNe: "अफिसमा कहिले जानकारी दिने भन्ने कुनै निश्चित नियम छैन। धेरैजसो महिलाहरू गर्भपतनको जोखिम कम हुने १२ हप्ताको समय पर्खन्छन्। तर काममा गह्रौँ सामान उठाउनुपर्ने वा रसायनहरूसँग काम गर्नुपर्ने भएमा सुरक्षाका लागि छिट्टै भन्नु राम्रो हुन्छ।"
+  },
+  {
+    id: 29,
+    title: "Gita's first trimester blood test shows low thyroid — should she worry?",
+    titleNe: "रगत जाँचमा थाइरोइड कम देखियो भने के गर्ने?",
+    description: "Gita is 10 weeks pregnant and her blood test showed low thyroid levels.",
+    descriptionNe: "गीता १० हप्ताकी गर्भवती छिन्। रगत जाँच गर्दा उनको थाइरोइडको स्तर कम पाइएको छ।",
+    options: [
+      { text: "Ignore it, labs are often wrong", textNe: "वास्ता नगर्ने, ल्याबको रिपोर्ट कहिलेकाहीँ गलत पनि हुन सक्छ", isCorrect: false },
+      { text: "Follow doctor's treatment — it affects baby's brain", textNe: "डाक्टरको सल्लाह अनुसार उपचार गर्ने — यसले बच्चाको मस्तिष्क विकासमा असर गर्छ", isCorrect: true },
+      { text: "Eat more salt and it will fix itself", textNe: "नुन धेरै खाएमा यो आफैँ ठीक हुन्छ", isCorrect: false }
+    ],
+    explanation: "Untreated low thyroid (hypothyroidism) in pregnancy is linked to poor brain development in the baby. It is very treatable with safe daily tablets — following doctor's advice is essential.",
+    explanationNe: "गर्भावस्थामा थाइरोइड कम (Hypothyroidism) भएमा बच्चाको बौद्धिक विकासमा असर पर्न सक्छ। डाक्टरले सिफारिस गरेका औषधीहरू नियमित सेवन गरेमा यो सजिलै नियन्त्रण हुन्छ र बच्चा सुरक्षित रहन्छ।"
+  },
+  {
+    id: 30,
+    title: "Can Sarita use a mosquito repellent spray during her first trimester?",
+    titleNe: "गर्भावस्थाको सुरुवाती समयमा लामखुट्टे धपाउने स्प्रे वा कोइल प्रयोग गर्न मिल्छ?",
+    description: "Sarita is 9 weeks pregnant and lives in an area with many mosquitoes. She wants to use a repellent spray.",
+    descriptionNe: "सरिता ९ हप्ताकी गर्भवती छिन्। उनको क्षेत्रमा धेरै लामखुट्टे छन् र उनी लामखुट्टे धपाउने स्प्रे प्रयोग गर्न चाहन्छिन्।",
+    options: [
+      { text: "All repellents are completely safe", textNe: "सबै प्रकारका स्प्रेहरू पूर्णतया सुरक्षित हुन्छन्", isCorrect: false },
+      { text: "Use a net; check repellent with doctor", textNe: "झुलको प्रयोग गर्ने; स्प्रे प्रयोग गर्नुअघि डाक्टरसँग सोध्ने", isCorrect: true },
+      { text: "Mosquito bites are worse, use anything", textNe: "लामखुट्टेको टोकाइ हानिकारक हुन्छ, जे प्रयोग गरे पनि हुन्छ", isCorrect: false }
+    ],
+    explanation: "Mosquito nets are the safest option. Some repellent chemicals (especially coils and aerosol sprays) can irritate the lungs or have unknown effects in early pregnancy. DEET-based repellents at low concentration are generally accepted, but checking with a doctor first is wise.",
+    explanationNe: "झुल लगाएर सुत्नु सबैभन्दा सुरक्षित उपाय हो। लामखुट्टे धपाउने कोइल वा स्प्रेको गन्धले सास फेर्न गाह्रो बनाउन सक्छ र पहिलो ३ महिनामा यसले गर्ने असरबारे स्पष्ट जानकारी छैन। त्यसैले कुनै पनि स्प्रे प्रयोग गर्नुअघि स्वास्थ्यकर्मीको सल्लाह लिनु राम्रो हुन्छ।"
+  },
+  {
+    id: 31,
+    title: "Anita keeps forgetting to take iron tablets in the morning — what is a good tip?",
+    titleNe: "अनिताले बिहान आइरन चक्की खान बिर्सिन्छिन् — सम्झिनका लागि के गर्न सकिन्छ?",
+    description: "Anita is 10 weeks pregnant and keeps forgetting to take her iron tablet each morning.",
+    descriptionNe: "अनिता १० हप्ताकी गर्भवती छिन्। उनी हरेक बिहान आइरन चक्की खान बिर्सिन्छिन्।",
+    options: [
+      { text: "Take a double dose when remembered", textNe: "याद आएपछि एकैपटक दुईवटा चक्की खाने", isCorrect: false },
+      { text: "Keep it next to something used daily", textNe: "सधैँ प्रयोग गर्ने सामान (जस्तै ब्रस वा चियाको कप) को छेउमा राख्ने", isCorrect: true },
+      { text: "Only take it when feeling weak", textNe: "कमजोरी महसुस हुँदा मात्र खाने", isCorrect: false }
+    ],
+    explanation: "Linking tablet-taking to a daily habit — like placing it beside the toothbrush or tea cup — greatly improves consistency. Never double dose; just continue from the next day.",
+    explanationNe: "आइरन चक्की खाने समयलाई आफ्नो कुनै दैनिक बानीसँग जोड्दा (जस्तै: ब्रस गर्ने ठाउँमा राख्दा) बिर्सिने सम्भावना कम हुन्छ। यदि एक दिन बिर्सिएमा अर्को दिन एकैपटक दुईवटा चक्की नखानुहोस्; केवल भोलिपल्टदेखि नियमित रूपमा खानुहोस्।"
+  },
+  {
+    id: 32,
+    title: "Is it okay to eat fish during the first trimester?",
+    titleNe: "गर्भावस्थाको पहिलो ३ महिनामा माछा खान मिल्छ?",
+    description: "Bindu is 8 weeks pregnant and loves eating fish. She heard fish might not be safe in pregnancy.",
+    descriptionNe: "बिन्दु ८ हप्ताकी गर्भवती छिन्। उनलाई माछा खान मन पर्छ तर गर्भावस्थामा माछा खानु सुरक्षित हुन्छ कि हुँदैन भन्ने उनलाई चिन्ता छ।",
+    options: [
+      { text: "Never eat fish while pregnant", textNe: "गर्भावस्थामा माछा कहिल्यै खानु हुँदैन", isCorrect: false },
+      { text: "Small fish are fine; avoid large predator fish", textNe: "साना माछा खान मिल्छ; तर ठूला र शिकारी माछा नखाने", isCorrect: true },
+      { text: "Only raw fish (sushi) is safe", textNe: "काँचो माछा मात्र सुरक्षित हुन्छ", isCorrect: false }
+    ],
+    explanation: "Fish is a great source of protein and omega-3 for baby's brain. Small fish like sardines, rohu, and tilapia are safe. Large predator fish can have high mercury levels — avoid these. Raw fish should also be avoided.",
+    explanationNe: "माछा बच्चाको मस्तिष्क विकासका लागि आवश्यक प्रोटिन र ओमेगा-३ को राम्रो स्रोत हो। रोहू, टिलापिया जस्ता साना र स्थानीय माछाहरू सुरक्षित हुन्छन्। तर धेरै ठूला माछाहरूमा 'पारो' (Mercury) बढी हुन सक्ने भएकाले ती नखानुहोस्। साथै, काँचो माछा खानु पनि जोखिमपूर्ण हुन्छ।"
+  },
+  {
+    id: 33,
+    title: "Kabita gets very emotional and cries easily at 7 weeks — is she mentally ill?",
+    titleNe: "७ हप्ताको गर्भावस्थामा कवितालाई सानो कुरामा पनि रुन आउँछ — के यो मानसिक समस्या हो?",
+    description: "Kabita is 7 weeks pregnant. She cries easily, feels moody, and gets irritated over small things.",
+    descriptionNe: "कविता ७ हप्ताकी गर्भवती छिन्। उनी सानो कुरामा पनि रुने, झर्किने र मन उदास बनाउने गर्छिन्।",
+    options: [
+      { text: "Yes, she needs psychiatric treatment", textNe: "हो, उनलाई मानसिक उपचारको खाँचो छ", isCorrect: false },
+      { text: "No, hormonal mood swings are normal", textNe: "होइन, हर्मोनको परिवर्तनले गर्दा यस्तो हुनु सामान्य हो", isCorrect: true },
+      { text: "She is faking for attention", textNe: "ध्यान तान्नका लागि उनले नाटक गरेकी हुन्", isCorrect: false }
+    ],
+    explanation: "Mood swings, crying, and irritability are extremely common in the first trimester due to surging pregnancy hormones. They usually improve by the second trimester. Family support and kindness help greatly.",
+    explanationNe: "गर्भावस्थामा हुने हर्मोनको उतारचढावले गर्दा मन अस्थिर हुने, रुन आउने र झर्को लाग्ने समस्या पहिलो ३ महिनामा एकदमै सामान्य हो। प्रायः ४ महिना लागेपछि यो आफैँ ठिक हुन्छ। यस्तो बेला परिवारको माया र साथले ठूलो राहत दिन्छ।"
+  },
+  {
+    id: 34,
+    title: "Deepa's husband wants to be intimate at 10 weeks — is this safe?",
+    titleNe: "गर्भावस्थाको १० हप्तामा यौन सम्पर्क गर्नु सुरक्षित हुन्छ?",
+    description: "Deepa is 10 weeks pregnant and her husband wants to be sexually intimate. Deepa is unsure if it is safe.",
+    descriptionNe: "दीपा १० हप्ताकी गर्भवती छिन्। उनका श्रीमान उनीसँग यौन सम्बन्ध राख्न चाहन्छन् तर दीपालाई भने यो सुरक्षित छ कि छैन भन्ने डर छ।",
+    options: [
+      { text: "Completely forbidden for 9 months", textNe: "९ महिनासम्म पूर्ण रूपमा बन्द गर्नुपर्छ", isCorrect: false },
+      { text: "Safe in normal pregnancy without complications", textNe: "कुनै जटिलता नभएको सामान्य गर्भावस्थामा यो सुरक्षित हुन्छ", isCorrect: true },
+      { text: "Only in the final month", textNe: "अन्तिम महिनामा मात्र गर्न मिल्छ", isCorrect: false }
+    ],
+    explanation: "Sexual activity is safe during a normal, uncomplicated pregnancy. The baby is well protected by the amniotic sac and uterine muscles. The doctor may advise avoiding it only if there are specific risks like bleeding.",
+    explanationNe: "सामान्य र कुनै मेडिकल जटिलता नभएको गर्भावस्थामा यौन सम्पर्क सुरक्षित हुन्छ। बच्चा पाठेघरको मांसपेशी र पानीको थैलीभित्र राम्ररी सुरक्षित हुन्छ। यदि रगत बग्ने वा साल तल बसेको जस्ता जोखिम भएमा मात्र डाक्टरले सम्पर्क नगर्न सल्लाह दिन्छन्।"
+  },
+  {
+    id: 35,
+    title: "Should Mina register at the health post even though she feels fine?",
+    titleNe: "स्वस्थ महसुस भए पनि मिनाले स्वास्थ्य संस्थामा नाम दर्ता गराउनुपर्छ?",
+    description: "Mina is 9 weeks pregnant and feels healthy. Her sister says there is no need to register until something goes wrong.",
+    descriptionNe: "मिना ९ हप्ताकी गर्भवती छिन् र उनी आफूलाई स्वस्थ महसुस गर्छिन्। उनकी दिदीले केही समस्या नभएसम्म स्वास्थ्य चौकी जानु पर्दैन भनिरहेकी छिन्।",
+    options: [
+      { text: "Only register when feeling sick", textNe: "बिरामी भएपछि मात्र स्वास्थ्य चौकी जाने", isCorrect: false },
+      { text: "Yes — early registration catches hidden risks", textNe: "हो — सुरुमै जाँच गर्दा लुकेका जोखिमहरू थाहा हुन्छ र सहायता पाइन्छ", isCorrect: true },
+      { text: "Registration is just paperwork", textNe: "नाम दर्ता गराउनु कागज मिलाउने काम मात्र हो", isCorrect: false }
+    ],
+    explanation: "Many pregnancy complications like high blood pressure or anaemia have no symptoms early on. Early registration also qualifies for government incentives under Nepal's Aama Programme.",
+    explanationNe: "उच्च रक्तचाप वा रगतको कमी जस्ता समस्याहरूको सुरुमा कुनै लक्षण देखिँदैन, तर नियमित जाँचबाट पत्ता लाग्छ। समयमै दर्ता गराउँदा नेपाल सरकारको 'आमा कार्यक्रम' अन्तर्गत पाइने भत्ता र निःशुल्क सेवा लिन पनि सजिलो हुन्छ।"
+  },
+  {
+    id: 36,
+    title: "Sangita heard she must avoid all dairy during the first trimester — true?",
+    titleNe: "पहिलो ३ महिनामा दूध र दुग्धजन्य पदार्थ खानु हुँदैन भनिन्छ — के यो साँचो हो?",
+    description: "Sangita is 8 weeks pregnant. Her neighbour says she must avoid milk and dairy products.",
+    descriptionNe: "सङ्गीता ८ हप्ताकी गर्भवती छिन्। उनलाई छिमेकीले 'गर्भावस्थामा दूध र दही खानु हुँदैन' भनेकी छिन्।",
+    options: [
+      { text: "True — dairy causes complications", textNe: "साँचो हो — दूधले पेटमा समस्या निम्त्याउँछ", isCorrect: false },
+      { text: "False — pasteurised dairy is encouraged", textNe: "गलत हो — उमालेको दूध वा दही खानु धेरै राम्रो हुन्छ", isCorrect: true },
+      { text: "Only yoghurt should be avoided", textNe: "दही मात्र खानु हुँदैन", isCorrect: false }
+    ],
+    explanation: "Dairy products are an important source of calcium and protein. Pasteurised milk, curd, and ghee in moderate amounts are beneficial. Only avoid unpasteurised (raw, unboiled) milk.",
+    explanationNe: "गर्भावस्थामा दूध, दही र घिउ क्याल्सियम र प्रोटिनका महत्त्वपूर्ण स्रोत हुन्। उमालेको दूध र दहीको सेवनले हड्डी र बच्चाको विकासमा मद्दत गर्छ। केवल नउमालेको वा काँचो (Raw) दूध मात्र खानु हुँदैन।"
+  },
+  {
+    id: 37,
+    title: "Rita noticed her skin getting darker in patches at 10 weeks — what is this?",
+    titleNe: "१० हप्ताको गर्भावस्थामा रीताको अनुहारमा कालो दागहरू देखिएका छन् — यो के हो?",
+    description: "Rita is 10 weeks pregnant and notices dark patches on her cheeks and forehead.",
+    descriptionNe: "रीता १० हप्ताकी गर्भवती छिन् र उनले आफ्नो अनुहारमा कालो दाग (पोतो) आएको याद गरेकी छिन्।",
+    options: [
+      { text: "Liver disease — go to hospital", textNe: "यो कलेजोको रोगको संकेत हो", isCorrect: false },
+      { text: "Normal pregnancy pigmentation (melasma)", textNe: "यो गर्भावस्थाको सामान्य परिवर्तन (पोतो/Melasma) हो", isCorrect: true },
+      { text: "Allergy — stop eating eggs", textNe: "यो एलर्जी हो — अण्डा खान बन्द गर्नुपर्छ", isCorrect: false }
+    ],
+    explanation: "Dark patches on the face (melasma) are caused by increased melanin due to hormones. They are harmless and usually fade after delivery. Using sunscreen or a hat helps prevent them worsening.",
+    explanationNe: "गर्भावस्थामा हर्मोनको कारणले अनुहारमा कालो दाग (पोतो) देखिनु सामान्य हो। यो हानिकारक हुँदैन र बच्चा जन्मिएपछि बिस्तारै हराउँछ। घाममा निस्कँदा छाता ओढ्ने वा क्रिम लगाउने गर्दा यो धेरै गाढा हुन पाउँदैन।"
+  },
+  {
+    id: 38,
+    title: "Puja's mother insists she should not bathe daily during pregnancy — is this right?",
+    titleNe: "पूजाकी आमाले 'गर्भवतीले दिनहुँ नुहाउनु हुँदैन' भन्नुहुन्छ — के यो सही हो?",
+    description: "Puja is 7 weeks pregnant. Her mother says bathing daily is cold and risky during pregnancy.",
+    descriptionNe: "पूजा ७ हप्ताकी गर्भवती छिन्। उनकी आमाले 'दिनहुँ नुहाउँदा चिसो लाग्छ' भनेर नुहाउन रोक्नुहुन्छ।",
+    options: [
+      { text: "Correct — bathing weakens the baby", textNe: "सही हो — नुहाउँदा बच्चालाई असर पर्छ", isCorrect: false },
+      { text: "Wrong — daily hygiene is important", textNe: "गलत हो — सरसफाइको लागि नियमित नुहाउनु जरुरी छ", isCorrect: true },
+      { text: "Bathe only once a week", textNe: "हप्तामा एक पटक मात्र नुहाउनु पर्छ", isCorrect: false }
+    ],
+    explanation: "Bathing daily during pregnancy is safe and important for hygiene. Lukewarm water is ideal; avoid very hot baths which can raise core body temperature and cause dizziness.",
+    explanationNe: "गर्भावस्थामा दिनहुँ नुहाउनु सुरक्षित र सरसफाइका लागि राम्रो छ। नुहाउनका लागि मनतातो पानी प्रयोग गर्नु उत्तम हुन्छ। धेरै तातो पानीले नुहाउँदा शरीरको तापक्रम बढेर चक्कर लाग्न सक्छ, त्यसैले सावधानी अपनाउनुपर्छ।"
+  },
+  {
+    id: 39,
+    title: "Nirmala wants to drink alcohol at a wedding at 8 weeks — just a little bit?",
+    titleNe: "८ हप्ताकी गर्भवती निर्मलाले विवाहमा थोरै रक्सी पिउँदा हुन्छ?",
+    description: "Nirmala is 8 weeks pregnant and is attending a wedding where alcohol is being served.",
+    descriptionNe: "निर्मला ८ हप्ताकी गर्भवती छिन्। उनी एउटा विवाहमा गएकी छिन् जहाँ रक्सी खुवाइँदै छ।",
+    options: [
+      { text: "A small glass is fine", textNe: "एक सानो गिलास पिए केही हुँदैन", isCorrect: false },
+      { text: "No alcohol at all during pregnancy", textNe: "गर्भावस्थामा रक्सी अलिकति पनि पिउनु हुँदैन", isCorrect: true },
+      { text: "Only beer is safe, not spirits", textNe: "बियर मात्र पिउन मिल्छ, कडा रक्सी हुँदैन", isCorrect: false }
+    ],
+    explanation: "There is no safe amount of alcohol during pregnancy. Even small amounts can affect the baby's brain development and increase miscarriage risk. Alcohol passes directly through the placenta.",
+    explanationNe: "गर्भावस्थामा रक्सीको कुनै पनि मात्रा सुरक्षित हुँदैन। थोरै पिउँदा पनि बच्चाको मस्तिष्क विकासमा असर पर्न सक्छ र गर्भपतनको जोखिम बढ्छ। रक्सी आमाको रगतबाट साल हुँदै सिधै बच्चाको शरीरमा पुग्छ।"
+  },
+  {
+    id: 40,
+    title: "Durga has a cold at 9 weeks — can she take any medicine?",
+    titleNe: "९ हप्ताकी दुर्गालाई रुघाखोकी लागेको छ — के उनले औषधि खान मिल्छ?",
+    description: "Durga is 9 weeks pregnant and has a runny nose and mild fever.",
+    descriptionNe: "दुर्गा ९ हप्ताकी गर्भवती छिन्। उनलाई रुघा लागेको छ र हल्का ज्वरो आएको छ।",
+    options: [
+      { text: "Take any pharmacy medicine freely", textNe: "फार्मेसीबाट जे औषधि किनेर खाए पनि हुन्छ", isCorrect: false },
+      { text: "Ask doctor first — most cold meds unsafe", textNe: "पहिले डाक्टरलाई सोध्ने — रुघाखोकीका धेरै औषधि असुरक्षित हुन सक्छन्", isCorrect: true },
+      { text: "Take double antibiotics to recover fast", textNe: "छिटो निको हुन दोब्बर एन्टिबायोटिक खाने", isCorrect: false }
+    ],
+    explanation: "Many common cold medicines and antibiotics are not safe in early pregnancy. Steam inhalation and rest help mild colds. Always consult a health worker before taking any medicine.",
+    explanationNe: "रुघाखोकीमा प्रयोग गरिने धेरैजसो साधारण औषधिहरू पहिलो ३ महिनामा सुरक्षित हुँदैनन्। रुघाखोकी लाग्दा तातो पानीको बाफ लिने र आराम गर्ने गर्नुपर्छ। कुनै पनि औषधि खानुअघि अनिवार्य रूपमा स्वास्थ्यकर्मीको सल्लाह लिनुहोस्।"
+  },
+  {
+    id: 41,
+    title: "Maya's husband thinks she is using pregnancy as an excuse to rest — how should she respond?",
+    titleNe: "श्रीमानले 'गर्भावस्थाको निहुँ पारेर थकाइ लागेको बहाना गर्छेस्' भन्नुहुन्छ भने मायाले के गर्ने?",
+    description: "Maya is 8 weeks pregnant and is often very tired. Her husband thinks she is just being lazy.",
+    descriptionNe: "माया ८ हप्ताकी गर्भवती छिन् र उनलाई धेरै थकाइ लाग्छ। तर उनका श्रीमानलाई भने मायाले अल्छी गरेकी जस्तो लाग्छ।",
+    options: [
+      { text: "Push through tiredness to show strength", textNe: "आफू बलियो छु भनेर देखाउन थकाइ लागे पनि जबरजस्ती काम गर्ने", isCorrect: false },
+      { text: "Rest is medically needed — explain to husband", textNe: "आराम गर्नु स्वास्थ्यको लागि अनिवार्य छ भनेर श्रीमानलाई बुझाउने", isCorrect: true },
+      { text: "Stop all activity for full 9 months", textNe: "९ महिनासम्म कुनै पनि काम नगरी पूर्ण रूपमा थन्किएर बस्ने", isCorrect: false }
+    ],
+    explanation: "First-trimester fatigue is real and medically recognized — caused by surging hormones and the body building the placenta. Rest is necessary, not laziness. A family member who understands this can better support the mother.",
+    explanationNe: "गर्भावस्थाको पहिलो ३ महिनामा हर्मोनको परिवर्तन र साल (Placenta) बन्ने प्रक्रियाले गर्दा शरीर धेरै थाक्छ। यो अल्छीपन नभएर शरीरको प्राकृतिक आवश्यकता हो। परिवारले यो कुरा बुझिदिएमा गर्भवतीलाई ठूलो सहयोग पुग्छ।"
+  },
+  {
+    id: 42,
+    title: "Is it safe to use a mobile phone and laptop during the first trimester?",
+    titleNe: "गर्भावस्थाको पहिलो ३ महिनामा मोबाइल र ल्यापटप चलाउनु सुरक्षित हुन्छ?",
+    description: "Laxmi is 9 weeks pregnant and spends several hours each day on her phone and laptop for work.",
+    descriptionNe: "लक्ष्मी ९ हप्ताकी गर्भवती छिन्। उनले कामको सिलसिलामा दैनिक घण्टौंसम्म मोबाइल र ल्यापटप चलाउनुपर्ने हुन्छ।",
+    options: [
+      { text: "Both are dangerous and must be stopped", textNe: "यी दुवै खतरनाक छन्, त्यसैले चलाउनै हुँदैन", isCorrect: false },
+      { text: "Normal use is safe — no strong evidence of harm", textNe: "ठिक्क मात्रामा प्रयोग गर्नु सुरक्षित छ—यसले हानि गर्ने कुनै प्रमाण छैन", isCorrect: true },
+      { text: "Only laptops are risky", textNe: "ल्यापटप मात्र खतरनाक हो, मोबाइल होइन", isCorrect: false }
+    ],
+    explanation: "Current scientific evidence does not show that normal use of mobile phones or laptops harms the developing baby. Screen use is safe. Taking breaks for posture and eye rest is good for the mother herself.",
+    explanationNe: "अहिलेसम्मका वैज्ञानिक अनुसन्धान अनुसार मोबाइल वा ल्यापटपको सामान्य प्रयोगले गर्भको बच्चालाई असर गर्दैन। यद्यपि, लामो समयसम्म एकै ठाउँमा बसिरहँदा ढाड दुख्ने र आँखा थाक्ने हुनाले बीच-बीचमा उठेर हिँडडुल गर्नु राम्रो हुन्छ।"
+  },
+  {
+    id: 43,
+    title: "Kabita keeps getting leg cramps at night at 11 weeks — what helps?",
+    titleNe: "११ हप्ताकी कवितालाई राति खुट्टा बाउँडिने (Cramps) समस्या छ भने के गर्दा ठिक होला?",
+    description: "Kabita is 11 weeks pregnant and wakes up at night with painful leg cramps.",
+    descriptionNe: "कविता ११ हप्ताकी गर्भवती छिन्। राति सुतेको बेला खुट्टा बाउँडिएर (मासु फर्केर) उनी दुखाइले बिउँझिन्छिन्।",
+    options: [
+      { text: "Take painkillers every night", textNe: "हरेक राति दुखाइ कम गर्ने औषधि (Painkillers) खाने", isCorrect: false },
+      { text: "Stretch calf muscles and drink water", textNe: "खुट्टा तन्काउने र पर्याप्त पानी पिउने", isCorrect: true },
+      { text: "It is a sign of labour starting", textNe: "यो सुत्केरी व्यथा लाग्न थालेको संकेत हो", isCorrect: false }
+    ],
+    explanation: "Leg cramps in pregnancy are often due to low magnesium, dehydration, or reduced circulation. Stretching the calf muscle by flexing the foot upward, staying hydrated, and gentle walking during the day all help. Mention it to the doctor if frequent.",
+    explanationNe: "गर्भावस्थामा शरीरमा म्याग्नेसियमको कमी, पानीको मात्रा कम हुनु वा रक्तसञ्चारमा कमी आउनाले खुट्टा बाउँडिने गर्छ। पैतालालाई माथितिर फर्काएर खुट्टा तन्काउने, प्रशस्त पानी पिउने र दिउँसो हल्का हिँडडुल गर्नाले यसमा राहत मिल्छ।"
+  },
+  {
+    id: 44,
+    title: "Sunita is having headaches frequently at 10 weeks — is this normal?",
+    titleNe: "१० हप्तामा बारम्बार टाउको दुख्नु सामान्य हो?",
+    description: "Sunita is 10 weeks pregnant and has been getting frequent mild headaches.",
+    descriptionNe: "सुनीता १० हप्ताकी गर्भवती छिन् र उनलाई अचेल बारम्बार हल्का टाउको दुखिरहन्छ।",
+    options: [
+      { text: "Take ibuprofen or aspirin immediately", textNe: "तुरुन्तै इबुप्रोफेन वा एस्पिरिन जस्ता औषधि खाने", isCorrect: false },
+      { text: "Drink water, rest — tell doctor if severe", textNe: "पानी पिउने र आराम गर्ने—धेरै नै दुखेमा डाक्टरलाई देखाउने", isCorrect: true },
+      { text: "Sign of brain tumour", textNe: "यो मस्तिष्कमा ट्युमर भएको लक्षण हो", isCorrect: false }
+    ],
+    explanation: "Mild headaches are common in the first trimester due to hormonal changes, increased blood volume, and sometimes dehydration. Staying hydrated, resting, and using paracetamol (if needed, as directed) helps. Ibuprofen and aspirin should be avoided. Severe headaches with vision changes need urgent medical attention.",
+    explanationNe: "गर्भावस्थाको सुरुतिर हर्मोनको उतारचढाव र शरीरमा रगतको मात्रा बढ्ने हुँदा हल्का टाउको दुख्नु सामान्य हो। पानी प्रशस्त पिउने र आराम गर्दा निको हुन्छ। तर इबुप्रोफेन वा एस्पिरिन जस्ता औषधि जथाभावी खानु हुँदैन। टाउको धेरै दुख्ने वा आँखा धमिलो हुने भएमा तुरुन्त अस्पताल जानुपर्छ।"
+  },
+  {
+    id: 45,
+    title: "Puja's family says she must not attend a funeral while pregnant — should she follow this?",
+    titleNe: "गर्भवती हुँदा मलामी वा अन्तिम संस्कारमा जानु हुँदैन भन्ने सल्लाह पूजाले मान्नुपर्छ?",
+    description: "Puja is 9 weeks pregnant and her family advises against attending a funeral.",
+    descriptionNe: "पूजा ९ हप्ताकी गर्भवती छिन्। उनको परिवारले 'गर्भवती हुँदा मलामी जानु हुँदैन' भनेर रोकेका छन्।",
+    options: [
+      { text: "True — it is medically dangerous", textNe: "सही हो—यो स्वास्थ्यका लागि खतरनाक छ", isCorrect: false },
+      { text: "No medical basis — but emotional stress should be managed", textNe: "यसको कुनै स्वास्थ्य कारण छैन—तर मानसिक तनावबाट भने जोगिनुपर्छ", isCorrect: true },
+      { text: "Only safe to attend if you cover your face", textNe: "मुख छोपेर गएमा मात्र सुरक्षित भइन्छ", isCorrect: false }
+    ],
+    explanation: "There is no medical evidence that attending a funeral harms a pregnancy. The cultural belief may come from the idea of protecting mothers from emotional stress and grief, which is a caring intention. If Puja feels emotionally ready and the environment is not physically difficult, there is no medical reason to avoid it.",
+    explanationNe: "अन्तिम संस्कारमा जाँदा गर्भलाई असर गर्छ भन्ने कुनै स्वास्थ्य प्रमाण छैन। यस्तो सामाजिक मान्यता प्रायः गर्भवतीलाई धेरै शोक र तनावबाट जोगाउन बनाइएको हो। यदि पूजा मानसिक रूपमा तयार छिन् र त्यहाँ जाँदा धेरै सास्ती हुँदैन भने जानमा कुनै रोक छैन।"
+  },
+  {
+    id: 46,
+    title: "Sita wants to eat spicy food — will it harm her baby?",
+    titleNe: "सीतालाई पिरो खान मन लागेको छ—के यसले बच्चालाई असर गर्छ?",
+    description: "Sita is 11 weeks pregnant and craves spicy food. Her mother-in-law warns her it will harm the baby.",
+    descriptionNe: "सीता ११ हप्ताकी गर्भवती छिन्। उनलाई पिरो खान असाध्यै मन छ तर सासूले 'पिरो खाँदा बच्चालाई नोक्सान हुन्छ' भनेर तर्साउनुहुन्छ।",
+    options: [
+      { text: "True — spicy food burns the baby", textNe: "सही हो—पिरोले बच्चालाई पोल्छ", isCorrect: false },
+      { text: "Safe for baby, but may worsen heartburn", textNe: "बच्चालाई केही हुँदैन, तर आमाको छाती पोल्ने समस्या बढ्न सक्छ", isCorrect: true },
+      { text: "Only avoid chilli, other spices are fine", textNe: "खुर्सानी मात्र नखाने, अरू मसला खाँदा हुन्छ", isCorrect: false }
+    ],
+    explanation: "Spicy food does not harm the baby directly. Amniotic fluid protects the baby completely. However spicy food can worsen heartburn and nausea in the mother. Eating it in moderation is fine.",
+    explanationNe: "पिरो खानाले बच्चालाई सिधा असर गर्दैन किनभने गर्भको पानीले बच्चालाई सुरक्षित राख्छ। तर धेरै पिरो खाँदा आमालाई छाती पोल्ने (Heartburn) र वाकवाकी लाग्ने हुन सक्छ। त्यसैले ठिक्क मात्रामा खानु राम्रो हुन्छ।"
+  },
+  {
+    id: 47,
+    title: "Maya has been told to eat papaya leaves boiled in water — should she?",
+    titleNe: "मायालाई मेवाको पात उमालेर खान भनिएको छ—के यो सुरक्षित छ?",
+    description: "Maya is 8 weeks pregnant. A neighbour suggests she drink boiled papaya leaf water for energy.",
+    descriptionNe: "माया ८ हप्ताकी गर्भवती छिन्। छिमेकीले उनलाई 'शक्ति आउँछ, मेवाको पात उमालेर पिऊ' भनेका छन्।",
+    options: [
+      { text: "Good — natural and healthy", textNe: "राम्रो हो—यो प्राकृतिक र स्वस्थकर छ", isCorrect: false },
+      { text: "Avoid — can cause uterine contractions", textNe: "नपिउने—यसले गर्दा पाठेघर खुम्चिएर खतरा हुन सक्छ", isCorrect: true },
+      { text: "Only safe after 6 months", textNe: "६ महिना कटेपछि मात्र पिउन सुरक्षित हुन्छ", isCorrect: false }
+    ],
+    explanation: "Papaya leaves contain compounds (papain, carpine) that can stimulate uterine contractions and are linked to miscarriage, particularly in early pregnancy. Even though it feels natural, it is not safe.",
+    explanationNe: "मेवाको पातमा 'पापेन' जस्ता तत्व हुन्छन् जसले पाठेघरलाई खुम्च्याउन सक्छ। यसले गर्दा विशेषगरी सुरुको महिनामा गर्भपतन हुने जोखिम हुन्छ। प्राकृतिक भन्दैमा गर्भावस्थामा यस्तो कुरा खानु सुरक्षित हुँदैन।"
+  },
+  {
+    id: 48,
+    title: "Gita notices her hair falling out more at 10 weeks — is the baby taking her nutrition?",
+    titleNe: "१० हप्तामा गीताको कपाल धेरै झर्न थाल्यो—के बच्चाले सबै पोषण खाइदिएर यस्तो भएको हो?",
+    description: "Gita is 10 weeks pregnant and notices more hair falling out while combing.",
+    descriptionNe: "गीता १० हप्ताकी गर्भवती छिन्। कोर्ने बेला अचेल उनको धेरै कपाल झर्न थालेको छ।",
+    options: [
+      { text: "Yes, eat more protein immediately", textNe: "हो, त्यसैले तुरुन्तै धेरै प्रोटिनयुक्त खानेकुरा खाने", isCorrect: false },
+      { text: "Hormonal change — usually improves by 2nd trimester", textNe: "हर्मोनको परिवर्तनले गर्दा हो—दोस्रो त्रैमासिकदेखि आफैं ठिक हुन्छ", isCorrect: true },
+      { text: "Sign of serious illness", textNe: "यो कुनै गम्भीर रोगको संकेत हो", isCorrect: false }
+    ],
+    explanation: "Some hair loss in the first trimester is common due to hormonal shifts affecting the hair growth cycle. It usually stabilises and improves in the second trimester. If hair loss is very severe, a doctor can check for thyroid or iron issues.",
+    explanationNe: "गर्भावस्थाको सुरुमा हर्मोनमा आउने परिवर्तनले कपालको वृद्धि प्रक्रियामा असर गर्दा केही कपाल झर्नु सामान्य हो। ४ महिना लागेपछि यो समस्या बिस्तारै कम हुन्छ। तर धेरै नै कपाल झरेमा आइरन वा थाइरोइडको जाँच गराउनुपर्छ।"
+  },
+  {
+    id: 49,
+    title: "Rina smells strong odours and feels nauseous — is her sense of smell broken?",
+    titleNe: "गन्ध आउनासाथ रिनालाई वाकवाकी लाग्छ—के उनको नाकमा केही समस्या भएको हो?",
+    description: "Rina is 7 weeks pregnant. Even the smell of cooking oil or rice makes her nauseous.",
+    descriptionNe: "रिना ७ हप्ताकी गर्भवती छिन्। उनलाई तेल तातेको वा भात पाकेको गन्धले पनि असाध्यै वाकवाकी लाग्छ।",
+    options: [
+      { text: "Her nose needs medical treatment", textNe: "उनको नाकको उपचार गर्नुपर्छ", isCorrect: false },
+      { text: "Heightened smell is normal in early pregnancy", textNe: "गर्भावस्थाको सुरुमा गन्ध थाहा पाउने शक्ति बढ्नु सामान्य हो", isCorrect: true },
+      { text: "She should stay in a closed room always", textNe: "उनी सधैं झ्याल-ढोका बन्द गरेर कोठाभित्र बस्नुपर्छ", isCorrect: false }
+    ],
+    explanation: "A heightened sense of smell (hyperosmia) is extremely common in the first trimester and is driven by rising oestrogen levels. It often triggers nausea. Cooking outdoors, opening windows, and avoiding strong-smelling foods help manage it.",
+    explanationNe: "गर्भावस्थाको सुरुमा 'इस्ट्रोजेन' हर्मोनको वृद्धिका कारण सुँघ्ने शक्ति निकै संवेदनशील हुन्छ। यसैले गर्दा सामान्य गन्धले पनि वाकवाकी लाग्छ। खाना पकाउँदा झ्यालहरू खुला राख्ने वा धेरै कडा गन्धबाट टाढा बस्दा राहत मिल्छ।"
+  },
+  {
+    id: 50,
+    title: "Sarita's husband wants her to fast for a religious festival at 11 weeks — is this safe?",
+    titleNe: "११ हप्ताकी सरितालाई श्रीमानले व्रत बस्न भन्नुहुन्छ—के गर्भवतीले व्रत बस्नु सुरक्षित हुन्छ?",
+    description: "Sarita is 11 weeks pregnant and her family wants her to fast for an entire day for a religious occasion.",
+    descriptionNe: "सरिता ११ हप्ताकी गर्भवती छिन्। परिवारले उनलाई धार्मिक चाडको अवसरमा दिनभरि भोको (व्रत) बस्न भनेका छन्।",
+    options: [
+      { text: "Religious duty comes first — fast fully", textNe: "धर्म सबैभन्दा ठूलो हो—त्यसैले कडा व्रत बस्ने", isCorrect: false },
+      { text: "Avoid long fasting — eat light small meals", textNe: "लामो समय भोको नबस्ने—थोरथोरै फलफूल वा हल्का खानेकुरा खाने", isCorrect: true },
+      { text: "Fasting is fine as long as she drinks water", textNe: "पानी मात्र पिएर व्रत बस्दा केही फरक पर्दैन", isCorrect: false }
+    ],
+    explanation: "Prolonged fasting during pregnancy, especially in the first trimester, can cause low blood sugar and deprive the developing baby of nutrients. Many traditions allow pregnant women to take light food or fruits while still observing the spiritual intention of the fast.",
+    explanationNe: "गर्भावस्थामा, विशेष गरी पहिलो ३ महिनामा लामो समय भोको बस्दा रगतमा चिनीको मात्रा घट्न सक्छ र बच्चाले पर्याप्त पोषण पाउँदैन। धार्मिक आस्थालाई जोगाउँदै फलफूल वा हल्का खानेकुरा खाएर पनि व्रतको फल प्राप्त गर्न सकिन्छ।"
   }
-];
+]

@@ -280,5 +280,411 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     ],
     explanation: "The second trimester is an ideal time to establish a gentle exercise routine. Walking, swimming, prenatal yoga, and Kegel exercises are all recommended and safe in a normal pregnancy.",
     explanationNe: "गर्भावस्थाको १६ हप्ता पछि बिस्तारै हल्का व्यायाम सुरु गर्नु राम्रो हो। बिहान-बेलुका आधा घन्टा जति हिँड्ने (वाक गर्ने), सजिलो खाले योग गर्ने र पेल्भिक व्यायाम गर्दा सुत्केरी हुन सजिलो हुन्छ भने ढाड दुख्ने समस्या पनि कम हुन्छ।"
+  },
+  {
+    id: 21,
+    title: "Sima notices her belly button poking out at 22 weeks — is something wrong?",
+    titleNe: "सिमाको नाइटो २२ हप्तामा बाहिर निस्किन थाल्यो — के यो सामान्य हो?",
+    description: "Sima is 22 weeks pregnant and her belly button is starting to pop outward.",
+    descriptionNe: "सिमा २२ हप्ताकी गर्भवती छिन् र उनको नाइटो बिस्तारै बाहिरतिर निस्किन थालेको छ।",
+    options: [
+      { text: "Hernia — needs surgery", textNe: "हर्निया भएको हो, अप्रेसन गर्नुपर्छ", isCorrect: false },
+      { text: "Normal — uterus pushes belly button out", textNe: "सामान्य हो — पाठेघर बढ्दा नाइटो बाहिर धकेलिन्छ", isCorrect: true },
+      { text: "Baby is pushing the wrong way", textNe: "बच्चाले गलत ठाउँमा बल गरेको हो", isCorrect: false }
+    ],
+    explanation: "As the uterus expands, it pushes the belly button outward in many pregnancies. It is completely harmless and returns to normal after delivery.",
+    explanationNe: "पाठेघरको आकार बढ्दै जाँदा धेरैजसो गर्भवती महिलाको नाइटो बाहिरतिर धकेलिन्छ। यो पूर्णतया सामान्य हो र सुत्केरी भएपछि यो आफैं पहिलेकै अवस्थामा फर्कन्छ।"
+  },
+  {
+    id: 22,
+    title: "Should Kamala start sleeping on her left side at 20 weeks?",
+    titleNe: "के कमलाले २० हप्तादेखि नै देब्रे कोल्टे सुत्न सुरु गर्नुपर्छ?",
+    description: "Kamala is 20 weeks pregnant and wonders if she should already be sleeping on her left side.",
+    descriptionNe: "कमला २० हप्ताकी गर्भवती छिन्। उनलाई 'अब देब्रे कोल्टे सुत्नुपर्छ' भन्ने सल्लाह दिइएको छ, के यो सही हो?",
+    options: [
+      { text: "Only important from 36 weeks", textNe: "३६ हप्तापछि मात्र ध्यान दिए पुग्छ", isCorrect: false },
+      { text: "Good habit to start now, especially later", textNe: "अहिलेदेखि नै बानी बसाल्नु राम्रो हुन्छ", isCorrect: true },
+      { text: "Right side is better", textNe: "दाहिने कोल्टे सुत्नु बढी राम्रो हो", isCorrect: false }
+    ],
+    explanation: "Left-side sleeping improves blood flow to the placenta and kidneys. From around 20 weeks it is a good habit to develop. If she wakes on her back, there is no need to panic — just roll over.",
+    explanationNe: "देब्रे कोल्टे सुत्दा साल (Placenta) र मिर्गौलामा रगतको बहाव राम्रो हुन्छ। २० हप्तादेखि नै यस्तो बानी बसाल्नु फाइदाजनक हुन्छ। यदि निद्रामा उत्तानो परेको अवस्थामा ब्युँझनुभयो भने नआत्तिनुहोस्, बिस्तारै कोल्टे फर्कनुहोस्।"
+  },
+  {
+    id: 23,
+    title: "Priya is told her baby is measuring small — should she be worried?",
+    titleNe: "भिडियो एक्स-रेमा बच्चाको आकार सानो देखियो — के चिन्ता गर्नुपर्छ?",
+    description: "Priya is 24 weeks pregnant. The ultrasound shows the baby is measuring slightly small for its age.",
+    descriptionNe: "प्रिया २४ हप्ताकी गर्भवती छिन्। भिडियो एक्स-रे (Ultrasound) गर्दा बच्चाको विकास उमेर अनुसार अलि कम देखिएको छ।",
+    options: [
+      { text: "Baby is definitely unhealthy", textNe: "बच्चा अस्वस्थ भएर यस्तो भएको हो", isCorrect: false },
+      { text: "Needs monitoring — many causes", textNe: "नियमित निगरानी चाहिन्छ — यसका धेरै कारण हुन सक्छन्", isCorrect: true },
+      { text: "Eat double food immediately", textNe: "तुरुन्तै दोब्बर मात्रामा खाना खान सुरु गर्ने", isCorrect: false }
+    ],
+    explanation: "A baby measuring small can be due to natural variation, inaccurate dates, or occasionally poor placental blood flow. The doctor will monitor closely and advise accordingly.",
+    explanationNe: "बच्चाको आकार सानो हुनुमा गर्भको मिति फरक पर्नु, बच्चाको आफ्नै शारीरिक बनावट वा सालबाट रगतको प्रवाह कम हुनु जस्ता कारण हुन सक्छन्। यस्तो अवस्थामा डाक्टरले नियमित जाँच गरी आवश्यक सल्लाह दिनेछन्।"
+  },
+  {
+    id: 24,
+    title: "Sunita is craving non-stop cold drinks and soda at 18 weeks — any concern?",
+    titleNe: "१८ हप्तामा सुनितालाई चिसो र सोडा धेरै पिउन मन लाग्छ — के यसले असर गर्छ?",
+    description: "Sunita is 18 weeks pregnant and is craving cold soda and sugary drinks every day.",
+    descriptionNe: "सुनिता १८ हप्ताकी गर्भवती छिन्। उनलाई दिनदिनै चिसो सोडा र गुलियो पेय पदार्थ पिउन मन लाग्छ।",
+    options: [
+      { text: "Fine, body needs sugar and fluid", textNe: "ठिकै हो, शरीरलाई चिनी र झोल पदार्थ चाहिन्छ", isCorrect: false },
+      { text: "Limit sodas — raises blood sugar", textNe: "सोडा कम गर्ने — यसले सुगर बढाउन सक्छ", isCorrect: true },
+      { text: "Only diet soda is safe", textNe: "डाइट सोडा (Diet Soda) मात्र सुरक्षित हुन्छ", isCorrect: false }
+    ],
+    explanation: "Sugary drinks are linked to gestational diabetes and excessive weight gain. Water, coconut water, buttermilk, and fresh juices are much better alternatives.",
+    explanationNe: "धेरै गुलियो पेय पदार्थ पिउँदा गर्भावस्थामा मधुमेह (Diabetes) हुने र तौल अस्वभाविक रूपमा बढ्ने जोखिम हुन्छ। यसको सट्टा पानी, नरिवलको पानी, मोही वा ताजा फलफूलको रस पिउनु धेरै राम्रो हुन्छ।"
+  },
+  {
+    id: 25,
+    title: "Why is Nisha's doctor checking her blood pressure at every ANC visit?",
+    titleNe: "निशाको हरेक जाँचमा डाक्टरले रक्तचाप (BP) किन नाप्छन्?",
+    description: "Nisha is 26 weeks pregnant and notices the nurse checks her blood pressure at every visit.",
+    descriptionNe: "निशा २६ हप्ताकी गर्भवती छिन्। उनले अस्पताल जाँदा हरेक पटक नर्सले रक्तचाप नाप्ने गरेको देख्छिन्।",
+    options: [
+      { text: "Just routine hospital procedure", textNe: "यो अस्पतालको सामान्य प्रक्रिया मात्र हो", isCorrect: false },
+      { text: "Screens for preeclampsia — a serious complication", textNe: "प्रिएक्लाम्प्सिया (गम्भीर समस्या) को पहिचान गर्न", isCorrect: true },
+      { text: "To decide on C-section", textNe: "अप्रेसन गर्ने कि नगर्ने भनेर निर्णय गर्न", isCorrect: false }
+    ],
+    explanation: "High blood pressure in pregnancy can lead to preeclampsia — a potentially life-threatening condition for both mother and baby. Early detection through routine monitoring is critical.",
+    explanationNe: "गर्भावस्थामा उच्च रक्तचाप हुनु 'प्रिएक्लाम्प्सिया' को लक्षण हुन सक्छ, जसले आमा र बच्चा दुवैलाई जोखिममा पार्न सक्छ। नियमित जाँचबाट यसलाई समयमै पत्ता लगाउन सकिन्छ।"
+  },
+  {
+    id: 26,
+    title: "Is Mina's itchy belly at 20 weeks normal or a sign of something serious?",
+    titleNe: "२० हप्तामा मिनाको पेट चिलाउनु सामान्य हो कि खतराको संकेत?",
+    description: "Mina is 20 weeks pregnant and her belly feels very itchy as it stretches.",
+    descriptionNe: "मिना २० हप्ताकी गर्भवती छिन् र पेटको छाला तन्किँदा उनलाई धेरै चिलाउने समस्या भएको छ।",
+    options: [
+      { text: "Liver disease, test immediately", textNe: "कलेजोको रोग हुन सक्छ, तुरुन्त जाँच गर्ने", isCorrect: false },
+      { text: "Normal skin stretching — moisturise", textNe: "छाला तन्किएर हो — मोइस्चराइजर लगाउने", isCorrect: true },
+      { text: "Stop drinking water to reduce stretching", textNe: "छाला नतन्कियोस् भनेर पानी पिउन कम गर्ने", isCorrect: false }
+    ],
+    explanation: "Mild belly itching from stretching skin is very common. Coconut oil or unscented moisturiser helps. Warning: intense itching on palms and soles (especially at night) may signal cholestasis — tell the doctor.",
+    explanationNe: "पेटको छाला तन्किँदा हल्का चिलाउनु सामान्य हो। यसको लागि नरिवलको तेल वा मोइस्चराइजर प्रयोग गर्न सकिन्छ। तर यदि हत्केला वा पैतालामा राती धेरै चिलाउँछ भने, त्यो कलेजोसम्बन्धी समस्या हुन सक्छ, यसबारे डाक्टरलाई भन्नुपर्छ।"
+  },
+  {
+    id: 27,
+    title: "Does the anomaly scan at 20 weeks check the baby's gender?",
+    titleNe: "२० हप्तामा गरिने एनोमेली स्क्यानले बच्चाको लिङ्ग जाँच गर्छ?",
+    description: "Anita is 19 weeks pregnant and asks what the 20-week anomaly scan actually checks.",
+    descriptionNe: "अनिता १९ हप्ताकी गर्भवती छिन्। उनलाई २० हप्तामा गरिने 'एनोमेली स्क्यान' ले के के जाँच गर्छ भन्ने जिज्ञासा छ।",
+    options: [
+      { text: "Mainly to find baby's gender", textNe: "मुख्यतया छोरा कि छोरी भनेर हेर्न", isCorrect: false },
+      { text: "Checks all baby organs for abnormalities", textNe: "बच्चाका अंगहरूको विकास र अवस्था हेर्न", isCorrect: true },
+      { text: "Only checks placenta position", textNe: "सालको अवस्था मात्र हेर्न", isCorrect: false }
+    ],
+    explanation: "The anomaly scan checks the baby's brain, heart, spine, kidneys, limbs, and face for structural abnormalities. In Nepal, determining sex by ultrasound is not permitted by law.",
+    explanationNe: "एनोमेली स्क्यानले बच्चाको मुटु, दिमाग, मेरुदण्ड र मृगौला जस्ता अंगहरूमा कुनै समस्या छ कि छैन भनेर विस्तृत रूपमा जाँच गर्छ। नेपालको कानुन अनुसार भिडियो एक्स-रेबाट बच्चाको लिङ्ग पहिचान गर्नु अपराध हो।"
+  },
+  {
+    id: 28,
+    title: "Is it safe for Parbati to go to the cinema or crowded market at 23 weeks?",
+    titleNe: "२३ हप्तामा पार्वतीका लागि चलचित्र हल वा भिडभाड भएको बजार जानु सुरक्षित छ?",
+    description: "Parbati is 23 weeks pregnant and wants to go to a busy market with her family.",
+    descriptionNe: "पार्वती २३ हप्ताकी गर्भवती छिन् र उनी परिवारसँग भिडभाड भएको बजार घुम्न जान चाहन्छिन्।",
+    options: [
+      { text: "Never go to crowds while pregnant", textNe: "गर्भावस्थामा भिडभाडमा कतै जानु हुँदैन", isCorrect: false },
+      { text: "Generally safe, be mindful of jostling", textNe: "प्रायः सुरक्षित हुन्छ, तर धक्का लाग्ला भनेर सजग रहनुपर्छ", isCorrect: true },
+      { text: "Only go if husband carries her", textNe: "श्रीमानले बोकेर लैजाने भए मात्र जान मिल्छ", isCorrect: false }
+    ],
+    explanation: "Crowded places are generally safe during the second trimester. Be careful of being bumped in the belly. Avoid very hot, stuffy environments and take rest breaks.",
+    explanationNe: "दोस्रो त्रैमासिकमा भिडभाड भएको ठाउँमा जानु खासै असुरक्षित हुँदैन। तर पेटमा कसैको धक्का वा ठक्कर लाग्न सक्छ, त्यसमा ध्यान दिनुहोस्। धेरै गर्मी वा गुम्सिएको ठाउँमा नबस्नुहोस् र बेलाबेलामा आराम गर्नुहोस्।"
+  },
+  {
+    id: 29,
+    title: "Gita feels dizzy when she stands up quickly at 22 weeks — why?",
+    titleNe: "२२ हप्तामा गीतालाई एक्कासि उठ्दा किन रिंगटा लाग्छ?",
+    description: "Gita is 22 weeks pregnant and feels dizzy and lightheaded whenever she stands up quickly.",
+    descriptionNe: "गीता २२ हप्ताकी गर्भवती छिन्। उनी अचानक उठ्दा वा उभिँदा उनलाई रिंगटा लाग्ने र आँखा धमिलो हुने हुन्छ।",
+    options: [
+      { text: "Sign of fainting disease", textNe: "यो बेहोस हुने रोगको लक्षण हो", isCorrect: false },
+      { text: "Blood pressure drop on standing — normal", textNe: "उठ्दा अचानक रक्तचाप घट्नु — यो सामान्य हो", isCorrect: true },
+      { text: "Baby pressing on brain", textNe: "बच्चाले दिमागमा थिचेको भएर हो", isCorrect: false }
+    ],
+    explanation: "Postural hypotension — a temporary drop in blood pressure when changing position — is common in pregnancy. Rising slowly, staying hydrated, and avoiding standing for long periods helps.",
+    explanationNe: "गर्भावस्थामा शरीरको अवस्था (Position) बदल्दा अचानक रक्तचाप कम हुन सक्छ। उठ्दा बिस्तारै उठ्ने, पर्याप्त पानी पिउने र लामो समयसम्म नउभिने गर्नाले यसमा राहत मिल्छ।"
+  },
+  {
+    id: 30,
+    title: "Is it safe to eat street food and outside meals during the second trimester?",
+    titleNe: "के दोस्रो त्रैमासिकमा बाहिरको वा सडकको खाना खानु सुरक्षित हुन्छ?",
+    description: "Bindu is 19 weeks pregnant and sometimes eats street food or restaurant meals.",
+    descriptionNe: "बिन्दु १९ हप्ताकी गर्भवती छिन् र उनी कहिलेकाहीँ सडकको खाजा वा होटलको खाना खान्छिन्।",
+    options: [
+      { text: "All outside food is forbidden", textNe: "बाहिरको कुनै पनि खाना खानु हुँदैन", isCorrect: false },
+      { text: "Choose hot, freshly cooked food", textNe: "ताजा र तातो पकाएको खाना मात्र छनोट गर्ने", isCorrect: true },
+      { text: "Raw salads from outside are safest", textNe: "बाहिरको काँचो सलाद सबैभन्दा सुरक्षित हुन्छ", isCorrect: false }
+    ],
+    explanation: "Freshly cooked hot food from clean places is generally safe. Avoid raw salads, unpeeled fruits, cold cuts, and food left out for long periods due to food poisoning risk.",
+    explanationNe: "सफा ठाउँमा ताजा पकाइएको तातो खाना खानु सुरक्षित हुन्छ। तर बाहिरको काँचो सलाद र धेरै समयसम्म खुल्ला राखिएका खानेकुराले 'फुड पोइजनिङ' गराउन सक्ने भएकाले तिनबाट बच्नुपर्छ।"
+  },
+  {
+    id: 31,
+    title: "Sarita's mother says she must eat liver every week for the baby — is that true?",
+    titleNe: "आमाले हप्तामा एक पटक कलेजो (Liver) खान भन्नुहुन्छ — के यो साँचो हो?",
+    description: "Sarita is 24 weeks pregnant. Her mother insists she must eat animal liver weekly for iron.",
+    descriptionNe: "सरिता २४ हप्ताकी गर्भवती छिन्। उनकी आमाले रगत बढाउन हप्तामा एक पटक कलेजो खानैपर्छ भन्नुहुन्छ।",
+    options: [
+      { text: "Eat every day — more is better", textNe: "दिनहुँ खाने — जति धेरै खायो उति राम्रो", isCorrect: false },
+      { text: "Occasionally fine, but limit due to vitamin A", textNe: "कहिलेकाहीँ ठिक छ, तर धेरै खानु हुँदैन", isCorrect: true },
+      { text: "Always forbidden in pregnancy", textNe: "गर्भावस्थामा कलेजो कहिल्यै खानु हुँदैन", isCorrect: false }
+    ],
+    explanation: "Liver is rich in iron and B vitamins. However it is also very high in vitamin A (retinol), and excessive vitamin A in early pregnancy can cause birth defects. Eating it occasionally (once a week or less) is safe.",
+    explanationNe: "कलेजोमा आइरन र भिटामिन 'बी' प्रशस्त हुन्छ तर यसमा भिटामिन 'ए' (Retinol) पनि धेरै हुन्छ। गर्भावस्थामा भिटामिन 'ए' को मात्रा धेरै भयो भने बच्चामा जन्मजात समस्या आउन सक्छ। त्यसैले हप्तामा एक पटक भन्दा बढी नखानु राम्रो हुन्छ।"
+  },
+  {
+    id: 32,
+    title: "Hira gets strong headaches at 25 weeks with blurred vision — what should she do?",
+    titleNe: "२५ हप्तामा कडा टाउको दुखाइसँगै आँखा धमिलो भएमा के गर्ने?",
+    description: "Hira is 25 weeks pregnant. She has a severe headache with blurry vision and slightly swollen face.",
+    descriptionNe: "हिरा २५ हप्ताकी गर्भवती छिन्। उनलाई असाध्यै टाउको दुखिरहेको छ, आँखा धमिलो देखिन्छ र अनुहार अलि सुन्निएको छ।",
+    options: [
+      { text: "Rest and it will pass", textNe: "आराम गरेपछि ठिक हुन्छ", isCorrect: false },
+      { text: "Go to hospital immediately — preeclampsia sign", textNe: "तुरुन्तै अस्पताल जाने — यो खतराको संकेत हो", isCorrect: true },
+      { text: "Take 2 paracetamol and wait", textNe: "दुई चक्की सिटामोल खाएर पर्खने", isCorrect: false }
+    ],
+    explanation: "Severe headache with vision changes and facial swelling are classic warning signs of preeclampsia — a dangerous pregnancy complication. This is a medical emergency requiring immediate hospital evaluation.",
+    explanationNe: "कडा टाउको दुखाइ, आँखा धमिलो हुनु र अनुहार सुन्निनु 'प्रिएक्लाम्प्सिया' को गम्भीर लक्षण हुन सक्छ। यसले आमा र बच्चा दुवैलाई जोखिममा पार्न सक्ने भएकाले तुरुन्तै अस्पताल जानु अत्यन्त जरुरी हुन्छ।"
+  },
+  {
+    id: 33,
+    title: "Why does Kabita need to drink more water during the second trimester?",
+    titleNe: "दोस्रो त्रैमासिकमा पानी धेरै पिउनु किन जरुरी हुन्छ?",
+    description: "Kabita is 21 weeks pregnant and often forgets to drink enough water.",
+    descriptionNe: "कबिता २१ हप्ताकी गर्भवती छिन् तर उनले पर्याप्त पानी पिउन बिर्सिरहन्छिन्।",
+    options: [
+      { text: "Drinking more causes more swelling", textNe: "धेरै पानी पिउँदा खुट्टा अझ बढी सुन्निन्छ", isCorrect: false },
+      { text: "Needed for amniotic fluid and circulation", textNe: "पानीको थैली र रगत प्रवाह सन्तुलित राख्न", isCorrect: true },
+      { text: "Only important in final month", textNe: "अन्तिम महिनामा मात्र धेरै पानी पिए पुग्छ", isCorrect: false }
+    ],
+    explanation: "Water makes up amniotic fluid, supports increased blood volume, prevents constipation, and reduces UTI risk. Aim for at least 8–10 glasses per day.",
+    explanationNe: "पानीले बच्चाको वरिपरिको थैली (Amniotic Fluid) बनाउन मद्दत गर्छ, रगतको मात्रा बढाउँछ र कब्जियत तथा पिसाबको सङ्क्रमण (UTI) बाट जोगाउँछ। दिनमा कम्तीमा ८ देखि १० गिलास पानी पिउने लक्ष्य राख्नुपर्छ।"
+  },
+  {
+    id: 34,
+    title: "Deepa wonders if she can dye or henna her hair at 20 weeks",
+    titleNe: "२० हप्तामा कपालमा मेहेन्दी वा रङ्ग लगाउन मिल्छ?",
+    description: "Deepa is 20 weeks pregnant and wants to apply henna (mehndi) to her hands and hair.",
+    descriptionNe: "दीपा २० हप्ताकी गर्भवती छिन् र उनी हात तथा कपालमा मेहेन्दी लगाउन चाहन्छिन्।",
+    options: [
+      { text: "All henna and dyes are toxic", textNe: "मेहेन्दी र रङ्ग सबै हानिकारक हुन्छन्", isCorrect: false },
+      { text: "Natural henna is safe; avoid black chemical henna", textNe: "प्राकृतिक मेहेन्दी सुरक्षित हुन्छ; केमिकल भएको कालो मेहेन्दी नलगाउने", isCorrect: true },
+      { text: "Fine on hands, never on hair", textNe: "हातमा लगाउन हुन्छ तर कपालमा हुँदैन", isCorrect: false }
+    ],
+    explanation: "Natural plant-based henna is considered safe. Black henna contains PPD (para-phenylenediamine), a chemical that can cause skin reactions. Regular hair colouring should be done in a ventilated room.",
+    explanationNe: "प्राकृतिक बोटबिरुवाबाट बनेको मेहेन्दी सुरक्षित मानिन्छ। तर बजारमा पाइने 'कालो मेहेन्दी' मा PPD जस्ता रसायन हुन सक्छन् जसले एलर्जी गराउँछ। कपालमा रङ्ग लगाउँदा हावा ओहोरदोहोर हुने ठाउँमा बसेर लगाउनु राम्रो हुन्छ।"
+  },
+  {
+    id: 35,
+    title: "Is it normal for breasts to leak fluid at 22 weeks?",
+    titleNe: "२२ हप्तामा स्तनबाट दूध जस्तो तरल पदार्थ चुहिनु सामान्य हो?",
+    description: "Rita is 22 weeks pregnant and notices a small amount of yellowish fluid leaking from her breasts.",
+    descriptionNe: "रिता २२ हप्ताकी गर्भवती छिन्। उनको स्तनबाट अलिकति पहेंलो-सेतो रङ्गको तरल पदार्थ चुहिन थालेको छ।",
+    options: [
+      { text: "Breast infection sign", textNe: "स्तनमा इन्फेक्सन भएको संकेत हो", isCorrect: false },
+      { text: "Colostrum forming — completely normal", textNe: "बिगौते दूध (Colostrum) बन्दैछ — यो सामान्य हो", isCorrect: true },
+      { text: "Needs an immediate breast exam", textNe: "तुरुन्तै स्तन जाँच गराउनुपर्छ", isCorrect: false }
+    ],
+    explanation: "Colostrum — the first nutrient-rich breast milk — can start forming as early as 16–22 weeks. It is perfectly normal and is an excellent sign the body is preparing for breastfeeding.",
+    explanationNe: "बच्चाका लागि पोषणयुक्त पहिलो दूध (बिगौते दूध) गर्भावस्थाकै क्रममा बन्न सुरु गर्छ। यस्तो तरल पदार्थ चुहिनु एकदमै सामान्य हो र यो शरीरले स्तनपानको लागि तयारी गर्दैछ भन्ने राम्रो संकेत हो।"
+  },
+  {
+    id: 36,
+    title: "Does watching violent or upsetting content on TV harm the baby?",
+    titleNe: "डरलाग्दो फिल्म वा झगडाका कार्यक्रम हेर्दा बच्चालाई असर गर्छ?",
+    description: "Laxmi is 19 weeks pregnant and her mother-in-law says she should only watch happy programmes.",
+    descriptionNe: "लक्ष्मी १९ हप्ताकी गर्भवती छिन्। सासूले 'डरलाग्दो वा झगडाको कार्यक्रम हेर्दा बच्चा डराउँछ' भन्नुहुन्छ।",
+    options: [
+      { text: "Yes, baby sees everything clearly", textNe: "हो, बच्चाले टिभीमा सबै कुरा देख्छ", isCorrect: false },
+      { text: "No direct harm, but stress affects mother", textNe: "सिधा असर हुन्न, तर आमाको तनावले बच्चालाई असर गर्न सक्छ", isCorrect: true },
+      { text: "Baby hears and memorises all sounds", textNe: "बच्चाले सबै आवाज सुनेर याद गर्छ", isCorrect: false }
+    ],
+    explanation: "The baby cannot see TV content. However sustained high stress in the mother releases cortisol, which can cross the placenta. Watching relaxing, positive content is good for the mother's wellbeing.",
+    explanationNe: "बच्चाले टिभीमा के चलिरहेको छ देख्न सक्दैन। तर आमा धेरै तनावमा हुँदा शरीरमा 'स्ट्रेस हर्मोन' बढ्छ, जसले साल (Placenta) मार्फत बच्चालाई असर गर्न सक्छ। त्यसैले रमाइला र सकारात्मक कुरा हेर्नु आमा र बच्चा दुवैका लागि राम्रो हो।"
+  },
+  {
+    id: 37,
+    title: "Kabita is 19 weeks and still not feeling baby move — should she worry?",
+    titleNe: "१९ हप्ता भइसक्दा पनि बच्चा चलेको थाहा पाइएन — के यो चिन्ताको विषय हो?",
+    description: "Kabita is 19 weeks pregnant and has not clearly felt the baby move yet.",
+    descriptionNe: "कबिता १९ हप्ताकी गर्भवती छिन् तर उनले अहिलेसम्म बच्चा चलेको स्पष्ट महसुस गरेकी छैनन्।",
+    options: [
+      { text: "Baby has stopped growing", textNe: "बच्चाको विकास रोकिएको संकेत हो", isCorrect: false },
+      { text: "Normal — most feel movement by 20–22 weeks", textNe: "सामान्य हो — प्रायः २० देखि २२ हप्तामा महसुस हुन्छ", isCorrect: true },
+      { text: "Go to hospital for emergency scan", textNe: "तुरुन्तै अस्पताल गएर भिडियो एक्स-रे गर्ने", isCorrect: false }
+    ],
+    explanation: "First-time mothers typically feel movement between 18–22 weeks, and sometimes later. Placenta position and body shape can affect when it is felt. If 24 weeks pass without any movement, then inform the doctor.",
+    explanationNe: "पहिलो पटक आमा बन्न लागेका महिलाले बच्चा चलेको थाहा पाउन १८ देखि २२ हप्तासम्म लाग्न सक्छ। सालको स्थिति वा शरीरको बनावटले गर्दा पनि अलि ढिलो महसुस हुन सक्छ। यदि २४ हप्तासम्म पनि केही थाहा पाइएन भने मात्र डाक्टरसँग सल्लाह लिनुपर्छ।"
+  },
+  {
+    id: 38,
+    title: "Should Parbati take vitamin D supplements during the second trimester?",
+    titleNe: "दोस्रो त्रैमासिकमा भिडामिन 'डी' को चक्की खानु जरुरी छ?",
+    description: "Parbati is 26 weeks pregnant and asks if she needs extra vitamin D.",
+    descriptionNe: "पार्वती २६ हप्ताकी गर्भवती छिन्। उनलाई भिटामिन 'डी' खानुपर्छ कि पर्दैन भन्ने अन्योल छ।",
+    options: [
+      { text: "No — sunlight alone is enough", textNe: "पर्दैन — घाममा बसे पुग्छ", isCorrect: false },
+      { text: "Yes — deficiency is common and affects baby bones", textNe: "हो — यसको कमीले बच्चाको हड्डीको विकासमा असर गर्छ", isCorrect: true },
+      { text: "Only for women who stay indoors", textNe: "घरभित्र मात्र बस्ने महिलालाई मात्र चाहिन्छ", isCorrect: false }
+    ],
+    explanation: "Vitamin D deficiency is widespread in Nepal. It is essential for calcium absorption, bone development, and immune function. Supplements are commonly prescribed and are safe.",
+    explanationNe: "नेपालमा धेरै महिलाहरूमा भिटामिन 'डी' को कमी पाइन्छ। यो क्याल्सियम पचाउन र बच्चाको हड्डी बलियो बनाउन आवश्यक छ। डाक्टरले सिफारिस गरे अनुसार भिटामिन 'डी' को चक्की खानु सुरक्षित र फाइदाजनक हुन्छ।"
+  },
+  {
+    id: 39,
+    title: "Is snoring during pregnancy a sign of something serious?",
+    titleNe: "गर्भावस्थामा राति घुर्ने (खर्राटा लाग्ने) समस्या केही गम्भीर हो?",
+    description: "Gita is 24 weeks pregnant and her husband says she has started snoring at night.",
+    descriptionNe: "गीता २४ हप्ताकी गर्भवती छिन्। श्रीमानले अचेल उनी राति घुर्न थालेको बताउनुहुन्छ।",
+    options: [
+      { text: "Harmless, ignore it completely", textNe: "यो सामान्य हो, वास्ता नगरे हुन्छ", isCorrect: false },
+      { text: "Common in pregnancy — mention to doctor if severe", textNe: "सामान्य हो — तर धेरै समस्या भएमा डाक्टरलाई भन्ने", isCorrect: true },
+      { text: "Sign of heart failure", textNe: "यो मुटुको रोगको लक्षण हो", isCorrect: false }
+    ],
+    explanation: "Pregnancy snoring is very common due to nasal congestion from hormones and increased blood volume. However, severe snoring with gasping can indicate sleep apnoea, which is worth checking if the mother feels tired despite sleeping.",
+    explanationNe: "हर्मोनको परिवर्तन र रगतको मात्रा बढ्दा नाकको भित्री भाग सुन्निएर घुर्ने समस्या हुन सक्छ। यो धेरैजसो सामान्य हुन्छ। तर यदि सुत्दा श्वास फेर्नै गाह्रो हुने वा निन्द्रा पुग्दा पनि धेरै थकाइ लाग्ने भयो भने डाक्टरलाई देखाउनुपर्छ।"
+  },
+  {
+    id: 41,
+    title: "Can Nisha do household chores like sweeping and mopping at 20 weeks?",
+    titleNe: "२० हप्तामा घरको काम जस्तै झाडु लगाउने र पोछा लगाउने गर्न मिल्छ?",
+    description: "Nisha is 20 weeks pregnant and wonders if doing housework is safe.",
+    descriptionNe: "निशा २० हप्ताकी गर्भवती छिन्। उनी झाडु-पोछा र सामान्य घरको काम गर्न मिल्छ कि मिल्दैन भनेर जान्न चाहन्छिन्।",
+    options: [
+      { text: "No household work at all", textNe: "कुनै पनि घरको काम गर्नु हुँदैन", isCorrect: false },
+      { text: "Light chores are fine, avoid heavy lifting", textNe: "हल्का काम मिल्छ, तर गह्रौँ सामान उठाउनु हुँदैन", isCorrect: true },
+      { text: "Only allowed to cook, nothing else", textNe: "खाना पकाउन मात्र हुन्छ, अरु केही हुँदैन", isCorrect: false }
+    ],
+    explanation: "Light household chores — sweeping, mopping, cooking — are safe and even beneficial. Avoid lifting heavy objects, climbing ladders, or using harsh chemical cleaning products.",
+    explanationNe: "झाडु-पोछा र खाना पकाउने जस्ता हल्का घरका काम गर्नु सुरक्षित हुन्छ र यसले शरीरलाई सक्रिय राख्न मद्दत गर्छ। तर गह्रौँ सामान उठाउने, भर्याङ वा उचाइमा चढ्ने वा कडा केमिकल भएका सफाइ सामग्री प्रयोग गर्ने काम भने नगर्नुहोस्।"
+  },
+  {
+    id: 42,
+    title: "Mina's family pressures her to eat meat even though she is vegetarian — must she?",
+    titleNe: "परिवारले मासु खान दबाब दिन्छन् तर मिना शाकाहारी हुन् — के मासु खानैपर्छ?",
+    description: "Mina is 22 weeks pregnant and is a lifelong vegetarian. Her family says she must eat meat for the baby.",
+    descriptionNe: "मिना २२ हप्ताकी गर्भवती छिन् र उनी सधैँदेखि शाकाहारी हुन्। उनलाई परिवारले 'बच्चाको लागि मासु खानैपर्छ' भनिरहनुभएको छ।",
+    options: [
+      { text: "Must eat meat — no alternative", textNe: "मासु खानैपर्छ, अरु उपाय छैन", isCorrect: false },
+      { text: "Balanced vegetarian diet is absolutely sufficient", textNe: "सन्तुलित शाकाहारी खाना पूर्ण रूपमा पर्याप्त हुन्छ", isCorrect: true },
+      { text: "Only fish is needed, not other meat", textNe: "माछा मात्र खाए पुग्छ, अरु मासु चाहिँदैन", isCorrect: false }
+    ],
+    explanation: "A well-planned vegetarian diet with lentils, beans, dairy, eggs, nuts, and seeds provides all the protein and iron needed for a healthy pregnancy. B12 supplementation is important for strict vegetarians.",
+    explanationNe: "दाल, गेडागुडी, दूध-दही, अण्डा, ओखर र सिमी जस्ता कुराहरू राम्रोसँग खाएमा शाकाहारी महिलाले पनि बच्चाका लागि आवश्यक प्रोटिन र पोषण पाउन सक्छन्। कडा शाकाहारी (Vegan) हरूका लागि भिटामिन बी-१२ को चक्की खानु जरुरी हुन सक्छ।"
+  },
+  {
+    id: 43,
+    title: "Parbati heard that wearing a tight belt helps support the belly — true?",
+    titleNe: "पेट कसेर बाँध्दा वा बेल्ट लगाउँदा बच्चालाई राम्रो हुन्छ भन्ने सुनिन्छ — के यो साँचो हो?",
+    description: "Parbati is 25 weeks pregnant and an elder suggests tying a tight cloth around her belly.",
+    descriptionNe: "पार्वती २५ हप्ताकी गर्भवती छिन्। उनलाई घरका ठूलाले पेटमा कसेर कपडा बाँध्न सल्लाह दिएका छन्।",
+    options: [
+      { text: "Good for baby's position", textNe: "यसले बच्चाको स्थान मिलाउन मद्दत गर्छ", isCorrect: false },
+      { text: "Tight binding is harmful — use proper belly band", textNe: "कसेर बाँध्नु हानिकारक हुन सक्छ — उचित सपोर्ट बेल्ट मात्र प्रयोग गर्ने", isCorrect: true },
+      { text: "Only bind at night, not day", textNe: "राति मात्र बाँध्न मिल्छ, दिउँसो हुँदैन", isCorrect: false }
+    ],
+    explanation: "Tightly binding the belly can restrict blood circulation and baby movement. If back support is needed, medical maternity support belts are designed for safe use.",
+    explanationNe: "कसेर पेट बाँध्दा रगतको प्रवाह र बच्चाको हल्चलमा बाधा पुग्न सक्छ। यदि ढाड दुख्ने समस्याका कारण सपोर्ट चाहिएको हो भने, मेडिकल पसलमा पाइने विशेष 'मेटर्निटी सपोर्ट बेल्ट' मात्र प्रयोग गर्नु सुरक्षित हुन्छ।"
+  },
+  {
+    id: 44,
+    title: "Is it safe for Hira to travel by air at 24 weeks?",
+    titleNe: "२४ हप्तामा हवाइजहाजमा यात्रा गर्नु सुरक्षित हुन्छ?",
+    description: "Hira is 24 weeks pregnant and needs to travel by plane for a family occasion.",
+    descriptionNe: "हिरा २४ हप्ताकी गर्भवती छिन्। उनलाई पारिवारिक कामले हवाइजहाजमा कतै जानुपर्ने भएको छ।",
+    options: [
+      { text: "Never fly during pregnancy", textNe: "गर्भावस्थामा कहिल्यै जहाज चढ्नु हुँदैन", isCorrect: false },
+      { text: "Safe up to ~36 weeks — walk and hydrate", textNe: "३६ हप्तासम्म सुरक्षित हुन्छ — प्रशस्त पानी पिउने र हिँडडुल गर्ने", isCorrect: true },
+      { text: "Only safe in first trimester", textNe: "पहिलो तीन महिनामा मात्र जहाज चढ्न मिल्छ", isCorrect: false }
+    ],
+    explanation: "Air travel is generally safe up to 36 weeks in an uncomplicated pregnancy. Most airlines allow travel until 36 weeks with a medical certificate. Walk every hour and wear compression socks if available.",
+    explanationNe: "कुनै जटिलता नभएको सामान्य गर्भावस्थामा ३६ हप्तासम्म हवाइजहाजमा यात्रा गर्न सकिन्छ। धेरैजसो एयरलाइन्सले डक्टरको रिपोर्ट भएमा ३६ हप्तासम्म अनुमति दिन्छन्। यात्राको बेला बेलाबेलामा उठेर हिँड्ने र पर्याप्त पानी पिउने गर्नुपर्छ।"
+  },
+  {
+    id: 45,
+    title: "Should Sarita take the double dose if she missed iron for two days?",
+    titleNe: "दुई दिन आइरन खान बिर्सिएमा एकैचोटि दुई चक्की खाँदा हुन्छ?",
+    description: "Sarita is 23 weeks pregnant and forgot to take her iron tablets for two days.",
+    descriptionNe: "सरिता २३ हप्ताकी गर्भवती छिन् र उनले दुई दिनदेखि आइरन चक्की खान बिर्सिएकी छिन्।",
+    options: [
+      { text: "Take two at once to catch up", textNe: "बिर्सिएको भर्ना गर्न एकैचोटि दुई चक्की खाने", isCorrect: false },
+      { text: "Resume one tablet daily from today", textNe: "आजदेखि नियमित रूपमा एक-एक चक्की खान सुरु गर्ने", isCorrect: true },
+      { text: "Stop taking iron for a week", textNe: "एक हप्तासम्म आइरन नखाएर छोड्ने", isCorrect: false }
+    ],
+    explanation: "Never double dose on iron — it causes nausea, vomiting, and stomach pain. Simply resume the regular once-daily dose.",
+    explanationNe: "आइरनको चक्की एकैचोटि दुईवटा कहिल्यै नखानुहोस्, यसले पेट दुख्ने, वाकवाकी लाग्ने र बान्ता हुने समस्या निम्त्याउँछ। बिर्सिएको दिनको कुरा छोडेर आजदेखि पहिलेकै जस्तो दिनको एउटा चक्की खान सुरु गर्नुहोस्।"
+  },
+  {
+    id: 46,
+    title: "Is constipation during the second trimester normal, and what helps?",
+    titleNe: "दोस्रो त्रैमासिकमा दिसा कडा हुनु (कब्जियत) सामान्य हो? यसमा के गर्दा ठिक हुन्छ?",
+    description: "Bindu is 17 weeks pregnant and suffering from constipation. She asks if this is normal.",
+    descriptionNe: "बिन्दु १७ हप्ताकी गर्भवती छिन् र उनलाई कब्जियतको समस्या भएको छ। के यो सामान्य हो?",
+    options: [
+      { text: "Sign of poor diet only", textNe: "खराब खानाका कारण मात्र यस्तो भएको हो", isCorrect: false },
+      { text: "Normal — iron + hormones slow digestion", textNe: "सामान्य हो — आइरन र हर्मोनले पाचन प्रक्रिया ढिलो गर्छ", isCorrect: true },
+      { text: "Take strong laxatives daily", textNe: "दिनहुँ कडा जुलाब (दिसा खुकुलो पार्ने औषधि) खाने", isCorrect: false }
+    ],
+    explanation: "Progesterone relaxes digestive muscles and iron supplements worsen constipation. Increase water, fibre-rich vegetables, fruits, and gentle walking. Avoid harsh laxatives.",
+    explanationNe: "गर्भावस्थाको हर्मोन र आइरन चक्कीका कारण दिसा कडा हुन सक्छ। यसबाट बच्न पर्याप्त पानी पिउने, हरियो सागपात र फलफूल खाने र हल्का हिँडडुल गर्ने गर्नुपर्छ। डक्टरको सल्लाहबिना दिसा खुकुलो पार्ने कडा औषधिहरू नखानुहोस्।"
+  },
+  {
+    id: 47,
+    title: "Can Maya attend her own wedding ceremony at 25 weeks?",
+    titleNe: "२५ हप्तामा आफ्नो विवाहको कार्यक्रममा सहभागी हुन मिल्छ?",
+    description: "Maya is 25 weeks pregnant and is getting married. Her family wonders if it is safe to have the ceremony.",
+    descriptionNe: "माया २५ हप्ताकी गर्भवती छिन् र उनको विवाह हुँदैछ। यस्तो अवस्थामा विवाहको कार्यक्रम गर्नु सुरक्षित छ कि छैन भनेर परिवारमा अन्योल छ।",
+    options: [
+      { text: "No social events at all", textNe: "कुनै पनि सामाजिक कार्यक्रममा जानु हुँदैन", isCorrect: false },
+      { text: "Fine — rest frequently, stay hydrated", textNe: "मिल्छ — तर बेलाबेलामा आराम गर्ने र पानी पिउने", isCorrect: true },
+      { text: "Must postpone to after delivery", textNe: "विवाह सुत्केरी भएपछि मात्र गर्ने", isCorrect: false }
+    ],
+    explanation: "Attending and participating in social events is perfectly fine at 25 weeks. Sit down frequently, avoid standing for long periods, eat regular small meals, and stay hydrated.",
+    explanationNe: "२५ हप्ताको समयमा विवाह वा अरु कुनै उत्सवमा सहभागी हुनु सुरक्षित हुन्छ। तर लामो समयसम्म नउभिने, बीच-बीचमा बसेर आराम गर्ने, थोरै थोरै खाइरहने र पर्याप्त पानी पिउने कुरामा ध्यान दिनुपर्छ।"
+  },
+  {
+    id: 48,
+    title: "Is it harmful if Rina cries a lot due to stress during the second trimester?",
+    titleNe: "दोस्रो त्रैमासिकमा धेरै रुनु वा तनाव लिनुले बच्चालाई असर गर्छ?",
+    description: "Rina is 21 weeks pregnant and going through a difficult family situation causing her to cry often.",
+    descriptionNe: "रिना २१ हप्ताकी गर्भवती छिन्। घरको समस्याका कारण उनी अचेल धेरै रुन्छिन् र तनावमा छिन्।",
+    options: [
+      { text: "Crying once damages the baby permanently", textNe: "एकपटक रोएमा बच्चालाई सधैँका लागि असर पर्छ", isCorrect: false },
+      { text: "Short-term crying is fine — long-term stress is what to address", textNe: "थोरै रोएमा केही हुन्न — तर धेरै लामो समय तनाव लिनु हुँदैन", isCorrect: true },
+      { text: "Crying transfers sadness to baby", textNe: "रोएको बेला बच्चामा पनि उदासी सर्छ", isCorrect: false }
+    ],
+    explanation: "Occasional crying is harmless. However chronic, sustained emotional stress releases cortisol which may affect fetal development over time. Support, counselling, and positive relationships are the solution.",
+    explanationNe: "कहिलेकाहीँ मन हल्का गर्न रुनु सामान्य हो र यसले बच्चालाई असर गर्दैन। तर हप्तौंसम्म तनावमा रहँदा शरीरमा 'स्ट्रेस हर्मोन' बढ्न सक्छ, जसले बच्चाको विकासमा असर पार्न सक्छ। यस्तो बेला परिवारको साथ लिने वा डक्टरसँग कुरा गर्नु राम्रो हुन्छ।"
+  },
+  {
+    id: 49,
+    title: "What does group B strep detected at 26 weeks mean for Kabita?",
+    titleNe: "पिसाब जाँचमा GBS ब्याक्टेरिया देखिएमा के बुझ्ने?",
+    description: "Kabita is 26 weeks pregnant and her urine test showed Group B Strep bacteria.",
+    descriptionNe: "कबिता २६ हप्ताकी गर्भवती छिन्। उनको पिसाब जाँच गर्दा GBS (Group B Strep) ब्याक्टेरिया देखिएको छ।",
+    options: [
+      { text: "Requires immediate C-section", textNe: "यसका लागि तुरुन्तै अप्रेसन (C-Section) गर्नुपर्छ", isCorrect: false },
+      { text: "Treated with antibiotics now; IV given during labour", textNe: "अहिले एन्टिबायोटिक खाने र सुत्केरी व्यथा लागेको बेला पनि औषधि दिइन्छ", isCorrect: true },
+      { text: "Nothing to do, always harmless", textNe: "यसमा केही गर्नुपर्दैन, यसले कहिल्यै हानि गर्दैन", isCorrect: false }
+    ],
+    explanation: "GBS found in urine during pregnancy is treated with antibiotics immediately, and the mother receives IV antibiotics during labour to protect the baby from infection during delivery.",
+    explanationNe: "पिसाबमा GBS भेटिएमा तुरुन्तै एन्टिबायोटिकको कोर्स पूरा गर्नुपर्छ। साथै, सुत्केरी हुने समयमा बच्चालाई सङ्क्रमण नहोस् भनेर डक्टरले स्लाइनमार्फत थप एन्टिबायोटिक दिन्छन्। यसले बच्चालाई पूर्ण रूपमा सुरक्षित राख्छ।"
+  },
+  {
+    id: 50,
+    title: "Why does Gita suddenly feel energetic and better in the second trimester?",
+    titleNe: "दोस्रो त्रैमासिक सुरु भएपछि किन थकाइ कम हुने र फुर्तिलो महसुस हुन्छ?",
+    description: "Gita is 16 weeks pregnant and feels surprisingly better — less nausea and more energy.",
+    descriptionNe: "गीता १६ हप्ताकी गर्भवती छिन्। उनलाई अचम्म लागेको छ — वाकवाकी कम भएको छ र उनले पहिलेभन्दा धेरै फुर्तिलो महसुस गरेकी छिन्।",
+    options: [
+      { text: "Baby has stopped growing", textNe: "बच्चाको विकास रोकिएर यस्तो भएको हो", isCorrect: false },
+      { text: "Normal — second trimester is usually easier", textNe: "सामान्य हो — दोस्रो त्रैमासिक प्रायः सजिलो र रमाइलो हुन्छ", isCorrect: true },
+      { text: "She must be doing something wrong", textNe: "उनले केही गल्ती गरेकाले यस्तो भएको हो", isCorrect: false }
+    ],
+    explanation: "The second trimester is known as the 'golden period' of pregnancy. Nausea fades, energy returns, and the bump is growing but not yet heavy. This is completely normal and positive.",
+    explanationNe: "१४ देखि २८ हप्तासम्मको समयलाई गर्भावस्थाको 'सुनौलो समय' भनिन्छ। यति बेला वाकवाकी कम हुन्छ, शरीरमा जाँगर आउँछ र पेट पनि धेरै गह्रौँ भइसकेको हुँदैन। यो एकदमै सकारात्मक र सामान्य अवस्था हो।"
   }
 ];
