@@ -548,6 +548,20 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     explanationNe: "हर्मोनको परिवर्तन र रगतको मात्रा बढ्दा नाकको भित्री भाग सुन्निएर घुर्ने समस्या हुन सक्छ। यो धेरैजसो सामान्य हुन्छ। तर यदि सुत्दा श्वास फेर्नै गाह्रो हुने वा निन्द्रा पुग्दा पनि धेरै थकाइ लाग्ने भयो भने डाक्टरलाई देखाउनुपर्छ।"
   },
   {
+    id: 40,
+    title: "Sunita was told her placenta is posterior — is that a problem?",
+    titleNe: "साल (Placenta) पाठेघरको पछाडितिर (Posterior) छ भन्नुको अर्थ के हो? के यो चिन्ताको विषय हो?",
+    description: "Sunita is 21 weeks pregnant and her ultrasound says placenta posterior.",
+    descriptionNe: "सुनिता २१ हप्ताकी गर्भवती छिन्। उनको अल्ट्रासाउन्ड रिपोर्टमा 'Placenta Posterior' देखिएको छ, तर उनलाई यसको अर्थ थाहा छैन।",
+    options: [
+      { text: "Dangerous position, needs surgery", textNe: "यो खतरनाक अवस्था हो, शल्यक्रिया गर्नुपर्छ", isCorrect: false },
+      { text: "Back wall — a perfectly normal position", textNe: "पाठेघरको पछाडिको भित्तामा छ — यो पूर्णतया सामान्य अवस्था हो", isCorrect: true },
+      { text: "Baby cannot get nutrition", textNe: "बच्चाले पर्याप्त पोषण पाउँदैन", isCorrect: false }
+    ],
+    explanation: "Posterior placenta means it is attached to the back wall of the uterus. This is a completely normal and common position. It may mean the mother feels baby movements slightly later.",
+    explanationNe: "पोस्टेरियर (Posterior) साल हुनु भनेको यो पाठेघरको पछाडिको भित्तामा जोडिएको छ भन्ने हो। यो एकदमै सामान्य र प्राकृतिक अवस्था हो। यस्तो हुँदा आमाले बच्चा चलेको अलि ढिलो महसुस गर्न सक्नुहुन्छ, तर यसले बच्चालाई कुनै असर गर्दैन।"
+  },
+  {
     id: 41,
     title: "Can Nisha do household chores like sweeping and mopping at 20 weeks?",
     titleNe: "२० हप्तामा घरको काम जस्तै झाडु लगाउने र पोछा लगाउने गर्न मिल्छ?",
@@ -633,18 +647,18 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
   },
   {
     id: 47,
-    title: "Can Maya attend her own wedding ceremony at 25 weeks?",
-    titleNe: "२५ हप्तामा आफ्नो विवाहको कार्यक्रममा सहभागी हुन मिल्छ?",
-    description: "Maya is 25 weeks pregnant and is getting married. Her family wonders if it is safe to have the ceremony.",
-    descriptionNe: "माया २५ हप्ताकी गर्भवती छिन् र उनको विवाह हुँदैछ। यस्तो अवस्थामा विवाहको कार्यक्रम गर्नु सुरक्षित छ कि छैन भनेर परिवारमा अन्योल छ।",
+    title: "Can Maya attend a wedding ceremony at 25 weeks?",
+    titleNe: "के २५ हप्ताकी गर्भवती माया विवाहको भोज वा उत्सवमा सहभागी हुन मिल्छ?",
+    description: "Maya is 25 weeks pregnant and plans to attend a relative's wedding. Her family wonders if it is safe for her to go.",
+    descriptionNe: "माया २५ हप्ताकी गर्भवती छिन् र उनी एउटा विवाहको उत्सवमा सहभागी हुने योजनामा छिन्। यस्तो अवस्थामा भोजभतेर वा भीडभाडमा जानु सुरक्षित छ कि छैन भनेर परिवारमा जिज्ञासा छ।",
     options: [
-      { text: "No social events at all", textNe: "कुनै पनि सामाजिक कार्यक्रममा जानु हुँदैन", isCorrect: false },
-      { text: "Fine — rest frequently, stay hydrated", textNe: "मिल्छ — तर बेलाबेलामा आराम गर्ने र पानी पिउने", isCorrect: true },
-      { text: "Must postpone to after delivery", textNe: "विवाह सुत्केरी भएपछि मात्र गर्ने", isCorrect: false }
+      { text: "No social events at all", textNe: "गर्भवती भएको बेला कुनै पनि सामाजिक कार्यक्रममा जानु हुँदैन", isCorrect: false },
+      { text: "Fine — rest frequently, stay hydrated", textNe: "मिल्छ — तर बेलाबेलामा आराम गर्ने र पर्याप्त पानी पिउने", isCorrect: true },
+      { text: "Must avoid weddings entirely", textNe: "विवाह जस्ता भीडभाड हुने कार्यक्रममा जानै हुँदैन", isCorrect: false }
     ],
-    explanation: "Attending and participating in social events is perfectly fine at 25 weeks. Sit down frequently, avoid standing for long periods, eat regular small meals, and stay hydrated.",
-    explanationNe: "२५ हप्ताको समयमा विवाह वा अरु कुनै उत्सवमा सहभागी हुनु सुरक्षित हुन्छ। तर लामो समयसम्म नउभिने, बीच-बीचमा बसेर आराम गर्ने, थोरै थोरै खाइरहने र पर्याप्त पानी पिउने कुरामा ध्यान दिनुपर्छ।"
-  },
+    explanation: "Attending social events is perfectly fine at 25 weeks. Make sure to sit down frequently, avoid standing for long periods, eat healthy snacks, and stay hydrated.",
+    explanationNe: "२५ हप्ताको समयमा विवाह वा अन्य कुनै उत्सवमा सहभागी हुनु सुरक्षित हुन्छ। तर लामो समयसम्म नउभिने, बीच-बीचमा बसेर आराम गर्ने, समय-समयमा खाइरहने र पर्याप्त पानी पिउने कुरामा विशेष ध्यान दिनुपर्छ।"
+},
   {
     id: 48,
     title: "Is it harmful if Rina cries a lot due to stress during the second trimester?",
