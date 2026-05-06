@@ -52,7 +52,8 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     packedBagItems, packItem, showFeedback, clearFeedback, setCurrentWave,
     resetCurrentStep, tutorialStep, showTutorial: isTutorialVisible,
     setShowTutorial, currentCategoryIdx, setCategoryIdx, tutorialCompleted,
-    addStep1Mistake, step1Mistakes, step1ReviewVisible, setStep1ReviewVisible
+    addStep1Mistake, step1Mistakes, step1ReviewVisible, setStep1ReviewVisible,
+    reviewReturnToSummary, setReviewReturnToSummary, setStep
   } = useGame();
   const tutorialHideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Ref mirror of isTutorialVisible so the animation effect doesn't re-run when we hide/show the tutorial
@@ -850,10 +851,34 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
           )}
 
           <TouchableOpacity
-            className="w-full py-4 rounded-full bg-[#C06898] items-center mt-2 mb-4 shadow-md"
+            className="w-full py-4 rounded-full bg-white border-[2px] border-[#C06898] items-center mt-4 mb-3 shadow-sm"
             onPress={() => {
               setStep1ReviewVisible(false);
-              onNextStep();
+              let firstInc = 0;
+              for (let i = 0; i <= 6; i++) {
+                const cat = waveCategories[i];
+                const correctInWave = BAG_ITEMS.filter(item => item.category === cat);
+                const isWaveComp = correctInWave.length === 0 || (correctInWave.filter(item => packedBagItems.includes(item.id)).length >= correctInWave.length);
+                if (!isWaveComp) { firstInc = i; break; }
+              }
+              setCategoryIdx(firstInc);
+            }}
+            activeOpacity={0.8}
+          >
+            <Text className="text-[#C06898] font-[800] text-[16px] tracking-wide">{isNe ? 'चरण पूरा गर्न फर्कनुहोस्' : 'Return to Complete Step'}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            className="w-full py-4 rounded-full bg-[#C06898] items-center mb-4 shadow-md"
+            onPress={() => {
+              setStep1ReviewVisible(false);
+              clearFeedback();
+              if (reviewReturnToSummary) {
+                setReviewReturnToSummary(false);
+                setStep(4 as any);
+              } else {
+                onNextStep();
+              }
             }}
             activeOpacity={0.8}
           >
@@ -928,14 +953,16 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
         visible={showIncompleteModal}
         onGoBackToIncomplete={() => {
           setShowIncompleteModal(false);
-          let firstInc = 0;
-          for (let i = 0; i <= 6; i++) {
-            const cat = waveCategories[i];
-            const correctInWave = BAG_ITEMS.filter(item => item.category === cat);
-            const isWaveComp = correctInWave.length === 0 || (correctInWave.filter(item => packedBagItems.includes(item.id)).length >= correctInWave.length);
-            if (!isWaveComp) { firstInc = i; break; }
-          }
-          setCategoryIdx(firstInc);
+          setTimeout(() => {
+            let firstInc = 0;
+            for (let i = 0; i <= 6; i++) {
+              const cat = waveCategories[i];
+              const correctInWave = BAG_ITEMS.filter(item => item.category === cat);
+              const isWaveComp = correctInWave.length === 0 || (correctInWave.filter(item => packedBagItems.includes(item.id)).length >= correctInWave.length);
+              if (!isWaveComp) { firstInc = i; break; }
+            }
+            setCategoryIdx(firstInc);
+          }, 300);
         }}
         onProceedAnyway={() => {
           setShowIncompleteModal(false);

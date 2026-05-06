@@ -24,6 +24,7 @@ interface GameState {
   step2Mistakes: number[];
   step1ReviewVisible: boolean;
   step2ReviewVisible: boolean;
+  reviewReturnToSummary: boolean;
 }
 
 interface GameContextType extends GameState {
@@ -60,6 +61,7 @@ interface GameContextType extends GameState {
   addStep2Mistake: (id: number) => void;
   setStep1ReviewVisible: (visible: boolean) => void;
   setStep2ReviewVisible: (visible: boolean) => void;
+  setReviewReturnToSummary: (val: boolean) => void;
 }
 
 const defaultState: GameState = {
@@ -80,6 +82,7 @@ const defaultState: GameState = {
   step2Mistakes: [],
   step1ReviewVisible: false,
   step2ReviewVisible: false,
+  reviewReturnToSummary: false,
 };
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -95,6 +98,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [tutorialStep, setTutorialStep] = useState(0);
   const [step3CharacterVisible, setStep3CharacterVisible] = useState(true);
   const [showTutorial, setShowTutorialRaw] = useState(false);
+  const [reviewReturnToSummary, setReviewReturnToSummaryState] = useState(false);
 
   // Track whether initial load is done so we don't save the default state back
   const hasLoaded = useRef(false);
@@ -284,8 +288,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setState(prev => ({ ...prev, step2ReviewVisible: visible }));
   };
 
+  const setReviewReturnToSummary = (val: boolean) => {
+    setReviewReturnToSummaryState(val);
+  };
+
   return (
-    <GameContext.Provider value={{ ...state, setStep, packItem, saveContact, addQuizStar, resetGame, resetCurrentStep, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial, completeTutorial, setQuizState, clearQuizState, step3CharacterVisible, setStep3CharacterVisible, setQuizReviewVisible, setCategoryIdx, addStep1Mistake, addStep2Mistake, setStep1ReviewVisible, setStep2ReviewVisible }}>
+    <GameContext.Provider value={{ ...state, reviewReturnToSummary, setReviewReturnToSummary, setStep, packItem, saveContact, addQuizStar, resetGame, resetCurrentStep, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial, completeTutorial, setQuizState, clearQuizState, step3CharacterVisible, setStep3CharacterVisible, setQuizReviewVisible, setCategoryIdx, addStep1Mistake, addStep2Mistake, setStep1ReviewVisible, setStep2ReviewVisible }}>
       {children}
     </GameContext.Provider>
   );

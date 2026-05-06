@@ -16,6 +16,7 @@ import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TutorialOverlay } from './components/TutorialOverlay';
 import { IncompleteStepModal } from './components/IncompleteStepModal';
+import { StepCompletionModal } from './components/StepCompletionModal';
 import { useTranslation } from 'react-i18next';
 
 const charGoodJob = require('../../assets/images/char_correct.png');
@@ -31,7 +32,8 @@ export default function GameContainer() {
     soundEnabled, toggleSound, setTutorialStep, showTutorial,
     completeTutorial, selectedTrimester, quizIndex, shuffledScenarioIds, step3CharacterVisible, quizReviewVisible, quizResults, setQuizReviewVisible,
     currentCategoryIdx, setCategoryIdx,
-    step1ReviewVisible, setStep1ReviewVisible, step2ReviewVisible, setStep2ReviewVisible
+    step1ReviewVisible, setStep1ReviewVisible, step2ReviewVisible, setStep2ReviewVisible,
+    reviewReturnToSummary, setReviewReturnToSummary
   } = useGame();
   const { i18n } = useTranslation();
   const navigation = useNavigation<any>();
@@ -45,6 +47,9 @@ export default function GameContainer() {
   const [entryStep, setEntryStep] = useState<number>(1);
   const [showIncompleteModal, setShowIncompleteModal] = useState(false);
   const [incompleteModalProps, setIncompleteModalProps] = useState<{ onProceedAnyway: () => void, onGoBackToIncomplete: () => void } | null>(null);
+
+  const [showCompletionModal, setShowCompletionModal] = useState(false);
+  const [completionModalProps, setCompletionModalProps] = useState<any>({});
 
   // No auto-demo actions needed in GameContainer — animations handled in Step1
 
@@ -265,12 +270,84 @@ export default function GameContainer() {
               }}
             />
           )}
+          <StepCompletionModal
+            visible={showCompletionModal}
+            onClose={() => setShowCompletionModal(false)}
+            onNext={() => {
+              setShowCompletionModal(false);
+              if (completionModalProps.onNext) completionModalProps.onNext();
+            }}
+            onReset={() => {
+              setShowCompletionModal(false);
+              if (completionModalProps.onReset) completionModalProps.onReset();
+            }}
+          />
           {/* Top bar: Back | Step title | Next */}
           <View className="flex-row items-center justify-between mx-4 mt-1.5 px-1.5 py-2">
             {/* Back button */}
             <TouchableOpacity
               className="px-5 py-2 rounded-full bg-[#C06898]"
               onPress={() => {
+                if (currentStep === 1 && step1ReviewVisible) {
+                  setStep1ReviewVisible(false);
+                  const isComplete = packedBagItems.length >= BAG_ITEMS.length;
+                  if (isComplete) {
+                    setCompletionModalProps({
+                      onNext: () => setStep1ReviewVisible(true),
+                      onReset: () => { resetCurrentStep(); }
+                    });
+                    setShowCompletionModal(true);
+                  } else {
+                    setIncompleteModalProps({
+                      onProceedAnyway: () => setStep1ReviewVisible(true),
+                      onGoBackToIncomplete: () => {
+                        setTimeout(() => {
+                          let firstInc = 0;
+                          for (let i = 0; i <= 6; i++) {
+                            const waveCategories = ['Clothing', 'Hygiene', 'Comfort', 'Baby', 'LegalDocs', 'HealthDocs', 'ClinicalDocs'];
+                            const cat = waveCategories[i];
+                            const correctInWave = BAG_ITEMS.filter(item => item.category === cat);
+                            const isWaveComp = correctInWave.length === 0 || (correctInWave.filter(item => packedBagItems.includes(item.id)).length >= correctInWave.length);
+                            if (!isWaveComp) { firstInc = i; break; }
+                          }
+                          setCategoryIdx(firstInc);
+                        }, 300);
+                      }
+                    });
+                    setShowIncompleteModal(true);
+                  }
+                  return;
+                } else if (currentStep === 2 && step2ReviewVisible) {
+                  setStep2ReviewVisible(false);
+                  const isComplete = savedContacts.length >= CONTACTS.length;
+                  if (isComplete) {
+                    setCompletionModalProps({
+                      onNext: () => setStep2ReviewVisible(true),
+                      onReset: () => { resetCurrentStep(); }
+                    });
+                    setShowCompletionModal(true);
+                  } else {
+                    setIncompleteModalProps({
+                      onProceedAnyway: () => setStep2ReviewVisible(true),
+                      onGoBackToIncomplete: () => {
+                        setTimeout(() => {
+                          let firstInc = 0;
+                          for (let i = 0; i <= 2; i++) {
+                            const waveCategories = ['CRITICAL', 'IMPORTANT', 'INFO'];
+                            const cat = waveCategories[i];
+                            const correctInWave = CONTACTS.filter(item => item.urgency === cat);
+                            const isWaveComp = correctInWave.length === 0 || (correctInWave.filter(item => savedContacts.includes(item.id)).length >= correctInWave.length);
+                            if (!isWaveComp) { firstInc = i; break; }
+                          }
+                          setCategoryIdx(firstInc);
+                        }, 300);
+                      }
+                    });
+                    setShowIncompleteModal(true);
+                  }
+                  return;
+                }
+                
                 if (currentStep === 3 && quizReviewVisible) {
                   setQuizReviewVisible(false);
                 } else if (currentStep === 1 && currentCategoryIdx > 0) {
@@ -315,7 +392,16 @@ export default function GameContainer() {
                   navigation.navigate('Welcome');
                 } else {
                   if (currentStep === 2) {
-                    setStep(1, 6); // Go to Step 1, last category (ClinicalDocs)
+                    // Go to Step 1, first incomplete section
+                    const waveCategories1 = ['Clothing', 'Hygiene', 'Comfort', 'Baby', 'LegalDocs', 'HealthDocs', 'ClinicalDocs'];
+                    let firstInc1 = 0;
+                    for (let i = 0; i <= 6; i++) {
+                      const cat = waveCategories1[i];
+                      const correctInWave = BAG_ITEMS.filter(item => item.category === cat);
+                      const isWaveComp = correctInWave.length === 0 || (correctInWave.filter(item => packedBagItems.includes(item.id)).length >= correctInWave.length);
+                      if (!isWaveComp) { firstInc1 = i; break; }
+                    }
+                    setStep(1, firstInc1);
                   } else if (currentStep === 3) {
                     setStep(2, 2); // Go to Step 2, last category (INFO)
                   } else {
@@ -346,7 +432,21 @@ export default function GameContainer() {
                 if (currentStep === 1) {
                   if (step1ReviewVisible) {
                     setStep1ReviewVisible(false);
-                    setStep(2);
+                    clearFeedback();
+                    if (reviewReturnToSummary) {
+                      setReviewReturnToSummary(false);
+                      setStep(4 as any);
+                      return;
+                    }
+                    let firstInc = 0;
+                    for (let i = 0; i <= 2; i++) {
+                      const waveCategories = ['CRITICAL', 'IMPORTANT', 'INFO'];
+                      const cat = waveCategories[i];
+                      const correctInWave = CONTACTS.filter(item => item.urgency === cat);
+                      const isWaveComp = correctInWave.length === 0 || (correctInWave.filter(item => savedContacts.includes(item.id)).length >= correctInWave.length);
+                      if (!isWaveComp) { firstInc = i; break; }
+                    }
+                    setStep(2, firstInc);
                     return;
                   }
                   if (currentCategoryIdx < 6) {
@@ -359,15 +459,17 @@ export default function GameContainer() {
                       setIncompleteModalProps({
                         onProceedAnyway: () => setStep1ReviewVisible(true),
                         onGoBackToIncomplete: () => {
-                          let firstInc = 0;
-                          for (let i = 0; i <= 6; i++) {
-                            const waveCategories = ['Clothing', 'Hygiene', 'Comfort', 'Baby', 'LegalDocs', 'HealthDocs', 'ClinicalDocs'];
-                            const cat = waveCategories[i];
-                            const correctInWave = BAG_ITEMS.filter(item => item.category === cat);
-                            const isWaveComp = correctInWave.length === 0 || (correctInWave.filter(item => packedBagItems.includes(item.id)).length >= correctInWave.length);
-                            if (!isWaveComp) { firstInc = i; break; }
-                          }
-                          setCategoryIdx(firstInc);
+                          setTimeout(() => {
+                            let firstInc = 0;
+                            for (let i = 0; i <= 6; i++) {
+                              const waveCategories = ['Clothing', 'Hygiene', 'Comfort', 'Baby', 'LegalDocs', 'HealthDocs', 'ClinicalDocs'];
+                              const cat = waveCategories[i];
+                              const correctInWave = BAG_ITEMS.filter(item => item.category === cat);
+                              const isWaveComp = correctInWave.length === 0 || (correctInWave.filter(item => packedBagItems.includes(item.id)).length >= correctInWave.length);
+                              if (!isWaveComp) { firstInc = i; break; }
+                            }
+                            setCategoryIdx(firstInc);
+                          }, 300);
                         }
                       });
                       setShowIncompleteModal(true);
@@ -376,6 +478,12 @@ export default function GameContainer() {
                 } else if (currentStep === 2) {
                   if (step2ReviewVisible) {
                     setStep2ReviewVisible(false);
+                    clearFeedback();
+                    if (reviewReturnToSummary) {
+                      setReviewReturnToSummary(false);
+                      setStep(4 as any);
+                      return;
+                    }
                     setStep(3);
                     return;
                   }
@@ -389,15 +497,17 @@ export default function GameContainer() {
                       setIncompleteModalProps({
                         onProceedAnyway: () => setStep2ReviewVisible(true),
                         onGoBackToIncomplete: () => {
-                          let firstInc = 0;
-                          for (let i = 0; i <= 2; i++) {
-                            const waveCategories = ['CRITICAL', 'IMPORTANT', 'INFO'];
-                            const cat = waveCategories[i];
-                            const correctInWave = CONTACTS.filter(item => item.urgency === cat);
-                            const isWaveComp = correctInWave.length === 0 || (correctInWave.filter(item => savedContacts.includes(item.id)).length >= correctInWave.length);
-                            if (!isWaveComp) { firstInc = i; break; }
-                          }
-                          setCategoryIdx(firstInc);
+                          setTimeout(() => {
+                            let firstInc = 0;
+                            for (let i = 0; i <= 2; i++) {
+                              const waveCategories = ['CRITICAL', 'IMPORTANT', 'INFO'];
+                              const cat = waveCategories[i];
+                              const correctInWave = CONTACTS.filter(item => item.urgency === cat);
+                              const isWaveComp = correctInWave.length === 0 || (correctInWave.filter(item => savedContacts.includes(item.id)).length >= correctInWave.length);
+                              if (!isWaveComp) { firstInc = i; break; }
+                            }
+                            setCategoryIdx(firstInc);
+                          }, 300);
                         }
                       });
                       setShowIncompleteModal(true);
@@ -407,6 +517,10 @@ export default function GameContainer() {
                   if (quizResults && quizResults.length >= 1 && !quizReviewVisible) {
                     clearFeedback();
                     setQuizReviewVisible(true);
+                  } else if (quizReviewVisible && reviewReturnToSummary) {
+                    setReviewReturnToSummary(false);
+                    setQuizReviewVisible(false);
+                    setStep(4 as any);
                   } else {
                     setStep(4);
                   }

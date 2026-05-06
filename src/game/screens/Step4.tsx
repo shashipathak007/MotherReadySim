@@ -9,23 +9,23 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 
 export default function Step4({ onReplay }: { onReplay: () => void }) {
-  const { packedBagItems, savedContacts, quizStars, resetGame } = useGame();
+  const { packedBagItems, savedContacts, quizStars, resetGame, setStep, setStep1ReviewVisible, setStep2ReviewVisible, setQuizReviewVisible, setReviewReturnToSummary } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
 
   const totalPossibleStars = 20;
-  const bagItemsCount = BAG_ITEMS.filter(i => ['Clothing', 'Hygiene', 'Comfort', 'Baby'].includes(i.category)).length;
-  const docItemsCount = BAG_ITEMS.filter(i => ['LegalDocs', 'HealthDocs', 'ClinicalDocs'].includes(i.category)).length;
+  const bagItemsCount = BAG_ITEMS.length;
 
-  const packedBagsCount = packedBagItems.filter(id => id < 100).length;
-  const packedDocsCount = packedBagItems.filter(id => id >= 100).length;
+  const packedBagsCount = packedBagItems.length;
+
+  const totalPointsEarned = packedBagsCount + savedContacts.length + quizStars;
+  const totalPointsPossible = bagItemsCount + CONTACTS.length + totalPossibleStars;
 
   const bagRatio = packedBagsCount / bagItemsCount;
-  const docRatio = packedDocsCount / docItemsCount;
   const contactsRatio = savedContacts.length / CONTACTS.length;
   const quizRatio = quizStars / totalPossibleStars;
 
-  const scorePercentage = (bagRatio + docRatio + contactsRatio + quizRatio) / 4;
+  const scorePercentage = totalPointsEarned / totalPointsPossible;
 
   let badgeMsg = '';
   let badgeEmoji = '';
@@ -110,7 +110,6 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
           <Text className="text-lg font-[900] text-[#333] mb-5 text-center">{isNe ? 'नतिजा' : 'Your Results'}</Text>
 
           <ProgressBar icon="🎒" label={isNe ? 'अस्पतालको झोला' : 'Hospital Bag'} ratio={bagRatio} count={packedBagsCount} total={bagItemsCount} />
-          <ProgressBar icon="📁" label={isNe ? 'जरुरी कागजातहरू' : 'Important Documents'} ratio={docRatio} count={packedDocsCount} total={docItemsCount} />
           <ProgressBar icon="📱" label={isNe ? 'सम्पर्क नम्बरहरू' : 'Contacts'} ratio={contactsRatio} count={savedContacts.length} total={CONTACTS.length} />
           <ProgressBar icon="🤰" label={isNe ? 'गर्भावस्था परिदृश्य' : 'Pregnancy Scenarios'} ratio={quizRatio} count={quizStars} total={totalPossibleStars} />
 
@@ -127,7 +126,16 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
 
         {/* Message */}
         <Animated.View entering={FadeInUp.delay(600)}>
-          <Text className="text-[15px] color-black font-extrabold text-center mb-7 italic leading-6 px-2">{subMsg}</Text>
+          <Text
+            className="text-[17px] text-black font-extrabold text-center mb-7 italic leading-5 px-2"
+            style={{
+              textShadowColor: "#ccc",
+              textShadowOffset: { width: 1, height: 1 },
+              textShadowRadius: 1,
+            }}
+          >
+            {subMsg}
+          </Text>
         </Animated.View>
 
         {/* Action Buttons — stacked for better tap targets */}
@@ -144,6 +152,40 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
               <Text className="text-white text-[16px] font-[800]">{isNe ? 'स्कोर साझा गर्नुहोस्' : 'Share My Score'}</Text>
             </View>
           </TouchableOpacity>
+
+          {/* Review Steps */}
+          <View className="flex-row gap-2 w-full mt-2">
+            <TouchableOpacity
+              className="flex-1 py-3 rounded-[14px] items-center justify-center bg-white border-[1.5px] border-[#E8B4D0]"
+              onPress={() => {
+                setReviewReturnToSummary(true);
+                setStep(1);
+                setStep1ReviewVisible(true);
+              }}
+            >
+              <Text className="text-[#9B5983] text-[13px] font-[800]">{isNe ? 'चरण १ समीक्षा' : 'Review Step 1'}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="flex-1 py-3 rounded-[14px] items-center justify-center bg-white border-[1.5px] border-[#E8B4D0]"
+              onPress={() => {
+                setReviewReturnToSummary(true);
+                setStep(2);
+                setStep2ReviewVisible(true);
+              }}
+            >
+              <Text className="text-[#9B5983] text-[13px] font-[800]">{isNe ? 'चरण २ समीक्षा' : 'Review Step 2'}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="flex-1 py-3 rounded-[14px] items-center justify-center bg-white border-[1.5px] border-[#E8B4D0]"
+              onPress={() => {
+                setReviewReturnToSummary(true);
+                setStep(3);
+                setQuizReviewVisible(true);
+              }}
+            >
+              <Text className="text-[#9B5983] text-[13px] font-[800]">{isNe ? 'चरण ३ समीक्षा' : 'Review Step 3'}</Text>
+            </TouchableOpacity>
+          </View>
 
           {/* Play again — secondary, outlined */}
           <TouchableOpacity

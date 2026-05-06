@@ -21,21 +21,23 @@ const { width, height } = Dimensions.get('window');
 const WRONG_CONTACTS = [
   { id: 91, name: "Random shopkeeper", nameNe: "कुनै पसलको व्यापारी", whyNot: "You won't need this during labour", whyNotNe: "व्यथा लाग्दा यो सम्पर्क चाहिँदैन" },
   { id: 92, name: "Travel agency", nameNe: "यात्रा एजेन्सी", whyNot: "Focus on medical contacts only", whyNotNe: "स्वास्थ्य सम्बन्धी सम्पर्कमा मात्र ध्यान दिनुहोस्" },
+  { id: 93, name: "Astrologer / Jyotish", nameNe: "ज्योतिष", whyNot: "Not an emergency medical contact", whyNotNe: "यो आपतकालीन स्वास्थ्य सम्पर्क होइन" },
 ];
 
 const WRONG_DISTRIBUTION: Record<string, number[]> = {
   CRITICAL: [91],
   IMPORTANT: [92],
-  INFO: [],
+  INFO: [93],
 };
 
 
 
 export default function Step2({ onNextStep }: { onNextStep: () => void }) {
   const {
-    savedContacts, saveContact, showFeedback, setCurrentWave,
+    savedContacts, saveContact, showFeedback, clearFeedback, setCurrentWave,
     resetCurrentStep, currentCategoryIdx, setCategoryIdx,
-    addStep2Mistake, step2Mistakes, step2ReviewVisible, setStep2ReviewVisible
+    addStep2Mistake, step2Mistakes, step2ReviewVisible, setStep2ReviewVisible,
+    reviewReturnToSummary, setReviewReturnToSummary, setStep
   } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
@@ -529,10 +531,34 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
           )}
 
           <TouchableOpacity
-            className="w-full py-4 rounded-full bg-[#C06898] items-center mt-2 mb-4 shadow-md"
+            className="w-full py-4 rounded-full bg-white border-[2px] border-[#C06898] items-center mt-4 mb-3 shadow-sm"
             onPress={() => {
               setStep2ReviewVisible(false);
-              onNextStep();
+              let firstInc = 0;
+              for (let i = 0; i <= 2; i++) {
+                const cat = waveCategories[i];
+                const correctInWave = CONTACTS.filter(item => item.urgency === cat);
+                const isWaveComp = correctInWave.length === 0 || (correctInWave.filter(item => savedContacts.includes(item.id)).length >= correctInWave.length);
+                if (!isWaveComp) { firstInc = i; break; }
+              }
+              setCategoryIdx(firstInc);
+            }}
+            activeOpacity={0.8}
+          >
+            <Text className="text-[#C06898] font-[800] text-[16px] tracking-wide">{isNe ? 'चरण पूरा गर्न फर्कनुहोस्' : 'Return to Complete Step'}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            className="w-full py-4 rounded-full bg-[#C06898] items-center mb-4 shadow-md"
+            onPress={() => {
+              setStep2ReviewVisible(false);
+              clearFeedback();
+              if (reviewReturnToSummary) {
+                setReviewReturnToSummary(false);
+                setStep(4 as any);
+              } else {
+                onNextStep();
+              }
             }}
             activeOpacity={0.8}
           >
@@ -692,14 +718,16 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
         visible={showIncompleteModal}
         onGoBackToIncomplete={() => {
           setShowIncompleteModal(false);
-          let firstInc = 0;
-          for (let i = 0; i <= 2; i++) {
-            const cat = waveCategories[i];
-            const correctInWave = CONTACTS.filter(item => item.urgency === cat);
-            const isWaveComp = correctInWave.length === 0 || (correctInWave.filter(item => savedContacts.includes(item.id)).length >= correctInWave.length);
-            if (!isWaveComp) { firstInc = i; break; }
-          }
-          setCategoryIdx(firstInc);
+          setTimeout(() => {
+            let firstInc = 0;
+            for (let i = 0; i <= 2; i++) {
+              const cat = waveCategories[i];
+              const correctInWave = CONTACTS.filter(item => item.urgency === cat);
+              const isWaveComp = correctInWave.length === 0 || (correctInWave.filter(item => savedContacts.includes(item.id)).length >= correctInWave.length);
+              if (!isWaveComp) { firstInc = i; break; }
+            }
+            setCategoryIdx(firstInc);
+          }, 300);
         }}
         onProceedAnyway={() => {
           setShowIncompleteModal(false);

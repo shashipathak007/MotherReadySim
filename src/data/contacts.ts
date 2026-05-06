@@ -188,4 +188,40 @@ export const CONTACTS: ContactItem[] = [
     fullDetail: 'The local health post provides the national immunization schedule. Contact them to know which vaccines the baby needs in the first few months and the clinic dates.',
     fullDetailNe: 'बच्चा जन्मिएपछि लगाउनुपर्ने खोपहरुको बारेमा बुझ्न स्वास्थ्य चौकीमा सम्पर्क गर्नुहोस्। कुन खोप कहिले लगाउने र खोप लगाउने दिन कहिले हो भनेर थाहा पाउनु जरुरी छ।'
   },
+  {
+    id: 15,
+    initials: 'BB',
+    name: 'Local Blood Bank',
+    nameNe: 'स्थानीय रक्तसंचार केन्द्र (ब्लड बैंक)',
+    urgency: 'IMPORTANT',
+    phone: '',
+    shortDesc: 'For emergency blood supply',
+    shortDescNe: 'आपतकालीन रगतको लागि',
+    fullDetail: 'Keep the number of the local Red Cross or blood bank handy in case your arranged donor is unavailable.',
+    fullDetailNe: 'तपाईंले खोजेको मान्छेले रगत दिन नसकेको खण्डमा तुरुन्त सम्पर्क गर्न रेडक्रस वा ब्लड बैंकको नम्बर राख्नुहोस्।'
+  },
+  {
+    id: 16,
+    initials: 'PH',
+    name: '24-Hour Pharmacy',
+    nameNe: '२४ घण्टा खुल्ने फार्मेसी',
+    urgency: 'INFO',
+    phone: '',
+    shortDesc: 'For late-night medicines',
+    shortDescNe: 'राति औषधि चाहिने अवस्थाको लागि',
+    fullDetail: 'A nearby pharmacy that is open 24/7 is crucial if you need urgent medicines or maternity supplies at night.',
+    fullDetailNe: 'राति एक्कासी औषधि वा अन्य सुत्केरी सामान चाहिएमा २४ घण्टा खुल्ने नजिकैको फार्मेसीको नम्बर काम लाग्छ।'
+  },
+  {
+    id: 17,
+    initials: 'AS',
+    name: 'Aama Surakshya Info',
+    nameNe: 'आमा सुरक्षा जानकारी शाखा',
+    urgency: 'INFO',
+    phone: '',
+    shortDesc: 'Govt maternity allowance info',
+    shortDescNe: 'सरकारी सुत्केरी भत्ताको जानकारी',
+    fullDetail: 'Contact for details on the Aama Surakshya allowance and transport incentives provided by the government.',
+    fullDetailNe: 'सरकारले दिने सुत्केरी भत्ता र यातायात खर्चको बारेमा बुझ्न यो नम्बरमा सम्पर्क गर्न सक्नुहुन्छ।'
+  }
 ];
