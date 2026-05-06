@@ -20,6 +20,10 @@ interface GameState {
   quizHighestStreak: number;       
   quizReviewVisible: boolean;      
   currentCategoryIdx: number;
+  step1Mistakes: number[];
+  step2Mistakes: number[];
+  step1ReviewVisible: boolean;
+  step2ReviewVisible: boolean;
 }
 
 interface GameContextType extends GameState {
@@ -52,6 +56,10 @@ interface GameContextType extends GameState {
   setStep3CharacterVisible: (visible: boolean) => void;
   setQuizReviewVisible: (visible: boolean) => void;
   setCategoryIdx: (idx: number) => void;
+  addStep1Mistake: (id: number) => void;
+  addStep2Mistake: (id: number) => void;
+  setStep1ReviewVisible: (visible: boolean) => void;
+  setStep2ReviewVisible: (visible: boolean) => void;
 }
 
 const defaultState: GameState = {
@@ -68,6 +76,10 @@ const defaultState: GameState = {
   quizHighestStreak: 0,
   quizReviewVisible: false,
   currentCategoryIdx: 0,
+  step1Mistakes: [],
+  step2Mistakes: [],
+  step1ReviewVisible: false,
+  step2ReviewVisible: false,
 };
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -108,6 +120,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
             quizStreak: saved.quizStreak ?? prev.quizStreak,
             quizHighestStreak: saved.quizHighestStreak ?? prev.quizHighestStreak,
             currentCategoryIdx: saved.currentCategoryIdx ?? prev.currentCategoryIdx,
+            step1Mistakes: saved.step1Mistakes ?? prev.step1Mistakes,
+            step2Mistakes: saved.step2Mistakes ?? prev.step2Mistakes,
           }));
           // Only show tutorial if it hasn't been completed before
           if (!saved.tutorialCompleted) {
@@ -223,9 +237,9 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const resetCurrentStep = () => {
     setState((prev) => {
       let updates = {};
-      if (prev.currentStep === 1) updates = { packedBagItems: [], currentCategoryIdx: 0 };
-      if (prev.currentStep === 2) updates = { savedContacts: [], currentCategoryIdx: 0 };
-      if (prev.currentStep === 3) updates = { quizStars: 0, selectedTrimester: null, quizIndex: 0, shuffledScenarioIds: [], quizResults: [], quizStreak: 0, quizHighestStreak: 0 };
+      if (prev.currentStep === 1) updates = { packedBagItems: [], currentCategoryIdx: 0, step1Mistakes: [], step1ReviewVisible: false };
+      if (prev.currentStep === 2) updates = { savedContacts: [], currentCategoryIdx: 0, step2Mistakes: [], step2ReviewVisible: false };
+      if (prev.currentStep === 3) updates = { quizStars: 0, selectedTrimester: null, quizIndex: 0, shuffledScenarioIds: [], quizResults: [], quizStreak: 0, quizHighestStreak: 0, quizReviewVisible: false };
 
       // Reset quiz progress counter when on the quiz step
       if (prev.currentStep === 3) {
@@ -254,8 +268,24 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     updateState({ currentCategoryIdx: idx });
   };
 
+  const addStep1Mistake = (id: number) => {
+    setState(prev => ({ ...prev, step1Mistakes: [...new Set([...prev.step1Mistakes, id])] }));
+  };
+
+  const addStep2Mistake = (id: number) => {
+    setState(prev => ({ ...prev, step2Mistakes: [...new Set([...prev.step2Mistakes, id])] }));
+  };
+
+  const setStep1ReviewVisible = (visible: boolean) => {
+    setState(prev => ({ ...prev, step1ReviewVisible: visible }));
+  };
+
+  const setStep2ReviewVisible = (visible: boolean) => {
+    setState(prev => ({ ...prev, step2ReviewVisible: visible }));
+  };
+
   return (
-    <GameContext.Provider value={{ ...state, setStep, packItem, saveContact, addQuizStar, resetGame, resetCurrentStep, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial, completeTutorial, setQuizState, clearQuizState, step3CharacterVisible, setStep3CharacterVisible, setQuizReviewVisible, setCategoryIdx }}>
+    <GameContext.Provider value={{ ...state, setStep, packItem, saveContact, addQuizStar, resetGame, resetCurrentStep, isReady, feedback, showFeedback, clearFeedback, currentWave, setCurrentWave, quizProgress, setQuizProgress, soundEnabled, toggleSound, tutorialStep, setTutorialStep, showTutorial, setShowTutorial, completeTutorial, setQuizState, clearQuizState, step3CharacterVisible, setStep3CharacterVisible, setQuizReviewVisible, setCategoryIdx, addStep1Mistake, addStep2Mistake, setStep1ReviewVisible, setStep2ReviewVisible }}>
       {children}
     </GameContext.Provider>
   );

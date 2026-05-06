@@ -30,7 +30,8 @@ export default function GameContainer() {
     packedBagItems, savedContacts, feedback, clearFeedback, currentWave, quizProgress,
     soundEnabled, toggleSound, setTutorialStep, showTutorial,
     completeTutorial, selectedTrimester, quizIndex, shuffledScenarioIds, step3CharacterVisible, quizReviewVisible, quizResults, setQuizReviewVisible,
-    currentCategoryIdx, setCategoryIdx
+    currentCategoryIdx, setCategoryIdx,
+    step1ReviewVisible, setStep1ReviewVisible, step2ReviewVisible, setStep2ReviewVisible
   } = useGame();
   const { i18n } = useTranslation();
   const navigation = useNavigation<any>();
@@ -343,6 +344,11 @@ export default function GameContainer() {
               className={`px-5 py-2 rounded-full bg-[#C06898] ${currentStep === 4 ? 'opacity-30' : ''}`}
               onPress={() => {
                 if (currentStep === 1) {
+                  if (step1ReviewVisible) {
+                    setStep1ReviewVisible(false);
+                    setStep(2);
+                    return;
+                  }
                   if (currentCategoryIdx < 6) {
                     setCategoryIdx(currentCategoryIdx + 1);
                   } else {
@@ -351,7 +357,7 @@ export default function GameContainer() {
                       setStep(2);
                     } else {
                       setIncompleteModalProps({
-                        onProceedAnyway: () => setStep(2),
+                        onProceedAnyway: () => setStep1ReviewVisible(true),
                         onGoBackToIncomplete: () => {
                           let firstInc = 0;
                           for (let i = 0; i <= 6; i++) {
@@ -368,6 +374,11 @@ export default function GameContainer() {
                     }
                   }
                 } else if (currentStep === 2) {
+                  if (step2ReviewVisible) {
+                    setStep2ReviewVisible(false);
+                    setStep(3);
+                    return;
+                  }
                   if (currentCategoryIdx < 2) {
                     setCategoryIdx(currentCategoryIdx + 1);
                   } else {
@@ -376,7 +387,7 @@ export default function GameContainer() {
                       setStep(3);
                     } else {
                       setIncompleteModalProps({
-                        onProceedAnyway: () => setStep(3),
+                        onProceedAnyway: () => setStep2ReviewVisible(true),
                         onGoBackToIncomplete: () => {
                           let firstInc = 0;
                           for (let i = 0; i <= 2; i++) {
@@ -411,7 +422,7 @@ export default function GameContainer() {
           </View>
 
           {/* Sub-bar: wave info + language toggle + reset */}
-          {currentStep < 4 && !(currentStep === 3 && quizReviewVisible) && (
+          {currentStep < 4 && !(currentStep === 3 && quizReviewVisible) && !(currentStep === 1 && step1ReviewVisible) && !(currentStep === 2 && step2ReviewVisible) && (
             <View className="mx-2 mt-0.5 flex-row justify-between items-center px-3 py-1.5 bg-white/85 rounded-full border border-[#F5E1EC]">
               {/* Left: Home Button */}
               <View className="flex-row items-center">
@@ -453,7 +464,7 @@ export default function GameContainer() {
           )}
 
           {/* Enhanced Feedback — speech bubble (hidden on review screen) */}
-          {feedback && !quizReviewVisible && (() => {
+          {feedback && !quizReviewVisible && !step1ReviewVisible && !step2ReviewVisible && (() => {
             const feedbackStyle = getFeedbackCharacter();
             return (
               <Animated.View

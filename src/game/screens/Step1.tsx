@@ -1,6 +1,6 @@
 /// <reference types="nativewind/types" />
 import React, { useRef, useState, useMemo, useEffect, useCallback } from 'react';
-import { View, Dimensions, Image, Text } from 'react-native';
+import { View, Dimensions, Image, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { useGame } from '../context/GameContext';
 import { BAG_ITEMS, DO_NOT_PACK_ITEMS } from '../../data/bagItems';
 import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
@@ -51,7 +51,8 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
   const {
     packedBagItems, packItem, showFeedback, clearFeedback, setCurrentWave,
     resetCurrentStep, tutorialStep, showTutorial: isTutorialVisible,
-    setShowTutorial, currentCategoryIdx, setCategoryIdx, tutorialCompleted
+    setShowTutorial, currentCategoryIdx, setCategoryIdx, tutorialCompleted,
+    addStep1Mistake, step1Mistakes, step1ReviewVisible, setStep1ReviewVisible
   } = useGame();
   const tutorialHideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Ref mirror of isTutorialVisible so the animation effect doesn't re-run when we hide/show the tutorial
@@ -742,6 +743,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
       } else {
         ref?.shakeAndSnapBack();
         playIncorrect();
+        addStep1Mistake(id);
         const itemName = isNe && 'nameNe' in item ? (item as any).nameNe : item.name;
         const itemWhy = isNe && 'whyNotNe' in item ? (item as any).whyNotNe : item.why;
         showFeedback(isNe ? `ओहो! ${itemName} चाहिँदैन` : `Oops! ${itemName} isn't needed`, itemWhy, 'error');
@@ -773,6 +775,94 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
       }, 2000);
     }
   };
+
+  // ── RENDER REVIEW SCREEN ──
+  if (step1ReviewVisible) {
+    // 1. Packed correctly
+    const packedCorrect = BAG_ITEMS.filter(item => packedBagItems.includes(item.id));
+
+    // 2. Put incorrectly
+    const packedIncorrect = DO_NOT_PACK_ITEMS.filter(item => step1Mistakes.includes(item.id));
+
+    // 3. Left out
+    const leftOut = BAG_ITEMS.filter(item => !packedBagItems.includes(item.id));
+
+    return (
+      <View className="flex-1 bg-white">
+        <LinearGradient colors={['rgba(255,255,255,0.9)', 'rgba(243,58,106,0.05)', 'rgba(176,76,138,0.08)']} style={{ position: 'absolute', width: '100%', height: '100%' }} />
+        <ScrollView contentContainerStyle={{ paddingTop: 110, paddingHorizontal: 20, paddingBottom: 60 }} showsVerticalScrollIndicator={false}>
+          <Text className="text-[24px] font-[800] text-[#9B5983] mb-6 text-center">
+            {isNe ? 'चरण १: तपाईंको समीक्षा' : 'Step 1: Your Review'}
+          </Text>
+
+          {packedCorrect.length > 0 && (
+            <View className="mb-6">
+              <Text className="text-[18px] font-[800] text-[#16A34A] mb-3">
+                {isNe ? 'तपाईंले राखेका सही सामानहरू' : 'Correctly Packed Items'}
+              </Text>
+              {packedCorrect.map(item => (
+                <View key={item.id} className="mb-4 p-4 rounded-[14px] bg-[#F0FDF4] border border-[#BBF7D0] shadow-sm">
+                  <Text className="text-[15px] font-[800] text-[#166534] mb-1.5">
+                    {isNe && 'nameNe' in item ? (item as any).nameNe : item.name}
+                  </Text>
+                  <Text className="text-[14px] font-[600] text-[#15803D] leading-5">
+                    {isNe && 'whyNe' in item ? (item as any).whyNe : item.why}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {packedIncorrect.length > 0 && (
+            <View className="mb-6">
+              <Text className="text-[18px] font-[800] text-[#DC2626] mb-3">
+                {isNe ? 'तपाईंले राख्न नहुने सामानहरू' : 'Items You Shouldn\'t Pack'}
+              </Text>
+              {packedIncorrect.map(item => (
+                <View key={item.id} className="mb-4 p-4 rounded-[14px] bg-[#FEF2F2] border border-[#FECACA] shadow-sm">
+                  <Text className="text-[15px] font-[800] text-[#991B1B] mb-1.5">
+                    {isNe && 'nameNe' in item ? (item as any).nameNe : item.name}
+                  </Text>
+                  <Text className="text-[14px] font-[600] text-[#B91C1C] leading-5">
+                    {isNe && 'whyNotNe' in item ? (item as any).whyNotNe : item.whyNot}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {leftOut.length > 0 && (
+            <View className="mb-6">
+              <Text className="text-[18px] font-[800] text-[#D97706] mb-3">
+                {isNe ? 'तपाईंले छुटाउनुभएका सामानहरू' : 'Items You Left Out'}
+              </Text>
+              {leftOut.map(item => (
+                <View key={item.id} className="mb-4 p-4 rounded-[14px] bg-[#FFFBEB] border border-[#FDE68A] shadow-sm">
+                  <Text className="text-[15px] font-[800] text-[#B45309] mb-1.5">
+                    {isNe && 'nameNe' in item ? (item as any).nameNe : item.name}
+                  </Text>
+                  <Text className="text-[14px] font-[600] text-[#D97706] leading-5">
+                    {isNe && 'whyNe' in item ? (item as any).whyNe : item.why}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
+
+          <TouchableOpacity
+            className="w-full py-4 rounded-full bg-[#C06898] items-center mt-2 mb-4 shadow-md"
+            onPress={() => {
+              setStep1ReviewVisible(false);
+              onNextStep();
+            }}
+            activeOpacity={0.8}
+          >
+            <Text className="text-white font-[800] text-[16px] tracking-wide">{isNe ? 'अगाडि बढ्नुहोस्' : 'Continue'}</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </View>
+    );
+  }
 
   return (
     <View
@@ -831,7 +921,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
       <StepCompletionModal
         visible={showCompletionModal}
         onClose={() => setShowCompletionModal(false)}
-        onNext={() => { setShowCompletionModal(false); onNextStep(); }}
+        onNext={() => { setShowCompletionModal(false); setStep1ReviewVisible(true); }}
         onReset={() => { resetCurrentStep(); setShowCompletionModal(false); }}
       />
       <IncompleteStepModal
@@ -849,7 +939,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
         }}
         onProceedAnyway={() => {
           setShowIncompleteModal(false);
-          onNextStep();
+          setStep1ReviewVisible(true);
         }}
       />
 

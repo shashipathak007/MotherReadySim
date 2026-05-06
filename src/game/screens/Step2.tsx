@@ -1,6 +1,6 @@
 /// <reference types="nativewind/types" />
 import React, { useRef, useState, useMemo, useEffect, useCallback } from 'react';
-import { View, Dimensions, Text, ScrollView, Image } from 'react-native';
+import { View, Dimensions, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { useGame } from '../context/GameContext';
 import { CONTACTS } from '../../data/contacts';
 import { DraggableItem, DraggableItemRef } from '../components/DraggableItem';
@@ -34,7 +34,8 @@ const WRONG_DISTRIBUTION: Record<string, number[]> = {
 export default function Step2({ onNextStep }: { onNextStep: () => void }) {
   const {
     savedContacts, saveContact, showFeedback, setCurrentWave,
-    resetCurrentStep, currentCategoryIdx, setCategoryIdx
+    resetCurrentStep, currentCategoryIdx, setCategoryIdx,
+    addStep2Mistake, step2Mistakes, step2ReviewVisible, setStep2ReviewVisible
   } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
@@ -406,6 +407,7 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
       } else {
         ref?.shakeAndSnapBack();
         playIncorrect();
+        addStep2Mistake(item.id);
         const wrongName = isNe && item.nameNe ? item.nameNe : item.name;
         const wrongWhy = isNe && 'whyNotNe' in item && (item as any).whyNotNe ? (item as any).whyNotNe : item.why;
         showFeedback(wrongName, wrongWhy, 'error');
@@ -443,6 +445,103 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
       default: return '📱';
     }
   };
+
+  // ── RENDER REVIEW SCREEN ──
+  if (step2ReviewVisible) {
+    // 1. Saved correctly
+    const savedCorrect = CONTACTS.filter(item => savedContacts.includes(item.id));
+
+    // 2. Put incorrectly
+    const savedIncorrect = WRONG_CONTACTS.filter(item => step2Mistakes.includes(item.id));
+
+    // 3. Left out
+    const leftOut = CONTACTS.filter(item => !savedContacts.includes(item.id));
+
+    return (
+      <View className="flex-1 bg-white">
+        <LinearGradient colors={['rgba(255,255,255,0.9)', 'rgba(243,58,106,0.05)', 'rgba(176,76,138,0.08)']} style={{ position: 'absolute', width: '100%', height: '100%' }} />
+        <ScrollView contentContainerStyle={{ paddingTop: 110, paddingHorizontal: 20, paddingBottom: 60 }} showsVerticalScrollIndicator={false}>
+          <Text className="text-[24px] font-[800] text-[#9B5983] mb-6 text-center">
+            {isNe ? 'चरण २: तपाईंको समीक्षा' : 'Step 2: Your Review'}
+          </Text>
+
+          {savedCorrect.length > 0 && (
+            <View className="mb-6">
+              <Text className="text-[18px] font-[800] text-[#16A34A] mb-3">
+                {isNe ? 'तपाईंले राखेका सही सम्पर्कहरू' : 'Correctly Saved Contacts'}
+              </Text>
+              {savedCorrect.map(item => (
+                <View key={item.id} className="mb-4 p-4 rounded-[14px] bg-[#F0FDF4] border border-[#BBF7D0] shadow-sm flex-row items-center">
+                  <Text className="text-[24px] mr-3">{getContactEmoji(item.id)}</Text>
+                  <View className="flex-1">
+                    <Text className="text-[15px] font-[800] text-[#166534] mb-1">
+                      {isNe && item.nameNe ? item.nameNe : item.name}
+                    </Text>
+                    <Text className="text-[13px] font-[600] text-[#15803D] leading-5">
+                      {isNe && item.fullDetailNe ? item.fullDetailNe : item.fullDetail}
+                    </Text>
+                  </View>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {savedIncorrect.length > 0 && (
+            <View className="mb-6">
+              <Text className="text-[18px] font-[800] text-[#DC2626] mb-3">
+                {isNe ? 'तपाईंले राख्न नहुने सम्पर्कहरू' : 'Contacts You Shouldn\'t Save'}
+              </Text>
+              {savedIncorrect.map(item => (
+                <View key={item.id} className="mb-4 p-4 rounded-[14px] bg-[#FEF2F2] border border-[#FECACA] shadow-sm flex-row items-center">
+                  <Text className="text-[24px] mr-3">{getContactEmoji(item.id)}</Text>
+                  <View className="flex-1">
+                    <Text className="text-[15px] font-[800] text-[#991B1B] mb-1">
+                      {isNe && item.nameNe ? item.nameNe : item.name}
+                    </Text>
+                    <Text className="text-[13px] font-[600] text-[#B91C1C] leading-5">
+                      {isNe && item.whyNotNe ? item.whyNotNe : item.whyNot}
+                    </Text>
+                  </View>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {leftOut.length > 0 && (
+            <View className="mb-6">
+              <Text className="text-[18px] font-[800] text-[#D97706] mb-3">
+                {isNe ? 'तपाईंले छुटाउनुभएका सम्पर्कहरू' : 'Contacts You Left Out'}
+              </Text>
+              {leftOut.map(item => (
+                <View key={item.id} className="mb-4 p-4 rounded-[14px] bg-[#FFFBEB] border border-[#FDE68A] shadow-sm flex-row items-center">
+                  <Text className="text-[24px] mr-3">{getContactEmoji(item.id)}</Text>
+                  <View className="flex-1">
+                    <Text className="text-[15px] font-[800] text-[#B45309] mb-1">
+                      {isNe && item.nameNe ? item.nameNe : item.name}
+                    </Text>
+                    <Text className="text-[13px] font-[600] text-[#D97706] leading-5">
+                      {isNe && item.fullDetailNe ? item.fullDetailNe : item.fullDetail}
+                    </Text>
+                  </View>
+                </View>
+              ))}
+            </View>
+          )}
+
+          <TouchableOpacity
+            className="w-full py-4 rounded-full bg-[#C06898] items-center mt-2 mb-4 shadow-md"
+            onPress={() => {
+              setStep2ReviewVisible(false);
+              onNextStep();
+            }}
+            activeOpacity={0.8}
+          >
+            <Text className="text-white font-[800] text-[16px] tracking-wide">{isNe ? 'अगाडि बढ्नुहोस्' : 'Continue'}</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </View>
+    );
+  }
 
   return (
     <View
@@ -583,7 +682,7 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
       <StepCompletionModal
         visible={showCompletionModal}
         onClose={() => setShowCompletionModal(false)}
-        onNext={() => { setShowCompletionModal(false); onNextStep(); }}
+        onNext={() => { setShowCompletionModal(false); setStep2ReviewVisible(true); }}
         onReset={() => {
           resetCurrentStep();
           setShowCompletionModal(false);
@@ -604,7 +703,7 @@ export default function Step2({ onNextStep }: { onNextStep: () => void }) {
         }}
         onProceedAnyway={() => {
           setShowIncompleteModal(false);
-          onNextStep();
+          setStep2ReviewVisible(true);
         }}
       />
 
