@@ -36,7 +36,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Priya is 20 weeks pregnant and her anomaly scan shows the placenta is positioned low but the doctor said to recheck at 32 weeks.",
     descriptionNe: "प्रिया २० हप्ताकी गर्भवती छिन्। भिडियो एक्स-रे (अल्ट्रासाउन्ड) गर्दा उनको साल अलि तल देखियो, तर डाक्टरले ३२ हप्तामा फेरि हेर्नुपर्छ भन्नुभयो।",
     options: [
-      { text: "Immediate C-section required", textNe: "तुरुन्त अप्रेसन गर्ने", isCorrect: false },
+      { text: "Immediate C: section required", textNe: "तुरुन्त अप्रेसन गर्ने", isCorrect: false },
       { text: "Usually moves up as uterus grows", textNe: "पाठेघर बढ्दै जाँदा आफैं माथि सर्छ", isCorrect: true },
       { text: "Baby in danger, needs hospital", textNe: "खतरा छ, अस्पताल भर्ना गर्ने", isCorrect: false }
     ],
@@ -50,7 +50,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Sunita is 22 weeks pregnant and has lower back pain after standing for long periods at her market stall.",
     descriptionNe: "सुनिता २२ हप्ताकी गर्भवती छिन्। पसलमा लामो समय उभिएर काम गर्दा उनको कम्मर धेरै दुख्ने गर्छ।",
     options: [
-      { text: "Spine problem, needs X-ray", textNe: "ढाडको समस्या, एक्स-रे गर्ने", isCorrect: false },
+      { text: "Spine problem, needs X: ray", textNe: "ढाडको समस्या, एक्स: रे गर्ने", isCorrect: false },
       { text: "Uterus shifts gravity, stretch & rest", textNe: "तौल अगाडि परेर हो, आराम गर्ने", isCorrect: true },
       { text: "Must stop working instantly", textNe: "काम गर्न तुरुन्तै छोड्ने", isCorrect: false }
     ],
@@ -121,7 +121,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "देवी २५ हप्ताकी गर्भवती छिन् र आउने बच्चाको लागि कोठा पेन्ट गराउन चाहन्छिन्। उनले यस्तो बेला पेन्टको काम वरपर बस्न सुरक्षित हुन्छ कि हुँदैन भनेर सोध्दै छिन्।",
     options: [
       { text: "All paints are fully safe", textNe: "सबै पेन्ट सुरक्षित हुन्छन्", isCorrect: false },
-      { text: "Avoid fumes, stay away 24-48hrs", textNe: "गन्धबाट बच्ने, टाढा बस्ने", isCorrect: true },
+      { text: "Avoid fumes, stay away 24: 48hrs", textNe: "गन्धबाट बच्ने, टाढा बस्ने", isCorrect: true },
       { text: "Only oil paints are dangerous", textNe: "तेल मिसाएको पेन्ट मात्र खतरनाक हुन्छ", isCorrect: false }
     ],
     explanation: "Many paints contain volatile organic compounds that release harmful fumes. The safest approach is to have someone else paint, use low-VOC paint, keep ventilation, and avoid the room for 24–48 hours.",
@@ -176,8 +176,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Laxmi is 26 weeks pregnant and is told the baby is in a breech position.",
     descriptionNe: "लक्ष्मी २६ हप्ताकी गर्भवती छिन् र डाक्टरले बच्चा उल्टो बसेको (Breech) छ भनेका छन्।",
     options: [
-      { text: "Needs C-section scheduled instantly", textNe: "तुरुन्तै अप्रेसनको तयारी गरिहाल्ने", isCorrect: false },
-      { text: "Normal, babies turn head-down later", textNe: "सामान्य हो, पछि आफैं सुल्टो हुन्छ", isCorrect: true },
+      { text: "Needs C: section scheduled instantly", textNe: "तुरुन्तै अप्रेसनको तयारी गरिहाल्ने", isCorrect: false },
+      { text: "Normal, babies turn head: down later", textNe: "सामान्य हो, पछि आफैं सुल्टो हुन्छ", isCorrect: true },
       { text: "Needs exercises every hour", textNe: "हरेक घण्टा व्यायाम गर्नुपर्छ", isCorrect: false }
     ],
     explanation: "At 26 weeks, breech presentation is actually normal. Babies have plenty of room to move and about 75–80% spontaneously turn head-down by 36 weeks. It only becomes a concern at 36+ weeks.",
@@ -206,7 +206,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     options: [
       { text: "Full body hospital massage", textNe: "अस्पतालमा पुरै शरीरको मालिस", isCorrect: false },
       { text: "Improves elasticity, started later", textNe: "मासु लचिलो बनाउँछ, तर अन्तिमतिर मात्र गर्ने", isCorrect: true },
-      { text: "Helps baby turn head-down", textNe: "बच्चालाई उल्टोबाट सुल्टो बनाउँछ", isCorrect: false }
+      { text: "Helps baby turn head: down", textNe: "बच्चालाई उल्टोबाट सुल्टो बनाउँछ", isCorrect: false }
     ],
     explanation: "Perineal massage reduces the risk of severe tearing during delivery, particularly for first-time mothers. It is recommended from 34–36 weeks — not from 24 weeks, which is too early.",
     explanationNe: "सुत्केरी हुने बेला योनीको भाग धेरै नच्यातियोस् भनेर यो मालिस गरिन्छ, विशेष गरी पहिलो बच्चा हुँदा। यसले मासुलाई लचिलो बनाउँछ। तर यो मालिस बच्चा जन्मिने समय नजिकिँदै गर्दा (३४-३६ हप्तामा) गर्नुपर्छ, २४ हप्तामा सुरु गर्नु धेरै चाँडो हुन्छ।"
@@ -288,8 +288,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Sima is 22 weeks pregnant and her belly button is starting to pop outward.",
     descriptionNe: "सिमा २२ हप्ताकी गर्भवती छिन् र उनको नाइटो बिस्तारै बाहिरतिर निस्किन थालेको छ।",
     options: [
-      { text: "Hernia — needs surgery", textNe: "हर्निया भएको हो, अप्रेसन गर्नुपर्छ", isCorrect: false },
-      { text: "Normal — uterus pushes belly button out", textNe: "सामान्य हो — पाठेघर बढ्दा नाइटो बाहिर धकेलिन्छ", isCorrect: true },
+      { text: "Hernia: needs surgery", textNe: "हर्निया भएको हो, अप्रेसन गर्नुपर्छ", isCorrect: false },
+      { text: "Normal: uterus pushes belly button out", textNe: "सामान्य हो: पाठेघर बढ्दा नाइटो बाहिर धकेलिन्छ", isCorrect: true },
       { text: "Baby is pushing the wrong way", textNe: "बच्चाले गलत ठाउँमा बल गरेको हो", isCorrect: false }
     ],
     explanation: "As the uterus expands, it pushes the belly button outward in many pregnancies. It is completely harmless and returns to normal after delivery.",
@@ -317,7 +317,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "प्रिया २४ हप्ताकी गर्भवती छिन्। भिडियो एक्स-रे (Ultrasound) गर्दा बच्चाको विकास उमेर अनुसार अलि कम देखिएको छ।",
     options: [
       { text: "Baby is definitely unhealthy", textNe: "बच्चा अस्वस्थ भएर यस्तो भएको हो", isCorrect: false },
-      { text: "Needs monitoring — many causes", textNe: "नियमित निगरानी चाहिन्छ — यसका धेरै कारण हुन सक्छन्", isCorrect: true },
+      { text: "Needs monitoring: many causes", textNe: "नियमित निगरानी चाहिन्छ: यसका धेरै कारण हुन सक्छन्", isCorrect: true },
       { text: "Eat double food immediately", textNe: "तुरुन्तै दोब्बर मात्रामा खाना खान सुरु गर्ने", isCorrect: false }
     ],
     explanation: "A baby measuring small can be due to natural variation, inaccurate dates, or occasionally poor placental blood flow. The doctor will monitor closely and advise accordingly.",
@@ -331,7 +331,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "सुनिता १८ हप्ताकी गर्भवती छिन्। उनलाई दिनदिनै चिसो सोडा र गुलियो पेय पदार्थ पिउन मन लाग्छ।",
     options: [
       { text: "Fine, body needs sugar and fluid", textNe: "ठिकै हो, शरीरलाई चिनी र झोल पदार्थ चाहिन्छ", isCorrect: false },
-      { text: "Limit sodas — raises blood sugar", textNe: "सोडा कम गर्ने — यसले सुगर बढाउन सक्छ", isCorrect: true },
+      { text: "Limit sodas: raises blood sugar", textNe: "सोडा कम गर्ने: यसले सुगर बढाउन सक्छ", isCorrect: true },
       { text: "Only diet soda is safe", textNe: "डाइट सोडा (Diet Soda) मात्र सुरक्षित हुन्छ", isCorrect: false }
     ],
     explanation: "Sugary drinks are linked to gestational diabetes and excessive weight gain. Water, coconut water, buttermilk, and fresh juices are much better alternatives.",
@@ -345,8 +345,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "निशा २६ हप्ताकी गर्भवती छिन्। उनले अस्पताल जाँदा हरेक पटक नर्सले रक्तचाप नाप्ने गरेको देख्छिन्।",
     options: [
       { text: "Just routine hospital procedure", textNe: "यो अस्पतालको सामान्य प्रक्रिया मात्र हो", isCorrect: false },
-      { text: "Screens for preeclampsia — a serious complication", textNe: "प्रिएक्लाम्प्सिया (गम्भीर समस्या) को पहिचान गर्न", isCorrect: true },
-      { text: "To decide on C-section", textNe: "अप्रेसन गर्ने कि नगर्ने भनेर निर्णय गर्न", isCorrect: false }
+      { text: "Screens for preeclampsia: a serious complication", textNe: "प्रिएक्लाम्प्सिया (गम्भीर समस्या) को पहिचान गर्न", isCorrect: true },
+      { text: "To decide on C: section", textNe: "अप्रेसन गर्ने कि नगर्ने भनेर निर्णय गर्न", isCorrect: false }
     ],
     explanation: "High blood pressure in pregnancy can lead to preeclampsia — a potentially life-threatening condition for both mother and baby. Early detection through routine monitoring is critical.",
     explanationNe: "गर्भावस्थामा उच्च रक्तचाप हुनु 'प्रिएक्लाम्प्सिया' को लक्षण हुन सक्छ, जसले आमा र बच्चा दुवैलाई जोखिममा पार्न सक्छ। नियमित जाँचबाट यसलाई समयमै पत्ता लगाउन सकिन्छ।"
@@ -359,7 +359,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "मिना २० हप्ताकी गर्भवती छिन् र पेटको छाला तन्किँदा उनलाई धेरै चिलाउने समस्या भएको छ।",
     options: [
       { text: "Liver disease, test immediately", textNe: "कलेजोको रोग हुन सक्छ, तुरुन्त जाँच गर्ने", isCorrect: false },
-      { text: "Normal skin stretching — moisturise", textNe: "छाला तन्किएर हो — मोइस्चराइजर लगाउने", isCorrect: true },
+      { text: "Normal skin stretching: moisturise", textNe: "छाला तन्किएर हो: मोइस्चराइजर लगाउने", isCorrect: true },
       { text: "Stop drinking water to reduce stretching", textNe: "छाला नतन्कियोस् भनेर पानी पिउन कम गर्ने", isCorrect: false }
     ],
     explanation: "Mild belly itching from stretching skin is very common. Coconut oil or unscented moisturiser helps. Warning: intense itching on palms and soles (especially at night) may signal cholestasis — tell the doctor.",
@@ -401,7 +401,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "गीता २२ हप्ताकी गर्भवती छिन्। उनी अचानक उठ्दा वा उभिँदा उनलाई रिंगटा लाग्ने र आँखा धमिलो हुने हुन्छ।",
     options: [
       { text: "Sign of fainting disease", textNe: "यो बेहोस हुने रोगको लक्षण हो", isCorrect: false },
-      { text: "Blood pressure drop on standing — normal", textNe: "उठ्दा अचानक रक्तचाप घट्नु — यो सामान्य हो", isCorrect: true },
+      { text: "Blood pressure drop on standing: normal", textNe: "उठ्दा अचानक रक्तचाप घट्नु: यो सामान्य हो", isCorrect: true },
       { text: "Baby pressing on brain", textNe: "बच्चाले दिमागमा थिचेको भएर हो", isCorrect: false }
     ],
     explanation: "Postural hypotension — a temporary drop in blood pressure when changing position — is common in pregnancy. Rising slowly, staying hydrated, and avoiding standing for long periods helps.",
@@ -428,7 +428,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Sarita is 24 weeks pregnant. Her mother insists she must eat animal liver weekly for iron.",
     descriptionNe: "सरिता २४ हप्ताकी गर्भवती छिन्। उनकी आमाले रगत बढाउन हप्तामा एक पटक कलेजो खानैपर्छ भन्नुहुन्छ।",
     options: [
-      { text: "Eat every day — more is better", textNe: "दिनहुँ खाने — जति धेरै खायो उति राम्रो", isCorrect: false },
+      { text: "Eat every day: more is better", textNe: "दिनहुँ खाने: जति धेरै खायो उति राम्रो", isCorrect: false },
       { text: "Occasionally fine, but limit due to vitamin A", textNe: "कहिलेकाहीँ ठिक छ, तर धेरै खानु हुँदैन", isCorrect: true },
       { text: "Always forbidden in pregnancy", textNe: "गर्भावस्थामा कलेजो कहिल्यै खानु हुँदैन", isCorrect: false }
     ],
@@ -443,7 +443,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "हिरा २५ हप्ताकी गर्भवती छिन्। उनलाई असाध्यै टाउको दुखिरहेको छ, आँखा धमिलो देखिन्छ र अनुहार अलि सुन्निएको छ।",
     options: [
       { text: "Rest and it will pass", textNe: "आराम गरेपछि ठिक हुन्छ", isCorrect: false },
-      { text: "Go to hospital immediately — preeclampsia sign", textNe: "तुरुन्तै अस्पताल जाने — यो खतराको संकेत हो", isCorrect: true },
+      { text: "Go to hospital immediately: preeclampsia sign", textNe: "तुरुन्तै अस्पताल जाने: यो खतराको संकेत हो", isCorrect: true },
       { text: "Take 2 paracetamol and wait", textNe: "दुई चक्की सिटामोल खाएर पर्खने", isCorrect: false }
     ],
     explanation: "Severe headache with vision changes and facial swelling are classic warning signs of preeclampsia — a dangerous pregnancy complication. This is a medical emergency requiring immediate hospital evaluation.",
@@ -485,7 +485,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "रिता २२ हप्ताकी गर्भवती छिन्। उनको स्तनबाट अलिकति पहेंलो-सेतो रङ्गको तरल पदार्थ चुहिन थालेको छ।",
     options: [
       { text: "Breast infection sign", textNe: "स्तनमा इन्फेक्सन भएको संकेत हो", isCorrect: false },
-      { text: "Colostrum forming — completely normal", textNe: "बिगौते दूध (Colostrum) बन्दैछ — यो सामान्य हो", isCorrect: true },
+      { text: "Colostrum forming: completely normal", textNe: "बिगौते दूध (Colostrum) बन्दैछ: यो सामान्य हो", isCorrect: true },
       { text: "Needs an immediate breast exam", textNe: "तुरुन्तै स्तन जाँच गराउनुपर्छ", isCorrect: false }
     ],
     explanation: "Colostrum — the first nutrient-rich breast milk — can start forming as early as 16–22 weeks. It is perfectly normal and is an excellent sign the body is preparing for breastfeeding.",
@@ -513,8 +513,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "कबिता १९ हप्ताकी गर्भवती छिन् तर उनले अहिलेसम्म बच्चा चलेको स्पष्ट महसुस गरेकी छैनन्।",
     options: [
       { text: "Baby has stopped growing", textNe: "बच्चाको विकास रोकिएको संकेत हो", isCorrect: false },
-      { text: "Normal — most feel movement by 20–22 weeks", textNe: "सामान्य हो — प्रायः २० देखि २२ हप्तामा महसुस हुन्छ", isCorrect: true },
-      { text: "Go to hospital for emergency scan", textNe: "तुरुन्तै अस्पताल गएर भिडियो एक्स-रे गर्ने", isCorrect: false }
+      { text: "Normal: most feel movement by 20–22 weeks", textNe: "सामान्य हो: प्रायः २० देखि २२ हप्तामा महसुस हुन्छ", isCorrect: true },
+      { text: "Go to hospital for emergency scan", textNe: "तुरुन्तै अस्पताल गएर भिडियो एक्स: रे गर्ने", isCorrect: false }
     ],
     explanation: "First-time mothers typically feel movement between 18–22 weeks, and sometimes later. Placenta position and body shape can affect when it is felt. If 24 weeks pass without any movement, then inform the doctor.",
     explanationNe: "पहिलो पटक आमा बन्न लागेका महिलाले बच्चा चलेको थाहा पाउन १८ देखि २२ हप्तासम्म लाग्न सक्छ। सालको स्थिति वा शरीरको बनावटले गर्दा पनि अलि ढिलो महसुस हुन सक्छ। यदि २४ हप्तासम्म पनि केही थाहा पाइएन भने मात्र डाक्टरसँग सल्लाह लिनुपर्छ।"
@@ -526,8 +526,8 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Parbati is 26 weeks pregnant and asks if she needs extra vitamin D.",
     descriptionNe: "पार्वती २६ हप्ताकी गर्भवती छिन्। उनलाई भिटामिन 'डी' खानुपर्छ कि पर्दैन भन्ने अन्योल छ।",
     options: [
-      { text: "No — sunlight alone is enough", textNe: "पर्दैन — घाममा बसे पुग्छ", isCorrect: false },
-      { text: "Yes — deficiency is common and affects baby bones", textNe: "हो — यसको कमीले बच्चाको हड्डीको विकासमा असर गर्छ", isCorrect: true },
+      { text: "No: sunlight alone is enough", textNe: "पर्दैन: घाममा बसे पुग्छ", isCorrect: false },
+      { text: "Yes: deficiency is common and affects baby bones", textNe: "हो: यसको कमीले बच्चाको हड्डीको विकासमा असर गर्छ", isCorrect: true },
       { text: "Only for women who stay indoors", textNe: "घरभित्र मात्र बस्ने महिलालाई मात्र चाहिन्छ", isCorrect: false }
     ],
     explanation: "Vitamin D deficiency is widespread in Nepal. It is essential for calcium absorption, bone development, and immune function. Supplements are commonly prescribed and are safe.",
@@ -541,7 +541,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "गीता २४ हप्ताकी गर्भवती छिन्। श्रीमानले अचेल उनी राति घुर्न थालेको बताउनुहुन्छ।",
     options: [
       { text: "Harmless, ignore it completely", textNe: "यो सामान्य हो, वास्ता नगरे हुन्छ", isCorrect: false },
-      { text: "Common in pregnancy — mention to doctor if severe", textNe: "सामान्य हो — तर धेरै समस्या भएमा डाक्टरलाई भन्ने", isCorrect: true },
+      { text: "Common in pregnancy: mention to doctor if severe", textNe: "सामान्य हो: तर धेरै समस्या भएमा डाक्टरलाई भन्ने", isCorrect: true },
       { text: "Sign of heart failure", textNe: "यो मुटुको रोगको लक्षण हो", isCorrect: false }
     ],
     explanation: "Pregnancy snoring is very common due to nasal congestion from hormones and increased blood volume. However, severe snoring with gasping can indicate sleep apnoea, which is worth checking if the mother feels tired despite sleeping.",
@@ -555,7 +555,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "सुनिता २१ हप्ताकी गर्भवती छिन्। उनको अल्ट्रासाउन्ड रिपोर्टमा 'Placenta Posterior' देखिएको छ, तर उनलाई यसको अर्थ थाहा छैन।",
     options: [
       { text: "Dangerous position, needs surgery", textNe: "यो खतरनाक अवस्था हो, शल्यक्रिया गर्नुपर्छ", isCorrect: false },
-      { text: "Back wall — a perfectly normal position", textNe: "पाठेघरको पछाडिको भित्तामा छ — यो पूर्णतया सामान्य अवस्था हो", isCorrect: true },
+      { text: "Back wall: a perfectly normal position", textNe: "पाठेघरको पछाडिको भित्तामा छ: यो पूर्णतया सामान्य अवस्था हो", isCorrect: true },
       { text: "Baby cannot get nutrition", textNe: "बच्चाले पर्याप्त पोषण पाउँदैन", isCorrect: false }
     ],
     explanation: "Posterior placenta means it is attached to the back wall of the uterus. This is a completely normal and common position. It may mean the mother feels baby movements slightly later.",
@@ -582,7 +582,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Mina is 22 weeks pregnant and is a lifelong vegetarian. Her family says she must eat meat for the baby.",
     descriptionNe: "मिना २२ हप्ताकी गर्भवती छिन् र उनी सधैँदेखि शाकाहारी हुन्। उनलाई परिवारले 'बच्चाको लागि मासु खानैपर्छ' भनिरहनुभएको छ।",
     options: [
-      { text: "Must eat meat — no alternative", textNe: "मासु खानैपर्छ, अरु उपाय छैन", isCorrect: false },
+      { text: "Must eat meat: no alternative", textNe: "मासु खानैपर्छ, अरु उपाय छैन", isCorrect: false },
       { text: "Balanced vegetarian diet is absolutely sufficient", textNe: "सन्तुलित शाकाहारी खाना पूर्ण रूपमा पर्याप्त हुन्छ", isCorrect: true },
       { text: "Only fish is needed, not other meat", textNe: "माछा मात्र खाए पुग्छ, अरु मासु चाहिँदैन", isCorrect: false }
     ],
@@ -597,7 +597,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "पार्वती २५ हप्ताकी गर्भवती छिन्। उनलाई घरका ठूलाले पेटमा कसेर कपडा बाँध्न सल्लाह दिएका छन्।",
     options: [
       { text: "Good for baby's position", textNe: "यसले बच्चाको स्थान मिलाउन मद्दत गर्छ", isCorrect: false },
-      { text: "Tight binding is harmful — use proper belly band", textNe: "कसेर बाँध्नु हानिकारक हुन सक्छ — उचित सपोर्ट बेल्ट मात्र प्रयोग गर्ने", isCorrect: true },
+      { text: "Tight binding is harmful: use proper belly band", textNe: "कसेर बाँध्नु हानिकारक हुन सक्छ: उचित सपोर्ट बेल्ट मात्र प्रयोग गर्ने", isCorrect: true },
       { text: "Only bind at night, not day", textNe: "राति मात्र बाँध्न मिल्छ, दिउँसो हुँदैन", isCorrect: false }
     ],
     explanation: "Tightly binding the belly can restrict blood circulation and baby movement. If back support is needed, medical maternity support belts are designed for safe use.",
@@ -611,7 +611,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "हिरा २४ हप्ताकी गर्भवती छिन्। उनलाई पारिवारिक कामले हवाइजहाजमा कतै जानुपर्ने भएको छ।",
     options: [
       { text: "Never fly during pregnancy", textNe: "गर्भावस्थामा कहिल्यै जहाज चढ्नु हुँदैन", isCorrect: false },
-      { text: "Safe up to ~36 weeks — walk and hydrate", textNe: "३६ हप्तासम्म सुरक्षित हुन्छ — प्रशस्त पानी पिउने र हिँडडुल गर्ने", isCorrect: true },
+      { text: "Safe up to ~36 weeks: walk and hydrate", textNe: "३६ हप्तासम्म सुरक्षित हुन्छ: प्रशस्त पानी पिउने र हिँडडुल गर्ने", isCorrect: true },
       { text: "Only safe in first trimester", textNe: "पहिलो तीन महिनामा मात्र जहाज चढ्न मिल्छ", isCorrect: false }
     ],
     explanation: "Air travel is generally safe up to 36 weeks in an uncomplicated pregnancy. Most airlines allow travel until 36 weeks with a medical certificate. Walk every hour and wear compression socks if available.",
@@ -625,7 +625,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "सरिता २३ हप्ताकी गर्भवती छिन् र उनले दुई दिनदेखि आइरन चक्की खान बिर्सिएकी छिन्।",
     options: [
       { text: "Take two at once to catch up", textNe: "बिर्सिएको भर्ना गर्न एकैचोटि दुई चक्की खाने", isCorrect: false },
-      { text: "Resume one tablet daily from today", textNe: "आजदेखि नियमित रूपमा एक-एक चक्की खान सुरु गर्ने", isCorrect: true },
+      { text: "Resume one tablet daily from today", textNe: "आजदेखि नियमित रूपमा एक: एक चक्की खान सुरु गर्ने", isCorrect: true },
       { text: "Stop taking iron for a week", textNe: "एक हप्तासम्म आइरन नखाएर छोड्ने", isCorrect: false }
     ],
     explanation: "Never double dose on iron — it causes nausea, vomiting, and stomach pain. Simply resume the regular once-daily dose.",
@@ -639,7 +639,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "बिन्दु १७ हप्ताकी गर्भवती छिन् र उनलाई कब्जियतको समस्या भएको छ। के यो सामान्य हो?",
     options: [
       { text: "Sign of poor diet only", textNe: "खराब खानाका कारण मात्र यस्तो भएको हो", isCorrect: false },
-      { text: "Normal — iron + hormones slow digestion", textNe: "सामान्य हो — आइरन र हर्मोनले पाचन प्रक्रिया ढिलो गर्छ", isCorrect: true },
+      { text: "Normal: iron + hormones slow digestion", textNe: "सामान्य हो: आइरन र हर्मोनले पाचन प्रक्रिया ढिलो गर्छ", isCorrect: true },
       { text: "Take strong laxatives daily", textNe: "दिनहुँ कडा जुलाब (दिसा खुकुलो पार्ने औषधि) खाने", isCorrect: false }
     ],
     explanation: "Progesterone relaxes digestive muscles and iron supplements worsen constipation. Increase water, fibre-rich vegetables, fruits, and gentle walking. Avoid harsh laxatives.",
@@ -653,7 +653,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "माया २५ हप्ताकी गर्भवती छिन् र उनी एउटा विवाहको उत्सवमा सहभागी हुने योजनामा छिन्। यस्तो अवस्थामा भोजभतेर वा भीडभाडमा जानु सुरक्षित छ कि छैन भनेर परिवारमा जिज्ञासा छ।",
     options: [
       { text: "No social events at all", textNe: "गर्भवती भएको बेला कुनै पनि सामाजिक कार्यक्रममा जानु हुँदैन", isCorrect: false },
-      { text: "Fine — rest frequently, stay hydrated", textNe: "मिल्छ — तर बेलाबेलामा आराम गर्ने र पर्याप्त पानी पिउने", isCorrect: true },
+      { text: "Fine: rest frequently, stay hydrated", textNe: "मिल्छ: तर बेलाबेलामा आराम गर्ने र पर्याप्त पानी पिउने", isCorrect: true },
       { text: "Must avoid weddings entirely", textNe: "विवाह जस्ता भीडभाड हुने कार्यक्रममा जानै हुँदैन", isCorrect: false }
     ],
     explanation: "Attending social events is perfectly fine at 25 weeks. Make sure to sit down frequently, avoid standing for long periods, eat healthy snacks, and stay hydrated.",
@@ -667,7 +667,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "रिना २१ हप्ताकी गर्भवती छिन्। घरको समस्याका कारण उनी अचेल धेरै रुन्छिन् र तनावमा छिन्।",
     options: [
       { text: "Crying once damages the baby permanently", textNe: "एकपटक रोएमा बच्चालाई सधैँका लागि असर पर्छ", isCorrect: false },
-      { text: "Short-term crying is fine — long-term stress is what to address", textNe: "थोरै रोएमा केही हुन्न — तर धेरै लामो समय तनाव लिनु हुँदैन", isCorrect: true },
+      { text: "Short: term crying is fine: long: term stress is what to address", textNe: "थोरै रोएमा केही हुन्न: तर धेरै लामो समय तनाव लिनु हुँदैन", isCorrect: true },
       { text: "Crying transfers sadness to baby", textNe: "रोएको बेला बच्चामा पनि उदासी सर्छ", isCorrect: false }
     ],
     explanation: "Occasional crying is harmless. However chronic, sustained emotional stress releases cortisol which may affect fetal development over time. Support, counselling, and positive relationships are the solution.",
@@ -680,7 +680,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Kabita is 26 weeks pregnant and her urine test showed Group B Strep bacteria.",
     descriptionNe: "कबिता २६ हप्ताकी गर्भवती छिन्। उनको पिसाब जाँच गर्दा GBS (Group B Strep) ब्याक्टेरिया देखिएको छ।",
     options: [
-      { text: "Requires immediate C-section", textNe: "यसका लागि तुरुन्तै अप्रेसन (C-Section) गर्नुपर्छ", isCorrect: false },
+      { text: "Requires immediate C: section", textNe: "यसका लागि तुरुन्तै अप्रेसन (C: Section) गर्नुपर्छ", isCorrect: false },
       { text: "Treated with antibiotics now; IV given during labour", textNe: "अहिले एन्टिबायोटिक खाने र सुत्केरी व्यथा लागेको बेला पनि औषधि दिइन्छ", isCorrect: true },
       { text: "Nothing to do, always harmless", textNe: "यसमा केही गर्नुपर्दैन, यसले कहिल्यै हानि गर्दैन", isCorrect: false }
     ],
@@ -695,7 +695,7 @@ export const SECOND_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "गीता १६ हप्ताकी गर्भवती छिन्। उनलाई अचम्म लागेको छ — वाकवाकी कम भएको छ र उनले पहिलेभन्दा धेरै फुर्तिलो महसुस गरेकी छिन्।",
     options: [
       { text: "Baby has stopped growing", textNe: "बच्चाको विकास रोकिएर यस्तो भएको हो", isCorrect: false },
-      { text: "Normal — second trimester is usually easier", textNe: "सामान्य हो — दोस्रो त्रैमासिक प्रायः सजिलो र रमाइलो हुन्छ", isCorrect: true },
+      { text: "Normal: second trimester is usually easier", textNe: "सामान्य हो: दोस्रो त्रैमासिक प्रायः सजिलो र रमाइलो हुन्छ", isCorrect: true },
       { text: "She must be doing something wrong", textNe: "उनले केही गल्ती गरेकाले यस्तो भएको हो", isCorrect: false }
     ],
     explanation: "The second trimester is known as the 'golden period' of pregnancy. Nausea fades, energy returns, and the bump is growing but not yet heavy. This is completely normal and positive.",

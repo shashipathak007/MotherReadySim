@@ -25,7 +25,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     options: [
       { text: "Skip breakfast", textNe: "बिहान केही नखाने", isCorrect: false },
       { text: "Eat dry snacks before rising", textNe: "उठ्नुअघि सुक्खा बिस्कुट खाने", isCorrect: true },
-      { text: "Take strong anti-nausea medicine", textNe: "कडा औषधि खाइहाल्ने", isCorrect: false }
+      { text: "Take strong anti: nausea medicine", textNe: "कडा औषधि खाइहाल्ने", isCorrect: false }
     ],
     explanation: "Eating small dry snacks before getting up prevents morning sickness. Keeping crackers on the bedside table and eating a few before even sitting up is one of the most effective and safe strategies.",
     explanationNe: "बिहान उठ्नेबित्तिकै पेट खाली हुँदा धेरै वाकवाकी लाग्छ। त्यसैले ओछ्यानको छेउमा बिस्कुट राखेर बिहान उठ्नुअघि नै थोरै खाँदा धेरै राहत मिल्छ। यो एकदम सामान्य समस्या हो र प्रायः ३ महिना (१२-१४ हप्ता) लागेपछि आफैं निको हुन्छ।"
@@ -95,7 +95,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     options: [
       { text: "No, complete rest for 9 months", textNe: "९ महिनासम्म पूर्ण आराम गर्नुपर्छ", isCorrect: false },
       { text: "Yes, moderate activity is safe", textNe: "हल्का काम गर्न मज्जाले मिल्छ", isCorrect: true },
-      { text: "Yes, but only walking allowed", textNe: "बिहान-बेलुका हिँड्ने मात्र", isCorrect: false }
+      { text: "Yes, but only walking allowed", textNe: "बिहान: बेलुका हिँड्ने मात्र", isCorrect: false }
     ],
     explanation: "Moderate physical activity is safe and beneficial during a normal pregnancy. Complete bed rest is not recommended unless the doctor specifically advises it.",
     explanationNe: "सामान्य अवस्थामा गर्भवतीले बिस्तारै घरको वा खेतको हल्का काम गर्नु राम्रो हो। डाक्टरले आराम गर्न भनेका छैनन् भने दैनिक गरिरहेका सामान्य काम गर्न सुरक्षित नै हुन्छ।"
@@ -108,7 +108,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "रिना ६ हप्ताकी गर्भवती छिन्। उनकी दिदीले उनलाई मेवा, भुइँकटहर र राम्ररी नपाकेको अण्डा नखान सल्लाह दिँदै छिन्।",
     options: [
       { text: "Ripe papaya", textNe: "पाकेको मेवा", isCorrect: false },
-      { text: "Raw/undercooked eggs", textNe: "काँचो वा हाफ-बोयल अण्डा", isCorrect: true },
+      { text: "Raw/undercooked eggs", textNe: "काँचो वा हाफ: बोयल अण्डा", isCorrect: true },
       { text: "Ripe pineapple", textNe: "पाकेको भुइँकटहर", isCorrect: false }
     ],
     explanation: "Raw or undercooked eggs can carry Salmonella bacteria. Ripe papaya and ripe pineapple in normal amounts are safe. Unripe green papaya should be avoided.",
@@ -135,7 +135,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Priya is 10 weeks pregnant and has not had her first ANC checkup yet.",
     descriptionNe: "प्रिया १० हप्ताकी गर्भवती छिन् र उनले अहिलेसम्म स्वास्थ्य चौकीमा गएर गर्भ जाँच गराएकी छैनन्।",
     options: [
-      { text: "At 6 months when belly shows", textNe: "५-६ महिनातिर जाने", isCorrect: false },
+      { text: "At 6 months when belly shows", textNe: "५: ६ महिनातिर जाने", isCorrect: false },
       { text: "Within the first 12 weeks", textNe: "३ महिना (१२ हप्ता) भित्रै जाने", isCorrect: true },
       { text: "Only if something feels wrong", textNe: "पेट दुख्यो भने मात्र जाने", isCorrect: false }
     ],
@@ -290,14 +290,12 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "संगीता ७ हप्ताकी गर्भवती छिन्। खाना नरुच्ने र वाकवाकी लाग्ने भएर उनको तौल १ किलो जति घटेको छ, जुन देखेर श्रीमानलाई पिर परेको छ।",
     options: [
       { text: "Dangerous, needs hospital instantly", textNe: "तौल घट्नु खतरा हो, अस्पताल जाने", isCorrect: false },
-      { text: "1-2kg loss from nausea is common", textNe: "वाकवाकीले १-२ किलो घट्नु सामान्य हो", isCorrect: true },
+      { text: "1: 2kg loss from nausea is common", textNe: "वाकवाकीले १: २ किलो घट्नु सामान्य हो", isCorrect: true },
       { text: "Must force feed meals", textNe: "जबरजस्ती टन्न खानैपर्छ", isCorrect: false }
     ],
     explanation: "Losing 1–2kg in the first trimester due to morning sickness is common and generally not harmful if the mother stays hydrated.",
     explanationNe: "पहिलो ३ महिनामा खाना रुची नहुँदा वा वाकवाकी लाग्दा १ देखि २ किलोसम्म तौल घट्नु धेरै महिलालाई हुने कुरा हो। शरीरमा पानीको कमी हुन दिएको छैन र थोरै थोरै भए पनि खाइरहेको छ भने यसले बच्चालाई कुनै नोक्सान पुग्दैन।"
-  },
-  // Add these to your FIRST_TRIMESTER_SCENARIOS array (IDs 21–50)
- 
+  }, 
   {
     id: 21,
     title: "Sita is craving clay and soil — is this safe?",
@@ -306,7 +304,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "सीता ८ हप्ताकी गर्भवती छिन्। उनलाई पर्खालको माटो वा चक खान असाध्यै मन लाग्छ र कहिलेकाहीँ खान्छिन् पनि।",
     options: [
       { text: "It is a fun craving, totally fine", textNe: "यो रहर मात्र हो, खाँदा केही हुन्न", isCorrect: false },
-      { text: "Stop immediately, tell doctor — sign of iron deficiency", textNe: "तुरुन्तै खान बन्द गर्ने र डाक्टरलाई जानकारी दिने — यो आइरनको कमी भएको संकेत हो", isCorrect: true },
+      { text: "Stop immediately, tell doctor: sign of iron deficiency", textNe: "तुरुन्तै खान बन्द गर्ने र डाक्टरलाई जानकारी दिने: यो आइरनको कमी भएको संकेत हो", isCorrect: true },
       { text: "Eat it, the body knows what it needs", textNe: "शरीरलाई चाहिएर नै मन लागेको हो, खाए हुन्छ", isCorrect: false }
     ],
     explanation: "Craving non-food items like clay, soil, or chalk is called pica and is often a sign of iron or mineral deficiency. It can also introduce harmful parasites. Tell the doctor immediately.",
@@ -320,7 +318,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "पूजा ९ हप्ताकी गर्भवती छिन्। उनलाई दिउँसो र राती पनि हरेक एक घण्टामा पिसाब लाग्छ।",
     options: [
       { text: "Kidney disease, go to hospital now", textNe: "यो मिर्गौला रोगको लक्षण हो, तुरुन्तै अस्पताल जाने", isCorrect: false },
-      { text: "Normal — uterus presses on bladder", textNe: "यो सामान्य हो — बढ्दै गरेको पाठेघरले मूत्राशयमा दबाब दिन्छ", isCorrect: true },
+      { text: "Normal: uterus presses on bladder", textNe: "यो सामान्य हो: बढ्दै गरेको पाठेघरले मूत्राशयमा दबाब दिन्छ", isCorrect: true },
       { text: "Stop drinking water to reduce trips", textNe: "पिसाब कम लाग्नका लागि पानी पिउन कम गर्ने", isCorrect: false }
     ],
     explanation: "Frequent urination is completely normal in early pregnancy. The growing uterus presses on the bladder. Reducing water intake is harmful — stay well hydrated.",
@@ -334,7 +332,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "निर्मला १० हप्ताकी गर्भवती छिन्। उनले पारिवारिक कार्यक्रमका लागि ३ घण्टाको बस यात्रा गर्नुपर्नेछ।",
     options: [
       { text: "No travel allowed for 9 months", textNe: "९ महिनासम्म यात्रा गर्नै हुँदैन", isCorrect: false },
-      { text: "Travel is fine, take breaks to walk", textNe: "यात्रा गर्न मिल्छ, तर बीच-बीचमा हिँडडुल गर्ने", isCorrect: true },
+      { text: "Travel is fine, take breaks to walk", textNe: "यात्रा गर्न मिल्छ, तर बीच: बीचमा हिँडडुल गर्ने", isCorrect: true },
       { text: "Only travel by motorcycle", textNe: "मोटरसाइकलमा मात्र यात्रा गर्ने", isCorrect: false }
     ],
     explanation: "Road travel is generally safe in the first trimester. It helps to stop every 1–2 hours to stretch and walk, wear a seatbelt, and stay hydrated.",
@@ -362,7 +360,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "मायाकी छिमेकीलाई चिकनपक्स (Chickenpox) भएको छ। ९ हप्ताकी गर्भवती माया उनलाई भेट्न गइन्।",
     options: [
       { text: "Fine, chickenpox is just a rash", textNe: "ठिकै छ, यो सामान्य खटिरा मात्र हो", isCorrect: false },
-      { text: "Avoid exposure — can harm baby", textNe: "सम्पर्कबाट बच्ने — यसले गर्भको बच्चालाई गम्भीर हानि पुर्‍याउन सक्छ", isCorrect: true },
+      { text: "Avoid exposure: can harm baby", textNe: "सम्पर्कबाट बच्ने: यसले गर्भको बच्चालाई गम्भीर हानि पुर्‍याउन सक्छ", isCorrect: true },
       { text: "Only risky if you touch them", textNe: "बिरामीलाई छोएमा मात्र जोखिम हुन्छ", isCorrect: false }
     ],
     explanation: "Chickenpox (varicella) in pregnancy, especially in the first trimester, can cause serious birth defects. If exposed and unsure of immunity, contact a doctor immediately.",
@@ -376,7 +374,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "कमला ११ हप्ताकी गर्भवती छिन्। उनलाई खाना खाएपछि छाती पोलेको (Heartburn) महसुस हुन्छ।",
     options: [
       { text: "Take antacids from the shop freely", textNe: "पसलबाट सोधपुछ नगरी ग्यास्ट्रिकको औषधी किनेर खाने", isCorrect: false },
-      { text: "Eat small meals, sit upright after eating", textNe: "थोरै-थोरै गरी पटक-पटक खाने र खाएपछि सिधा बस्ने", isCorrect: true },
+      { text: "Eat small meals, sit upright after eating", textNe: "थोरै: थोरै गरी पटक: पटक खाने र खाएपछि सिधा बस्ने", isCorrect: true },
       { text: "Skip dinner entirely", textNe: "रातीको खाना खाँदै नखाने", isCorrect: false }
     ],
     explanation: "Heartburn is very common in pregnancy due to hormones relaxing the digestive valve. Eating smaller meals, not lying down right after eating, and avoiding spicy/oily food helps significantly.",
@@ -404,7 +402,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "प्रिया ७ हप्ताकी गर्भवती छिन्। उनले आफ्नो हाकिमलाई अहिले नै यसबारे भन्नुपर्छ कि पर्दैन भनेर सोचिरहेकी छिन्।",
     options: [
       { text: "Must tell on day one", textNe: "थाहा पाउने बित्तिकै भनिहाल्नु पर्छ", isCorrect: false },
-      { text: "Her choice — many wait until 12 weeks", textNe: "यो उनको आफ्नै इच्छा हो — धेरैले १२ हप्ता पछि मात्र बताउँछन्", isCorrect: true },
+      { text: "Her choice: many wait until 12 weeks", textNe: "यो उनको आफ्नै इच्छा हो: धेरैले १२ हप्ता पछि मात्र बताउँछन्", isCorrect: true },
       { text: "Never tell until delivery day", textNe: "बच्चा नजन्मिएसम्म कसैलाई भन्नु हुँदैन", isCorrect: false }
     ],
     explanation: "There is no medical rule about when to announce pregnancy at work. Many women wait until after 12 weeks when miscarriage risk drops. However if the job involves physical risk (heavy lifting, chemicals), telling sooner protects her.",
@@ -418,7 +416,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "गीता १० हप्ताकी गर्भवती छिन्। रगत जाँच गर्दा उनको थाइरोइडको स्तर कम पाइएको छ।",
     options: [
       { text: "Ignore it, labs are often wrong", textNe: "वास्ता नगर्ने, ल्याबको रिपोर्ट कहिलेकाहीँ गलत पनि हुन सक्छ", isCorrect: false },
-      { text: "Follow doctor's treatment — it affects baby's brain", textNe: "डाक्टरको सल्लाह अनुसार उपचार गर्ने — यसले बच्चाको मस्तिष्क विकासमा असर गर्छ", isCorrect: true },
+      { text: "Follow doctor's treatment — it affects baby's brain", textNe: "डाक्टरको सल्लाह अनुसार उपचार गर्ने: यसले बच्चाको मस्तिष्क विकासमा असर गर्छ", isCorrect: true },
       { text: "Eat more salt and it will fix itself", textNe: "नुन धेरै खाएमा यो आफैँ ठीक हुन्छ", isCorrect: false }
     ],
     explanation: "Untreated low thyroid (hypothyroidism) in pregnancy is linked to poor brain development in the baby. It is very treatable with safe daily tablets — following doctor's advice is essential.",
@@ -502,7 +500,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "मिना ९ हप्ताकी गर्भवती छिन् र उनी आफूलाई स्वस्थ महसुस गर्छिन्। उनकी दिदीले केही समस्या नभएसम्म स्वास्थ्य चौकी जानु पर्दैन भनिरहेकी छिन्।",
     options: [
       { text: "Only register when feeling sick", textNe: "बिरामी भएपछि मात्र स्वास्थ्य चौकी जाने", isCorrect: false },
-      { text: "Yes — early registration catches hidden risks", textNe: "हो — सुरुमै जाँच गर्दा लुकेका जोखिमहरू थाहा हुन्छ र सहायता पाइन्छ", isCorrect: true },
+      { text: "Yes: early registration catches hidden risks", textNe: "हो: सुरुमै जाँच गर्दा लुकेका जोखिमहरू थाहा हुन्छ र सहायता पाइन्छ", isCorrect: true },
       { text: "Registration is just paperwork", textNe: "नाम दर्ता गराउनु कागज मिलाउने काम मात्र हो", isCorrect: false }
     ],
     explanation: "Many pregnancy complications like high blood pressure or anaemia have no symptoms early on. Early registration also qualifies for government incentives under Nepal's Aama Programme.",
@@ -515,8 +513,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Sangita is 8 weeks pregnant. Her neighbour says she must avoid milk and dairy products.",
     descriptionNe: "सङ्गीता ८ हप्ताकी गर्भवती छिन्। उनलाई छिमेकीले 'गर्भावस्थामा दूध र दही खानु हुँदैन' भनेकी छिन्।",
     options: [
-      { text: "True — dairy causes complications", textNe: "साँचो हो — दूधले पेटमा समस्या निम्त्याउँछ", isCorrect: false },
-      { text: "False — pasteurised dairy is encouraged", textNe: "गलत हो — उमालेको दूध वा दही खानु धेरै राम्रो हुन्छ", isCorrect: true },
+      { text: "True: dairy causes complications", textNe: "साँचो हो: दूधले पेटमा समस्या निम्त्याउँछ", isCorrect: false },
+      { text: "False: pasteurised dairy is encouraged", textNe: "गलत हो: उमालेको दूध वा दही खानु धेरै राम्रो हुन्छ", isCorrect: true },
       { text: "Only yoghurt should be avoided", textNe: "दही मात्र खानु हुँदैन", isCorrect: false }
     ],
     explanation: "Dairy products are an important source of calcium and protein. Pasteurised milk, curd, and ghee in moderate amounts are beneficial. Only avoid unpasteurised (raw, unboiled) milk.",
@@ -529,9 +527,9 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Rita is 10 weeks pregnant and notices dark patches on her cheeks and forehead.",
     descriptionNe: "रीता १० हप्ताकी गर्भवती छिन् र उनले आफ्नो अनुहारमा कालो दाग (पोतो) आएको याद गरेकी छिन्।",
     options: [
-      { text: "Liver disease — go to hospital", textNe: "यो कलेजोको रोगको संकेत हो", isCorrect: false },
+      { text: "Liver disease: go to hospital", textNe: "यो कलेजोको रोगको संकेत हो", isCorrect: false },
       { text: "Normal pregnancy pigmentation (melasma)", textNe: "यो गर्भावस्थाको सामान्य परिवर्तन (पोतो/Melasma) हो", isCorrect: true },
-      { text: "Allergy — stop eating eggs", textNe: "यो एलर्जी हो — अण्डा खान बन्द गर्नुपर्छ", isCorrect: false }
+      { text: "Allergy: stop eating eggs", textNe: "यो एलर्जी हो: अण्डा खान बन्द गर्नुपर्छ", isCorrect: false }
     ],
     explanation: "Dark patches on the face (melasma) are caused by increased melanin due to hormones. They are harmless and usually fade after delivery. Using sunscreen or a hat helps prevent them worsening.",
     explanationNe: "गर्भावस्थामा हर्मोनको कारणले अनुहारमा कालो दाग (पोतो) देखिनु सामान्य हो। यो हानिकारक हुँदैन र बच्चा जन्मिएपछि बिस्तारै हराउँछ। घाममा निस्कँदा छाता ओढ्ने वा क्रिम लगाउने गर्दा यो धेरै गाढा हुन पाउँदैन।"
@@ -543,8 +541,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Puja is 7 weeks pregnant. Her mother says bathing daily is cold and risky during pregnancy.",
     descriptionNe: "पूजा ७ हप्ताकी गर्भवती छिन्। उनकी आमाले 'दिनहुँ नुहाउँदा चिसो लाग्छ' भनेर नुहाउन रोक्नुहुन्छ।",
     options: [
-      { text: "Correct — bathing weakens the baby", textNe: "सही हो — नुहाउँदा बच्चालाई असर पर्छ", isCorrect: false },
-      { text: "Wrong — daily hygiene is important", textNe: "गलत हो — सरसफाइको लागि नियमित नुहाउनु जरुरी छ", isCorrect: true },
+      { text: "Correct: bathing weakens the baby", textNe: "सही हो: नुहाउँदा बच्चालाई असर पर्छ", isCorrect: false },
+      { text: "Wrong: daily hygiene is important", textNe: "गलत हो: सरसफाइको लागि नियमित नुहाउनु जरुरी छ", isCorrect: true },
       { text: "Bathe only once a week", textNe: "हप्तामा एक पटक मात्र नुहाउनु पर्छ", isCorrect: false }
     ],
     explanation: "Bathing daily during pregnancy is safe and important for hygiene. Lukewarm water is ideal; avoid very hot baths which can raise core body temperature and cause dizziness.",
@@ -572,7 +570,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "दुर्गा ९ हप्ताकी गर्भवती छिन्। उनलाई रुघा लागेको छ र हल्का ज्वरो आएको छ।",
     options: [
       { text: "Take any pharmacy medicine freely", textNe: "फार्मेसीबाट जे औषधि किनेर खाए पनि हुन्छ", isCorrect: false },
-      { text: "Ask doctor first — most cold meds unsafe", textNe: "पहिले डाक्टरलाई सोध्ने — रुघाखोकीका धेरै औषधि असुरक्षित हुन सक्छन्", isCorrect: true },
+      { text: "Ask doctor first: most cold meds unsafe", textNe: "पहिले डाक्टरलाई सोध्ने: रुघाखोकीका धेरै औषधि असुरक्षित हुन सक्छन्", isCorrect: true },
       { text: "Take double antibiotics to recover fast", textNe: "छिटो निको हुन दोब्बर एन्टिबायोटिक खाने", isCorrect: false }
     ],
     explanation: "Many common cold medicines and antibiotics are not safe in early pregnancy. Steam inhalation and rest help mild colds. Always consult a health worker before taking any medicine.",
@@ -586,7 +584,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "माया ८ हप्ताकी गर्भवती छिन् र उनलाई धेरै थकाइ लाग्छ। तर उनका श्रीमानलाई भने मायाले अल्छी गरेकी जस्तो लाग्छ।",
     options: [
       { text: "Push through tiredness to show strength", textNe: "आफू बलियो छु भनेर देखाउन थकाइ लागे पनि जबरजस्ती काम गर्ने", isCorrect: false },
-      { text: "Rest is medically needed — explain to husband", textNe: "आराम गर्नु स्वास्थ्यको लागि अनिवार्य छ भनेर श्रीमानलाई बुझाउने", isCorrect: true },
+      { text: "Rest is medically needed: explain to husband", textNe: "आराम गर्नु स्वास्थ्यको लागि अनिवार्य छ भनेर श्रीमानलाई बुझाउने", isCorrect: true },
       { text: "Stop all activity for full 9 months", textNe: "९ महिनासम्म कुनै पनि काम नगरी पूर्ण रूपमा थन्किएर बस्ने", isCorrect: false }
     ],
     explanation: "First-trimester fatigue is real and medically recognized — caused by surging hormones and the body building the placenta. Rest is necessary, not laziness. A family member who understands this can better support the mother.",
@@ -600,7 +598,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "लक्ष्मी ९ हप्ताकी गर्भवती छिन्। उनले कामको सिलसिलामा दैनिक घण्टौंसम्म मोबाइल र ल्यापटप चलाउनुपर्ने हुन्छ।",
     options: [
       { text: "Both are dangerous and must be stopped", textNe: "यी दुवै खतरनाक छन्, त्यसैले चलाउनै हुँदैन", isCorrect: false },
-      { text: "Normal use is safe — no strong evidence of harm", textNe: "ठिक्क मात्रामा प्रयोग गर्नु सुरक्षित छ—यसले हानि गर्ने कुनै प्रमाण छैन", isCorrect: true },
+      { text: "Normal use is safe: no strong evidence of harm", textNe: "ठिक्क मात्रामा प्रयोग गर्नु सुरक्षित छ: यसले हानि गर्ने कुनै प्रमाण छैन", isCorrect: true },
       { text: "Only laptops are risky", textNe: "ल्यापटप मात्र खतरनाक हो, मोबाइल होइन", isCorrect: false }
     ],
     explanation: "Current scientific evidence does not show that normal use of mobile phones or laptops harms the developing baby. Screen use is safe. Taking breaks for posture and eye rest is good for the mother herself.",
@@ -628,7 +626,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "सुनीता १० हप्ताकी गर्भवती छिन् र उनलाई अचेल बारम्बार हल्का टाउको दुखिरहन्छ।",
     options: [
       { text: "Take ibuprofen or aspirin immediately", textNe: "तुरुन्तै इबुप्रोफेन वा एस्पिरिन जस्ता औषधि खाने", isCorrect: false },
-      { text: "Drink water, rest — tell doctor if severe", textNe: "पानी पिउने र आराम गर्ने—धेरै नै दुखेमा डाक्टरलाई देखाउने", isCorrect: true },
+      { text: "Drink water, rest: tell doctor if severe", textNe: "पानी पिउने र आराम गर्ने: धेरै नै दुखेमा डाक्टरलाई देखाउने", isCorrect: true },
       { text: "Sign of brain tumour", textNe: "यो मस्तिष्कमा ट्युमर भएको लक्षण हो", isCorrect: false }
     ],
     explanation: "Mild headaches are common in the first trimester due to hormonal changes, increased blood volume, and sometimes dehydration. Staying hydrated, resting, and using paracetamol (if needed, as directed) helps. Ibuprofen and aspirin should be avoided. Severe headaches with vision changes need urgent medical attention.",
@@ -641,8 +639,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Puja is 9 weeks pregnant and her family advises against attending a funeral.",
     descriptionNe: "पूजा ९ हप्ताकी गर्भवती छिन्। उनको परिवारले 'गर्भवती हुँदा मलामी जानु हुँदैन' भनेर रोकेका छन्।",
     options: [
-      { text: "True — it is medically dangerous", textNe: "सही हो—यो स्वास्थ्यका लागि खतरनाक छ", isCorrect: false },
-      { text: "No medical basis — but emotional stress should be managed", textNe: "यसको कुनै स्वास्थ्य कारण छैन—तर मानसिक तनावबाट भने जोगिनुपर्छ", isCorrect: true },
+      { text: "True: it is medically dangerous", textNe: "सही हो: यो स्वास्थ्यका लागि खतरनाक छ", isCorrect: false },
+      { text: "No medical basis: but emotional stress should be managed", textNe: "यसको कुनै स्वास्थ्य कारण छैन: तर मानसिक तनावबाट भने जोगिनुपर्छ", isCorrect: true },
       { text: "Only safe to attend if you cover your face", textNe: "मुख छोपेर गएमा मात्र सुरक्षित भइन्छ", isCorrect: false }
     ],
     explanation: "There is no medical evidence that attending a funeral harms a pregnancy. The cultural belief may come from the idea of protecting mothers from emotional stress and grief, which is a caring intention. If Puja feels emotionally ready and the environment is not physically difficult, there is no medical reason to avoid it.",
@@ -655,7 +653,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Sita is 11 weeks pregnant and craves spicy food. Her mother-in-law warns her it will harm the baby.",
     descriptionNe: "सीता ११ हप्ताकी गर्भवती छिन्। उनलाई पिरो खान असाध्यै मन छ तर सासूले 'पिरो खाँदा बच्चालाई नोक्सान हुन्छ' भनेर तर्साउनुहुन्छ।",
     options: [
-      { text: "True — spicy food burns the baby", textNe: "सही हो—पिरोले बच्चालाई पोल्छ", isCorrect: false },
+      { text: "True: spicy food burns the baby", textNe: "सही हो: पिरोले बच्चालाई पोल्छ", isCorrect: false },
       { text: "Safe for baby, but may worsen heartburn", textNe: "बच्चालाई केही हुँदैन, तर आमाको छाती पोल्ने समस्या बढ्न सक्छ", isCorrect: true },
       { text: "Only avoid chilli, other spices are fine", textNe: "खुर्सानी मात्र नखाने, अरू मसला खाँदा हुन्छ", isCorrect: false }
     ],
@@ -669,8 +667,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Maya is 8 weeks pregnant. A neighbour suggests she drink boiled papaya leaf water for energy.",
     descriptionNe: "माया ८ हप्ताकी गर्भवती छिन्। छिमेकीले उनलाई 'शक्ति आउँछ, मेवाको पात उमालेर पिऊ' भनेका छन्।",
     options: [
-      { text: "Good — natural and healthy", textNe: "राम्रो हो—यो प्राकृतिक र स्वस्थकर छ", isCorrect: false },
-      { text: "Avoid — can cause uterine contractions", textNe: "नपिउने—यसले गर्दा पाठेघर खुम्चिएर खतरा हुन सक्छ", isCorrect: true },
+      { text: "Good: natural and healthy", textNe: "राम्रो हो: यो प्राकृतिक र स्वस्थकर छ", isCorrect: false },
+      { text: "Avoid: can cause uterine contractions", textNe: "नपिउने: यसले गर्दा पाठेघर खुम्चिएर खतरा हुन सक्छ", isCorrect: true },
       { text: "Only safe after 6 months", textNe: "६ महिना कटेपछि मात्र पिउन सुरक्षित हुन्छ", isCorrect: false }
     ],
     explanation: "Papaya leaves contain compounds (papain, carpine) that can stimulate uterine contractions and are linked to miscarriage, particularly in early pregnancy. Even though it feels natural, it is not safe.",
@@ -684,7 +682,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "गीता १० हप्ताकी गर्भवती छिन्। कोर्ने बेला अचेल उनको धेरै कपाल झर्न थालेको छ।",
     options: [
       { text: "Yes, eat more protein immediately", textNe: "हो, त्यसैले तुरुन्तै धेरै प्रोटिनयुक्त खानेकुरा खाने", isCorrect: false },
-      { text: "Hormonal change — usually improves by 2nd trimester", textNe: "हर्मोनको परिवर्तनले गर्दा हो—दोस्रो त्रैमासिकदेखि आफैं ठिक हुन्छ", isCorrect: true },
+      { text: "Hormonal change: usually improves by 2nd trimester", textNe: "हर्मोनको परिवर्तनले गर्दा हो: दोस्रो त्रैमासिकदेखि आफैं ठिक हुन्छ", isCorrect: true },
       { text: "Sign of serious illness", textNe: "यो कुनै गम्भीर रोगको संकेत हो", isCorrect: false }
     ],
     explanation: "Some hair loss in the first trimester is common due to hormonal shifts affecting the hair growth cycle. It usually stabilises and improves in the second trimester. If hair loss is very severe, a doctor can check for thyroid or iron issues.",
@@ -699,7 +697,7 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     options: [
       { text: "Her nose needs medical treatment", textNe: "उनको नाकको उपचार गर्नुपर्छ", isCorrect: false },
       { text: "Heightened smell is normal in early pregnancy", textNe: "गर्भावस्थाको सुरुमा गन्ध थाहा पाउने शक्ति बढ्नु सामान्य हो", isCorrect: true },
-      { text: "She should stay in a closed room always", textNe: "उनी सधैं झ्याल-ढोका बन्द गरेर कोठाभित्र बस्नुपर्छ", isCorrect: false }
+      { text: "She should stay in a closed room always", textNe: "उनी सधैं झ्याल: ढोका बन्द गरेर कोठाभित्र बस्नुपर्छ", isCorrect: false }
     ],
     explanation: "A heightened sense of smell (hyperosmia) is extremely common in the first trimester and is driven by rising oestrogen levels. It often triggers nausea. Cooking outdoors, opening windows, and avoiding strong-smelling foods help manage it.",
     explanationNe: "गर्भावस्थाको सुरुमा 'इस्ट्रोजेन' हर्मोनको वृद्धिका कारण सुँघ्ने शक्ति निकै संवेदनशील हुन्छ। यसैले गर्दा सामान्य गन्धले पनि वाकवाकी लाग्छ। खाना पकाउँदा झ्यालहरू खुला राख्ने वा धेरै कडा गन्धबाट टाढा बस्दा राहत मिल्छ।"
@@ -711,8 +709,8 @@ export const FIRST_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Sarita is 11 weeks pregnant and her family wants her to fast for an entire day for a religious occasion.",
     descriptionNe: "सरिता ११ हप्ताकी गर्भवती छिन्। परिवारले उनलाई धार्मिक चाडको अवसरमा दिनभरि भोको (व्रत) बस्न भनेका छन्।",
     options: [
-      { text: "Religious duty comes first — fast fully", textNe: "धर्म सबैभन्दा ठूलो हो—त्यसैले कडा व्रत बस्ने", isCorrect: false },
-      { text: "Avoid long fasting — eat light small meals", textNe: "लामो समय भोको नबस्ने—थोरथोरै फलफूल वा हल्का खानेकुरा खाने", isCorrect: true },
+      { text: "Religious duty comes first: fast fully", textNe: "धर्म सबैभन्दा ठूलो हो: त्यसैले कडा व्रत बस्ने", isCorrect: false },
+      { text: "Avoid long fasting: eat light small meals", textNe: "लामो समय भोको नबस्ने: थोरथोरै फलफूल वा हल्का खानेकुरा खाने", isCorrect: true },
       { text: "Fasting is fine as long as she drinks water", textNe: "पानी मात्र पिएर व्रत बस्दा केही फरक पर्दैन", isCorrect: false }
     ],
     explanation: "Prolonged fasting during pregnancy, especially in the first trimester, can cause low blood sugar and deprive the developing baby of nutrients. Many traditions allow pregnant women to take light food or fruits while still observing the spiritual intention of the fast.",

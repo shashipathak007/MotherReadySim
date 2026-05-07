@@ -38,7 +38,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     options: [
       { text: "Baby has a large head", textNe: "बच्चाको टाउको ठूलो भएर हो", isCorrect: false },
       { text: "Optimal for normal vaginal delivery", textNe: "यसले नर्मल डेलिभरी हुन सजिलो हुन्छ", isCorrect: true },
-      { text: "Makes C-section necessary", textNe: "अप्रेसन गर्नैपर्ने हुन्छ", isCorrect: false }
+      { text: "Makes C: section necessary", textNe: "अप्रेसन गर्नैपर्ने हुन्छ", isCorrect: false }
     ],
     explanation: "About 95% of babies are head-down by 36 weeks. The head being first allows the cervix to dilate most effectively.",
     explanationNe: "प्रायजसो (९५%) बच्चाहरू जन्मने बेलासम्म टाउको तलतिर फर्काएर बस्छन्। यसले गर्दा पाठेघरको मुख खुल्न सजिलो हुन्छ र नर्मल डेलिभरी हुन धेरै मद्दत पुग्छ।"
@@ -52,7 +52,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     options: [
       { text: "Baby in position for delivery", textNe: "जन्मको लागि सही ठाउँमा आएको हो", isCorrect: true },
       { text: "Baby stopped growing", textNe: "बच्चा बढ्न छोड्यो", isCorrect: false },
-      { text: "About to go into labour now", textNe: "एक-दुई घण्टामै व्यथा लाग्छ", isCorrect: false }
+      { text: "About to go into labour now", textNe: "एक: दुई घण्टामै व्यथा लाग्छ", isCorrect: false }
     ],
     explanation: "Lightening happens 2–4 weeks before birth in first-time mothers. Less pressure on diaphragm (easier breathing) but more pressure on bladder (frequent urination).",
     explanationNe: "पहिलो पटक सुत्केरी हुनेहरूमा बच्चा जन्मिनुभन्दा २ वा ३ हप्ता अगाडि नै बच्चा यसरी तल सर्छ। तल सर्दा छातीमाथिको दबाब घट्ने हुनाले सास फेर्न सजिलो हुन्छ, तर पिसाब थैलीमा भार पर्ने भएकोले छिनछिनमा पिसाब लाग्छ।"
@@ -78,7 +78,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Nirmala is 35 weeks pregnant and is told she has Group B Streptococcus (GBS) bacteria.",
     descriptionNe: "निर्मला ३५ हप्ताकी गर्भवती छिन्। उनको पिसाब वा योनीको जाँच गर्दा GBS ब्याक्टेरिया (किटाणु) देखिएको छ।",
     options: [
-      { text: "Must have a C-section", textNe: "यस्तो बेला अप्रेसन नै गर्नुपर्छ", isCorrect: false },
+      { text: "Must have a C: section", textNe: "यस्तो बेला अप्रेसन नै गर्नुपर्छ", isCorrect: false },
       { text: "Antibiotics during labour prevent infection", textNe: "व्यथा लाग्दा एन्टिबायोटिक दिए रोकिन्छ", isCorrect: true },
       { text: "Take antibiotics for 6 months", textNe: "६ महिना लगातार एन्टिबायोटिक खाने", isCorrect: false }
     ],
@@ -93,7 +93,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "गीता ३३ हप्ताकी गर्भवती छिन्। उनलाई अब सुत्केरी नहुन्जेल कति पटक र कति-कति दिनमा फलोअप (जाँच) मा जानुपर्छ भनेर जान्न मन छ।",
     options: [
       { text: "Only once at 36 weeks", textNe: "३६ हप्तामा एक पटक गए पुग्छ", isCorrect: false },
-      { text: "Every 4 weeks, then every 1-2 weeks", textNe: "महिना-महिनामा, पछि १-२ हप्तामा जाने", isCorrect: true },
+      { text: "Every 4 weeks, then every 1: 2 weeks", textNe: "महिना: महिनामा, पछि १: २ हप्तामा जाने", isCorrect: true },
       { text: "Only if something feels wrong", textNe: "पेट दुख्यो भने मात्र जाने", isCorrect: false }
     ],
     explanation: "ANC frequency increases in the third trimester for monitoring blood pressure, fetal position, and growth. Nepal's Aama Programme requires minimum 4 ANC visits.",
@@ -120,7 +120,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Sima is 39 weeks pregnant and is feeling very anxious about the pain of labour.",
     descriptionNe: "सिमा ३९ हप्ताकी गर्भवती छिन्। दिन नजिकिंदै गर्दा उनलाई सुत्केरी व्यथाको दुखाइ सम्झेर एकदमै डर लागिरहेको छ।",
     options: [
-      { text: "Request C-section to avoid pain", textNe: "दुखाइबाट बच्न डाक्टरलाई अप्रेसन गर्न लगाउने", isCorrect: false },
+      { text: "Request C: section to avoid pain", textNe: "दुखाइबाट बच्न डाक्टरलाई अप्रेसन गर्न लगाउने", isCorrect: false },
       { text: "Breathing, support, & understanding help", textNe: "सास लिने अभ्यास र साथले डर कम हुन्छ", isCorrect: true },
       { text: "Don't think, hope for the best", textNe: "नसोच्ने, भगवानको भरोसामा बस्ने", isCorrect: false }
     ],
@@ -164,7 +164,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     options: [
       { text: "Protects mother from diseases during birth", textNe: "यसले सुत्केरी हुँदा आमालाई रोग लाग्न दिँदैन", isCorrect: false },
       { text: "Protects baby from whooping cough initially", textNe: "सुरुको महिना बच्चालाई लहरेखोकीबाट बचाउँछ", isCorrect: true },
-      { text: "Only for C-section mothers", textNe: "अप्रेसन गर्ने आमालाई मात्र दिइन्छ", isCorrect: false }
+      { text: "Only for C: section mothers", textNe: "अप्रेसन गर्ने आमालाई मात्र दिइन्छ", isCorrect: false }
     ],
     explanation: "Maternal antibodies pass through the placenta. Newborns are extremely vulnerable to whooping cough until their own vaccination at 6–8 weeks of age.",
     explanationNe: "बच्चा जन्मिसकेपछि सुरुको ६ हप्तासम्म उसले कुनै खोप लगाउन मिल्दैन। यो बेलामा बच्चालाई लहरेखोकी र धनुकटंकार (Tetanus) जस्तो भयानक रोगबाट बचाउन आमालाई नै गर्भमै खोप लगाइन्छ जसले बच्चालाई पनि सुरक्षित राख्छ।"
@@ -204,7 +204,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Kabita is 38 weeks pregnant and asks whether she should request early induction of labour.",
     descriptionNe: "कबिता ३८ हप्ताकी गर्भवती छिन्। उनी 'धेरै भारी भइसक्यो, अब अस्पताल गएर औषधि लिएर व्यथा लगाउन लगाएर छिट्टै बच्चा जन्माउँछु' भन्दै छिन्।",
     options: [
-      { text: "Always safer 1-2 weeks early", textNe: "एक-दुई हप्ता अगाडि जन्माउनु राम्रो", isCorrect: false },
+      { text: "Always safer 1: 2 weeks early", textNe: "एक: दुई हप्ता अगाडि जन्माउनु राम्रो", isCorrect: false },
       { text: "Risks baby's lung development if induced early", textNe: "३९ हप्ता अगावै जन्माउँदा फोक्सो राम्ररी विकास हुँदैन", isCorrect: true },
       { text: "Hospitals are less busy earlier", textNe: "जति चाँडो जन्मायो उति राम्रो", isCorrect: false }
     ],
@@ -233,8 +233,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "दीपाको गर्भ ४० हप्ता पुगिसक्यो तर अझै व्यथा लागेको छैन। डाक्टरले दिएको मिति कटेकोले परिवारका सबैजना आत्तिएर तुरुन्तै अस्पताल जानुपर्छ भनिरहेका छन्।",
     options: [
       { text: "Induce instantly exactly at 40 weeks", textNe: "मिति कट्नेबित्तिकै तुरुन्तै अप्रेसन गरिहाल्ने", isCorrect: false },
-      { text: "Due date is estimate, up to 41 weeks is normal", textNe: "४०-४१ हप्तासम्म जानु एकदम सामान्य हो", isCorrect: true },
-      { text: "Definitely needs a C-section", textNe: "मिति काटेपछि पक्का अप्रेसन गर्नुपर्छ", isCorrect: false }
+      { text: "Due date is estimate, up to 41 weeks is normal", textNe: "४०: ४१ हप्तासम्म जानु एकदम सामान्य हो", isCorrect: true },
+      { text: "Definitely needs a C: section", textNe: "मिति काटेपछि पक्का अप्रेसन गर्नुपर्छ", isCorrect: false }
     ],
     explanation: "A due date is an estimate, not a deadline. Most babies arrive between 38–42 weeks. Doctors typically discuss induction by 41–42 weeks if labour hasn't started.",
     explanationNe: "भिडियो एक्स-रे ले दिएको मिति एउटा अनुमानित समय मात्र हो। धेरैजसो बच्चाहरू ३८ देखि ४१ हप्ताको बीचमा जन्मिन्छन्। यदि ४१ हप्तासम्म पनि आफैं व्यथा लागेन भने चाहिँ डाक्टरसँग गएर औषधि राखेर व्यथा लगाउने वा के गर्ने भनेर सल्लाह गर्नुपर्छ, तर ४० हप्ता पुग्ने बित्तिकै आत्तिनुपर्दैन।"
@@ -275,7 +275,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "सुनिता २८ हप्ता (सात महिना) की गर्भवती छिन्। अब अन्तिम महिनाहरूमा बच्चाको विकासको लागि के कुरा बढी खानुपर्छ भनेर उनी सोध्दै छिन्।",
     options: [
       { text: "Eat less for smaller baby", textNe: "बच्चा ठूलो होला भनेर एकदम कम खाने", isCorrect: false },
-      { text: "Needs calcium, iron, omega-3", textNe: "क्याल्सियम, आइरन र ओमेगा-३ धेरै खाने", isCorrect: true },
+      { text: "Needs calcium, iron, omega: 3", textNe: "क्याल्सियम, आइरन र ओमेगा: ३ धेरै खाने", isCorrect: true },
       { text: "Stop eating all fats completely", textNe: "चिल्लो खानेकुरा पुरै खान छोड्ने", isCorrect: false }
     ],
     explanation: "The third trimester has the most rapid baby growth. Key focuses: calcium for bones, iron for blood, omega-3 for brain development. Eat balanced nutrient-dense meals.",
@@ -303,7 +303,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "पूजा ३० हप्ताकी गर्भवती छिन्। उनलाई पहिलो महिनाहरूमा जस्तै फेरि धेरै थकाइ लाग्न थालेको छ।",
     options: [
       { text: "She must be anaemic again", textNe: "रगत कम भएको हुनसक्छ, तुरुन्त जचाउने", isCorrect: false },
-      { text: "Normal — baby's weight increases fatigue", textNe: "सामान्य हो — बच्चाको तौल र शारीरिक परिवर्तनले थकाइ बढाउँछ", isCorrect: true },
+      { text: "Normal: baby's weight increases fatigue", textNe: "सामान्य हो: बच्चाको तौल र शारीरिक परिवर्तनले थकाइ बढाउँछ", isCorrect: true },
       { text: "Sign of early labour starting", textNe: "यो समयभन्दा अगाडि नै सुत्केरी व्यथा सुरु हुने संकेत हो", isCorrect: false }
     ],
     explanation: "Third-trimester fatigue returns because of the baby's increasing weight, disrupted sleep, frequent urination at night, and the physical demands on the body. Rest whenever possible.",
@@ -330,7 +330,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Bindu is 36 weeks pregnant and her mother advises eating papaya seeds to 'open the birth canal'.",
     descriptionNe: "बिन्दु ३६ हप्ताकी गर्भवती छिन्। उनकी आमाले 'मेवाको बीउ खाँदा सुत्केरीको बाटो खुल्छ' भन्दै खान सल्लाह दिइरहनुभएको छ।",
     options: [
-      { text: "True — traditional remedy works", textNe: "साँचो हो — यो पुरानो र प्रभावकारी घरेलु उपाय हो", isCorrect: false },
+      { text: "True: traditional remedy works", textNe: "साँचो हो: यो पुरानो र प्रभावकारी घरेलु उपाय हो", isCorrect: false },
       { text: "No evidence, and can cause uterine contractions early", textNe: "यसको कुनै प्रमाण छैन, बरु समय नपुगी व्यथा लाग्न सक्छ", isCorrect: true },
       { text: "Totally safe, eat freely", textNe: "एकदम सुरक्षित छ, जति खाए पनि हुन्छ", isCorrect: false }
     ],
@@ -386,8 +386,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Anita is 36 weeks pregnant and the ultrasound estimates a larger than average baby.",
     descriptionNe: "अनिता ३६ हप्ताकी गर्भवती छिन् र भिडियो एक्सरेमा बच्चाको तौल सामान्यभन्दा बढी देखिएको छ।",
     options: [
-      { text: "All big babies need C-section", textNe: "बच्चा ठूलो भएपछि सधैँ अप्रेसन (C-Section) नै गर्नुपर्छ", isCorrect: false },
-      { text: "Scan estimates can be off — doctor decides", textNe: "भिडियो एक्सरेको तौल सधैँ सही हुँदैन — डाक्टरको सल्लाह मान्ने", isCorrect: true },
+      { text: "All big babies need C: section", textNe: "बच्चा ठूलो भएपछि सधैँ अप्रेसन (C: Section) नै गर्नुपर्छ", isCorrect: false },
+      { text: "Scan estimates can be off: doctor decides", textNe: "भिडियो एक्सरेको तौल सधैँ सही हुँदैन: डाक्टरको सल्लाह मान्ने", isCorrect: true },
       { text: "Eat less to shrink the baby", textNe: "बच्चाको तौल घटाउन आमाले खाना कम खाने", isCorrect: false }
     ],
     explanation: "Ultrasound weight estimates in late pregnancy can be off by 10–20%. A big scan measurement alone does not determine the delivery method. The doctor assesses the mother's pelvis, baby's position, and health together.",
@@ -400,7 +400,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Sima is 38 weeks pregnant and wants to know what skin-to-skin contact means and why it matters.",
     descriptionNe: "सिमा ३८ हप्ताकी गर्भवती छिन्। उनी 'स्किन-टु-स्किन कन्ट्याक्ट' भनेको के हो र यो किन गरिन्छ भनेर जान्न चाहन्छिन्।",
     options: [
-      { text: "Only for C-section babies", textNe: "यो अप्रेसन गरेर जन्मिएका बच्चाहरूका लागि मात्र हो", isCorrect: false },
+      { text: "Only for C: section babies", textNe: "यो अप्रेसन गरेर जन्मिएका बच्चाहरूका लागि मात्र हो", isCorrect: false },
       { text: "Regulates baby's temperature and starts bonding", textNe: "यसले बच्चाको तापक्रम मिलाउँछ र आमासँग सामीप्य बढाउँछ", isCorrect: true },
       {text: "Harmful if mother had pain relief", isCorrect: false,textNe: 'आमाले दुखाइ कम गर्ने औषधि वा सुई लगाएको भए यो हानिकारक हुन्छ'}
     ],
@@ -415,7 +415,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "पार्वती ३९ हप्ताकी गर्भवती छिन्। उनलाई अलिअलि गुलियो गन्ध आउने पहेँलो पानी बगेको जस्तो लागेको छ।",
     options: [
       { text: "Normal vaginal discharge, ignore it", textNe: "यो सामान्य सेतो पानी हो, केही गर्नु पर्दैन", isCorrect: false },
-      { text: "Could be amniotic fluid — call doctor immediately", textNe: "यो पानीको थैली फुटेको हुन सक्छ — तुरुन्त अस्पताल जाने", isCorrect: true },
+      { text: "Could be amniotic fluid: call doctor immediately", textNe: "यो पानीको थैली फुटेको हुन सक्छ: तुरुन्त अस्पताल जाने", isCorrect: true },
       { text: "Only urgent if bright red", textNe: "पानी रातो रङ्गको भएमा मात्र अस्पताल जाने", isCorrect: false }
     ],
     explanation: "Amniotic fluid is typically clear to slightly yellowish with a sweet smell — different from urine or discharge. Any suspected water breaking requires immediate medical evaluation regardless of contractions.",
@@ -429,8 +429,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "हिरा ३७ हप्ताकी गर्भवती छिन्। उनकी सासूले 'अस्पताल जानुअगाडि पेट र तल्लो भागको रौं सफा गर्नुपर्छ' भनिरहनुभएको छ।",
     options: [
       { text: "Yes, always required before delivery", textNe: "हो, सुत्केरी हुनुअघि यो अनिवार्य छ", isCorrect: false },
-      { text: "Not required — hospital will advise if needed", textNe: "पर्दैन — अस्पताल पुगेपछि आवश्यक परे नर्स वा डाक्टरले आफैँ भन्नुहुन्छ", isCorrect: true },
-      { text: "Only for C-section, not normal delivery", textNe: "अप्रेसन गर्ने हो भने मात्र गर्नुपर्छ", isCorrect: false }
+      { text: "Not required: hospital will advise if needed", textNe: "पर्दैन: अस्पताल पुगेपछि आवश्यक परे नर्स वा डाक्टरले आफैँ भन्नुहुन्छ", isCorrect: true },
+      { text: "Only for C: section, not normal delivery", textNe: "अप्रेसन गर्ने हो भने मात्र गर्नुपर्छ", isCorrect: false }
     ],
     explanation: "Routine shaving before delivery is no longer recommended by modern guidelines. If needed for a C-section, hospital staff will handle it. Shaving at home can cause small cuts that increase infection risk.",
     explanationNe: "आधुनिक चिकित्सा पद्धति अनुसार घरमै रौं काट्नु जरुरी छैन। यदि अप्रेसन (C-Section) गर्नुपर्ने भएमा अस्पतालका कर्मचारीले सुरक्षित तरिकाले गरिदिन्छन्। घरमा आफैँले काट्दा सानो चोट लाग्न सक्छ, जसले इन्फेक्सनको जोखिम बढाउँछ।"
@@ -485,7 +485,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "दीपा ३८ हप्ताकी गर्भवती छिन्। उनलाई सासूले 'सुरुको पहेँलो दूध फोहोर हुन्छ, त्यसैले फ्याँक्नुपर्छ' भनिरहनुभएको छ।",
     options: [
       { text: "Yes, it looks dirty so discard it", textNe: "हो, यो पहेँलो र फोहोर देखिन्छ, त्यसैले नदिने", isCorrect: false },
-      { text: "No — colostrum is 'liquid gold', most important feed", textNe: "होइन — यो 'तरल सुन' जस्तै मूल्यवान् छ, बच्चालाई खुवाउनै पर्छ", isCorrect: true },
+      { text: "No: colostrum is 'liquid gold', most important feed", textNe: "होइन: यो 'तरल सुन' जस्तै मूल्यवान् छ, बच्चालाई खुवाउनै पर्छ", isCorrect: true },
       { text: "Only give if baby is hungry after 3 days", textNe: "बच्चा जन्मिएको ३ दिनपछि मात्र दूध खुवाउन सुरु गर्ने", isCorrect: false }
     ],
     explanation: "Colostrum is the most nutrient-dense substance a baby can receive. It is packed with antibodies, proteins, and growth factors. The yellow colour is from beta-carotene. It must never be discarded.",
@@ -513,7 +513,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "पार्वती ३७ हप्ताकी गर्भवती छिन्। उनलाई घरका ठूलाले 'अण्डा खाँदा बच्चा चिप्लो हुन्छ, सुत्केरी बेला गाह्रो हुन्छ' भन्दै खान रोकेका छन्।",
     options: [
       { text: "True, eggs are harmful near delivery", textNe: "साँचो हो, सुत्केरी हुने समय नजिकिँदा अण्डा नखानु नै राम्रो", isCorrect: false },
-      { text: "False — eggs are excellent protein for mother and baby", textNe: "गलत हो — अण्डा आमा र बच्चा दुवैका लागि प्रोटिनको राम्रो स्रोत हो", isCorrect: true },
+      { text: "False: eggs are excellent protein for mother and baby", textNe: "गलत हो: अण्डा आमा र बच्चा दुवैका लागि प्रोटिनको राम्रो स्रोत हो", isCorrect: true },
       { text: "Only raw eggs are dangerous", textNe: "काँचो अण्डा मात्र खान नहुने हो, पाकेको खानु हुँदैन", isCorrect: false }
     ],
     explanation: "Eggs have no effect on delivery. They are one of the best protein sources and contain choline, which is vital for baby's brain development. Cooked eggs are perfectly safe throughout pregnancy.",
@@ -540,7 +540,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Rina is 32 weeks pregnant and wants to know which symptoms require urgent hospital care.",
     descriptionNe: "रिना ३२ हप्ताकी गर्भवती छिन्। उनले कुन-कुन खतराका संकेतहरू देखिएमा तुरुन्त अस्पताल जानुपर्छ भनेर जान्न चाहन्छिन्।",
     options: [
-      { text: "Only when contractions are 5 mins apart", textNe: "व्यथा ५-५ मिनेटको फरकमा लाग्दा मात्र जाने", isCorrect: false },
+      { text: "Only when contractions are 5 mins apart", textNe: "व्यथा ५: ५ मिनेटको फरकमा लाग्दा मात्र जाने", isCorrect: false },
       { text: "Heavy bleeding, severe headache, baby not moving, water breaking", textNe: "रगत बग्ने, कडा टाउको दुखाइ, बच्चा नचल्ने वा पानी बग्ने", isCorrect: true },
       { text: "Only if fever is above 40 degrees", textNe: "ज्वरो एकदमै धेरै (४० डिग्री) पुगेमा मात्र", isCorrect: false }
     ],
@@ -569,7 +569,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "सुनिता ३६ हप्ताकी गर्भवती छिन्। उनलाई कसैले 'जन्मिनु अगाडि नै स्तनबाट बिगौती दूध निचोरेर राख्नुपर्छ' भनेको छ।",
     options: [
       { text: "Recommended for all pregnant women", textNe: "सबै गर्भवती महिलाले यो गर्नैपर्छ", isCorrect: false },
-      { text: "Only if medically advised — can trigger labour", textNe: "डाक्टरले भनेमा मात्र — यसले समय नपुगी व्यथा लाग्न सक्छ", isCorrect: true },
+      { text: "Only if medically advised: can trigger labour", textNe: "डाक्टरले भनेमा मात्र: यसले समय नपुगी व्यथा लाग्न सक्छ", isCorrect: true },
       { text: "Useless before birth", textNe: "बच्चा नजन्मिई यो दूधको कुनै काम हुँदैन", isCorrect: false }
     ],
     explanation: "Antenatal colostrum harvesting is only recommended in certain medical situations (diabetic mothers, small babies). For a normal pregnancy, nipple stimulation before labour can trigger contractions.",
@@ -583,7 +583,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "पूजा ३० हप्ताकी गर्भवती छिन्। उनको पेट र तिघ्रामा रातो-सेतो धर्साहरू देखिन थालेका छन्।",
     options: [
       { text: "Sign of poor nutrition", textNe: "यो पोषणको कमी भएको संकेत हो", isCorrect: false },
-      { text: "Normal skin stretching — moisturise for comfort", textNe: "यो छाला तन्किएर भएको हो — आरामका लागि तेल वा क्रिम लगाउने", isCorrect: true },
+      { text: "Normal skin stretching: moisturise for comfort", textNe: "यो छाला तन्किएर भएको हो: आरामका लागि तेल वा क्रिम लगाउने", isCorrect: true },
       { text: "Can be prevented by not gaining weight", textNe: "तौल बढ्न नदिएमा यो आउँदैन", isCorrect: false }
     ],
     explanation: "Stretch marks are caused by rapid skin stretching and partly by genetics. They cannot be fully prevented. Moisturising keeps skin comfortable and reduces itching. They fade after delivery.",
@@ -597,8 +597,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "कमला ३४ हप्ताकी गर्भवती छिन्। उनी सुत्केरी हुने प्रक्रिया सिक्न चाहन्छिन् तर अब ढिलो भयो कि भनेर सोच्दै छिन्।",
     options: [
       { text: "Too late, only useful in first trimester", textNe: "अब ढिलो भइसक्यो, यो सुरुको महिनामा मात्र काम लाग्छ", isCorrect: false },
-      { text: "Not too late — even one class helps reduce fear", textNe: "ढिलो भएको छैन — एउटै कक्षाले पनि डर कम गर्न मद्दत गर्छ", isCorrect: true },
-      { text: "Classes are only for first-time mothers", textNe: "यो कक्षा पहिलो पटक आमा बन्नेहरूका लागि मात्र हो", isCorrect: false }
+      { text: "Not too late: even one class helps reduce fear", textNe: "ढिलो भएको छैन: एउटै कक्षाले पनि डर कम गर्न मद्दत गर्छ", isCorrect: true },
+      { text: "Classes are only for first: time mothers", textNe: "यो कक्षा पहिलो पटक आमा बन्नेहरूका लागि मात्र हो", isCorrect: false }
     ],
     explanation: "It is never too late to attend a prenatal class. Even a single session covering breathing techniques, signs of labour, and what to expect at the hospital significantly reduces anxiety.",
     explanationNe: "सुत्केरी तयारी कक्षाका लागि ३४ हप्ता ढिलो होइन। सास फेर्ने तरिका, व्यथाका लक्षण र अस्पतालमा हुने प्रक्रियाबारे थोरै जानकारीले पनि मनको तनाव र डरलाई निकै कम गर्छ।"
@@ -612,7 +612,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     options: [
       { text: "Yes, baby is traumatised during birth", textNe: "हो, जन्मिँदा बच्चालाई निकै गाह्रो र चोट महसुस हुन्छ", isCorrect: false },
       { text: "Normal birth is the safest design for babies", textNe: "नर्मल जन्म बच्चाको लागि प्राकृतिक र सबैभन्दा सुरक्षित प्रक्रिया हो", isCorrect: true },
-      { text: "C-section is always safer for baby", textNe: "बच्चाको लागि अप्रेसन (C-Section) सधैँ सुरक्षित हुन्छ", isCorrect: false }
+      { text: "C: section is always safer for baby", textNe: "बच्चाको लागि अप्रेसन (C: Section) सधैँ सुरक्षित हुन्छ", isCorrect: false }
     ],
     explanation: "The birth canal gently squeezes the baby in ways that help clear fluid from the lungs. Babies are designed for birth. A normal vaginal delivery without complications is the safest outcome for both mother and baby.",
     explanationNe: "नर्मल सुत्केरी हुँदा बच्चाको फोक्सोमा भएको तरल पदार्थ प्राकृतिक रूपमै बाहिर निस्कन्छ, जसले उसलाई श्वास फेर्न सजिलो बनाउँछ। सामान्य अवस्थामा नर्मल डेलिभरी नै आमा र बच्चा दुवैका लागि सबैभन्दा उत्तम र सुरक्षित मानिन्छ।"
@@ -681,7 +681,7 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     descriptionNe: "हिरा ३९ हप्ताकी गर्भवती छिन् र उनी सुत्केरी हुने बेला के खाने भनेर सोध्दै छिन्।",
     options: [
       { text: "Stop eating completely from 37 weeks", textNe: "३७ हप्ता पुगेपछि केही पनि नखाने", isCorrect: false },
-      { text: "Light, easy-to-digest meals and stay hydrated", textNe: "हल्का, सजिलै पच्ने खानेकुरा र प्रशस्त पानी पिउने", isCorrect: true },
+      { text: "Light, easy: to: digest meals and stay hydrated", textNe: "हल्का, सजिलै पच्ने खानेकुरा र प्रशस्त पानी पिउने", isCorrect: true },
       { text: "Eat very heavily to store energy", textNe: "धेरै शक्ति चाहिन्छ भनेर धेरै भारी खाना खाने", isCorrect: false }
     ],
     explanation: "Light meals — like rice, toast, fruit, or soup — are ideal. Heavy meals can cause nausea during labour. Stay well hydrated.",
@@ -694,8 +694,8 @@ export const THIRD_TRIMESTER_SCENARIOS: Scenario[] = [
     description: "Kabita is 34 weeks pregnant. Her family says eating ghee will make the baby too big.",
     descriptionNe: "कबिता ३४ हप्ताकी गर्भवती छिन्। उनलाई घरमा 'घिउ धेरै खाए बच्चा ठूलो भएर जन्मिँदा अड्किन्छ' भनिएको छ।",
     options: [
-      { text: "True — ghee makes delivery difficult", textNe: "हो, घिउले बच्चा मोटो बनाउँछ र सुत्केरी गाह्रो हुन्छ", isCorrect: false },
-      { text: "False — moderate ghee is fine; overall calories matter", textNe: "गलत हो — ठिक्क मात्रामा घिउ खानु सुरक्षित र स्वस्थ छ", isCorrect: true },
+      { text: "True: ghee makes delivery difficult", textNe: "हो, घिउले बच्चा मोटो बनाउँछ र सुत्केरी गाह्रो हुन्छ", isCorrect: false },
+      { text: "False: moderate ghee is fine; overall calories matter", textNe: "गलत हो: ठिक्क मात्रामा घिउ खानु सुरक्षित र स्वस्थ छ", isCorrect: true },
       { text: "Replace all fat with ghee only", textNe: "अरू तेल छाडेर घिउ मात्र खानुपर्छ", isCorrect: false }
     ],
     explanation: "Moderate ghee does not cause the baby to get stuck. Baby size is determined by genetics and overall calorie intake. A balanced diet is key.",
