@@ -412,6 +412,8 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
 
     if (selectedResult) return;
 
+    if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
+  
     const explanation = isNe ? scenario!.explanationNe : scenario!.explanation;
 
     if (opt.isCorrect) {
