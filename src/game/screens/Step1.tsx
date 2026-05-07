@@ -791,7 +791,7 @@ export default function Step1({ onNextStep }: { onNextStep: () => void }) {
     return (
       <View className="flex-1 bg-white">
         <LinearGradient colors={['rgba(255,255,255,0.9)', 'rgba(243,58,106,0.05)', 'rgba(176,76,138,0.08)']} style={{ position: 'absolute', width: '100%', height: '100%' }} />
-        <ScrollView contentContainerStyle={{ paddingTop: 110, paddingHorizontal: 20, paddingBottom: 60 }} showsVerticalScrollIndicator={false}>
+        <ScrollView style={{ marginTop: 100 }} contentContainerStyle={{ paddingTop: 10, paddingHorizontal: 20, paddingBottom: 60 }} showsVerticalScrollIndicator={false}>
           <Text className="text-[24px] font-[800] text-[#9B5983] mb-6 text-center">
             {isNe ? 'चरण १: तपाईंको समीक्षा' : 'Step 1: Your Review'}
           </Text>

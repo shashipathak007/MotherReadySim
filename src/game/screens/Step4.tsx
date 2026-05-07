@@ -13,7 +13,7 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
 
-  const totalPossibleStars = 20;
+  const totalPossibleStars = 50;
   const bagItemsCount = BAG_ITEMS.length;
 
   const packedBagsCount = packedBagItems.length;
@@ -25,7 +25,7 @@ export default function Step4({ onReplay }: { onReplay: () => void }) {
   const contactsRatio = savedContacts.length / CONTACTS.length;
   const quizRatio = quizStars / totalPossibleStars;
 
-  const scorePercentage = totalPointsEarned / totalPointsPossible;
+  const scorePercentage = (bagRatio * 0.25) + (contactsRatio * 0.25) + (quizRatio * 0.5);
 
   let badgeMsg = '';
   let badgeEmoji = '';

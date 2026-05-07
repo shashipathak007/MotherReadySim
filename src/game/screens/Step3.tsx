@@ -107,8 +107,8 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     selectedTrimester: savedTrimester, quizIndex: savedQuizIndex, shuffledScenarioIds, quizResults: savedQuizResults,
     quizStreak: savedQuizStreak, quizHighestStreak: savedQuizHighestStreak,
     setQuizState, clearQuizState, feedback,
-    setStep3CharacterVisible,
-    setQuizReviewVisible, quizReviewVisible,
+    setStep3CharacterVisible, setQuizReviewVisible, quizReviewVisible,
+    reviewReturnToSummary, setReviewReturnToSummary, setStep
   } = useGame();
   const { i18n } = useTranslation();
   const isNe = i18n.language === 'ne';
@@ -590,7 +590,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     return (
       <View className="flex-1 bg-white">
         <LinearGradient colors={['rgba(255,255,255,0.9)', 'rgba(243,58,106,0.05)', 'rgba(176,76,138,0.08)']} style={{ position: 'absolute', width: '100%', height: '100%' }} />
-        <ScrollView contentContainerStyle={{ paddingTop: 130, paddingHorizontal: 20, paddingBottom: 60 }} showsVerticalScrollIndicator={false}>
+        <ScrollView style={{ marginTop: 100 }} contentContainerStyle={{ paddingTop: 30, paddingHorizontal: 20, paddingBottom: 60 }} showsVerticalScrollIndicator={false}>
           <Text className="text-[24px] font-[800] text-[#9B5983] mb-6 text-center">
             {isNe ? 'तपाईंले दिनुभएको उत्तरको नतिजा' : 'Scenario Review'}
           </Text>
@@ -666,11 +666,27 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
             );
           })}
           <TouchableOpacity
-            className="w-full py-4 rounded-full bg-[#C06898] items-center mt-6 mb-4 shadow-md"
+            className="w-full py-4 rounded-full bg-white border-[2px] border-[#C06898] items-center mt-6 mb-3 shadow-sm"
             onPress={() => {
               setQuizReviewVisible(false);
               clearQuizState();
-              onNextStep();
+            }}
+            activeOpacity={0.8}
+          >
+            <Text className="text-[#C06898] font-[800] text-[16px] tracking-wide">{isNe ? 'चरण पूरा गर्न फर्कनुहोस्' : 'Return to Complete Step'}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            className="w-full py-4 rounded-full bg-[#C06898] items-center mb-4 shadow-md"
+            onPress={() => {
+              setQuizReviewVisible(false);
+              if (reviewReturnToSummary) {
+                setReviewReturnToSummary(false);
+                setStep(4 as any);
+              } else {
+                clearQuizState();
+                onNextStep();
+              }
             }}
             activeOpacity={0.8}
           >
