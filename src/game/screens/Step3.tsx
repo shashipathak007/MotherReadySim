@@ -302,6 +302,14 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     transform: [{ translateX: shakeOffset.value }],
   }));
 
+  // Bottom-card slide-up (no bounce — pure withTiming)
+  const cardSlideY = useSharedValue(300);
+  const cardOpacity = useSharedValue(0);
+  const bottomCardAnimStyle = useAnimatedStyle(() => ({
+    opacity: cardOpacity.value,
+    transform: [{ translateY: cardSlideY.value }],
+  }));
+
   // Derived
   const trimesterInfo = TRIMESTERS.find((t) => t.key === selectedTrimester);
   const scenarios = shuffledScenarios;
@@ -361,6 +369,23 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     }
   }, [currentIdx, selectedTrimester, totalScenarios]);
 
+  // ── Drive bottom-card slide-up with pure withTiming (no spring / no bounce) ──
+  const showBottomCardRef = useRef(false);
+  useEffect(() => {
+    const isVisible = optionsVisible || selectedResult !== null;
+    if (isVisible && !showBottomCardRef.current) {
+      showBottomCardRef.current = true;
+      cardSlideY.value = 300;
+      cardOpacity.value = 0;
+      cardSlideY.value = withTiming(0, { duration: 480, easing: Easing.out(Easing.cubic) });
+      cardOpacity.value = withTiming(1, { duration: 350, easing: Easing.out(Easing.ease) });
+    } else if (!isVisible) {
+      showBottomCardRef.current = false;
+      cardSlideY.value = 300;
+      cardOpacity.value = 0;
+    }
+  }, [optionsVisible, selectedResult]);
+
   // ── Trimester selection ──
   const handleSelectTrimester = (key: TrimesterKey) => {
     if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
@@ -413,7 +438,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
     if (selectedResult) return;
 
     if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
-  
+
     const explanation = isNe ? scenario!.explanationNe : scenario!.explanation;
 
     if (opt.isCorrect) {
@@ -726,7 +751,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
 
       {showBottomCard ? (
         <Animated.View
-          style={[{ zIndex: 50 }, animatedStyle]}
+          style={[{ zIndex: 2100 }, animatedStyle, bottomCardAnimStyle]}
         >
           {/* Main card floating with bottom space */}
           <View

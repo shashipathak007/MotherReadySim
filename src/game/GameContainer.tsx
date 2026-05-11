@@ -12,7 +12,7 @@ import { ScenarioImages } from './constants/ScenarioImages';
 import { BAG_ITEMS } from '../data/bagItems';
 import { CONTACTS } from '../data/contacts';
 
-import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
+import Animated, { Easing, FadeInDown, FadeOutDown, SlideInRight } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TutorialOverlay } from './components/TutorialOverlay';
 import { IncompleteStepModal } from './components/IncompleteStepModal';
@@ -231,7 +231,9 @@ export default function GameContainer() {
 
       {/* 2. Character Rendered below the interactive steps */}
       {currentStep < 4 && (currentStep !== 3 || step3CharacterVisible) && (
-        <View
+        <Animated.View
+          entering={SlideInRight.duration(450).easing(Easing.out(Easing.ease))}
+          key={`char-${currentStep}-${step3CharacterVisible}`}
           className={`absolute pointer-events-none flex-col justify-end ${showTutorial ? 'z-[210]' : 'z-10'}`}
           style={{
             bottom: 0,
@@ -246,7 +248,7 @@ export default function GameContainer() {
             style={{ width: '100%', height: '100%' }}
             resizeMode="contain"
           />
-        </View>
+        </Animated.View>
       )}
 
       {/* 3. Steps with transparent bg taking interactivity */}
@@ -582,7 +584,7 @@ export default function GameContainer() {
             const feedbackStyle = getFeedbackCharacter();
             return (
               <Animated.View
-                entering={FadeInUp.duration(350)}
+                entering={FadeInDown.duration(400)}
                 exiting={FadeOutDown.duration(200)}
                 className="mt-2 w-full px-4 z-20"
               >
