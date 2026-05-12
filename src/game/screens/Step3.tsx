@@ -452,14 +452,14 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
           const newStreak = s + 1;
           setHighestStreak(h => Math.max(h, newStreak));
 
-          if (newStreak === 5 || newStreak === 10 || newStreak === 15 || newStreak === 20) {
-            let amount = 100;
-            if (newStreak === 10) amount = 200;
-            if (newStreak === 15) amount = 300;
-            if (newStreak === 20) amount = 400;
+          if ([5, 10, 15, 20, 25, 30, 35, 40, 45, 50].includes(newStreak)) {
+            let amount = 200;
+            if (newStreak === 10) amount = 300;
+            else if (newStreak === 15) amount = 400;
+            else if (newStreak >= 20) amount = 500;
             setConfettiAmount(amount);
             setShowConfetti(true);
-            setTimeout(() => setShowConfetti(false), 4000);
+            setTimeout(() => setShowConfetti(false), 5000);
           }
           return newStreak;
         });
@@ -816,7 +816,7 @@ export default function Step3({ onNextStep }: { onNextStep: () => void }) {
               bounces={true}
               style={{ maxHeight: Dimensions.get('window').height * 0.28 }}
             >
-              <View className="px-4 pt-2 pb-4 gap-1.5">
+              <View className="px-1 pt-1 pb-4 gap-1.5">
                 {!selectedResult ? (
                   scenario.options.map((opt, i) => (
                     <TouchableOpacity

@@ -586,7 +586,7 @@ export default function GameContainer() {
               <Animated.View
                 entering={FadeInDown.duration(400)}
                 exiting={FadeOutDown.duration(200)}
-                className="mt-2 w-full px-4 z-20"
+                className="mt-2 w-full px-2 z-20"
               >
                 <View className="flex-1">
                   <View className={`rounded-[18px] overflow-hidden border-[1.5px] shadow-black/10 shadow-opacity-12 shadow-radius-10 elevation-8 ${feedbackStyle.bgColor} ${feedbackStyle.borderColor}`}>
